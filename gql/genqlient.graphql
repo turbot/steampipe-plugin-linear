@@ -1,0 +1,218 @@
+# @genqlient(omitempty: true)
+query listIssue($first: Int, $after: String) {
+  issues(first: $first, after: $after) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      createdAt
+      updatedAt
+      archivedAt
+      number
+      title
+      description
+      priority
+      estimate
+      sortOrder
+      startedAt
+      completedAt
+      canceledAt
+      autoClosedAt
+      autoArchivedAt
+      dueDate
+      trashed
+      snoozedUntilAt
+      # @genqlient(pointer: true)
+      team {
+        id
+      }
+      # @genqlient(pointer: true)
+      cycle {
+        id
+      }
+      # @genqlient(pointer: true)
+      project {
+        id
+      }
+      previousIdentifiers
+      # @genqlient(pointer: true)
+      creator {
+        id
+      }
+      # @genqlient(pointer: true)
+      assignee {
+        id
+      }
+      # @genqlient(pointer: true)
+      snoozedBy {
+        id
+      }
+      # @genqlient(pointer: true)
+      state {
+        id
+      }
+      # @genqlient(pointer: true)
+      parent {
+        id
+      }
+      subIssueSortOrder
+      priorityLabel
+      identifier
+      url
+      branchName
+      customerTicketCount
+    }
+  }
+}
+
+# @genqlient(omitempty: true)
+query listProject($first: Int, $after: String) {
+  projects(first: $first, after: $after) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      archivedAt
+      autoArchivedAt
+      canceledAt
+      color
+      completedAt
+      completedIssueCountHistory
+      completedScopeHistory
+      createdAt
+      description
+      icon
+      inProgressScopeHistory
+      issueCountHistory
+      name
+      progress
+      projectUpdateRemindersPausedUntilAt
+      scope
+      scopeHistory
+      slackIssueComments
+      slackIssueStatuses
+      slackNewIssue
+      slugId
+      sortOrder
+      startDate
+      startedAt
+      state
+      targetDate
+      updatedAt
+      url
+      # @genqlient(pointer: true)
+      convertedFromIssue {
+        id
+      }
+      # @genqlient(pointer: true)
+      lead {
+        id
+      }
+      # @genqlient(pointer: true)
+      creator {
+        id
+      }
+    }
+  }
+}
+
+query getIssue($issueId: String!) {
+  issue(id: $issueId) {
+    id
+    createdAt
+    updatedAt
+    archivedAt
+    number
+    title
+    description
+    priority
+    estimate
+    sortOrder
+    startedAt
+    completedAt
+    canceledAt
+    autoClosedAt
+    autoArchivedAt
+    dueDate
+    trashed
+    snoozedUntilAt
+    team {
+      id
+    }
+    cycle {
+      id
+    }
+    project {
+      id
+    }
+    previousIdentifiers
+    creator {
+      id
+    }
+    assignee {
+      id
+    }
+    snoozedBy {
+      id
+    }
+    state {
+      id
+    }
+    parent {
+      id
+    }
+    subIssueSortOrder
+    priorityLabel
+    identifier
+    url
+    branchName
+    customerTicketCount
+  }
+}
+
+query getProject($issueId: String!) {
+  project(id: $issueId) {
+    id
+    archivedAt
+    autoArchivedAt
+    canceledAt
+    color
+    completedAt
+    completedIssueCountHistory
+    completedScopeHistory
+    createdAt
+    description
+    icon
+    inProgressScopeHistory
+    issueCountHistory
+    name
+    progress
+    projectUpdateRemindersPausedUntilAt
+    scope
+    scopeHistory
+    slackIssueComments
+    slackIssueStatuses
+    slackNewIssue
+    slugId
+    sortOrder
+    startDate
+    startedAt
+    state
+    targetDate
+    updatedAt
+    url
+    convertedFromIssue {
+      id
+    }
+    lead {
+      id
+    }
+    creator {
+      id
+    }
+  }
+}
