@@ -7,8 +7,6 @@ generated: generated.go
 
 package: gql
 bindings:
-  Int:
-    type: int32
   DateTime:
     type: time.Time
   TimelessDate:

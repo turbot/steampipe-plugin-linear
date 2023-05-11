@@ -1,6 +1,21 @@
-# @genqlient(omitempty: true)
-query listIssue($first: Int, $after: String) {
-  issues(first: $first, after: $after) {
+# @genqlient(omitempty: true,pointer: true)
+query listIssue(
+  # @genqlient(pointer: false)
+  $first: Int
+  # @genqlient(pointer: false)
+  $after: String
+  $filter: IssueFilter
+  $includeTeam: Boolean!
+  $includeCycle: Boolean!
+  $includeProject: Boolean!
+  $includeCreator: Boolean!
+  $includeAssignee: Boolean!
+  $includeSnoozedBy: Boolean!
+  $includeState: Boolean!
+  $includeParent: Boolean!
+  $includeProjectMilestone: Boolean!
+) {
+  issues(first: $first, after: $after, filter: $filter) {
     pageInfo {
       hasNextPage
       endCursor
@@ -24,52 +39,241 @@ query listIssue($first: Int, $after: String) {
       dueDate
       trashed
       snoozedUntilAt
-      # @genqlient(pointer: true)
-      team {
-        id
-      }
-      # @genqlient(pointer: true)
-      cycle {
-        id
-      }
-      # @genqlient(pointer: true)
-      project {
-        id
-      }
       previousIdentifiers
-      # @genqlient(pointer: true)
-      creator {
-        id
-      }
-      # @genqlient(pointer: true)
-      assignee {
-        id
-      }
-      # @genqlient(pointer: true)
-      snoozedBy {
-        id
-      }
-      # @genqlient(pointer: true)
-      state {
-        id
-      }
-      # @genqlient(pointer: true)
-      parent {
-        id
-      }
       subIssueSortOrder
       priorityLabel
       identifier
       url
       branchName
       customerTicketCount
+      # @genqlient(pointer: true)
+      team @skip(if: $includeTeam) {
+        id
+        archivedAt
+        autoArchivePeriod
+        autoClosePeriod
+        autoCloseStateId
+        color
+        createdAt
+        cycleCalenderUrl
+        cycleCooldownTime
+        cycleDuration
+        cycleIssueAutoAssignCompleted
+        cycleIssueAutoAssignStarted
+        cycleLockToActive
+        cycleStartDay
+        cyclesEnabled
+        defaultIssueEstimate
+        defaultTemplateForMembersId
+        defaultTemplateForNonMembersId
+        description
+        groupIssueHistory
+        icon
+        inviteHash
+        issueEstimationAllowZero
+        issueEstimationExtended
+        issueEstimationType
+        issueOrderingNoPriorityFirst
+        issueSortOrderDefaultToBottom
+        key
+        name
+        private
+        requirePriorityToLeaveTriage
+        slackIssueComments
+        slackIssueStatuses
+        slackNewIssue
+        timezone
+        triageEnabled
+        upcomingCycleCount
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      cycle @skip(if: $includeCycle) {
+        id
+        archivedAt
+        autoArchivedAt
+        completedAt
+        completedIssueCountHistory
+        completedScopeHistory
+        createdAt
+        description
+        endsAt
+        inProgressScopeHistory
+        issueCountHistory
+        name
+        number
+        progress
+        scopeHistory
+        startsAt
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      project @skip(if: $includeProject) {
+        id
+        archivedAt
+        autoArchivedAt
+        canceledAt
+        color
+        completedAt
+        completedIssueCountHistory
+        completedScopeHistory
+        createdAt
+        description
+        icon
+        inProgressScopeHistory
+        issueCountHistory
+        name
+        progress
+        projectUpdateRemindersPausedUntilAt
+        scope
+        scopeHistory
+        slackIssueComments
+        slackIssueStatuses
+        slackNewIssue
+        slugId
+        sortOrder
+        startDate
+        startedAt
+        state
+        targetDate
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      creator @skip(if: $includeCreator) {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      assignee @skip(if: $includeAssignee) {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      snoozedBy @skip(if: $includeSnoozedBy) {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      state @skip(if: $includeState) {
+        id
+        archivedAt
+        color
+        createdAt
+        description
+        name
+        position
+        type
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      parent @skip(if: $includeParent) {
+        id
+        createdAt
+        updatedAt
+        archivedAt
+        number
+        title
+        description
+        priority
+        estimate
+        sortOrder
+        startedAt
+        completedAt
+        canceledAt
+        autoClosedAt
+        autoArchivedAt
+        dueDate
+        trashed
+        snoozedUntilAt
+        previousIdentifiers
+      }
+      # @genqlient(pointer: true)
+      projectMilestone @skip(if: $includeProjectMilestone) {
+        archivedAt
+        createdAt
+        description
+        id
+        name
+        sortOrder
+        updatedAt
+      }
     }
   }
 }
 
-# @genqlient(omitempty: true)
-query listProject($first: Int, $after: String) {
-  projects(first: $first, after: $after) {
+# @genqlient(omitempty: true,pointer: true)
+query listProject(
+  # @genqlient(pointer: false)
+  $first: Int
+  # @genqlient(pointer: false)
+  $after: String
+  $filter: ProjectFilter
+) {
+  projects(first: $first, after: $after, filter: $filter) {
     pageInfo {
       hasNextPage
       endCursor
@@ -116,103 +320,6 @@ query listProject($first: Int, $after: String) {
       creator {
         id
       }
-    }
-  }
-}
-
-query getIssue($issueId: String!) {
-  issue(id: $issueId) {
-    id
-    createdAt
-    updatedAt
-    archivedAt
-    number
-    title
-    description
-    priority
-    estimate
-    sortOrder
-    startedAt
-    completedAt
-    canceledAt
-    autoClosedAt
-    autoArchivedAt
-    dueDate
-    trashed
-    snoozedUntilAt
-    team {
-      id
-    }
-    cycle {
-      id
-    }
-    project {
-      id
-    }
-    previousIdentifiers
-    creator {
-      id
-    }
-    assignee {
-      id
-    }
-    snoozedBy {
-      id
-    }
-    state {
-      id
-    }
-    parent {
-      id
-    }
-    subIssueSortOrder
-    priorityLabel
-    identifier
-    url
-    branchName
-    customerTicketCount
-  }
-}
-
-query getProject($issueId: String!) {
-  project(id: $issueId) {
-    id
-    archivedAt
-    autoArchivedAt
-    canceledAt
-    color
-    completedAt
-    completedIssueCountHistory
-    completedScopeHistory
-    createdAt
-    description
-    icon
-    inProgressScopeHistory
-    issueCountHistory
-    name
-    progress
-    projectUpdateRemindersPausedUntilAt
-    scope
-    scopeHistory
-    slackIssueComments
-    slackIssueStatuses
-    slackNewIssue
-    slugId
-    sortOrder
-    startDate
-    startedAt
-    state
-    targetDate
-    updatedAt
-    url
-    convertedFromIssue {
-      id
-    }
-    lead {
-      id
-    }
-    creator {
-      id
     }
   }
 }

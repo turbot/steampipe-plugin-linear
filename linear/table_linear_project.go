@@ -4,8 +4,10 @@ import (
 	"context"
 
 	"github.com/steampipe-plugin-linear/gql"
+	"github.com/turbot/go-kit/types"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
 func tableLinearProject(ctx context.Context) *plugin.Table {
@@ -14,11 +16,17 @@ func tableLinearProject(ctx context.Context) *plugin.Table {
 		Description: "Linear Project",
 		List: &plugin.ListConfig{
 			Hydrate: listProjects,
+			KeyColumns: []*plugin.KeyColumn{
+				{
+					Name:    "creator_id",
+					Require: plugin.Optional,
+				},
+			},
 		},
-		Get: &plugin.GetConfig{
-			KeyColumns: plugin.SingleColumn("id"),
-			Hydrate:    getProject,
-		},
+		// Get: &plugin.GetConfig{
+		// 	KeyColumns: plugin.SingleColumn("id"),
+		// 	Hydrate:    getProject,
+		// },
 		Columns: []*plugin.Column{
 			{
 				Name:        "id",
@@ -176,9 +184,10 @@ func tableLinearProject(ctx context.Context) *plugin.Table {
 				Description: "The project lead.",
 			},
 			{
-				Name:        "creator",
-				Type:        proto.ColumnType_JSON,
+				Name:        "creator_id",
+				Type:        proto.ColumnType_STRING,
 				Description: "The user who created the project.",
+				Transform:   transform.FromField("Creator.Id"),
 			},
 		},
 	}
@@ -191,15 +200,26 @@ func listProjects(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 		return nil, err
 	}
 	var endCursor string
-	var pageSize int32 = 100
+	var pageSize int = 100
 	if d.QueryContext.Limit != nil {
-		if int32(*d.QueryContext.Limit) < pageSize {
-			pageSize = int32(*d.QueryContext.Limit)
+		if int(*d.QueryContext.Limit) < pageSize {
+			pageSize = int(*d.QueryContext.Limit)
 		}
 	}
 
+	var filter *gql.ProjectFilter
+	if d.EqualsQualString("creator_id") != "" {
+		id := &gql.IDComparator{
+			Eq: types.String(d.EqualsQualString("creator_id")),
+		}
+		creator := &gql.UserFilter{
+			Id: id,
+		}
+		filter.Creator = creator
+	}
+
 	for {
-		listProjectResponse, err := gql.ListProject(ctx, conn, pageSize, endCursor)
+		listProjectResponse, err := gql.ListProject(ctx, conn, pageSize, endCursor, filter)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_project.listProjects", "api_error", err)
 			return nil, err
@@ -212,34 +232,34 @@ func listProjects(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 				return nil, nil
 			}
 		}
-		if !listProjectResponse.Projects.PageInfo.HasNextPage {
+		if !*listProjectResponse.Projects.PageInfo.HasNextPage {
 			break
 		}
-		endCursor = listProjectResponse.Projects.PageInfo.EndCursor
+		endCursor = *listProjectResponse.Projects.PageInfo.EndCursor
 	}
 
 	return nil, nil
 }
 
-func getProject(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	id := d.EqualsQualString("id")
+// func getProject(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+// 	id := d.EqualsQualString("id")
 
-	// check if id is empty
-	if id == "" {
-		return nil, nil
-	}
+// 	// check if id is empty
+// 	if id == "" {
+// 		return nil, nil
+// 	}
 
-	conn, err := connect(ctx, d)
-	if err != nil {
-		plugin.Logger(ctx).Error("linear_project.getProject", "connection_error", err)
-		return nil, err
-	}
+// 	conn, err := connect(ctx, d)
+// 	if err != nil {
+// 		plugin.Logger(ctx).Error("linear_project.getProject", "connection_error", err)
+// 		return nil, err
+// 	}
 
-	getProjectResponse, err := gql.GetProject(ctx, conn, id)
-	if err != nil {
-		plugin.Logger(ctx).Error("linear_project.listProjects", "api_error", err)
-		return nil, err
-	}
+// 	getProjectResponse, err := gql.GetProject(ctx, conn, id)
+// 	if err != nil {
+// 		plugin.Logger(ctx).Error("linear_project.listProjects", "api_error", err)
+// 		return nil, err
+// 	}
 
-	return getProjectResponse.Project, nil
-}
+// 	return getProjectResponse.Project, nil
+// }

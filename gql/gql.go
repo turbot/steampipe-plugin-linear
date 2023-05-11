@@ -6,18 +6,10 @@ import (
 	"github.com/Khan/genqlient/graphql"
 )
 
-func ListIssue(ctx context.Context, client graphql.Client, first int32, after string) (*listIssueResponse, error) {
-	return listIssue(ctx, client, first, after)
+func ListIssue(ctx context.Context, client graphql.Client, first int, after string, filter *IssueFilter, includeTeam *bool, includeCycle *bool, includeProject *bool, includeCreator *bool, includeAssignee *bool, includeSnoozedBy *bool, includeState *bool, includeParent *bool, includeProjectMilestone *bool) (*listIssueResponse, error) {
+	return listIssue(ctx, client, first, after, filter, includeTeam, includeCycle, includeProject, includeCreator, includeAssignee, includeSnoozedBy, includeState, includeParent, includeProjectMilestone)
 }
 
-func GetIssue(ctx context.Context, client graphql.Client, issueId string) (*getIssueResponse, error) {
-	return getIssue(ctx, client, issueId)
-}
-
-func ListProject(ctx context.Context, client graphql.Client, first int32, after string) (*listProjectResponse, error) {
-	return listProject(ctx, client, first, after)
-}
-
-func GetProject(ctx context.Context, client graphql.Client, issueId string) (*getProjectResponse, error) {
-	return getProject(ctx, client, issueId)
+func ListProject(ctx context.Context, client graphql.Client, first int, after string, filter *ProjectFilter) (*listProjectResponse, error) {
+	return listProject(ctx, client, first, after, filter)
 }

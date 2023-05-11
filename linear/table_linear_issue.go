@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/steampipe-plugin-linear/gql"
+	"github.com/turbot/go-kit/types"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
@@ -14,10 +15,71 @@ func tableLinearIssue(ctx context.Context) *plugin.Table {
 		Description: "Linear Issue",
 		List: &plugin.ListConfig{
 			Hydrate: listIssues,
-		},
-		Get: &plugin.GetConfig{
-			KeyColumns: plugin.SingleColumn("id"),
-			Hydrate:    getIssue,
+			KeyColumns: []*plugin.KeyColumn{
+				{
+					Name:    "id",
+					Require: plugin.Optional,
+				},
+				{
+					Name:      "created_at",
+					Require:   plugin.Optional,
+					Operators: []string{"=", ">", ">=", "<=", "<"},
+				},
+				{
+					Name:      "updated_at",
+					Require:   plugin.Optional,
+					Operators: []string{"=", ">", ">=", "<=", "<"},
+				},
+				{
+					Name:      "number",
+					Require:   plugin.Optional,
+					Operators: []string{"=", ">", ">=", "<=", "<"},
+				},
+				{
+					Name:    "title",
+					Require: plugin.Optional,
+				},
+				{
+					Name:      "priority",
+					Require:   plugin.Optional,
+					Operators: []string{"=", ">", ">=", "<=", "<"},
+				},
+				{
+					Name:      "started_at",
+					Require:   plugin.Optional,
+					Operators: []string{"=", ">", ">=", "<=", "<"},
+				},
+				{
+					Name:      "completed_at",
+					Require:   plugin.Optional,
+					Operators: []string{"=", ">", ">=", "<=", "<"},
+				},
+				{
+					Name:      "canceled_at",
+					Require:   plugin.Optional,
+					Operators: []string{"=", ">", ">=", "<=", "<"},
+				},
+				{
+					Name:      "auto_closed_at",
+					Require:   plugin.Optional,
+					Operators: []string{"=", ">", ">=", "<=", "<"},
+				},
+				{
+					Name:      "auto_archived_at",
+					Require:   plugin.Optional,
+					Operators: []string{"=", ">", ">=", "<=", "<"},
+				},
+				{
+					Name:      "due_date",
+					Require:   plugin.Optional,
+					Operators: []string{"=", ">", ">=", "<=", "<"},
+				},
+				{
+					Name:      "snoozed_until_at",
+					Require:   plugin.Optional,
+					Operators: []string{"=", ">", ">=", "<=", "<"},
+				},
+			},
 		},
 		Columns: []*plugin.Column{
 			{
@@ -33,7 +95,7 @@ func tableLinearIssue(ctx context.Context) *plugin.Table {
 			{
 				Name:        "updated_at",
 				Type:        proto.ColumnType_TIMESTAMP,
-				Description: "The last time at which the entity was updated. This is the same as the creation time if the entity hasn't been update after creation.",
+				Description: "The last time at which the entity was meaningfully updated. This is the same as the creation time if the entity hasn't been updated after creation.",
 			},
 			{
 				Name:        "archived_at",
@@ -58,7 +120,7 @@ func tableLinearIssue(ctx context.Context) *plugin.Table {
 			{
 				Name:        "priority",
 				Type:        proto.ColumnType_DOUBLE,
-				Description: "The priority of the issue.",
+				Description: "The priority of the issue. 0 = No priority, 1 = Urgent, 2 = High, 3 = Normal, 4 = Low.",
 			},
 			{
 				Name:        "estimate",
@@ -106,24 +168,9 @@ func tableLinearIssue(ctx context.Context) *plugin.Table {
 				Description: "A flag that indicates whether the issue is in the trash bin.",
 			},
 			{
-				Name:        "snoozed_util_at",
+				Name:        "snoozed_until_at",
 				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time until an issue will be snoozed in Triage view.",
-			},
-			{
-				Name:        "team_id",
-				Type:        proto.ColumnType_STRING,
-				Description: "The unique identifier of the team that the issue is associated with.",
-			},
-			{
-				Name:        "cycle_id",
-				Type:        proto.ColumnType_STRING,
-				Description: "The unique identifier of the cycle that the issue is associated with.",
-			},
-			{
-				Name:        "project_id",
-				Type:        proto.ColumnType_STRING,
-				Description: "The unique identifier of the project that the issue is associated with.",
 			},
 			{
 				Name:        "previous_identifiers",
@@ -131,34 +178,9 @@ func tableLinearIssue(ctx context.Context) *plugin.Table {
 				Description: "Previous identifiers of the issue if it has been moved between teams.",
 			},
 			{
-				Name:        "creator_id",
-				Type:        proto.ColumnType_STRING,
-				Description: "The unique identifier of the user who created the issue.",
-			},
-			{
-				Name:        "assignee_id",
-				Type:        proto.ColumnType_STRING,
-				Description: "The unique identifier of the user to whom the issue is assigned to.",
-			},
-			{
-				Name:        "snoozed_by_id",
-				Type:        proto.ColumnType_STRING,
-				Description: "The unique identifier of the user who snoozed the issue.",
-			},
-			{
-				Name:        "state_id",
-				Type:        proto.ColumnType_STRING,
-				Description: "The unique identifier of the workflow state that the issue is associated with.",
-			},
-			{
-				Name:        "parent_id",
-				Type:        proto.ColumnType_STRING,
-				Description: "The unique identifier of the parent of the issue.",
-			},
-			{
 				Name:        "sub_issue_sort_order",
 				Type:        proto.ColumnType_DOUBLE,
-				Description: "The unique identifier of the parent of the issue.",
+				Description: "The order of the item in the sub-issue list. Only set if the issue has a parent.",
 			},
 			{
 				Name:        "priority_label",
@@ -186,49 +208,49 @@ func tableLinearIssue(ctx context.Context) *plugin.Table {
 				Description: "Returns the number of Attachment resources which are created by customer support ticketing systems (e.g. Zendesk).",
 			},
 			{
-				Name:        "subscriber_ids",
+				Name:        "team",
 				Type:        proto.ColumnType_JSON,
-				Description: "A list of unique identifiers of the users who are subscribed to the issue.",
+				Description: "The team that the issue is associated with.",
 			},
 			{
-				Name:        "children_ids",
+				Name:        "cycle",
 				Type:        proto.ColumnType_JSON,
-				Description: "A list of unique identifiers of the children of the issue.",
+				Description: "The cycle that the issue is associated with.",
 			},
 			{
-				Name:        "comment_ids",
+				Name:        "project",
 				Type:        proto.ColumnType_JSON,
-				Description: "A list of unique identifiers of the comments associated with the issue.",
+				Description: "The project that the issue is associated with.",
 			},
 			{
-				Name:        "history_ids",
+				Name:        "creator",
 				Type:        proto.ColumnType_JSON,
-				Description: "A list of unique identifiers of the history entries associated with the issue.",
+				Description: "The user who created the issue.",
 			},
 			{
-				Name:        "label_ids",
+				Name:        "assignee",
 				Type:        proto.ColumnType_JSON,
-				Description: "A list of unique identifiers of the labels associated with the issue.",
+				Description: "The user to whom the issue is assigned to.",
 			},
 			{
-				Name:        "integration_resource_ids",
+				Name:        "snoozed_by",
 				Type:        proto.ColumnType_JSON,
-				Description: "A list of unique identifiers of the integration resources for this issue.",
+				Description: "The user who snoozed the issue.",
 			},
 			{
-				Name:        "relation_ids",
+				Name:        "state",
 				Type:        proto.ColumnType_JSON,
-				Description: "A list of unique identifiers of the relations associated with this issue.",
+				Description: "The workflow state that the issue is associated with.",
 			},
 			{
-				Name:        "inverse_relation_ids",
+				Name:        "parent",
 				Type:        proto.ColumnType_JSON,
-				Description: "A list of unique identifiers of the inverse relations associated with this issue.",
+				Description: "The parent of the issue.",
 			},
 			{
-				Name:        "attachment_ids",
+				Name:        "project_milestone",
 				Type:        proto.ColumnType_JSON,
-				Description: "A list of unique identifiers of the attachments associated with the issue.",
+				Description: "The projectMilestone that the issue is associated with.",
 			},
 		},
 	}
@@ -240,20 +262,50 @@ func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 		plugin.Logger(ctx).Error("linear_issue.listIssues", "connection_error", err)
 		return nil, err
 	}
+
 	var endCursor string
-	var pageSize int32 = 100
+	var pageSize int = 100
 	if d.QueryContext.Limit != nil {
-		if int32(*d.QueryContext.Limit) < pageSize {
-			pageSize = int32(*d.QueryContext.Limit)
+		if int(*d.QueryContext.Limit) < pageSize {
+			pageSize = int(*d.QueryContext.Limit)
 		}
 	}
 
+	// By default, nested objects are excluded, and they will only be included if they are requested.
+	includeTeam, includeCycle, includeProject, includeCreator, includeAssignee, includeSnoozedBy, includeState, includeParent, includeProjectMilestone := true, true, true, true, true, true, true, true, true
+	for _, column := range d.QueryContext.Columns {
+		switch column {
+		case "team":
+			includeTeam = false
+		case "cycle":
+			includeCycle = false
+		case "project":
+			includeProject = false
+		case "creator":
+			includeCreator = false
+		case "assignee":
+			includeAssignee = false
+		case "snoozed_by":
+			includeSnoozedBy = false
+		case "state":
+			includeState = false
+		case "parent":
+			includeParent = false
+		case "project_milestone":
+			includeProjectMilestone = false
+		}
+	}
+	
+	// set the requested filters
+	filters := setFilters(d, ctx)
+
 	for {
-		listIssueResponse, err := gql.ListIssue(ctx, conn, pageSize, endCursor)
+		listIssueResponse, err := gql.ListIssue(ctx, conn, pageSize, endCursor, &filters, &includeTeam, &includeCycle, &includeProject, &includeCreator, &includeAssignee, &includeSnoozedBy, &includeState, &includeParent, &includeProjectMilestone)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_issue.listIssues", "api_error", err)
 			return nil, err
 		}
+
 		for _, node := range listIssueResponse.Issues.Nodes {
 			d.StreamListItem(ctx, node)
 
@@ -262,34 +314,240 @@ func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 				return nil, nil
 			}
 		}
-		if !listIssueResponse.Issues.PageInfo.HasNextPage {
+		if !*listIssueResponse.Issues.PageInfo.HasNextPage {
 			break
 		}
-		endCursor = listIssueResponse.Issues.PageInfo.EndCursor
+		endCursor = *listIssueResponse.Issues.PageInfo.EndCursor
 	}
 
 	return nil, nil
 }
 
-func getIssue(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	id := d.EqualsQualString("id")
-
-	// check if id is empty
-	if id == "" {
-		return nil, nil
+// Set the requested filter
+func setFilters(d *plugin.QueryData, ctx context.Context) gql.IssueFilter {
+	var filter gql.IssueFilter
+	if d.EqualsQuals["id"] != nil {
+		id := &gql.IDComparator{
+			Eq: types.String(d.EqualsQualString("id")),
+		}
+		filter.Id = id
 	}
-
-	conn, err := connect(ctx, d)
-	if err != nil {
-		plugin.Logger(ctx).Error("linear_issue.getIssue", "connection_error", err)
-		return nil, err
+	if d.Quals["created_at"] != nil {
+		createdAt := &gql.DateComparator{}
+		for _, q := range d.Quals["created_at"].Quals {
+			timestamp := types.Time(q.Value.GetTimestampValue().AsTime())
+			switch q.Operator {
+			case "=":
+				createdAt.Eq = timestamp
+			case ">":
+				createdAt.Gt = timestamp
+			case ">=":
+				createdAt.Gte = timestamp
+			case "<":
+				createdAt.Lt = timestamp
+			case "<=":
+				createdAt.Lte = timestamp
+			}
+		}
+		filter.CreatedAt = createdAt
 	}
-
-	getIssueResponse, err := gql.GetIssue(ctx, conn, id)
-	if err != nil {
-		plugin.Logger(ctx).Error("linear_issue.listIssues", "api_error", err)
-		return nil, err
+	if d.Quals["updated_at"] != nil {
+		updatedAt := &gql.DateComparator{}
+		for _, q := range d.Quals["updated_at"].Quals {
+			timestamp := types.Time(q.Value.GetTimestampValue().AsTime())
+			switch q.Operator {
+			case "=":
+				updatedAt.Eq = timestamp
+			case ">":
+				updatedAt.Gt = timestamp
+			case ">=":
+				updatedAt.Gte = timestamp
+			case "<":
+				updatedAt.Lt = timestamp
+			case "<=":
+				updatedAt.Lte = timestamp
+			}
+		}
+		filter.UpdatedAt = updatedAt
 	}
+	if d.Quals["number"] != nil {
+		numberCom := &gql.NumberComparator{}
+		for _, q := range d.Quals["number"].Quals {
+			number := types.Float64(q.Value.GetDoubleValue())
+			switch q.Operator {
+			case "=":
+				numberCom.Eq = number
+			case ">":
+				numberCom.Gt = number
+			case ">=":
+				numberCom.Gte = number
+			case "<":
+				numberCom.Lt = number
+			case "<=":
+				numberCom.Lte = number
+			}
+		}
 
-	return getIssueResponse.Issue, nil
+		filter.Number = numberCom
+	}
+	if d.EqualsQuals["title"] != nil {
+		title := &gql.StringComparator{
+			Eq: types.String(d.EqualsQualString("title")),
+		}
+		filter.Title = title
+	}
+	if d.Quals["priority"] != nil {
+		priorityCom := &gql.NullableNumberComparator{}
+		for _, q := range d.Quals["priority"].Quals {
+			priority := types.Float64(q.Value.GetDoubleValue())
+			switch q.Operator {
+			case "=":
+				priorityCom.Eq = priority
+			case ">":
+				priorityCom.Gt = priority
+			case ">=":
+				priorityCom.Gte = priority
+			case "<":
+				priorityCom.Lt = priority
+			case "<=":
+				priorityCom.Lte = priority
+			}
+		}
+
+		filter.Priority = priorityCom
+	}
+	if d.Quals["started_at"] != nil {
+		startedAt := &gql.NullableDateComparator{}
+		for _, q := range d.Quals["started_at"].Quals {
+			timestamp := types.Time(q.Value.GetTimestampValue().AsTime())
+			switch q.Operator {
+			case "=":
+				startedAt.Eq = timestamp
+			case ">":
+				startedAt.Gt = timestamp
+			case ">=":
+				startedAt.Gte = timestamp
+			case "<":
+				startedAt.Lt = timestamp
+			case "<=":
+				startedAt.Lte = timestamp
+			}
+		}
+		filter.StartedAt = startedAt
+	}
+	if d.Quals["completed_at"] != nil {
+		completedAt := &gql.NullableDateComparator{}
+		for _, q := range d.Quals["completed_at"].Quals {
+			timestamp := types.Time(q.Value.GetTimestampValue().AsTime())
+			switch q.Operator {
+			case "=":
+				completedAt.Eq = timestamp
+			case ">":
+				completedAt.Gt = timestamp
+			case ">=":
+				completedAt.Gte = timestamp
+			case "<":
+				completedAt.Lt = timestamp
+			case "<=":
+				completedAt.Lte = timestamp
+			}
+		}
+		filter.CompletedAt = completedAt
+	}
+	if d.Quals["canceled_at"] != nil {
+		canceledAt := &gql.NullableDateComparator{}
+		for _, q := range d.Quals["canceled_at"].Quals {
+			timestamp := types.Time(q.Value.GetTimestampValue().AsTime())
+			switch q.Operator {
+			case "=":
+				canceledAt.Eq = timestamp
+			case ">":
+				canceledAt.Gt = timestamp
+			case ">=":
+				canceledAt.Gte = timestamp
+			case "<":
+				canceledAt.Lt = timestamp
+			case "<=":
+				canceledAt.Lte = timestamp
+			}
+		}
+		filter.CanceledAt = canceledAt
+	}
+	if d.Quals["auto_closed_at"] != nil {
+		autoClosedAt := &gql.NullableDateComparator{}
+		for _, q := range d.Quals["auto_closed_at"].Quals {
+			timestamp := types.Time(q.Value.GetTimestampValue().AsTime())
+			switch q.Operator {
+			case "=":
+				autoClosedAt.Eq = timestamp
+			case ">":
+				autoClosedAt.Gt = timestamp
+			case ">=":
+				autoClosedAt.Gte = timestamp
+			case "<":
+				autoClosedAt.Lt = timestamp
+			case "<=":
+				autoClosedAt.Lte = timestamp
+			}
+		}
+		filter.AutoClosedAt = autoClosedAt
+	}
+	if d.Quals["auto_archived_at"] != nil {
+		autoArchivedAt := &gql.NullableDateComparator{}
+		for _, q := range d.Quals["auto_archived_at"].Quals {
+			timestamp := types.Time(q.Value.GetTimestampValue().AsTime())
+			switch q.Operator {
+			case "=":
+				autoArchivedAt.Eq = timestamp
+			case ">":
+				autoArchivedAt.Gt = timestamp
+			case ">=":
+				autoArchivedAt.Gte = timestamp
+			case "<":
+				autoArchivedAt.Lt = timestamp
+			case "<=":
+				autoArchivedAt.Lte = timestamp
+			}
+		}
+		filter.AutoArchivedAt = autoArchivedAt
+	}
+	if d.Quals["due_date"] != nil {
+		dueDate := &gql.NullableTimelessDateComparator{}
+		for _, q := range d.Quals["due_date"].Quals {
+			timestamp := types.Time(q.Value.GetTimestampValue().AsTime())
+			switch q.Operator {
+			case "=":
+				dueDate.Eq = timestamp
+			case ">":
+				dueDate.Gt = timestamp
+			case ">=":
+				dueDate.Gte = timestamp
+			case "<":
+				dueDate.Lt = timestamp
+			case "<=":
+				dueDate.Lte = timestamp
+			}
+		}
+		filter.DueDate = dueDate
+	}
+	if d.Quals["snoozed_until_at"] != nil {
+		snoozedUntilAt := &gql.NullableDateComparator{}
+		for _, q := range d.Quals["snoozed_until_at"].Quals {
+			timestamp := types.Time(q.Value.GetTimestampValue().AsTime())
+			switch q.Operator {
+			case "=":
+				snoozedUntilAt.Eq = timestamp
+			case ">":
+				snoozedUntilAt.Gt = timestamp
+			case ">=":
+				snoozedUntilAt.Gte = timestamp
+			case "<":
+				snoozedUntilAt.Lt = timestamp
+			case "<=":
+				snoozedUntilAt.Lte = timestamp
+			}
+		}
+		filter.SnoozedUntilAt = snoozedUntilAt
+	}
+	return filter
 }
