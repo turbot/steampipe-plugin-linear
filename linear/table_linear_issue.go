@@ -108,11 +108,6 @@ func tableLinearIssue(ctx context.Context) *plugin.Table {
 				Description: "The issue's unique number.",
 			},
 			{
-				Name:        "title",
-				Type:        proto.ColumnType_STRING,
-				Description: "The issue's title.",
-			},
-			{
 				Name:        "description",
 				Type:        proto.ColumnType_STRING,
 				Description: "The issue's description in markdown format.",
@@ -252,6 +247,13 @@ func tableLinearIssue(ctx context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 				Description: "The projectMilestone that the issue is associated with.",
 			},
+
+			// Steampipe standard columns
+			{
+				Name:        "title",
+				Description: "The issue's title.",
+				Type:        proto.ColumnType_STRING,
+			},
 		},
 	}
 }
@@ -264,7 +266,7 @@ func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 
 	var endCursor string
-	var pageSize int = 100
+	var pageSize int = 50
 	if d.QueryContext.Limit != nil {
 		if int(*d.QueryContext.Limit) < pageSize {
 			pageSize = int(*d.QueryContext.Limit)
@@ -295,9 +297,9 @@ func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 			includeProjectMilestone = false
 		}
 	}
-	
+
 	// set the requested filters
-	filters := setFilters(d, ctx)
+	filters := setIssueFilters(d, ctx)
 
 	for {
 		listIssueResponse, err := gql.ListIssue(ctx, conn, pageSize, endCursor, &filters, &includeTeam, &includeCycle, &includeProject, &includeCreator, &includeAssignee, &includeSnoozedBy, &includeState, &includeParent, &includeProjectMilestone)
@@ -324,7 +326,7 @@ func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 }
 
 // Set the requested filter
-func setFilters(d *plugin.QueryData, ctx context.Context) gql.IssueFilter {
+func setIssueFilters(d *plugin.QueryData, ctx context.Context) gql.IssueFilter {
 	var filter gql.IssueFilter
 	if d.EqualsQuals["id"] != nil {
 		id := &gql.IDComparator{

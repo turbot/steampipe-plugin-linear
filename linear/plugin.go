@@ -21,8 +21,11 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			Schema:      ConfigSchema,
 		},
 		TableMap: map[string]*plugin.Table{
-			"linear_issue":   tableLinearIssue(ctx),
-			"linear_project": tableLinearProject(ctx),
+			"linear_issue":        tableLinearIssue(ctx),
+			"linear_project":      tableLinearProject(ctx),
+			"linear_user":         tableLinearUser(ctx),
+			"linear_team":         tableLinearTeam(ctx),
+			"linear_organization": tableLinearOrganization(ctx),
 		},
 	}
 	return p
