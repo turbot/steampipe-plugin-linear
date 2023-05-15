@@ -7,6 +7,8 @@ generated: generated.go
 
 package: gql
 bindings:
+  JSONObject:
+    type: string
   JSON:
     type: string
   DateTime:

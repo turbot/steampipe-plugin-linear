@@ -263,6 +263,95 @@ func (v *ContentComparator) GetContains() *string { return v.Contains }
 // GetNotContains returns ContentComparator.NotContains, and is useful for accessing the field via an interface.
 func (v *ContentComparator) GetNotContains() *string { return v.NotContains }
 
+// Cycle filtering options.
+type CycleFilter struct {
+	// Compound filters, all of which need to be matched by the cycle.
+	And []*CycleFilter `json:"and,omitempty"`
+	// Comparator for the cycle completed at date.
+	CompletedAt *DateComparator `json:"completedAt,omitempty"`
+	// Comparator for the created at date.
+	CreatedAt *DateComparator `json:"createdAt,omitempty"`
+	// Comparator for the cycle ends at date.
+	EndsAt *DateComparator `json:"endsAt,omitempty"`
+	// Comparator for the identifier.
+	Id *IDComparator `json:"id,omitempty"`
+	// Comparator for the filtering active cycle.
+	IsActive *BooleanComparator `json:"isActive,omitempty"`
+	// Comparator for the filtering future cycles.
+	IsFuture *BooleanComparator `json:"isFuture,omitempty"`
+	// Comparator for the filtering next cycle.
+	IsNext *BooleanComparator `json:"isNext,omitempty"`
+	// Comparator for the filtering past cycles.
+	IsPast *BooleanComparator `json:"isPast,omitempty"`
+	// Comparator for the filtering previous cycle.
+	IsPrevious *BooleanComparator `json:"isPrevious,omitempty"`
+	// Filters that the cycles issues must satisfy.
+	Issues *IssueCollectionFilter `json:"issues,omitempty"`
+	// Comparator for the cycle name.
+	Name *StringComparator `json:"name,omitempty"`
+	// Comparator for the cycle number.
+	Number *NumberComparator `json:"number,omitempty"`
+	// Compound filters, one of which need to be matched by the cycle.
+	Or []*CycleFilter `json:"or,omitempty"`
+	// Comparator for the cycle start date.
+	StartsAt *DateComparator `json:"startsAt,omitempty"`
+	// Filters that the cycles team must satisfy.
+	Team *TeamFilter `json:"team,omitempty"`
+	// Comparator for the updated at date.
+	UpdatedAt *DateComparator `json:"updatedAt,omitempty"`
+}
+
+// GetAnd returns CycleFilter.And, and is useful for accessing the field via an interface.
+func (v *CycleFilter) GetAnd() []*CycleFilter { return v.And }
+
+// GetCompletedAt returns CycleFilter.CompletedAt, and is useful for accessing the field via an interface.
+func (v *CycleFilter) GetCompletedAt() *DateComparator { return v.CompletedAt }
+
+// GetCreatedAt returns CycleFilter.CreatedAt, and is useful for accessing the field via an interface.
+func (v *CycleFilter) GetCreatedAt() *DateComparator { return v.CreatedAt }
+
+// GetEndsAt returns CycleFilter.EndsAt, and is useful for accessing the field via an interface.
+func (v *CycleFilter) GetEndsAt() *DateComparator { return v.EndsAt }
+
+// GetId returns CycleFilter.Id, and is useful for accessing the field via an interface.
+func (v *CycleFilter) GetId() *IDComparator { return v.Id }
+
+// GetIsActive returns CycleFilter.IsActive, and is useful for accessing the field via an interface.
+func (v *CycleFilter) GetIsActive() *BooleanComparator { return v.IsActive }
+
+// GetIsFuture returns CycleFilter.IsFuture, and is useful for accessing the field via an interface.
+func (v *CycleFilter) GetIsFuture() *BooleanComparator { return v.IsFuture }
+
+// GetIsNext returns CycleFilter.IsNext, and is useful for accessing the field via an interface.
+func (v *CycleFilter) GetIsNext() *BooleanComparator { return v.IsNext }
+
+// GetIsPast returns CycleFilter.IsPast, and is useful for accessing the field via an interface.
+func (v *CycleFilter) GetIsPast() *BooleanComparator { return v.IsPast }
+
+// GetIsPrevious returns CycleFilter.IsPrevious, and is useful for accessing the field via an interface.
+func (v *CycleFilter) GetIsPrevious() *BooleanComparator { return v.IsPrevious }
+
+// GetIssues returns CycleFilter.Issues, and is useful for accessing the field via an interface.
+func (v *CycleFilter) GetIssues() *IssueCollectionFilter { return v.Issues }
+
+// GetName returns CycleFilter.Name, and is useful for accessing the field via an interface.
+func (v *CycleFilter) GetName() *StringComparator { return v.Name }
+
+// GetNumber returns CycleFilter.Number, and is useful for accessing the field via an interface.
+func (v *CycleFilter) GetNumber() *NumberComparator { return v.Number }
+
+// GetOr returns CycleFilter.Or, and is useful for accessing the field via an interface.
+func (v *CycleFilter) GetOr() []*CycleFilter { return v.Or }
+
+// GetStartsAt returns CycleFilter.StartsAt, and is useful for accessing the field via an interface.
+func (v *CycleFilter) GetStartsAt() *DateComparator { return v.StartsAt }
+
+// GetTeam returns CycleFilter.Team, and is useful for accessing the field via an interface.
+func (v *CycleFilter) GetTeam() *TeamFilter { return v.Team }
+
+// GetUpdatedAt returns CycleFilter.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *CycleFilter) GetUpdatedAt() *DateComparator { return v.UpdatedAt }
+
 // Comparator for dates.
 type DateComparator struct {
 	// Equals constraint.
@@ -2352,6 +2441,102 @@ func (v *WorkflowStateFilter) GetType() *StringComparator { return v.Type }
 // GetUpdatedAt returns WorkflowStateFilter.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *WorkflowStateFilter) GetUpdatedAt() *DateComparator { return v.UpdatedAt }
 
+// __listAttachmentInput is used internally by genqlient
+type __listAttachmentInput struct {
+	First          int               `json:"first,omitempty"`
+	After          string            `json:"after,omitempty"`
+	Filter         *AttachmentFilter `json:"filter,omitempty"`
+	IncludeCreator *bool             `json:"includeCreator,omitempty"`
+	IncludeIssue   *bool             `json:"includeIssue,omitempty"`
+}
+
+// GetFirst returns __listAttachmentInput.First, and is useful for accessing the field via an interface.
+func (v *__listAttachmentInput) GetFirst() int { return v.First }
+
+// GetAfter returns __listAttachmentInput.After, and is useful for accessing the field via an interface.
+func (v *__listAttachmentInput) GetAfter() string { return v.After }
+
+// GetFilter returns __listAttachmentInput.Filter, and is useful for accessing the field via an interface.
+func (v *__listAttachmentInput) GetFilter() *AttachmentFilter { return v.Filter }
+
+// GetIncludeCreator returns __listAttachmentInput.IncludeCreator, and is useful for accessing the field via an interface.
+func (v *__listAttachmentInput) GetIncludeCreator() *bool { return v.IncludeCreator }
+
+// GetIncludeIssue returns __listAttachmentInput.IncludeIssue, and is useful for accessing the field via an interface.
+func (v *__listAttachmentInput) GetIncludeIssue() *bool { return v.IncludeIssue }
+
+// __listCommentInput is used internally by genqlient
+type __listCommentInput struct {
+	First         int            `json:"first,omitempty"`
+	After         string         `json:"after,omitempty"`
+	Filter        *CommentFilter `json:"filter,omitempty"`
+	IncludeIssue  *bool          `json:"includeIssue,omitempty"`
+	IncludeParent *bool          `json:"includeParent,omitempty"`
+	IncludeUser   *bool          `json:"includeUser,omitempty"`
+}
+
+// GetFirst returns __listCommentInput.First, and is useful for accessing the field via an interface.
+func (v *__listCommentInput) GetFirst() int { return v.First }
+
+// GetAfter returns __listCommentInput.After, and is useful for accessing the field via an interface.
+func (v *__listCommentInput) GetAfter() string { return v.After }
+
+// GetFilter returns __listCommentInput.Filter, and is useful for accessing the field via an interface.
+func (v *__listCommentInput) GetFilter() *CommentFilter { return v.Filter }
+
+// GetIncludeIssue returns __listCommentInput.IncludeIssue, and is useful for accessing the field via an interface.
+func (v *__listCommentInput) GetIncludeIssue() *bool { return v.IncludeIssue }
+
+// GetIncludeParent returns __listCommentInput.IncludeParent, and is useful for accessing the field via an interface.
+func (v *__listCommentInput) GetIncludeParent() *bool { return v.IncludeParent }
+
+// GetIncludeUser returns __listCommentInput.IncludeUser, and is useful for accessing the field via an interface.
+func (v *__listCommentInput) GetIncludeUser() *bool { return v.IncludeUser }
+
+// __listCycleInput is used internally by genqlient
+type __listCycleInput struct {
+	First       int          `json:"first,omitempty"`
+	After       string       `json:"after,omitempty"`
+	Filter      *CycleFilter `json:"filter,omitempty"`
+	IncludeTeam *bool        `json:"includeTeam,omitempty"`
+}
+
+// GetFirst returns __listCycleInput.First, and is useful for accessing the field via an interface.
+func (v *__listCycleInput) GetFirst() int { return v.First }
+
+// GetAfter returns __listCycleInput.After, and is useful for accessing the field via an interface.
+func (v *__listCycleInput) GetAfter() string { return v.After }
+
+// GetFilter returns __listCycleInput.Filter, and is useful for accessing the field via an interface.
+func (v *__listCycleInput) GetFilter() *CycleFilter { return v.Filter }
+
+// GetIncludeTeam returns __listCycleInput.IncludeTeam, and is useful for accessing the field via an interface.
+func (v *__listCycleInput) GetIncludeTeam() *bool { return v.IncludeTeam }
+
+// __listIntegrationInput is used internally by genqlient
+type __listIntegrationInput struct {
+	First               int    `json:"first,omitempty"`
+	After               string `json:"after,omitempty"`
+	IncludeCreator      *bool  `json:"includeCreator,omitempty"`
+	IncludeOrganization *bool  `json:"includeOrganization,omitempty"`
+	IncludeTeam         *bool  `json:"includeTeam,omitempty"`
+}
+
+// GetFirst returns __listIntegrationInput.First, and is useful for accessing the field via an interface.
+func (v *__listIntegrationInput) GetFirst() int { return v.First }
+
+// GetAfter returns __listIntegrationInput.After, and is useful for accessing the field via an interface.
+func (v *__listIntegrationInput) GetAfter() string { return v.After }
+
+// GetIncludeCreator returns __listIntegrationInput.IncludeCreator, and is useful for accessing the field via an interface.
+func (v *__listIntegrationInput) GetIncludeCreator() *bool { return v.IncludeCreator }
+
+// GetIncludeOrganization returns __listIntegrationInput.IncludeOrganization, and is useful for accessing the field via an interface.
+func (v *__listIntegrationInput) GetIncludeOrganization() *bool { return v.IncludeOrganization }
+
+// GetIncludeTeam returns __listIntegrationInput.IncludeTeam, and is useful for accessing the field via an interface.
+func (v *__listIntegrationInput) GetIncludeTeam() *bool { return v.IncludeTeam }
+
 // __listIssueInput is used internally by genqlient
 type __listIssueInput struct {
 	First                   int          `json:"first,omitempty"`
@@ -2403,6 +2588,38 @@ func (v *__listIssueInput) GetIncludeParent() *bool { return v.IncludeParent }
 
 // GetIncludeProjectMilestone returns __listIssueInput.IncludeProjectMilestone, and is useful for accessing the field via an interface.
 func (v *__listIssueInput) GetIncludeProjectMilestone() *bool { return v.IncludeProjectMilestone }
+
+// __listIssueLabelInput is used internally by genqlient
+type __listIssueLabelInput struct {
+	First               int               `json:"first,omitempty"`
+	After               string            `json:"after,omitempty"`
+	Filter              *IssueLabelFilter `json:"filter,omitempty"`
+	IncludeCreator      *bool             `json:"includeCreator,omitempty"`
+	IncludeOrganization *bool             `json:"includeOrganization,omitempty"`
+	IncludeParent       *bool             `json:"includeParent,omitempty"`
+	IncludeTeam         *bool             `json:"includeTeam,omitempty"`
+}
+
+// GetFirst returns __listIssueLabelInput.First, and is useful for accessing the field via an interface.
+func (v *__listIssueLabelInput) GetFirst() int { return v.First }
+
+// GetAfter returns __listIssueLabelInput.After, and is useful for accessing the field via an interface.
+func (v *__listIssueLabelInput) GetAfter() string { return v.After }
+
+// GetFilter returns __listIssueLabelInput.Filter, and is useful for accessing the field via an interface.
+func (v *__listIssueLabelInput) GetFilter() *IssueLabelFilter { return v.Filter }
+
+// GetIncludeCreator returns __listIssueLabelInput.IncludeCreator, and is useful for accessing the field via an interface.
+func (v *__listIssueLabelInput) GetIncludeCreator() *bool { return v.IncludeCreator }
+
+// GetIncludeOrganization returns __listIssueLabelInput.IncludeOrganization, and is useful for accessing the field via an interface.
+func (v *__listIssueLabelInput) GetIncludeOrganization() *bool { return v.IncludeOrganization }
+
+// GetIncludeParent returns __listIssueLabelInput.IncludeParent, and is useful for accessing the field via an interface.
+func (v *__listIssueLabelInput) GetIncludeParent() *bool { return v.IncludeParent }
+
+// GetIncludeTeam returns __listIssueLabelInput.IncludeTeam, and is useful for accessing the field via an interface.
+func (v *__listIssueLabelInput) GetIncludeTeam() *bool { return v.IncludeTeam }
 
 // __listOrganizationInput is used internally by genqlient
 type __listOrganizationInput struct {
@@ -2512,6 +2729,26 @@ func (v *__listTeamInput) GetIncludeStartWorkflowState() *bool { return v.Includ
 // GetIncludeTriageWorkflowState returns __listTeamInput.IncludeTriageWorkflowState, and is useful for accessing the field via an interface.
 func (v *__listTeamInput) GetIncludeTriageWorkflowState() *bool { return v.IncludeTriageWorkflowState }
 
+// __listTeamMembershipInput is used internally by genqlient
+type __listTeamMembershipInput struct {
+	First       int    `json:"first,omitempty"`
+	After       string `json:"after,omitempty"`
+	IncludeTeam *bool  `json:"includeTeam,omitempty"`
+	IncludeUser *bool  `json:"includeUser,omitempty"`
+}
+
+// GetFirst returns __listTeamMembershipInput.First, and is useful for accessing the field via an interface.
+func (v *__listTeamMembershipInput) GetFirst() int { return v.First }
+
+// GetAfter returns __listTeamMembershipInput.After, and is useful for accessing the field via an interface.
+func (v *__listTeamMembershipInput) GetAfter() string { return v.After }
+
+// GetIncludeTeam returns __listTeamMembershipInput.IncludeTeam, and is useful for accessing the field via an interface.
+func (v *__listTeamMembershipInput) GetIncludeTeam() *bool { return v.IncludeTeam }
+
+// GetIncludeUser returns __listTeamMembershipInput.IncludeUser, and is useful for accessing the field via an interface.
+func (v *__listTeamMembershipInput) GetIncludeUser() *bool { return v.IncludeUser }
+
 // __listUserInput is used internally by genqlient
 type __listUserInput struct {
 	First               int         `json:"first,omitempty"`
@@ -2531,6 +2768,2182 @@ func (v *__listUserInput) GetFilter() *UserFilter { return v.Filter }
 
 // GetIncludeOrganization returns __listUserInput.IncludeOrganization, and is useful for accessing the field via an interface.
 func (v *__listUserInput) GetIncludeOrganization() *bool { return v.IncludeOrganization }
+
+// __listWorkflowStateInput is used internally by genqlient
+type __listWorkflowStateInput struct {
+	First       int                  `json:"first,omitempty"`
+	After       string               `json:"after,omitempty"`
+	Filter      *WorkflowStateFilter `json:"filter,omitempty"`
+	IncludeTeam *bool                `json:"includeTeam,omitempty"`
+}
+
+// GetFirst returns __listWorkflowStateInput.First, and is useful for accessing the field via an interface.
+func (v *__listWorkflowStateInput) GetFirst() int { return v.First }
+
+// GetAfter returns __listWorkflowStateInput.After, and is useful for accessing the field via an interface.
+func (v *__listWorkflowStateInput) GetAfter() string { return v.After }
+
+// GetFilter returns __listWorkflowStateInput.Filter, and is useful for accessing the field via an interface.
+func (v *__listWorkflowStateInput) GetFilter() *WorkflowStateFilter { return v.Filter }
+
+// GetIncludeTeam returns __listWorkflowStateInput.IncludeTeam, and is useful for accessing the field via an interface.
+func (v *__listWorkflowStateInput) GetIncludeTeam() *bool { return v.IncludeTeam }
+
+// listAttachmentAttachmentsAttachmentConnection includes the requested fields of the GraphQL type AttachmentConnection.
+type listAttachmentAttachmentsAttachmentConnection struct {
+	PageInfo *listAttachmentAttachmentsAttachmentConnectionPageInfo          `json:"pageInfo"`
+	Nodes    []*listAttachmentAttachmentsAttachmentConnectionNodesAttachment `json:"nodes"`
+}
+
+// GetPageInfo returns listAttachmentAttachmentsAttachmentConnection.PageInfo, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnection) GetPageInfo() *listAttachmentAttachmentsAttachmentConnectionPageInfo {
+	return v.PageInfo
+}
+
+// GetNodes returns listAttachmentAttachmentsAttachmentConnection.Nodes, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnection) GetNodes() []*listAttachmentAttachmentsAttachmentConnectionNodesAttachment {
+	return v.Nodes
+}
+
+// listAttachmentAttachmentsAttachmentConnectionNodesAttachment includes the requested fields of the GraphQL type Attachment.
+// The GraphQL type's documentation follows.
+//
+// Issue attachment (e.g. support ticket, pull request).
+type listAttachmentAttachmentsAttachmentConnectionNodesAttachment struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// Indicates if attachments for the same source application should be grouped in the Linear UI.
+	GroupBySource *bool `json:"groupBySource"`
+	// Custom metadata related to the attachment.
+	Metadata *string `json:"metadata"`
+	// Information about the source which created the attachment.
+	Source *string `json:"source"`
+	// An accessor helper to source.type, defines the source type of the attachment.
+	SourceType *string `json:"sourceType"`
+	// Content for the subtitle line in the Linear attachment widget.
+	Subtitle *string `json:"subtitle"`
+	// Content for the title line in the Linear attachment widget.
+	Title *string `json:"title"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// Location of the attachment which is also used as an identifier.
+	Url *string `json:"url"`
+	// The creator of the attachment.
+	Creator *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser `json:"creator"`
+	// The issue this attachment belongs to.
+	Issue *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue `json:"issue"`
+}
+
+// GetId returns listAttachmentAttachmentsAttachmentConnectionNodesAttachment.Id, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachment) GetId() *string { return v.Id }
+
+// GetArchivedAt returns listAttachmentAttachmentsAttachmentConnectionNodesAttachment.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachment) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetCreatedAt returns listAttachmentAttachmentsAttachmentConnectionNodesAttachment.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachment) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetGroupBySource returns listAttachmentAttachmentsAttachmentConnectionNodesAttachment.GroupBySource, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachment) GetGroupBySource() *bool {
+	return v.GroupBySource
+}
+
+// GetMetadata returns listAttachmentAttachmentsAttachmentConnectionNodesAttachment.Metadata, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachment) GetMetadata() *string {
+	return v.Metadata
+}
+
+// GetSource returns listAttachmentAttachmentsAttachmentConnectionNodesAttachment.Source, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachment) GetSource() *string {
+	return v.Source
+}
+
+// GetSourceType returns listAttachmentAttachmentsAttachmentConnectionNodesAttachment.SourceType, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachment) GetSourceType() *string {
+	return v.SourceType
+}
+
+// GetSubtitle returns listAttachmentAttachmentsAttachmentConnectionNodesAttachment.Subtitle, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachment) GetSubtitle() *string {
+	return v.Subtitle
+}
+
+// GetTitle returns listAttachmentAttachmentsAttachmentConnectionNodesAttachment.Title, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachment) GetTitle() *string {
+	return v.Title
+}
+
+// GetUpdatedAt returns listAttachmentAttachmentsAttachmentConnectionNodesAttachment.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachment) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// GetUrl returns listAttachmentAttachmentsAttachmentConnectionNodesAttachment.Url, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachment) GetUrl() *string { return v.Url }
+
+// GetCreator returns listAttachmentAttachmentsAttachmentConnectionNodesAttachment.Creator, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachment) GetCreator() *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser {
+	return v.Creator
+}
+
+// GetIssue returns listAttachmentAttachmentsAttachmentConnectionNodesAttachment.Issue, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachment) GetIssue() *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue {
+	return v.Issue
+}
+
+// listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser includes the requested fields of the GraphQL type User.
+// The GraphQL type's documentation follows.
+//
+// A user that has access to the the resources of an organization.
+type listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// Whether the user account is active or disabled (suspended).
+	Active *bool `json:"active"`
+	// Whether the user is an organization administrator.
+	Admin *bool `json:"admin"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// An URL to the user's avatar image.
+	AvatarUrl *string `json:"avatarUrl"`
+	// [DEPRECATED] Hash for the user to be used in calendar URLs.
+	CalendarHash *string `json:"calendarHash"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// Number of issues created.
+	CreatedIssueCount *int `json:"createdIssueCount"`
+	// A short description of the user, either its title or bio.
+	Description *string `json:"description"`
+	// Reason why is the account disabled.
+	DisableReason *string `json:"disableReason"`
+	// The user's display (nick) name. Unique within each organization.
+	DisplayName *string `json:"displayName"`
+	// The user's email address.
+	Email *string `json:"email"`
+	// Whether the user is a guest in the workspace and limited to accessing a subset of teams.
+	Guest *bool `json:"guest"`
+	// Unique hash for the user to be used in invite URLs.
+	InviteHash *string `json:"inviteHash"`
+	// Whether the user is the currently authenticated user.
+	IsMe *bool `json:"isMe"`
+	// The last time the user was seen online. If null, the user is currently online.
+	LastSeen *time.Time `json:"lastSeen"`
+	// The user's full name.
+	Name *string `json:"name"`
+	// The emoji to represent the user current status.
+	StatusEmoji *string `json:"statusEmoji"`
+	// The label of the user current status.
+	StatusLabel *string `json:"statusLabel"`
+	// A date at which the user current status should be cleared.
+	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	// The local timezone of the user.
+	Timezone *string `json:"timezone"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// User's profile URL.
+	Url *string `json:"url"`
+}
+
+// GetId returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.Id, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetId() *string {
+	return v.Id
+}
+
+// GetActive returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.Active, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetActive() *bool {
+	return v.Active
+}
+
+// GetAdmin returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.Admin, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetAdmin() *bool {
+	return v.Admin
+}
+
+// GetArchivedAt returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetAvatarUrl returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.AvatarUrl, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetAvatarUrl() *string {
+	return v.AvatarUrl
+}
+
+// GetCalendarHash returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.CalendarHash, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetCalendarHash() *string {
+	return v.CalendarHash
+}
+
+// GetCreatedAt returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetCreatedIssueCount returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.CreatedIssueCount, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetCreatedIssueCount() *int {
+	return v.CreatedIssueCount
+}
+
+// GetDescription returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.Description, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetDescription() *string {
+	return v.Description
+}
+
+// GetDisableReason returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.DisableReason, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetDisableReason() *string {
+	return v.DisableReason
+}
+
+// GetDisplayName returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.DisplayName, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetDisplayName() *string {
+	return v.DisplayName
+}
+
+// GetEmail returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.Email, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetEmail() *string {
+	return v.Email
+}
+
+// GetGuest returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.Guest, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetGuest() *bool {
+	return v.Guest
+}
+
+// GetInviteHash returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.InviteHash, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetInviteHash() *string {
+	return v.InviteHash
+}
+
+// GetIsMe returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.IsMe, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetIsMe() *bool {
+	return v.IsMe
+}
+
+// GetLastSeen returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.LastSeen, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetLastSeen() *time.Time {
+	return v.LastSeen
+}
+
+// GetName returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.Name, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetName() *string {
+	return v.Name
+}
+
+// GetStatusEmoji returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.StatusEmoji, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetStatusEmoji() *string {
+	return v.StatusEmoji
+}
+
+// GetStatusLabel returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.StatusLabel, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetStatusLabel() *string {
+	return v.StatusLabel
+}
+
+// GetStatusUntilAt returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.StatusUntilAt, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetStatusUntilAt() *time.Time {
+	return v.StatusUntilAt
+}
+
+// GetTimezone returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.Timezone, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetTimezone() *string {
+	return v.Timezone
+}
+
+// GetUpdatedAt returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// GetUrl returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.Url, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) GetUrl() *string {
+	return v.Url
+}
+
+// listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue includes the requested fields of the GraphQL type Issue.
+// The GraphQL type's documentation follows.
+//
+// An issue.
+type listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// The issue's unique number.
+	Number *float64 `json:"number"`
+	// The issue's title.
+	Title *string `json:"title"`
+	// The issue's description in markdown format.
+	Description *string `json:"description"`
+	// The priority of the issue. 0 = No priority, 1 = Urgent, 2 = High, 3 = Normal, 4 = Low.
+	Priority *float64 `json:"priority"`
+	// The estimate of the complexity of the issue..
+	Estimate *float64 `json:"estimate"`
+	// The order of the item in relation to other items in the organization.
+	SortOrder *float64 `json:"sortOrder"`
+	// The time at which the issue was moved into started state.
+	StartedAt *time.Time `json:"startedAt"`
+	// The time at which the issue was moved into completed state.
+	CompletedAt *time.Time `json:"completedAt"`
+	// The time at which the issue was moved into canceled state.
+	CanceledAt *time.Time `json:"canceledAt"`
+	// The time at which the issue was automatically closed by the auto pruning process.
+	AutoClosedAt *time.Time `json:"autoClosedAt"`
+	// The time at which the issue was automatically archived by the auto pruning process.
+	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	// The date at which the issue is due.
+	DueDate *time.Time `json:"dueDate"`
+	// A flag that indicates whether the issue is in the trash bin.
+	Trashed *bool `json:"trashed"`
+	// The time until an issue will be snoozed in Triage view.
+	SnoozedUntilAt *time.Time `json:"snoozedUntilAt"`
+	// Previous identifiers of the issue if it has been moved between teams.
+	PreviousIdentifiers []*string `json:"previousIdentifiers"`
+	// The order of the item in the sub-issue list. Only set if the issue has a parent.
+	SubIssueSortOrder *float64 `json:"subIssueSortOrder"`
+	// Label for the priority.
+	PriorityLabel *string `json:"priorityLabel"`
+	// Issue's human readable identifier (e.g. ENG-123).
+	Identifier *string `json:"identifier"`
+	// Issue URL.
+	Url *string `json:"url"`
+	// Suggested branch name for the issue.
+	BranchName *string `json:"branchName"`
+	// Returns the number of Attachment resources which are created by customer support ticketing systems (e.g. Zendesk).
+	CustomerTicketCount *int `json:"customerTicketCount"`
+}
+
+// GetId returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.Id, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetId() *string {
+	return v.Id
+}
+
+// GetCreatedAt returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetUpdatedAt returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// GetArchivedAt returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetNumber returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.Number, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetNumber() *float64 {
+	return v.Number
+}
+
+// GetTitle returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.Title, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetTitle() *string {
+	return v.Title
+}
+
+// GetDescription returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.Description, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetDescription() *string {
+	return v.Description
+}
+
+// GetPriority returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.Priority, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetPriority() *float64 {
+	return v.Priority
+}
+
+// GetEstimate returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.Estimate, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetEstimate() *float64 {
+	return v.Estimate
+}
+
+// GetSortOrder returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.SortOrder, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetSortOrder() *float64 {
+	return v.SortOrder
+}
+
+// GetStartedAt returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.StartedAt, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetStartedAt() *time.Time {
+	return v.StartedAt
+}
+
+// GetCompletedAt returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.CompletedAt, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetCompletedAt() *time.Time {
+	return v.CompletedAt
+}
+
+// GetCanceledAt returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.CanceledAt, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetCanceledAt() *time.Time {
+	return v.CanceledAt
+}
+
+// GetAutoClosedAt returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.AutoClosedAt, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetAutoClosedAt() *time.Time {
+	return v.AutoClosedAt
+}
+
+// GetAutoArchivedAt returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.AutoArchivedAt, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetAutoArchivedAt() *time.Time {
+	return v.AutoArchivedAt
+}
+
+// GetDueDate returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.DueDate, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetDueDate() *time.Time {
+	return v.DueDate
+}
+
+// GetTrashed returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.Trashed, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetTrashed() *bool {
+	return v.Trashed
+}
+
+// GetSnoozedUntilAt returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.SnoozedUntilAt, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetSnoozedUntilAt() *time.Time {
+	return v.SnoozedUntilAt
+}
+
+// GetPreviousIdentifiers returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.PreviousIdentifiers, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetPreviousIdentifiers() []*string {
+	return v.PreviousIdentifiers
+}
+
+// GetSubIssueSortOrder returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.SubIssueSortOrder, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetSubIssueSortOrder() *float64 {
+	return v.SubIssueSortOrder
+}
+
+// GetPriorityLabel returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.PriorityLabel, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetPriorityLabel() *string {
+	return v.PriorityLabel
+}
+
+// GetIdentifier returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.Identifier, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetIdentifier() *string {
+	return v.Identifier
+}
+
+// GetUrl returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.Url, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetUrl() *string {
+	return v.Url
+}
+
+// GetBranchName returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.BranchName, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetBranchName() *string {
+	return v.BranchName
+}
+
+// GetCustomerTicketCount returns listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue.CustomerTicketCount, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionNodesAttachmentIssue) GetCustomerTicketCount() *int {
+	return v.CustomerTicketCount
+}
+
+// listAttachmentAttachmentsAttachmentConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
+type listAttachmentAttachmentsAttachmentConnectionPageInfo struct {
+	// Indicates if there are more results when paginating forward.
+	HasNextPage *bool `json:"hasNextPage"`
+	// Cursor representing the last result in the paginated results.
+	EndCursor *string `json:"endCursor"`
+}
+
+// GetHasNextPage returns listAttachmentAttachmentsAttachmentConnectionPageInfo.HasNextPage, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionPageInfo) GetHasNextPage() *bool {
+	return v.HasNextPage
+}
+
+// GetEndCursor returns listAttachmentAttachmentsAttachmentConnectionPageInfo.EndCursor, and is useful for accessing the field via an interface.
+func (v *listAttachmentAttachmentsAttachmentConnectionPageInfo) GetEndCursor() *string {
+	return v.EndCursor
+}
+
+// listAttachmentResponse is returned by listAttachment on success.
+type listAttachmentResponse struct {
+	// All issue attachments.
+	//
+	// To get attachments for a given URL, use `attachmentsForURL` query.
+	Attachments *listAttachmentAttachmentsAttachmentConnection `json:"attachments"`
+}
+
+// GetAttachments returns listAttachmentResponse.Attachments, and is useful for accessing the field via an interface.
+func (v *listAttachmentResponse) GetAttachments() *listAttachmentAttachmentsAttachmentConnection {
+	return v.Attachments
+}
+
+// listCommentCommentsCommentConnection includes the requested fields of the GraphQL type CommentConnection.
+type listCommentCommentsCommentConnection struct {
+	PageInfo *listCommentCommentsCommentConnectionPageInfo       `json:"pageInfo"`
+	Nodes    []*listCommentCommentsCommentConnectionNodesComment `json:"nodes"`
+}
+
+// GetPageInfo returns listCommentCommentsCommentConnection.PageInfo, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnection) GetPageInfo() *listCommentCommentsCommentConnectionPageInfo {
+	return v.PageInfo
+}
+
+// GetNodes returns listCommentCommentsCommentConnection.Nodes, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnection) GetNodes() []*listCommentCommentsCommentConnectionNodesComment {
+	return v.Nodes
+}
+
+// listCommentCommentsCommentConnectionNodesComment includes the requested fields of the GraphQL type Comment.
+// The GraphQL type's documentation follows.
+//
+// A comment associated with an issue.
+type listCommentCommentsCommentConnectionNodesComment struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// The comment content in markdown format.
+	Body *string `json:"body"`
+	// The comment content as a Prosemirror document.
+	BodyData *string `json:"bodyData"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// The time user edited the comment.
+	EditedAt *time.Time `json:"editedAt"`
+	// Emoji reaction summary, grouped by emoji type
+	ReactionData *string `json:"reactionData"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// Comment's URL.
+	Url *string `json:"url"`
+	// The user who wrote the comment.
+	User *listCommentCommentsCommentConnectionNodesCommentUser `json:"user"`
+	// The parent comment under which the current comment is nested.
+	Parent *listCommentCommentsCommentConnectionNodesCommentParentComment `json:"parent"`
+	// The issue that the comment is associated with.
+	Issue *listCommentCommentsCommentConnectionNodesCommentIssue `json:"issue"`
+}
+
+// GetId returns listCommentCommentsCommentConnectionNodesComment.Id, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesComment) GetId() *string { return v.Id }
+
+// GetArchivedAt returns listCommentCommentsCommentConnectionNodesComment.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesComment) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetBody returns listCommentCommentsCommentConnectionNodesComment.Body, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesComment) GetBody() *string { return v.Body }
+
+// GetBodyData returns listCommentCommentsCommentConnectionNodesComment.BodyData, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesComment) GetBodyData() *string { return v.BodyData }
+
+// GetCreatedAt returns listCommentCommentsCommentConnectionNodesComment.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesComment) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetEditedAt returns listCommentCommentsCommentConnectionNodesComment.EditedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesComment) GetEditedAt() *time.Time {
+	return v.EditedAt
+}
+
+// GetReactionData returns listCommentCommentsCommentConnectionNodesComment.ReactionData, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesComment) GetReactionData() *string {
+	return v.ReactionData
+}
+
+// GetUpdatedAt returns listCommentCommentsCommentConnectionNodesComment.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesComment) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// GetUrl returns listCommentCommentsCommentConnectionNodesComment.Url, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesComment) GetUrl() *string { return v.Url }
+
+// GetUser returns listCommentCommentsCommentConnectionNodesComment.User, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesComment) GetUser() *listCommentCommentsCommentConnectionNodesCommentUser {
+	return v.User
+}
+
+// GetParent returns listCommentCommentsCommentConnectionNodesComment.Parent, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesComment) GetParent() *listCommentCommentsCommentConnectionNodesCommentParentComment {
+	return v.Parent
+}
+
+// GetIssue returns listCommentCommentsCommentConnectionNodesComment.Issue, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesComment) GetIssue() *listCommentCommentsCommentConnectionNodesCommentIssue {
+	return v.Issue
+}
+
+// listCommentCommentsCommentConnectionNodesCommentIssue includes the requested fields of the GraphQL type Issue.
+// The GraphQL type's documentation follows.
+//
+// An issue.
+type listCommentCommentsCommentConnectionNodesCommentIssue struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// The issue's unique number.
+	Number *float64 `json:"number"`
+	// The issue's title.
+	Title *string `json:"title"`
+	// The issue's description in markdown format.
+	Description *string `json:"description"`
+	// The priority of the issue. 0 = No priority, 1 = Urgent, 2 = High, 3 = Normal, 4 = Low.
+	Priority *float64 `json:"priority"`
+	// The estimate of the complexity of the issue..
+	Estimate *float64 `json:"estimate"`
+	// The order of the item in relation to other items in the organization.
+	SortOrder *float64 `json:"sortOrder"`
+	// The time at which the issue was moved into started state.
+	StartedAt *time.Time `json:"startedAt"`
+	// The time at which the issue was moved into completed state.
+	CompletedAt *time.Time `json:"completedAt"`
+	// The time at which the issue was moved into canceled state.
+	CanceledAt *time.Time `json:"canceledAt"`
+	// The time at which the issue was automatically closed by the auto pruning process.
+	AutoClosedAt *time.Time `json:"autoClosedAt"`
+	// The time at which the issue was automatically archived by the auto pruning process.
+	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	// The date at which the issue is due.
+	DueDate *time.Time `json:"dueDate"`
+	// A flag that indicates whether the issue is in the trash bin.
+	Trashed *bool `json:"trashed"`
+	// The time until an issue will be snoozed in Triage view.
+	SnoozedUntilAt *time.Time `json:"snoozedUntilAt"`
+	// Previous identifiers of the issue if it has been moved between teams.
+	PreviousIdentifiers []*string `json:"previousIdentifiers"`
+	// The order of the item in the sub-issue list. Only set if the issue has a parent.
+	SubIssueSortOrder *float64 `json:"subIssueSortOrder"`
+	// Label for the priority.
+	PriorityLabel *string `json:"priorityLabel"`
+	// Issue's human readable identifier (e.g. ENG-123).
+	Identifier *string `json:"identifier"`
+	// Issue URL.
+	Url *string `json:"url"`
+	// Suggested branch name for the issue.
+	BranchName *string `json:"branchName"`
+	// Returns the number of Attachment resources which are created by customer support ticketing systems (e.g. Zendesk).
+	CustomerTicketCount *int `json:"customerTicketCount"`
+}
+
+// GetId returns listCommentCommentsCommentConnectionNodesCommentIssue.Id, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetId() *string { return v.Id }
+
+// GetCreatedAt returns listCommentCommentsCommentConnectionNodesCommentIssue.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetUpdatedAt returns listCommentCommentsCommentConnectionNodesCommentIssue.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// GetArchivedAt returns listCommentCommentsCommentConnectionNodesCommentIssue.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetNumber returns listCommentCommentsCommentConnectionNodesCommentIssue.Number, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetNumber() *float64 { return v.Number }
+
+// GetTitle returns listCommentCommentsCommentConnectionNodesCommentIssue.Title, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetTitle() *string { return v.Title }
+
+// GetDescription returns listCommentCommentsCommentConnectionNodesCommentIssue.Description, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetDescription() *string {
+	return v.Description
+}
+
+// GetPriority returns listCommentCommentsCommentConnectionNodesCommentIssue.Priority, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetPriority() *float64 {
+	return v.Priority
+}
+
+// GetEstimate returns listCommentCommentsCommentConnectionNodesCommentIssue.Estimate, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetEstimate() *float64 {
+	return v.Estimate
+}
+
+// GetSortOrder returns listCommentCommentsCommentConnectionNodesCommentIssue.SortOrder, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetSortOrder() *float64 {
+	return v.SortOrder
+}
+
+// GetStartedAt returns listCommentCommentsCommentConnectionNodesCommentIssue.StartedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetStartedAt() *time.Time {
+	return v.StartedAt
+}
+
+// GetCompletedAt returns listCommentCommentsCommentConnectionNodesCommentIssue.CompletedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetCompletedAt() *time.Time {
+	return v.CompletedAt
+}
+
+// GetCanceledAt returns listCommentCommentsCommentConnectionNodesCommentIssue.CanceledAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetCanceledAt() *time.Time {
+	return v.CanceledAt
+}
+
+// GetAutoClosedAt returns listCommentCommentsCommentConnectionNodesCommentIssue.AutoClosedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetAutoClosedAt() *time.Time {
+	return v.AutoClosedAt
+}
+
+// GetAutoArchivedAt returns listCommentCommentsCommentConnectionNodesCommentIssue.AutoArchivedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetAutoArchivedAt() *time.Time {
+	return v.AutoArchivedAt
+}
+
+// GetDueDate returns listCommentCommentsCommentConnectionNodesCommentIssue.DueDate, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetDueDate() *time.Time {
+	return v.DueDate
+}
+
+// GetTrashed returns listCommentCommentsCommentConnectionNodesCommentIssue.Trashed, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetTrashed() *bool { return v.Trashed }
+
+// GetSnoozedUntilAt returns listCommentCommentsCommentConnectionNodesCommentIssue.SnoozedUntilAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetSnoozedUntilAt() *time.Time {
+	return v.SnoozedUntilAt
+}
+
+// GetPreviousIdentifiers returns listCommentCommentsCommentConnectionNodesCommentIssue.PreviousIdentifiers, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetPreviousIdentifiers() []*string {
+	return v.PreviousIdentifiers
+}
+
+// GetSubIssueSortOrder returns listCommentCommentsCommentConnectionNodesCommentIssue.SubIssueSortOrder, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetSubIssueSortOrder() *float64 {
+	return v.SubIssueSortOrder
+}
+
+// GetPriorityLabel returns listCommentCommentsCommentConnectionNodesCommentIssue.PriorityLabel, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetPriorityLabel() *string {
+	return v.PriorityLabel
+}
+
+// GetIdentifier returns listCommentCommentsCommentConnectionNodesCommentIssue.Identifier, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetIdentifier() *string {
+	return v.Identifier
+}
+
+// GetUrl returns listCommentCommentsCommentConnectionNodesCommentIssue.Url, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetUrl() *string { return v.Url }
+
+// GetBranchName returns listCommentCommentsCommentConnectionNodesCommentIssue.BranchName, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetBranchName() *string {
+	return v.BranchName
+}
+
+// GetCustomerTicketCount returns listCommentCommentsCommentConnectionNodesCommentIssue.CustomerTicketCount, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentIssue) GetCustomerTicketCount() *int {
+	return v.CustomerTicketCount
+}
+
+// listCommentCommentsCommentConnectionNodesCommentParentComment includes the requested fields of the GraphQL type Comment.
+// The GraphQL type's documentation follows.
+//
+// A comment associated with an issue.
+type listCommentCommentsCommentConnectionNodesCommentParentComment struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// The comment content in markdown format.
+	Body *string `json:"body"`
+	// The comment content as a Prosemirror document.
+	BodyData *string `json:"bodyData"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// The time user edited the comment.
+	EditedAt *time.Time `json:"editedAt"`
+	// Emoji reaction summary, grouped by emoji type
+	ReactionData *string `json:"reactionData"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// Comment's URL.
+	Url *string `json:"url"`
+}
+
+// GetId returns listCommentCommentsCommentConnectionNodesCommentParentComment.Id, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentParentComment) GetId() *string { return v.Id }
+
+// GetArchivedAt returns listCommentCommentsCommentConnectionNodesCommentParentComment.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentParentComment) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetBody returns listCommentCommentsCommentConnectionNodesCommentParentComment.Body, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentParentComment) GetBody() *string {
+	return v.Body
+}
+
+// GetBodyData returns listCommentCommentsCommentConnectionNodesCommentParentComment.BodyData, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentParentComment) GetBodyData() *string {
+	return v.BodyData
+}
+
+// GetCreatedAt returns listCommentCommentsCommentConnectionNodesCommentParentComment.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentParentComment) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetEditedAt returns listCommentCommentsCommentConnectionNodesCommentParentComment.EditedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentParentComment) GetEditedAt() *time.Time {
+	return v.EditedAt
+}
+
+// GetReactionData returns listCommentCommentsCommentConnectionNodesCommentParentComment.ReactionData, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentParentComment) GetReactionData() *string {
+	return v.ReactionData
+}
+
+// GetUpdatedAt returns listCommentCommentsCommentConnectionNodesCommentParentComment.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentParentComment) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// GetUrl returns listCommentCommentsCommentConnectionNodesCommentParentComment.Url, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentParentComment) GetUrl() *string {
+	return v.Url
+}
+
+// listCommentCommentsCommentConnectionNodesCommentUser includes the requested fields of the GraphQL type User.
+// The GraphQL type's documentation follows.
+//
+// A user that has access to the the resources of an organization.
+type listCommentCommentsCommentConnectionNodesCommentUser struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// Whether the user account is active or disabled (suspended).
+	Active *bool `json:"active"`
+	// Whether the user is an organization administrator.
+	Admin *bool `json:"admin"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// An URL to the user's avatar image.
+	AvatarUrl *string `json:"avatarUrl"`
+	// [DEPRECATED] Hash for the user to be used in calendar URLs.
+	CalendarHash *string `json:"calendarHash"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// Number of issues created.
+	CreatedIssueCount *int `json:"createdIssueCount"`
+	// A short description of the user, either its title or bio.
+	Description *string `json:"description"`
+	// Reason why is the account disabled.
+	DisableReason *string `json:"disableReason"`
+	// The user's display (nick) name. Unique within each organization.
+	DisplayName *string `json:"displayName"`
+	// The user's email address.
+	Email *string `json:"email"`
+	// Whether the user is a guest in the workspace and limited to accessing a subset of teams.
+	Guest *bool `json:"guest"`
+	// Unique hash for the user to be used in invite URLs.
+	InviteHash *string `json:"inviteHash"`
+	// Whether the user is the currently authenticated user.
+	IsMe *bool `json:"isMe"`
+	// The last time the user was seen online. If null, the user is currently online.
+	LastSeen *time.Time `json:"lastSeen"`
+	// The user's full name.
+	Name *string `json:"name"`
+	// The emoji to represent the user current status.
+	StatusEmoji *string `json:"statusEmoji"`
+	// The label of the user current status.
+	StatusLabel *string `json:"statusLabel"`
+	// A date at which the user current status should be cleared.
+	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	// The local timezone of the user.
+	Timezone *string `json:"timezone"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// User's profile URL.
+	Url *string `json:"url"`
+}
+
+// GetId returns listCommentCommentsCommentConnectionNodesCommentUser.Id, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetId() *string { return v.Id }
+
+// GetActive returns listCommentCommentsCommentConnectionNodesCommentUser.Active, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetActive() *bool { return v.Active }
+
+// GetAdmin returns listCommentCommentsCommentConnectionNodesCommentUser.Admin, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetAdmin() *bool { return v.Admin }
+
+// GetArchivedAt returns listCommentCommentsCommentConnectionNodesCommentUser.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetAvatarUrl returns listCommentCommentsCommentConnectionNodesCommentUser.AvatarUrl, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetAvatarUrl() *string {
+	return v.AvatarUrl
+}
+
+// GetCalendarHash returns listCommentCommentsCommentConnectionNodesCommentUser.CalendarHash, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetCalendarHash() *string {
+	return v.CalendarHash
+}
+
+// GetCreatedAt returns listCommentCommentsCommentConnectionNodesCommentUser.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetCreatedIssueCount returns listCommentCommentsCommentConnectionNodesCommentUser.CreatedIssueCount, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetCreatedIssueCount() *int {
+	return v.CreatedIssueCount
+}
+
+// GetDescription returns listCommentCommentsCommentConnectionNodesCommentUser.Description, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetDescription() *string {
+	return v.Description
+}
+
+// GetDisableReason returns listCommentCommentsCommentConnectionNodesCommentUser.DisableReason, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetDisableReason() *string {
+	return v.DisableReason
+}
+
+// GetDisplayName returns listCommentCommentsCommentConnectionNodesCommentUser.DisplayName, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetDisplayName() *string {
+	return v.DisplayName
+}
+
+// GetEmail returns listCommentCommentsCommentConnectionNodesCommentUser.Email, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetEmail() *string { return v.Email }
+
+// GetGuest returns listCommentCommentsCommentConnectionNodesCommentUser.Guest, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetGuest() *bool { return v.Guest }
+
+// GetInviteHash returns listCommentCommentsCommentConnectionNodesCommentUser.InviteHash, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetInviteHash() *string {
+	return v.InviteHash
+}
+
+// GetIsMe returns listCommentCommentsCommentConnectionNodesCommentUser.IsMe, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetIsMe() *bool { return v.IsMe }
+
+// GetLastSeen returns listCommentCommentsCommentConnectionNodesCommentUser.LastSeen, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetLastSeen() *time.Time {
+	return v.LastSeen
+}
+
+// GetName returns listCommentCommentsCommentConnectionNodesCommentUser.Name, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetName() *string { return v.Name }
+
+// GetStatusEmoji returns listCommentCommentsCommentConnectionNodesCommentUser.StatusEmoji, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetStatusEmoji() *string {
+	return v.StatusEmoji
+}
+
+// GetStatusLabel returns listCommentCommentsCommentConnectionNodesCommentUser.StatusLabel, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetStatusLabel() *string {
+	return v.StatusLabel
+}
+
+// GetStatusUntilAt returns listCommentCommentsCommentConnectionNodesCommentUser.StatusUntilAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetStatusUntilAt() *time.Time {
+	return v.StatusUntilAt
+}
+
+// GetTimezone returns listCommentCommentsCommentConnectionNodesCommentUser.Timezone, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetTimezone() *string {
+	return v.Timezone
+}
+
+// GetUpdatedAt returns listCommentCommentsCommentConnectionNodesCommentUser.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// GetUrl returns listCommentCommentsCommentConnectionNodesCommentUser.Url, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionNodesCommentUser) GetUrl() *string { return v.Url }
+
+// listCommentCommentsCommentConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
+type listCommentCommentsCommentConnectionPageInfo struct {
+	// Indicates if there are more results when paginating forward.
+	HasNextPage *bool `json:"hasNextPage"`
+	// Cursor representing the last result in the paginated results.
+	EndCursor *string `json:"endCursor"`
+}
+
+// GetHasNextPage returns listCommentCommentsCommentConnectionPageInfo.HasNextPage, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionPageInfo) GetHasNextPage() *bool { return v.HasNextPage }
+
+// GetEndCursor returns listCommentCommentsCommentConnectionPageInfo.EndCursor, and is useful for accessing the field via an interface.
+func (v *listCommentCommentsCommentConnectionPageInfo) GetEndCursor() *string { return v.EndCursor }
+
+// listCommentResponse is returned by listComment on success.
+type listCommentResponse struct {
+	// All comments.
+	Comments *listCommentCommentsCommentConnection `json:"comments"`
+}
+
+// GetComments returns listCommentResponse.Comments, and is useful for accessing the field via an interface.
+func (v *listCommentResponse) GetComments() *listCommentCommentsCommentConnection { return v.Comments }
+
+// listCycleCyclesCycleConnection includes the requested fields of the GraphQL type CycleConnection.
+type listCycleCyclesCycleConnection struct {
+	PageInfo *listCycleCyclesCycleConnectionPageInfo     `json:"pageInfo"`
+	Nodes    []*listCycleCyclesCycleConnectionNodesCycle `json:"nodes"`
+}
+
+// GetPageInfo returns listCycleCyclesCycleConnection.PageInfo, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnection) GetPageInfo() *listCycleCyclesCycleConnectionPageInfo {
+	return v.PageInfo
+}
+
+// GetNodes returns listCycleCyclesCycleConnection.Nodes, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnection) GetNodes() []*listCycleCyclesCycleConnectionNodesCycle {
+	return v.Nodes
+}
+
+// listCycleCyclesCycleConnectionNodesCycle includes the requested fields of the GraphQL type Cycle.
+// The GraphQL type's documentation follows.
+//
+// A set of issues to be resolved in a specified amount of time.
+type listCycleCyclesCycleConnectionNodesCycle struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// The time at which the cycle was automatically archived by the auto pruning process.
+	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	// The completion time of the cycle. If null, the cycle hasn't been completed.
+	CompletedAt *time.Time `json:"completedAt"`
+	// The number of completed issues in the cycle after each day.
+	CompletedIssueCountHistory []*float64 `json:"completedIssueCountHistory"`
+	// The number of completed estimation points after each day.
+	CompletedScopeHistory []*float64 `json:"completedScopeHistory"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// The cycle's description.
+	Description *string `json:"description"`
+	// The end time of the cycle.
+	EndsAt *time.Time `json:"endsAt"`
+	// The number of in progress estimation points after each day.
+	InProgressScopeHistory []*float64 `json:"inProgressScopeHistory"`
+	// The total number of issues in the cycle after each day.
+	IssueCountHistory []*float64 `json:"issueCountHistory"`
+	// The custom name of the cycle.
+	Name *string `json:"name"`
+	// The number of the cycle.
+	Number *float64 `json:"number"`
+	// The overall progress of the cycle. This is the (completed estimate points + 0.25 * in progress estimate points) / total estimate points.
+	Progress *float64 `json:"progress"`
+	// The total number of estimation points after each day.
+	ScopeHistory []*float64 `json:"scopeHistory"`
+	// The start time of the cycle.
+	StartsAt *time.Time `json:"startsAt"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// The team that the cycle is associated with.
+	Team *listCycleCyclesCycleConnectionNodesCycleTeam `json:"team"`
+}
+
+// GetId returns listCycleCyclesCycleConnectionNodesCycle.Id, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetId() *string { return v.Id }
+
+// GetArchivedAt returns listCycleCyclesCycleConnectionNodesCycle.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetArchivedAt() *time.Time { return v.ArchivedAt }
+
+// GetAutoArchivedAt returns listCycleCyclesCycleConnectionNodesCycle.AutoArchivedAt, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetAutoArchivedAt() *time.Time {
+	return v.AutoArchivedAt
+}
+
+// GetCompletedAt returns listCycleCyclesCycleConnectionNodesCycle.CompletedAt, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetCompletedAt() *time.Time { return v.CompletedAt }
+
+// GetCompletedIssueCountHistory returns listCycleCyclesCycleConnectionNodesCycle.CompletedIssueCountHistory, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetCompletedIssueCountHistory() []*float64 {
+	return v.CompletedIssueCountHistory
+}
+
+// GetCompletedScopeHistory returns listCycleCyclesCycleConnectionNodesCycle.CompletedScopeHistory, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetCompletedScopeHistory() []*float64 {
+	return v.CompletedScopeHistory
+}
+
+// GetCreatedAt returns listCycleCyclesCycleConnectionNodesCycle.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetCreatedAt() *time.Time { return v.CreatedAt }
+
+// GetDescription returns listCycleCyclesCycleConnectionNodesCycle.Description, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetDescription() *string { return v.Description }
+
+// GetEndsAt returns listCycleCyclesCycleConnectionNodesCycle.EndsAt, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetEndsAt() *time.Time { return v.EndsAt }
+
+// GetInProgressScopeHistory returns listCycleCyclesCycleConnectionNodesCycle.InProgressScopeHistory, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetInProgressScopeHistory() []*float64 {
+	return v.InProgressScopeHistory
+}
+
+// GetIssueCountHistory returns listCycleCyclesCycleConnectionNodesCycle.IssueCountHistory, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetIssueCountHistory() []*float64 {
+	return v.IssueCountHistory
+}
+
+// GetName returns listCycleCyclesCycleConnectionNodesCycle.Name, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetName() *string { return v.Name }
+
+// GetNumber returns listCycleCyclesCycleConnectionNodesCycle.Number, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetNumber() *float64 { return v.Number }
+
+// GetProgress returns listCycleCyclesCycleConnectionNodesCycle.Progress, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetProgress() *float64 { return v.Progress }
+
+// GetScopeHistory returns listCycleCyclesCycleConnectionNodesCycle.ScopeHistory, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetScopeHistory() []*float64 {
+	return v.ScopeHistory
+}
+
+// GetStartsAt returns listCycleCyclesCycleConnectionNodesCycle.StartsAt, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetStartsAt() *time.Time { return v.StartsAt }
+
+// GetUpdatedAt returns listCycleCyclesCycleConnectionNodesCycle.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetUpdatedAt() *time.Time { return v.UpdatedAt }
+
+// GetTeam returns listCycleCyclesCycleConnectionNodesCycle.Team, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycle) GetTeam() *listCycleCyclesCycleConnectionNodesCycleTeam {
+	return v.Team
+}
+
+// listCycleCyclesCycleConnectionNodesCycleTeam includes the requested fields of the GraphQL type Team.
+// The GraphQL type's documentation follows.
+//
+// An organizational unit that contains issues.
+type listCycleCyclesCycleConnectionNodesCycleTeam struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// Period after which automatically closed and completed issues are automatically archived in months.
+	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
+	// Period after which issues are automatically closed in months. Null/undefined means disabled.
+	AutoClosePeriod *float64 `json:"autoClosePeriod"`
+	// The canceled workflow state which auto closed issues will be set to. Defaults to the first canceled state.
+	AutoCloseStateId *string `json:"autoCloseStateId"`
+	// The team's color.
+	Color *string `json:"color"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// Calendar feed URL (iCal) for cycles.
+	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
+	// The cooldown time after each cycle in weeks.
+	CycleCooldownTime *float64 `json:"cycleCooldownTime"`
+	// The duration of a cycle in weeks.
+	CycleDuration *float64 `json:"cycleDuration"`
+	// Auto assign completed issues to current cycle.
+	CycleIssueAutoAssignCompleted *bool `json:"cycleIssueAutoAssignCompleted"`
+	// Auto assign started issues to current cycle.
+	CycleIssueAutoAssignStarted *bool `json:"cycleIssueAutoAssignStarted"`
+	// Only allow issues issues with cycles in Active Issues.
+	CycleLockToActive *bool `json:"cycleLockToActive"`
+	// The day of the week that a new cycle starts.
+	CycleStartDay *float64 `json:"cycleStartDay"`
+	// Whether the team uses cycles.
+	CyclesEnabled *bool `json:"cyclesEnabled"`
+	// What to use as an default estimate for unestimated issues.
+	DefaultIssueEstimate *float64 `json:"defaultIssueEstimate"`
+	// The id of the default template to use for new issues created by members of the team.
+	DefaultTemplateForMembersId *string `json:"defaultTemplateForMembersId"`
+	// The id of the default template to use for new issues created by non-members of the team.
+	DefaultTemplateForNonMembersId *string `json:"defaultTemplateForNonMembersId"`
+	// The team's description.
+	Description *string `json:"description"`
+	// Whether to group recent issue history entries.
+	GroupIssueHistory *bool `json:"groupIssueHistory"`
+	// The icon of the team.
+	Icon *string `json:"icon"`
+	// Unique hash for the team to be used in invite URLs.
+	InviteHash *string `json:"inviteHash"`
+	// Whether to allow zeros in issues estimates.
+	IssueEstimationAllowZero *bool `json:"issueEstimationAllowZero"`
+	// Whether to add additional points to the estimate scale.
+	IssueEstimationExtended *bool `json:"issueEstimationExtended"`
+	// The issue estimation type to use.
+	IssueEstimationType *string `json:"issueEstimationType"`
+	// Whether issues without priority should be sorted first.
+	IssueOrderingNoPriorityFirst *bool `json:"issueOrderingNoPriorityFirst"`
+	// Whether to move issues to bottom of the column when changing state.
+	IssueSortOrderDefaultToBottom *bool `json:"issueSortOrderDefaultToBottom"`
+	// The team's unique key. The key is used in URLs.
+	Key *string `json:"key"`
+	// The team's name.
+	Name *string `json:"name"`
+	// Whether the team is private or not.
+	Private *bool `json:"private"`
+	// Whether an issue needs to have a priority set before leaving triage
+	RequirePriorityToLeaveTriage *bool `json:"requirePriorityToLeaveTriage"`
+	// Whether to send new issue comment notifications to Slack.
+	SlackIssueComments *bool `json:"slackIssueComments"`
+	// Whether to send new issue status updates to Slack.
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+	// Whether to send new issue notifications to Slack.
+	SlackNewIssue *bool `json:"slackNewIssue"`
+	// The timezone of the team. Defaults to "America/Los_Angeles"
+	Timezone *string `json:"timezone"`
+	// Whether triage mode is enabled for the team or not.
+	TriageEnabled *bool `json:"triageEnabled"`
+	// How many upcoming cycles to create.
+	UpcomingCycleCount *float64 `json:"upcomingCycleCount"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+}
+
+// GetId returns listCycleCyclesCycleConnectionNodesCycleTeam.Id, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetId() *string { return v.Id }
+
+// GetArchivedAt returns listCycleCyclesCycleConnectionNodesCycleTeam.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetAutoArchivePeriod returns listCycleCyclesCycleConnectionNodesCycleTeam.AutoArchivePeriod, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetAutoArchivePeriod() *float64 {
+	return v.AutoArchivePeriod
+}
+
+// GetAutoClosePeriod returns listCycleCyclesCycleConnectionNodesCycleTeam.AutoClosePeriod, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetAutoClosePeriod() *float64 {
+	return v.AutoClosePeriod
+}
+
+// GetAutoCloseStateId returns listCycleCyclesCycleConnectionNodesCycleTeam.AutoCloseStateId, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetAutoCloseStateId() *string {
+	return v.AutoCloseStateId
+}
+
+// GetColor returns listCycleCyclesCycleConnectionNodesCycleTeam.Color, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetColor() *string { return v.Color }
+
+// GetCreatedAt returns listCycleCyclesCycleConnectionNodesCycleTeam.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetCreatedAt() *time.Time { return v.CreatedAt }
+
+// GetCycleCalenderUrl returns listCycleCyclesCycleConnectionNodesCycleTeam.CycleCalenderUrl, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetCycleCalenderUrl() *string {
+	return v.CycleCalenderUrl
+}
+
+// GetCycleCooldownTime returns listCycleCyclesCycleConnectionNodesCycleTeam.CycleCooldownTime, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetCycleCooldownTime() *float64 {
+	return v.CycleCooldownTime
+}
+
+// GetCycleDuration returns listCycleCyclesCycleConnectionNodesCycleTeam.CycleDuration, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetCycleDuration() *float64 {
+	return v.CycleDuration
+}
+
+// GetCycleIssueAutoAssignCompleted returns listCycleCyclesCycleConnectionNodesCycleTeam.CycleIssueAutoAssignCompleted, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetCycleIssueAutoAssignCompleted() *bool {
+	return v.CycleIssueAutoAssignCompleted
+}
+
+// GetCycleIssueAutoAssignStarted returns listCycleCyclesCycleConnectionNodesCycleTeam.CycleIssueAutoAssignStarted, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetCycleIssueAutoAssignStarted() *bool {
+	return v.CycleIssueAutoAssignStarted
+}
+
+// GetCycleLockToActive returns listCycleCyclesCycleConnectionNodesCycleTeam.CycleLockToActive, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetCycleLockToActive() *bool {
+	return v.CycleLockToActive
+}
+
+// GetCycleStartDay returns listCycleCyclesCycleConnectionNodesCycleTeam.CycleStartDay, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetCycleStartDay() *float64 {
+	return v.CycleStartDay
+}
+
+// GetCyclesEnabled returns listCycleCyclesCycleConnectionNodesCycleTeam.CyclesEnabled, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetCyclesEnabled() *bool {
+	return v.CyclesEnabled
+}
+
+// GetDefaultIssueEstimate returns listCycleCyclesCycleConnectionNodesCycleTeam.DefaultIssueEstimate, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetDefaultIssueEstimate() *float64 {
+	return v.DefaultIssueEstimate
+}
+
+// GetDefaultTemplateForMembersId returns listCycleCyclesCycleConnectionNodesCycleTeam.DefaultTemplateForMembersId, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetDefaultTemplateForMembersId() *string {
+	return v.DefaultTemplateForMembersId
+}
+
+// GetDefaultTemplateForNonMembersId returns listCycleCyclesCycleConnectionNodesCycleTeam.DefaultTemplateForNonMembersId, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetDefaultTemplateForNonMembersId() *string {
+	return v.DefaultTemplateForNonMembersId
+}
+
+// GetDescription returns listCycleCyclesCycleConnectionNodesCycleTeam.Description, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetDescription() *string { return v.Description }
+
+// GetGroupIssueHistory returns listCycleCyclesCycleConnectionNodesCycleTeam.GroupIssueHistory, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetGroupIssueHistory() *bool {
+	return v.GroupIssueHistory
+}
+
+// GetIcon returns listCycleCyclesCycleConnectionNodesCycleTeam.Icon, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetIcon() *string { return v.Icon }
+
+// GetInviteHash returns listCycleCyclesCycleConnectionNodesCycleTeam.InviteHash, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetInviteHash() *string { return v.InviteHash }
+
+// GetIssueEstimationAllowZero returns listCycleCyclesCycleConnectionNodesCycleTeam.IssueEstimationAllowZero, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetIssueEstimationAllowZero() *bool {
+	return v.IssueEstimationAllowZero
+}
+
+// GetIssueEstimationExtended returns listCycleCyclesCycleConnectionNodesCycleTeam.IssueEstimationExtended, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetIssueEstimationExtended() *bool {
+	return v.IssueEstimationExtended
+}
+
+// GetIssueEstimationType returns listCycleCyclesCycleConnectionNodesCycleTeam.IssueEstimationType, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetIssueEstimationType() *string {
+	return v.IssueEstimationType
+}
+
+// GetIssueOrderingNoPriorityFirst returns listCycleCyclesCycleConnectionNodesCycleTeam.IssueOrderingNoPriorityFirst, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetIssueOrderingNoPriorityFirst() *bool {
+	return v.IssueOrderingNoPriorityFirst
+}
+
+// GetIssueSortOrderDefaultToBottom returns listCycleCyclesCycleConnectionNodesCycleTeam.IssueSortOrderDefaultToBottom, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetIssueSortOrderDefaultToBottom() *bool {
+	return v.IssueSortOrderDefaultToBottom
+}
+
+// GetKey returns listCycleCyclesCycleConnectionNodesCycleTeam.Key, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetKey() *string { return v.Key }
+
+// GetName returns listCycleCyclesCycleConnectionNodesCycleTeam.Name, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetName() *string { return v.Name }
+
+// GetPrivate returns listCycleCyclesCycleConnectionNodesCycleTeam.Private, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetPrivate() *bool { return v.Private }
+
+// GetRequirePriorityToLeaveTriage returns listCycleCyclesCycleConnectionNodesCycleTeam.RequirePriorityToLeaveTriage, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetRequirePriorityToLeaveTriage() *bool {
+	return v.RequirePriorityToLeaveTriage
+}
+
+// GetSlackIssueComments returns listCycleCyclesCycleConnectionNodesCycleTeam.SlackIssueComments, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetSlackIssueComments() *bool {
+	return v.SlackIssueComments
+}
+
+// GetSlackIssueStatuses returns listCycleCyclesCycleConnectionNodesCycleTeam.SlackIssueStatuses, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetSlackIssueStatuses() *bool {
+	return v.SlackIssueStatuses
+}
+
+// GetSlackNewIssue returns listCycleCyclesCycleConnectionNodesCycleTeam.SlackNewIssue, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetSlackNewIssue() *bool {
+	return v.SlackNewIssue
+}
+
+// GetTimezone returns listCycleCyclesCycleConnectionNodesCycleTeam.Timezone, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetTimezone() *string { return v.Timezone }
+
+// GetTriageEnabled returns listCycleCyclesCycleConnectionNodesCycleTeam.TriageEnabled, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetTriageEnabled() *bool {
+	return v.TriageEnabled
+}
+
+// GetUpcomingCycleCount returns listCycleCyclesCycleConnectionNodesCycleTeam.UpcomingCycleCount, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetUpcomingCycleCount() *float64 {
+	return v.UpcomingCycleCount
+}
+
+// GetUpdatedAt returns listCycleCyclesCycleConnectionNodesCycleTeam.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionNodesCycleTeam) GetUpdatedAt() *time.Time { return v.UpdatedAt }
+
+// listCycleCyclesCycleConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
+type listCycleCyclesCycleConnectionPageInfo struct {
+	// Indicates if there are more results when paginating forward.
+	HasNextPage *bool `json:"hasNextPage"`
+	// Cursor representing the last result in the paginated results.
+	EndCursor *string `json:"endCursor"`
+}
+
+// GetHasNextPage returns listCycleCyclesCycleConnectionPageInfo.HasNextPage, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionPageInfo) GetHasNextPage() *bool { return v.HasNextPage }
+
+// GetEndCursor returns listCycleCyclesCycleConnectionPageInfo.EndCursor, and is useful for accessing the field via an interface.
+func (v *listCycleCyclesCycleConnectionPageInfo) GetEndCursor() *string { return v.EndCursor }
+
+// listCycleResponse is returned by listCycle on success.
+type listCycleResponse struct {
+	// All cycles.
+	Cycles *listCycleCyclesCycleConnection `json:"cycles"`
+}
+
+// GetCycles returns listCycleResponse.Cycles, and is useful for accessing the field via an interface.
+func (v *listCycleResponse) GetCycles() *listCycleCyclesCycleConnection { return v.Cycles }
+
+// listIntegrationIntegrationsIntegrationConnection includes the requested fields of the GraphQL type IntegrationConnection.
+type listIntegrationIntegrationsIntegrationConnection struct {
+	PageInfo *listIntegrationIntegrationsIntegrationConnectionPageInfo           `json:"pageInfo"`
+	Nodes    []*listIntegrationIntegrationsIntegrationConnectionNodesIntegration `json:"nodes"`
+}
+
+// GetPageInfo returns listIntegrationIntegrationsIntegrationConnection.PageInfo, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnection) GetPageInfo() *listIntegrationIntegrationsIntegrationConnectionPageInfo {
+	return v.PageInfo
+}
+
+// GetNodes returns listIntegrationIntegrationsIntegrationConnection.Nodes, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnection) GetNodes() []*listIntegrationIntegrationsIntegrationConnectionNodesIntegration {
+	return v.Nodes
+}
+
+// listIntegrationIntegrationsIntegrationConnectionNodesIntegration includes the requested fields of the GraphQL type Integration.
+// The GraphQL type's documentation follows.
+//
+// An integration with an external service.
+type listIntegrationIntegrationsIntegrationConnectionNodesIntegration struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// The integration's type.
+	Service *string `json:"service"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// The team that the integration is associated with.
+	Team *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam `json:"team"`
+	// The user that added the integration.
+	Creator *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser `json:"creator"`
+	// The organization that the integration is associated with.
+	Organization *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization `json:"organization"`
+}
+
+// GetId returns listIntegrationIntegrationsIntegrationConnectionNodesIntegration.Id, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegration) GetId() *string {
+	return v.Id
+}
+
+// GetArchivedAt returns listIntegrationIntegrationsIntegrationConnectionNodesIntegration.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegration) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetCreatedAt returns listIntegrationIntegrationsIntegrationConnectionNodesIntegration.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegration) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetService returns listIntegrationIntegrationsIntegrationConnectionNodesIntegration.Service, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegration) GetService() *string {
+	return v.Service
+}
+
+// GetUpdatedAt returns listIntegrationIntegrationsIntegrationConnectionNodesIntegration.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegration) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// GetTeam returns listIntegrationIntegrationsIntegrationConnectionNodesIntegration.Team, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegration) GetTeam() *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam {
+	return v.Team
+}
+
+// GetCreator returns listIntegrationIntegrationsIntegrationConnectionNodesIntegration.Creator, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegration) GetCreator() *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser {
+	return v.Creator
+}
+
+// GetOrganization returns listIntegrationIntegrationsIntegrationConnectionNodesIntegration.Organization, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegration) GetOrganization() *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization {
+	return v.Organization
+}
+
+// listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser includes the requested fields of the GraphQL type User.
+// The GraphQL type's documentation follows.
+//
+// A user that has access to the the resources of an organization.
+type listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// Whether the user account is active or disabled (suspended).
+	Active *bool `json:"active"`
+	// Whether the user is an organization administrator.
+	Admin *bool `json:"admin"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// An URL to the user's avatar image.
+	AvatarUrl *string `json:"avatarUrl"`
+	// [DEPRECATED] Hash for the user to be used in calendar URLs.
+	CalendarHash *string `json:"calendarHash"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// Number of issues created.
+	CreatedIssueCount *int `json:"createdIssueCount"`
+	// A short description of the user, either its title or bio.
+	Description *string `json:"description"`
+	// Reason why is the account disabled.
+	DisableReason *string `json:"disableReason"`
+	// The user's display (nick) name. Unique within each organization.
+	DisplayName *string `json:"displayName"`
+	// The user's email address.
+	Email *string `json:"email"`
+	// Whether the user is a guest in the workspace and limited to accessing a subset of teams.
+	Guest *bool `json:"guest"`
+	// Unique hash for the user to be used in invite URLs.
+	InviteHash *string `json:"inviteHash"`
+	// Whether the user is the currently authenticated user.
+	IsMe *bool `json:"isMe"`
+	// The last time the user was seen online. If null, the user is currently online.
+	LastSeen *time.Time `json:"lastSeen"`
+	// The user's full name.
+	Name *string `json:"name"`
+	// The emoji to represent the user current status.
+	StatusEmoji *string `json:"statusEmoji"`
+	// The label of the user current status.
+	StatusLabel *string `json:"statusLabel"`
+	// A date at which the user current status should be cleared.
+	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	// The local timezone of the user.
+	Timezone *string `json:"timezone"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// User's profile URL.
+	Url *string `json:"url"`
+}
+
+// GetId returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.Id, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetId() *string {
+	return v.Id
+}
+
+// GetActive returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.Active, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetActive() *bool {
+	return v.Active
+}
+
+// GetAdmin returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.Admin, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetAdmin() *bool {
+	return v.Admin
+}
+
+// GetArchivedAt returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetAvatarUrl returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.AvatarUrl, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetAvatarUrl() *string {
+	return v.AvatarUrl
+}
+
+// GetCalendarHash returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.CalendarHash, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetCalendarHash() *string {
+	return v.CalendarHash
+}
+
+// GetCreatedAt returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetCreatedIssueCount returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.CreatedIssueCount, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetCreatedIssueCount() *int {
+	return v.CreatedIssueCount
+}
+
+// GetDescription returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.Description, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetDescription() *string {
+	return v.Description
+}
+
+// GetDisableReason returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.DisableReason, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetDisableReason() *string {
+	return v.DisableReason
+}
+
+// GetDisplayName returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.DisplayName, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetDisplayName() *string {
+	return v.DisplayName
+}
+
+// GetEmail returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.Email, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetEmail() *string {
+	return v.Email
+}
+
+// GetGuest returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.Guest, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetGuest() *bool {
+	return v.Guest
+}
+
+// GetInviteHash returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.InviteHash, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetInviteHash() *string {
+	return v.InviteHash
+}
+
+// GetIsMe returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.IsMe, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetIsMe() *bool {
+	return v.IsMe
+}
+
+// GetLastSeen returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.LastSeen, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetLastSeen() *time.Time {
+	return v.LastSeen
+}
+
+// GetName returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.Name, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetName() *string {
+	return v.Name
+}
+
+// GetStatusEmoji returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.StatusEmoji, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetStatusEmoji() *string {
+	return v.StatusEmoji
+}
+
+// GetStatusLabel returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.StatusLabel, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetStatusLabel() *string {
+	return v.StatusLabel
+}
+
+// GetStatusUntilAt returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.StatusUntilAt, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetStatusUntilAt() *time.Time {
+	return v.StatusUntilAt
+}
+
+// GetTimezone returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.Timezone, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetTimezone() *string {
+	return v.Timezone
+}
+
+// GetUpdatedAt returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// GetUrl returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.Url, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) GetUrl() *string {
+	return v.Url
+}
+
+// listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization includes the requested fields of the GraphQL type Organization.
+// The GraphQL type's documentation follows.
+//
+// An organization. Organizations are root-level objects that contain user accounts and teams.
+type listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// Allowed authentication providers, empty array means all are allowed
+	AllowedAuthServices []*string `json:"allowedAuthServices"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// Number of issues in the organization.
+	CreatedIssueCount *int `json:"createdIssueCount"`
+	// The time at which deletion of the organization was requested.
+	DeletionRequestedAt *time.Time `json:"deletionRequestedAt"`
+	// How git branches are formatted. If null, default formatting will be used.
+	GitBranchFormat *string `json:"gitBranchFormat"`
+	// Whether the Git integration linkback messages should be sent to private repositories.
+	GitLinkbackMessagesEnabled *bool `json:"gitLinkbackMessagesEnabled"`
+	// Whether the Git integration linkback messages should be sent to public repositories.
+	GitPublicLinkbackMessagesEnabled *bool `json:"gitPublicLinkbackMessagesEnabled"`
+	// The organization's logo URL.
+	LogoUrl *string `json:"logoUrl"`
+	// The organization's name.
+	Name *string `json:"name"`
+	// Rolling 30-day total upload volume for the organization, in megabytes.
+	PeriodUploadVolume *float64 `json:"periodUploadVolume"`
+	// Previously used URL keys for the organization (last 3 are kept and redirected).
+	PreviousUrlKeys []*string `json:"previousUrlKeys"`
+	// The day at which to prompt for project updates.
+	ProjectUpdateRemindersDay *Day `json:"projectUpdateRemindersDay"`
+	// The hour at which to prompt for project updates.
+	ProjectUpdateRemindersHour *float64 `json:"projectUpdateRemindersHour"`
+	// The frequency at which to prompt for project updates.
+	ProjectUpdatesReminderFrequency *ProjectUpdateReminderFrequency `json:"projectUpdatesReminderFrequency"`
+	// The feature release channel the organization belongs to.
+	ReleaseChannel *ReleaseChannel `json:"releaseChannel"`
+	// Whether the organization is using a roadmap.
+	RoadmapEnabled *bool `json:"roadmapEnabled"`
+	// Whether SAML authentication is enabled for organization.
+	SamlEnabled *bool `json:"samlEnabled"`
+	// Whether SCIM provisioning is enabled for organization.
+	ScimEnabled *bool `json:"scimEnabled"`
+	// The time at which the trial of the plus plan will end.
+	TrialEndsAt *time.Time `json:"trialEndsAt"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// The organization's unique URL key.
+	UrlKey *string `json:"urlKey"`
+	// Number of active users in the organization.
+	UserCount *int `json:"userCount"`
+}
+
+// GetId returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.Id, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetId() *string {
+	return v.Id
+}
+
+// GetAllowedAuthServices returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.AllowedAuthServices, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetAllowedAuthServices() []*string {
+	return v.AllowedAuthServices
+}
+
+// GetArchivedAt returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetCreatedAt returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetCreatedIssueCount returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.CreatedIssueCount, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetCreatedIssueCount() *int {
+	return v.CreatedIssueCount
+}
+
+// GetDeletionRequestedAt returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.DeletionRequestedAt, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetDeletionRequestedAt() *time.Time {
+	return v.DeletionRequestedAt
+}
+
+// GetGitBranchFormat returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.GitBranchFormat, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetGitBranchFormat() *string {
+	return v.GitBranchFormat
+}
+
+// GetGitLinkbackMessagesEnabled returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.GitLinkbackMessagesEnabled, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetGitLinkbackMessagesEnabled() *bool {
+	return v.GitLinkbackMessagesEnabled
+}
+
+// GetGitPublicLinkbackMessagesEnabled returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.GitPublicLinkbackMessagesEnabled, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetGitPublicLinkbackMessagesEnabled() *bool {
+	return v.GitPublicLinkbackMessagesEnabled
+}
+
+// GetLogoUrl returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.LogoUrl, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetLogoUrl() *string {
+	return v.LogoUrl
+}
+
+// GetName returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.Name, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetName() *string {
+	return v.Name
+}
+
+// GetPeriodUploadVolume returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.PeriodUploadVolume, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetPeriodUploadVolume() *float64 {
+	return v.PeriodUploadVolume
+}
+
+// GetPreviousUrlKeys returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.PreviousUrlKeys, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetPreviousUrlKeys() []*string {
+	return v.PreviousUrlKeys
+}
+
+// GetProjectUpdateRemindersDay returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.ProjectUpdateRemindersDay, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetProjectUpdateRemindersDay() *Day {
+	return v.ProjectUpdateRemindersDay
+}
+
+// GetProjectUpdateRemindersHour returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.ProjectUpdateRemindersHour, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetProjectUpdateRemindersHour() *float64 {
+	return v.ProjectUpdateRemindersHour
+}
+
+// GetProjectUpdatesReminderFrequency returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.ProjectUpdatesReminderFrequency, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetProjectUpdatesReminderFrequency() *ProjectUpdateReminderFrequency {
+	return v.ProjectUpdatesReminderFrequency
+}
+
+// GetReleaseChannel returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.ReleaseChannel, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetReleaseChannel() *ReleaseChannel {
+	return v.ReleaseChannel
+}
+
+// GetRoadmapEnabled returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.RoadmapEnabled, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetRoadmapEnabled() *bool {
+	return v.RoadmapEnabled
+}
+
+// GetSamlEnabled returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.SamlEnabled, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetSamlEnabled() *bool {
+	return v.SamlEnabled
+}
+
+// GetScimEnabled returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.ScimEnabled, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetScimEnabled() *bool {
+	return v.ScimEnabled
+}
+
+// GetTrialEndsAt returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.TrialEndsAt, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetTrialEndsAt() *time.Time {
+	return v.TrialEndsAt
+}
+
+// GetUpdatedAt returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// GetUrlKey returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.UrlKey, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetUrlKey() *string {
+	return v.UrlKey
+}
+
+// GetUserCount returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization.UserCount, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationOrganization) GetUserCount() *int {
+	return v.UserCount
+}
+
+// listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam includes the requested fields of the GraphQL type Team.
+// The GraphQL type's documentation follows.
+//
+// An organizational unit that contains issues.
+type listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// Period after which automatically closed and completed issues are automatically archived in months.
+	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
+	// Period after which issues are automatically closed in months. Null/undefined means disabled.
+	AutoClosePeriod *float64 `json:"autoClosePeriod"`
+	// The canceled workflow state which auto closed issues will be set to. Defaults to the first canceled state.
+	AutoCloseStateId *string `json:"autoCloseStateId"`
+	// The team's color.
+	Color *string `json:"color"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// Calendar feed URL (iCal) for cycles.
+	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
+	// The cooldown time after each cycle in weeks.
+	CycleCooldownTime *float64 `json:"cycleCooldownTime"`
+	// The duration of a cycle in weeks.
+	CycleDuration *float64 `json:"cycleDuration"`
+	// Auto assign completed issues to current cycle.
+	CycleIssueAutoAssignCompleted *bool `json:"cycleIssueAutoAssignCompleted"`
+	// Auto assign started issues to current cycle.
+	CycleIssueAutoAssignStarted *bool `json:"cycleIssueAutoAssignStarted"`
+	// Only allow issues issues with cycles in Active Issues.
+	CycleLockToActive *bool `json:"cycleLockToActive"`
+	// The day of the week that a new cycle starts.
+	CycleStartDay *float64 `json:"cycleStartDay"`
+	// Whether the team uses cycles.
+	CyclesEnabled *bool `json:"cyclesEnabled"`
+	// What to use as an default estimate for unestimated issues.
+	DefaultIssueEstimate *float64 `json:"defaultIssueEstimate"`
+	// The id of the default template to use for new issues created by members of the team.
+	DefaultTemplateForMembersId *string `json:"defaultTemplateForMembersId"`
+	// The id of the default template to use for new issues created by non-members of the team.
+	DefaultTemplateForNonMembersId *string `json:"defaultTemplateForNonMembersId"`
+	// The team's description.
+	Description *string `json:"description"`
+	// Whether to group recent issue history entries.
+	GroupIssueHistory *bool `json:"groupIssueHistory"`
+	// The icon of the team.
+	Icon *string `json:"icon"`
+	// Unique hash for the team to be used in invite URLs.
+	InviteHash *string `json:"inviteHash"`
+	// Whether to allow zeros in issues estimates.
+	IssueEstimationAllowZero *bool `json:"issueEstimationAllowZero"`
+	// Whether to add additional points to the estimate scale.
+	IssueEstimationExtended *bool `json:"issueEstimationExtended"`
+	// The issue estimation type to use.
+	IssueEstimationType *string `json:"issueEstimationType"`
+	// Whether issues without priority should be sorted first.
+	IssueOrderingNoPriorityFirst *bool `json:"issueOrderingNoPriorityFirst"`
+	// Whether to move issues to bottom of the column when changing state.
+	IssueSortOrderDefaultToBottom *bool `json:"issueSortOrderDefaultToBottom"`
+	// The team's unique key. The key is used in URLs.
+	Key *string `json:"key"`
+	// The team's name.
+	Name *string `json:"name"`
+	// Whether the team is private or not.
+	Private *bool `json:"private"`
+	// Whether an issue needs to have a priority set before leaving triage
+	RequirePriorityToLeaveTriage *bool `json:"requirePriorityToLeaveTriage"`
+	// Whether to send new issue comment notifications to Slack.
+	SlackIssueComments *bool `json:"slackIssueComments"`
+	// Whether to send new issue status updates to Slack.
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+	// Whether to send new issue notifications to Slack.
+	SlackNewIssue *bool `json:"slackNewIssue"`
+	// The timezone of the team. Defaults to "America/Los_Angeles"
+	Timezone *string `json:"timezone"`
+	// Whether triage mode is enabled for the team or not.
+	TriageEnabled *bool `json:"triageEnabled"`
+	// How many upcoming cycles to create.
+	UpcomingCycleCount *float64 `json:"upcomingCycleCount"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+}
+
+// GetId returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.Id, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetId() *string {
+	return v.Id
+}
+
+// GetArchivedAt returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetAutoArchivePeriod returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.AutoArchivePeriod, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetAutoArchivePeriod() *float64 {
+	return v.AutoArchivePeriod
+}
+
+// GetAutoClosePeriod returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.AutoClosePeriod, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetAutoClosePeriod() *float64 {
+	return v.AutoClosePeriod
+}
+
+// GetAutoCloseStateId returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.AutoCloseStateId, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetAutoCloseStateId() *string {
+	return v.AutoCloseStateId
+}
+
+// GetColor returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.Color, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetColor() *string {
+	return v.Color
+}
+
+// GetCreatedAt returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetCycleCalenderUrl returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.CycleCalenderUrl, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetCycleCalenderUrl() *string {
+	return v.CycleCalenderUrl
+}
+
+// GetCycleCooldownTime returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.CycleCooldownTime, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetCycleCooldownTime() *float64 {
+	return v.CycleCooldownTime
+}
+
+// GetCycleDuration returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.CycleDuration, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetCycleDuration() *float64 {
+	return v.CycleDuration
+}
+
+// GetCycleIssueAutoAssignCompleted returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.CycleIssueAutoAssignCompleted, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetCycleIssueAutoAssignCompleted() *bool {
+	return v.CycleIssueAutoAssignCompleted
+}
+
+// GetCycleIssueAutoAssignStarted returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.CycleIssueAutoAssignStarted, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetCycleIssueAutoAssignStarted() *bool {
+	return v.CycleIssueAutoAssignStarted
+}
+
+// GetCycleLockToActive returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.CycleLockToActive, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetCycleLockToActive() *bool {
+	return v.CycleLockToActive
+}
+
+// GetCycleStartDay returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.CycleStartDay, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetCycleStartDay() *float64 {
+	return v.CycleStartDay
+}
+
+// GetCyclesEnabled returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.CyclesEnabled, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetCyclesEnabled() *bool {
+	return v.CyclesEnabled
+}
+
+// GetDefaultIssueEstimate returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.DefaultIssueEstimate, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetDefaultIssueEstimate() *float64 {
+	return v.DefaultIssueEstimate
+}
+
+// GetDefaultTemplateForMembersId returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.DefaultTemplateForMembersId, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetDefaultTemplateForMembersId() *string {
+	return v.DefaultTemplateForMembersId
+}
+
+// GetDefaultTemplateForNonMembersId returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.DefaultTemplateForNonMembersId, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetDefaultTemplateForNonMembersId() *string {
+	return v.DefaultTemplateForNonMembersId
+}
+
+// GetDescription returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.Description, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetDescription() *string {
+	return v.Description
+}
+
+// GetGroupIssueHistory returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.GroupIssueHistory, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetGroupIssueHistory() *bool {
+	return v.GroupIssueHistory
+}
+
+// GetIcon returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.Icon, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetIcon() *string {
+	return v.Icon
+}
+
+// GetInviteHash returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.InviteHash, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetInviteHash() *string {
+	return v.InviteHash
+}
+
+// GetIssueEstimationAllowZero returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.IssueEstimationAllowZero, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetIssueEstimationAllowZero() *bool {
+	return v.IssueEstimationAllowZero
+}
+
+// GetIssueEstimationExtended returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.IssueEstimationExtended, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetIssueEstimationExtended() *bool {
+	return v.IssueEstimationExtended
+}
+
+// GetIssueEstimationType returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.IssueEstimationType, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetIssueEstimationType() *string {
+	return v.IssueEstimationType
+}
+
+// GetIssueOrderingNoPriorityFirst returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.IssueOrderingNoPriorityFirst, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetIssueOrderingNoPriorityFirst() *bool {
+	return v.IssueOrderingNoPriorityFirst
+}
+
+// GetIssueSortOrderDefaultToBottom returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.IssueSortOrderDefaultToBottom, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetIssueSortOrderDefaultToBottom() *bool {
+	return v.IssueSortOrderDefaultToBottom
+}
+
+// GetKey returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.Key, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetKey() *string {
+	return v.Key
+}
+
+// GetName returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.Name, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetName() *string {
+	return v.Name
+}
+
+// GetPrivate returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.Private, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetPrivate() *bool {
+	return v.Private
+}
+
+// GetRequirePriorityToLeaveTriage returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.RequirePriorityToLeaveTriage, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetRequirePriorityToLeaveTriage() *bool {
+	return v.RequirePriorityToLeaveTriage
+}
+
+// GetSlackIssueComments returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.SlackIssueComments, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetSlackIssueComments() *bool {
+	return v.SlackIssueComments
+}
+
+// GetSlackIssueStatuses returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.SlackIssueStatuses, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetSlackIssueStatuses() *bool {
+	return v.SlackIssueStatuses
+}
+
+// GetSlackNewIssue returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.SlackNewIssue, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetSlackNewIssue() *bool {
+	return v.SlackNewIssue
+}
+
+// GetTimezone returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.Timezone, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetTimezone() *string {
+	return v.Timezone
+}
+
+// GetTriageEnabled returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.TriageEnabled, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetTriageEnabled() *bool {
+	return v.TriageEnabled
+}
+
+// GetUpcomingCycleCount returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.UpcomingCycleCount, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetUpcomingCycleCount() *float64 {
+	return v.UpcomingCycleCount
+}
+
+// GetUpdatedAt returns listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionNodesIntegrationTeam) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// listIntegrationIntegrationsIntegrationConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
+type listIntegrationIntegrationsIntegrationConnectionPageInfo struct {
+	// Indicates if there are more results when paginating forward.
+	HasNextPage *bool `json:"hasNextPage"`
+	// Cursor representing the last result in the paginated results.
+	EndCursor *string `json:"endCursor"`
+}
+
+// GetHasNextPage returns listIntegrationIntegrationsIntegrationConnectionPageInfo.HasNextPage, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionPageInfo) GetHasNextPage() *bool {
+	return v.HasNextPage
+}
+
+// GetEndCursor returns listIntegrationIntegrationsIntegrationConnectionPageInfo.EndCursor, and is useful for accessing the field via an interface.
+func (v *listIntegrationIntegrationsIntegrationConnectionPageInfo) GetEndCursor() *string {
+	return v.EndCursor
+}
+
+// listIntegrationResponse is returned by listIntegration on success.
+type listIntegrationResponse struct {
+	// All integrations.
+	Integrations *listIntegrationIntegrationsIntegrationConnection `json:"integrations"`
+}
+
+// GetIntegrations returns listIntegrationResponse.Integrations, and is useful for accessing the field via an interface.
+func (v *listIntegrationResponse) GetIntegrations() *listIntegrationIntegrationsIntegrationConnection {
+	return v.Integrations
+}
 
 // listIssueIssuesIssueConnection includes the requested fields of the GraphQL type IssueConnection.
 type listIssueIssuesIssueConnection struct {
@@ -4044,6 +6457,814 @@ func (v *listIssueIssuesIssueConnectionPageInfo) GetHasNextPage() *bool { return
 // GetEndCursor returns listIssueIssuesIssueConnectionPageInfo.EndCursor, and is useful for accessing the field via an interface.
 func (v *listIssueIssuesIssueConnectionPageInfo) GetEndCursor() *string { return v.EndCursor }
 
+// listIssueLabelIssueLabelsIssueLabelConnection includes the requested fields of the GraphQL type IssueLabelConnection.
+type listIssueLabelIssueLabelsIssueLabelConnection struct {
+	PageInfo *listIssueLabelIssueLabelsIssueLabelConnectionPageInfo          `json:"pageInfo"`
+	Nodes    []*listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel `json:"nodes"`
+}
+
+// GetPageInfo returns listIssueLabelIssueLabelsIssueLabelConnection.PageInfo, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnection) GetPageInfo() *listIssueLabelIssueLabelsIssueLabelConnectionPageInfo {
+	return v.PageInfo
+}
+
+// GetNodes returns listIssueLabelIssueLabelsIssueLabelConnection.Nodes, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnection) GetNodes() []*listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel {
+	return v.Nodes
+}
+
+// listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel includes the requested fields of the GraphQL type IssueLabel.
+// The GraphQL type's documentation follows.
+//
+// Labels that can be associated with issues.
+type listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// The label's color as a HEX string.
+	Color *string `json:"color"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// The label's description.
+	Description *string `json:"description"`
+	// The label's name.
+	Name *string `json:"name"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// The team that the label is associated with. If null, the label is associated with the global workspace.
+	Team *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam `json:"team"`
+	// The user who created the label.
+	Creator      *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser  `json:"creator"`
+	Organization *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization `json:"organization"`
+	// The parent label.
+	Parent *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel `json:"parent"`
+}
+
+// GetId returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel.Id, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel) GetId() *string { return v.Id }
+
+// GetArchivedAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetColor returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel.Color, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel) GetColor() *string {
+	return v.Color
+}
+
+// GetCreatedAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetDescription returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel.Description, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel) GetDescription() *string {
+	return v.Description
+}
+
+// GetName returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel.Name, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel) GetName() *string {
+	return v.Name
+}
+
+// GetUpdatedAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// GetTeam returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel.Team, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel) GetTeam() *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam {
+	return v.Team
+}
+
+// GetCreator returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel.Creator, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel) GetCreator() *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser {
+	return v.Creator
+}
+
+// GetOrganization returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel.Organization, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel) GetOrganization() *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization {
+	return v.Organization
+}
+
+// GetParent returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel.Parent, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel) GetParent() *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel {
+	return v.Parent
+}
+
+// listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser includes the requested fields of the GraphQL type User.
+// The GraphQL type's documentation follows.
+//
+// A user that has access to the the resources of an organization.
+type listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// Whether the user account is active or disabled (suspended).
+	Active *bool `json:"active"`
+	// Whether the user is an organization administrator.
+	Admin *bool `json:"admin"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// An URL to the user's avatar image.
+	AvatarUrl *string `json:"avatarUrl"`
+	// [DEPRECATED] Hash for the user to be used in calendar URLs.
+	CalendarHash *string `json:"calendarHash"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// Number of issues created.
+	CreatedIssueCount *int `json:"createdIssueCount"`
+	// A short description of the user, either its title or bio.
+	Description *string `json:"description"`
+	// Reason why is the account disabled.
+	DisableReason *string `json:"disableReason"`
+	// The user's display (nick) name. Unique within each organization.
+	DisplayName *string `json:"displayName"`
+	// The user's email address.
+	Email *string `json:"email"`
+	// Whether the user is a guest in the workspace and limited to accessing a subset of teams.
+	Guest *bool `json:"guest"`
+	// Unique hash for the user to be used in invite URLs.
+	InviteHash *string `json:"inviteHash"`
+	// Whether the user is the currently authenticated user.
+	IsMe *bool `json:"isMe"`
+	// The last time the user was seen online. If null, the user is currently online.
+	LastSeen *time.Time `json:"lastSeen"`
+	// The user's full name.
+	Name *string `json:"name"`
+	// The emoji to represent the user current status.
+	StatusEmoji *string `json:"statusEmoji"`
+	// The label of the user current status.
+	StatusLabel *string `json:"statusLabel"`
+	// A date at which the user current status should be cleared.
+	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	// The local timezone of the user.
+	Timezone *string `json:"timezone"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// User's profile URL.
+	Url *string `json:"url"`
+}
+
+// GetId returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.Id, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetId() *string {
+	return v.Id
+}
+
+// GetActive returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.Active, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetActive() *bool {
+	return v.Active
+}
+
+// GetAdmin returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.Admin, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetAdmin() *bool {
+	return v.Admin
+}
+
+// GetArchivedAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetAvatarUrl returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.AvatarUrl, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetAvatarUrl() *string {
+	return v.AvatarUrl
+}
+
+// GetCalendarHash returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.CalendarHash, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetCalendarHash() *string {
+	return v.CalendarHash
+}
+
+// GetCreatedAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetCreatedIssueCount returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.CreatedIssueCount, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetCreatedIssueCount() *int {
+	return v.CreatedIssueCount
+}
+
+// GetDescription returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.Description, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetDescription() *string {
+	return v.Description
+}
+
+// GetDisableReason returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.DisableReason, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetDisableReason() *string {
+	return v.DisableReason
+}
+
+// GetDisplayName returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.DisplayName, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetDisplayName() *string {
+	return v.DisplayName
+}
+
+// GetEmail returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.Email, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetEmail() *string {
+	return v.Email
+}
+
+// GetGuest returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.Guest, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetGuest() *bool {
+	return v.Guest
+}
+
+// GetInviteHash returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.InviteHash, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetInviteHash() *string {
+	return v.InviteHash
+}
+
+// GetIsMe returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.IsMe, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetIsMe() *bool {
+	return v.IsMe
+}
+
+// GetLastSeen returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.LastSeen, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetLastSeen() *time.Time {
+	return v.LastSeen
+}
+
+// GetName returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.Name, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetName() *string {
+	return v.Name
+}
+
+// GetStatusEmoji returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.StatusEmoji, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetStatusEmoji() *string {
+	return v.StatusEmoji
+}
+
+// GetStatusLabel returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.StatusLabel, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetStatusLabel() *string {
+	return v.StatusLabel
+}
+
+// GetStatusUntilAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.StatusUntilAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetStatusUntilAt() *time.Time {
+	return v.StatusUntilAt
+}
+
+// GetTimezone returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.Timezone, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetTimezone() *string {
+	return v.Timezone
+}
+
+// GetUpdatedAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// GetUrl returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.Url, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetUrl() *string {
+	return v.Url
+}
+
+// listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization includes the requested fields of the GraphQL type Organization.
+// The GraphQL type's documentation follows.
+//
+// An organization. Organizations are root-level objects that contain user accounts and teams.
+type listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// Allowed authentication providers, empty array means all are allowed
+	AllowedAuthServices []*string `json:"allowedAuthServices"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// Number of issues in the organization.
+	CreatedIssueCount *int `json:"createdIssueCount"`
+	// The time at which deletion of the organization was requested.
+	DeletionRequestedAt *time.Time `json:"deletionRequestedAt"`
+	// How git branches are formatted. If null, default formatting will be used.
+	GitBranchFormat *string `json:"gitBranchFormat"`
+	// Whether the Git integration linkback messages should be sent to private repositories.
+	GitLinkbackMessagesEnabled *bool `json:"gitLinkbackMessagesEnabled"`
+	// Whether the Git integration linkback messages should be sent to public repositories.
+	GitPublicLinkbackMessagesEnabled *bool `json:"gitPublicLinkbackMessagesEnabled"`
+	// The organization's logo URL.
+	LogoUrl *string `json:"logoUrl"`
+	// The organization's name.
+	Name *string `json:"name"`
+	// Rolling 30-day total upload volume for the organization, in megabytes.
+	PeriodUploadVolume *float64 `json:"periodUploadVolume"`
+	// Previously used URL keys for the organization (last 3 are kept and redirected).
+	PreviousUrlKeys []*string `json:"previousUrlKeys"`
+	// The day at which to prompt for project updates.
+	ProjectUpdateRemindersDay *Day `json:"projectUpdateRemindersDay"`
+	// The hour at which to prompt for project updates.
+	ProjectUpdateRemindersHour *float64 `json:"projectUpdateRemindersHour"`
+	// The frequency at which to prompt for project updates.
+	ProjectUpdatesReminderFrequency *ProjectUpdateReminderFrequency `json:"projectUpdatesReminderFrequency"`
+	// The feature release channel the organization belongs to.
+	ReleaseChannel *ReleaseChannel `json:"releaseChannel"`
+	// Whether the organization is using a roadmap.
+	RoadmapEnabled *bool `json:"roadmapEnabled"`
+	// Whether SAML authentication is enabled for organization.
+	SamlEnabled *bool `json:"samlEnabled"`
+	// Whether SCIM provisioning is enabled for organization.
+	ScimEnabled *bool `json:"scimEnabled"`
+	// The time at which the trial of the plus plan will end.
+	TrialEndsAt *time.Time `json:"trialEndsAt"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// The organization's unique URL key.
+	UrlKey *string `json:"urlKey"`
+	// Number of active users in the organization.
+	UserCount *int `json:"userCount"`
+}
+
+// GetId returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.Id, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetId() *string {
+	return v.Id
+}
+
+// GetAllowedAuthServices returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.AllowedAuthServices, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetAllowedAuthServices() []*string {
+	return v.AllowedAuthServices
+}
+
+// GetArchivedAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetCreatedAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetCreatedIssueCount returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.CreatedIssueCount, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetCreatedIssueCount() *int {
+	return v.CreatedIssueCount
+}
+
+// GetDeletionRequestedAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.DeletionRequestedAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetDeletionRequestedAt() *time.Time {
+	return v.DeletionRequestedAt
+}
+
+// GetGitBranchFormat returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.GitBranchFormat, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetGitBranchFormat() *string {
+	return v.GitBranchFormat
+}
+
+// GetGitLinkbackMessagesEnabled returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.GitLinkbackMessagesEnabled, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetGitLinkbackMessagesEnabled() *bool {
+	return v.GitLinkbackMessagesEnabled
+}
+
+// GetGitPublicLinkbackMessagesEnabled returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.GitPublicLinkbackMessagesEnabled, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetGitPublicLinkbackMessagesEnabled() *bool {
+	return v.GitPublicLinkbackMessagesEnabled
+}
+
+// GetLogoUrl returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.LogoUrl, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetLogoUrl() *string {
+	return v.LogoUrl
+}
+
+// GetName returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.Name, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetName() *string {
+	return v.Name
+}
+
+// GetPeriodUploadVolume returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.PeriodUploadVolume, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetPeriodUploadVolume() *float64 {
+	return v.PeriodUploadVolume
+}
+
+// GetPreviousUrlKeys returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.PreviousUrlKeys, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetPreviousUrlKeys() []*string {
+	return v.PreviousUrlKeys
+}
+
+// GetProjectUpdateRemindersDay returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.ProjectUpdateRemindersDay, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetProjectUpdateRemindersDay() *Day {
+	return v.ProjectUpdateRemindersDay
+}
+
+// GetProjectUpdateRemindersHour returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.ProjectUpdateRemindersHour, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetProjectUpdateRemindersHour() *float64 {
+	return v.ProjectUpdateRemindersHour
+}
+
+// GetProjectUpdatesReminderFrequency returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.ProjectUpdatesReminderFrequency, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetProjectUpdatesReminderFrequency() *ProjectUpdateReminderFrequency {
+	return v.ProjectUpdatesReminderFrequency
+}
+
+// GetReleaseChannel returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.ReleaseChannel, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetReleaseChannel() *ReleaseChannel {
+	return v.ReleaseChannel
+}
+
+// GetRoadmapEnabled returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.RoadmapEnabled, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetRoadmapEnabled() *bool {
+	return v.RoadmapEnabled
+}
+
+// GetSamlEnabled returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.SamlEnabled, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetSamlEnabled() *bool {
+	return v.SamlEnabled
+}
+
+// GetScimEnabled returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.ScimEnabled, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetScimEnabled() *bool {
+	return v.ScimEnabled
+}
+
+// GetTrialEndsAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.TrialEndsAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetTrialEndsAt() *time.Time {
+	return v.TrialEndsAt
+}
+
+// GetUpdatedAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// GetUrlKey returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.UrlKey, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetUrlKey() *string {
+	return v.UrlKey
+}
+
+// GetUserCount returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.UserCount, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) GetUserCount() *int {
+	return v.UserCount
+}
+
+// listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel includes the requested fields of the GraphQL type IssueLabel.
+// The GraphQL type's documentation follows.
+//
+// Labels that can be associated with issues.
+type listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// The label's color as a HEX string.
+	Color *string `json:"color"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// The label's description.
+	Description *string `json:"description"`
+	// The label's name.
+	Name *string `json:"name"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+}
+
+// GetId returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel.Id, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel) GetId() *string {
+	return v.Id
+}
+
+// GetArchivedAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetColor returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel.Color, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel) GetColor() *string {
+	return v.Color
+}
+
+// GetCreatedAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetDescription returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel.Description, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel) GetDescription() *string {
+	return v.Description
+}
+
+// GetName returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel.Name, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel) GetName() *string {
+	return v.Name
+}
+
+// GetUpdatedAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam includes the requested fields of the GraphQL type Team.
+// The GraphQL type's documentation follows.
+//
+// An organizational unit that contains issues.
+type listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// Period after which automatically closed and completed issues are automatically archived in months.
+	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
+	// Period after which issues are automatically closed in months. Null/undefined means disabled.
+	AutoClosePeriod *float64 `json:"autoClosePeriod"`
+	// The canceled workflow state which auto closed issues will be set to. Defaults to the first canceled state.
+	AutoCloseStateId *string `json:"autoCloseStateId"`
+	// The team's color.
+	Color *string `json:"color"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// Calendar feed URL (iCal) for cycles.
+	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
+	// The cooldown time after each cycle in weeks.
+	CycleCooldownTime *float64 `json:"cycleCooldownTime"`
+	// The duration of a cycle in weeks.
+	CycleDuration *float64 `json:"cycleDuration"`
+	// Auto assign completed issues to current cycle.
+	CycleIssueAutoAssignCompleted *bool `json:"cycleIssueAutoAssignCompleted"`
+	// Auto assign started issues to current cycle.
+	CycleIssueAutoAssignStarted *bool `json:"cycleIssueAutoAssignStarted"`
+	// Only allow issues issues with cycles in Active Issues.
+	CycleLockToActive *bool `json:"cycleLockToActive"`
+	// The day of the week that a new cycle starts.
+	CycleStartDay *float64 `json:"cycleStartDay"`
+	// Whether the team uses cycles.
+	CyclesEnabled *bool `json:"cyclesEnabled"`
+	// What to use as an default estimate for unestimated issues.
+	DefaultIssueEstimate *float64 `json:"defaultIssueEstimate"`
+	// The id of the default template to use for new issues created by members of the team.
+	DefaultTemplateForMembersId *string `json:"defaultTemplateForMembersId"`
+	// The id of the default template to use for new issues created by non-members of the team.
+	DefaultTemplateForNonMembersId *string `json:"defaultTemplateForNonMembersId"`
+	// The team's description.
+	Description *string `json:"description"`
+	// Whether to group recent issue history entries.
+	GroupIssueHistory *bool `json:"groupIssueHistory"`
+	// The icon of the team.
+	Icon *string `json:"icon"`
+	// Unique hash for the team to be used in invite URLs.
+	InviteHash *string `json:"inviteHash"`
+	// Whether to allow zeros in issues estimates.
+	IssueEstimationAllowZero *bool `json:"issueEstimationAllowZero"`
+	// Whether to add additional points to the estimate scale.
+	IssueEstimationExtended *bool `json:"issueEstimationExtended"`
+	// The issue estimation type to use.
+	IssueEstimationType *string `json:"issueEstimationType"`
+	// Whether issues without priority should be sorted first.
+	IssueOrderingNoPriorityFirst *bool `json:"issueOrderingNoPriorityFirst"`
+	// Whether to move issues to bottom of the column when changing state.
+	IssueSortOrderDefaultToBottom *bool `json:"issueSortOrderDefaultToBottom"`
+	// The team's unique key. The key is used in URLs.
+	Key *string `json:"key"`
+	// The team's name.
+	Name *string `json:"name"`
+	// Whether the team is private or not.
+	Private *bool `json:"private"`
+	// Whether an issue needs to have a priority set before leaving triage
+	RequirePriorityToLeaveTriage *bool `json:"requirePriorityToLeaveTriage"`
+	// Whether to send new issue comment notifications to Slack.
+	SlackIssueComments *bool `json:"slackIssueComments"`
+	// Whether to send new issue status updates to Slack.
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+	// Whether to send new issue notifications to Slack.
+	SlackNewIssue *bool `json:"slackNewIssue"`
+	// The timezone of the team. Defaults to "America/Los_Angeles"
+	Timezone *string `json:"timezone"`
+	// Whether triage mode is enabled for the team or not.
+	TriageEnabled *bool `json:"triageEnabled"`
+	// How many upcoming cycles to create.
+	UpcomingCycleCount *float64 `json:"upcomingCycleCount"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+}
+
+// GetId returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.Id, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetId() *string {
+	return v.Id
+}
+
+// GetArchivedAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetAutoArchivePeriod returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.AutoArchivePeriod, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetAutoArchivePeriod() *float64 {
+	return v.AutoArchivePeriod
+}
+
+// GetAutoClosePeriod returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.AutoClosePeriod, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetAutoClosePeriod() *float64 {
+	return v.AutoClosePeriod
+}
+
+// GetAutoCloseStateId returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.AutoCloseStateId, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetAutoCloseStateId() *string {
+	return v.AutoCloseStateId
+}
+
+// GetColor returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.Color, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetColor() *string {
+	return v.Color
+}
+
+// GetCreatedAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetCycleCalenderUrl returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.CycleCalenderUrl, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetCycleCalenderUrl() *string {
+	return v.CycleCalenderUrl
+}
+
+// GetCycleCooldownTime returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.CycleCooldownTime, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetCycleCooldownTime() *float64 {
+	return v.CycleCooldownTime
+}
+
+// GetCycleDuration returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.CycleDuration, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetCycleDuration() *float64 {
+	return v.CycleDuration
+}
+
+// GetCycleIssueAutoAssignCompleted returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.CycleIssueAutoAssignCompleted, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetCycleIssueAutoAssignCompleted() *bool {
+	return v.CycleIssueAutoAssignCompleted
+}
+
+// GetCycleIssueAutoAssignStarted returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.CycleIssueAutoAssignStarted, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetCycleIssueAutoAssignStarted() *bool {
+	return v.CycleIssueAutoAssignStarted
+}
+
+// GetCycleLockToActive returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.CycleLockToActive, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetCycleLockToActive() *bool {
+	return v.CycleLockToActive
+}
+
+// GetCycleStartDay returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.CycleStartDay, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetCycleStartDay() *float64 {
+	return v.CycleStartDay
+}
+
+// GetCyclesEnabled returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.CyclesEnabled, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetCyclesEnabled() *bool {
+	return v.CyclesEnabled
+}
+
+// GetDefaultIssueEstimate returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.DefaultIssueEstimate, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetDefaultIssueEstimate() *float64 {
+	return v.DefaultIssueEstimate
+}
+
+// GetDefaultTemplateForMembersId returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.DefaultTemplateForMembersId, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetDefaultTemplateForMembersId() *string {
+	return v.DefaultTemplateForMembersId
+}
+
+// GetDefaultTemplateForNonMembersId returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.DefaultTemplateForNonMembersId, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetDefaultTemplateForNonMembersId() *string {
+	return v.DefaultTemplateForNonMembersId
+}
+
+// GetDescription returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.Description, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetDescription() *string {
+	return v.Description
+}
+
+// GetGroupIssueHistory returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.GroupIssueHistory, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetGroupIssueHistory() *bool {
+	return v.GroupIssueHistory
+}
+
+// GetIcon returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.Icon, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetIcon() *string {
+	return v.Icon
+}
+
+// GetInviteHash returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.InviteHash, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetInviteHash() *string {
+	return v.InviteHash
+}
+
+// GetIssueEstimationAllowZero returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.IssueEstimationAllowZero, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetIssueEstimationAllowZero() *bool {
+	return v.IssueEstimationAllowZero
+}
+
+// GetIssueEstimationExtended returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.IssueEstimationExtended, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetIssueEstimationExtended() *bool {
+	return v.IssueEstimationExtended
+}
+
+// GetIssueEstimationType returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.IssueEstimationType, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetIssueEstimationType() *string {
+	return v.IssueEstimationType
+}
+
+// GetIssueOrderingNoPriorityFirst returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.IssueOrderingNoPriorityFirst, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetIssueOrderingNoPriorityFirst() *bool {
+	return v.IssueOrderingNoPriorityFirst
+}
+
+// GetIssueSortOrderDefaultToBottom returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.IssueSortOrderDefaultToBottom, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetIssueSortOrderDefaultToBottom() *bool {
+	return v.IssueSortOrderDefaultToBottom
+}
+
+// GetKey returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.Key, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetKey() *string {
+	return v.Key
+}
+
+// GetName returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.Name, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetName() *string {
+	return v.Name
+}
+
+// GetPrivate returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.Private, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetPrivate() *bool {
+	return v.Private
+}
+
+// GetRequirePriorityToLeaveTriage returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.RequirePriorityToLeaveTriage, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetRequirePriorityToLeaveTriage() *bool {
+	return v.RequirePriorityToLeaveTriage
+}
+
+// GetSlackIssueComments returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.SlackIssueComments, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetSlackIssueComments() *bool {
+	return v.SlackIssueComments
+}
+
+// GetSlackIssueStatuses returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.SlackIssueStatuses, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetSlackIssueStatuses() *bool {
+	return v.SlackIssueStatuses
+}
+
+// GetSlackNewIssue returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.SlackNewIssue, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetSlackNewIssue() *bool {
+	return v.SlackNewIssue
+}
+
+// GetTimezone returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.Timezone, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetTimezone() *string {
+	return v.Timezone
+}
+
+// GetTriageEnabled returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.TriageEnabled, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetTriageEnabled() *bool {
+	return v.TriageEnabled
+}
+
+// GetUpcomingCycleCount returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.UpcomingCycleCount, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetUpcomingCycleCount() *float64 {
+	return v.UpcomingCycleCount
+}
+
+// GetUpdatedAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// listIssueLabelIssueLabelsIssueLabelConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
+type listIssueLabelIssueLabelsIssueLabelConnectionPageInfo struct {
+	// Indicates if there are more results when paginating forward.
+	HasNextPage *bool `json:"hasNextPage"`
+	// Cursor representing the last result in the paginated results.
+	EndCursor *string `json:"endCursor"`
+}
+
+// GetHasNextPage returns listIssueLabelIssueLabelsIssueLabelConnectionPageInfo.HasNextPage, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionPageInfo) GetHasNextPage() *bool {
+	return v.HasNextPage
+}
+
+// GetEndCursor returns listIssueLabelIssueLabelsIssueLabelConnectionPageInfo.EndCursor, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionPageInfo) GetEndCursor() *string {
+	return v.EndCursor
+}
+
+// listIssueLabelResponse is returned by listIssueLabel on success.
+type listIssueLabelResponse struct {
+	// All issue labels.
+	IssueLabels *listIssueLabelIssueLabelsIssueLabelConnection `json:"issueLabels"`
+}
+
+// GetIssueLabels returns listIssueLabelResponse.IssueLabels, and is useful for accessing the field via an interface.
+func (v *listIssueLabelResponse) GetIssueLabels() *listIssueLabelIssueLabelsIssueLabelConnection {
+	return v.IssueLabels
+}
+
 // listIssueResponse is returned by listIssue on success.
 type listIssueResponse struct {
 	// All issues.
@@ -5165,6 +8386,561 @@ type listProjectResponse struct {
 
 // GetProjects returns listProjectResponse.Projects, and is useful for accessing the field via an interface.
 func (v *listProjectResponse) GetProjects() *listProjectProjectsProjectConnection { return v.Projects }
+
+// listTeamMembershipResponse is returned by listTeamMembership on success.
+type listTeamMembershipResponse struct {
+	// All team memberships.
+	TeamMemberships *listTeamMembershipTeamMembershipsTeamMembershipConnection `json:"teamMemberships"`
+}
+
+// GetTeamMemberships returns listTeamMembershipResponse.TeamMemberships, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipResponse) GetTeamMemberships() *listTeamMembershipTeamMembershipsTeamMembershipConnection {
+	return v.TeamMemberships
+}
+
+// listTeamMembershipTeamMembershipsTeamMembershipConnection includes the requested fields of the GraphQL type TeamMembershipConnection.
+type listTeamMembershipTeamMembershipsTeamMembershipConnection struct {
+	PageInfo *listTeamMembershipTeamMembershipsTeamMembershipConnectionPageInfo              `json:"pageInfo"`
+	Nodes    []*listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership `json:"nodes"`
+}
+
+// GetPageInfo returns listTeamMembershipTeamMembershipsTeamMembershipConnection.PageInfo, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnection) GetPageInfo() *listTeamMembershipTeamMembershipsTeamMembershipConnectionPageInfo {
+	return v.PageInfo
+}
+
+// GetNodes returns listTeamMembershipTeamMembershipsTeamMembershipConnection.Nodes, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnection) GetNodes() []*listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership {
+	return v.Nodes
+}
+
+// listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership includes the requested fields of the GraphQL type TeamMembership.
+// The GraphQL type's documentation follows.
+//
+// Defines the membership of a user to a team.
+type listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// Whether the user is the owner of the team
+	Owner *bool `json:"owner"`
+	// The order of the item in the users team list.
+	SortOrder *float64 `json:"sortOrder"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// The team that the membership is associated with.
+	Team *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam `json:"team"`
+	// The user that the membership is associated with.
+	User *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser `json:"user"`
+}
+
+// GetId returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership.Id, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership) GetId() *string {
+	return v.Id
+}
+
+// GetArchivedAt returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetCreatedAt returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetOwner returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership.Owner, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership) GetOwner() *bool {
+	return v.Owner
+}
+
+// GetSortOrder returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership.SortOrder, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership) GetSortOrder() *float64 {
+	return v.SortOrder
+}
+
+// GetUpdatedAt returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// GetTeam returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership.Team, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership) GetTeam() *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam {
+	return v.Team
+}
+
+// GetUser returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership.User, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembership) GetUser() *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser {
+	return v.User
+}
+
+// listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam includes the requested fields of the GraphQL type Team.
+// The GraphQL type's documentation follows.
+//
+// An organizational unit that contains issues.
+type listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// Period after which automatically closed and completed issues are automatically archived in months.
+	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
+	// Period after which issues are automatically closed in months. Null/undefined means disabled.
+	AutoClosePeriod *float64 `json:"autoClosePeriod"`
+	// The canceled workflow state which auto closed issues will be set to. Defaults to the first canceled state.
+	AutoCloseStateId *string `json:"autoCloseStateId"`
+	// The team's color.
+	Color *string `json:"color"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// Calendar feed URL (iCal) for cycles.
+	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
+	// The cooldown time after each cycle in weeks.
+	CycleCooldownTime *float64 `json:"cycleCooldownTime"`
+	// The duration of a cycle in weeks.
+	CycleDuration *float64 `json:"cycleDuration"`
+	// Auto assign completed issues to current cycle.
+	CycleIssueAutoAssignCompleted *bool `json:"cycleIssueAutoAssignCompleted"`
+	// Auto assign started issues to current cycle.
+	CycleIssueAutoAssignStarted *bool `json:"cycleIssueAutoAssignStarted"`
+	// Only allow issues issues with cycles in Active Issues.
+	CycleLockToActive *bool `json:"cycleLockToActive"`
+	// The day of the week that a new cycle starts.
+	CycleStartDay *float64 `json:"cycleStartDay"`
+	// Whether the team uses cycles.
+	CyclesEnabled *bool `json:"cyclesEnabled"`
+	// What to use as an default estimate for unestimated issues.
+	DefaultIssueEstimate *float64 `json:"defaultIssueEstimate"`
+	// The id of the default template to use for new issues created by members of the team.
+	DefaultTemplateForMembersId *string `json:"defaultTemplateForMembersId"`
+	// The id of the default template to use for new issues created by non-members of the team.
+	DefaultTemplateForNonMembersId *string `json:"defaultTemplateForNonMembersId"`
+	// The team's description.
+	Description *string `json:"description"`
+	// Whether to group recent issue history entries.
+	GroupIssueHistory *bool `json:"groupIssueHistory"`
+	// The icon of the team.
+	Icon *string `json:"icon"`
+	// Unique hash for the team to be used in invite URLs.
+	InviteHash *string `json:"inviteHash"`
+	// Whether to allow zeros in issues estimates.
+	IssueEstimationAllowZero *bool `json:"issueEstimationAllowZero"`
+	// Whether to add additional points to the estimate scale.
+	IssueEstimationExtended *bool `json:"issueEstimationExtended"`
+	// The issue estimation type to use.
+	IssueEstimationType *string `json:"issueEstimationType"`
+	// Whether issues without priority should be sorted first.
+	IssueOrderingNoPriorityFirst *bool `json:"issueOrderingNoPriorityFirst"`
+	// Whether to move issues to bottom of the column when changing state.
+	IssueSortOrderDefaultToBottom *bool `json:"issueSortOrderDefaultToBottom"`
+	// The team's unique key. The key is used in URLs.
+	Key *string `json:"key"`
+	// The team's name.
+	Name *string `json:"name"`
+	// Whether the team is private or not.
+	Private *bool `json:"private"`
+	// Whether an issue needs to have a priority set before leaving triage
+	RequirePriorityToLeaveTriage *bool `json:"requirePriorityToLeaveTriage"`
+	// Whether to send new issue comment notifications to Slack.
+	SlackIssueComments *bool `json:"slackIssueComments"`
+	// Whether to send new issue status updates to Slack.
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+	// Whether to send new issue notifications to Slack.
+	SlackNewIssue *bool `json:"slackNewIssue"`
+	// The timezone of the team. Defaults to "America/Los_Angeles"
+	Timezone *string `json:"timezone"`
+	// Whether triage mode is enabled for the team or not.
+	TriageEnabled *bool `json:"triageEnabled"`
+	// How many upcoming cycles to create.
+	UpcomingCycleCount *float64 `json:"upcomingCycleCount"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+}
+
+// GetId returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.Id, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetId() *string {
+	return v.Id
+}
+
+// GetArchivedAt returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetAutoArchivePeriod returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.AutoArchivePeriod, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetAutoArchivePeriod() *float64 {
+	return v.AutoArchivePeriod
+}
+
+// GetAutoClosePeriod returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.AutoClosePeriod, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetAutoClosePeriod() *float64 {
+	return v.AutoClosePeriod
+}
+
+// GetAutoCloseStateId returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.AutoCloseStateId, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetAutoCloseStateId() *string {
+	return v.AutoCloseStateId
+}
+
+// GetColor returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.Color, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetColor() *string {
+	return v.Color
+}
+
+// GetCreatedAt returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetCycleCalenderUrl returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.CycleCalenderUrl, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetCycleCalenderUrl() *string {
+	return v.CycleCalenderUrl
+}
+
+// GetCycleCooldownTime returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.CycleCooldownTime, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetCycleCooldownTime() *float64 {
+	return v.CycleCooldownTime
+}
+
+// GetCycleDuration returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.CycleDuration, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetCycleDuration() *float64 {
+	return v.CycleDuration
+}
+
+// GetCycleIssueAutoAssignCompleted returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.CycleIssueAutoAssignCompleted, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetCycleIssueAutoAssignCompleted() *bool {
+	return v.CycleIssueAutoAssignCompleted
+}
+
+// GetCycleIssueAutoAssignStarted returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.CycleIssueAutoAssignStarted, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetCycleIssueAutoAssignStarted() *bool {
+	return v.CycleIssueAutoAssignStarted
+}
+
+// GetCycleLockToActive returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.CycleLockToActive, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetCycleLockToActive() *bool {
+	return v.CycleLockToActive
+}
+
+// GetCycleStartDay returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.CycleStartDay, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetCycleStartDay() *float64 {
+	return v.CycleStartDay
+}
+
+// GetCyclesEnabled returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.CyclesEnabled, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetCyclesEnabled() *bool {
+	return v.CyclesEnabled
+}
+
+// GetDefaultIssueEstimate returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.DefaultIssueEstimate, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetDefaultIssueEstimate() *float64 {
+	return v.DefaultIssueEstimate
+}
+
+// GetDefaultTemplateForMembersId returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.DefaultTemplateForMembersId, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetDefaultTemplateForMembersId() *string {
+	return v.DefaultTemplateForMembersId
+}
+
+// GetDefaultTemplateForNonMembersId returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.DefaultTemplateForNonMembersId, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetDefaultTemplateForNonMembersId() *string {
+	return v.DefaultTemplateForNonMembersId
+}
+
+// GetDescription returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.Description, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetDescription() *string {
+	return v.Description
+}
+
+// GetGroupIssueHistory returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.GroupIssueHistory, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetGroupIssueHistory() *bool {
+	return v.GroupIssueHistory
+}
+
+// GetIcon returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.Icon, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetIcon() *string {
+	return v.Icon
+}
+
+// GetInviteHash returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.InviteHash, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetInviteHash() *string {
+	return v.InviteHash
+}
+
+// GetIssueEstimationAllowZero returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.IssueEstimationAllowZero, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetIssueEstimationAllowZero() *bool {
+	return v.IssueEstimationAllowZero
+}
+
+// GetIssueEstimationExtended returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.IssueEstimationExtended, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetIssueEstimationExtended() *bool {
+	return v.IssueEstimationExtended
+}
+
+// GetIssueEstimationType returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.IssueEstimationType, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetIssueEstimationType() *string {
+	return v.IssueEstimationType
+}
+
+// GetIssueOrderingNoPriorityFirst returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.IssueOrderingNoPriorityFirst, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetIssueOrderingNoPriorityFirst() *bool {
+	return v.IssueOrderingNoPriorityFirst
+}
+
+// GetIssueSortOrderDefaultToBottom returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.IssueSortOrderDefaultToBottom, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetIssueSortOrderDefaultToBottom() *bool {
+	return v.IssueSortOrderDefaultToBottom
+}
+
+// GetKey returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.Key, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetKey() *string {
+	return v.Key
+}
+
+// GetName returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.Name, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetName() *string {
+	return v.Name
+}
+
+// GetPrivate returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.Private, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetPrivate() *bool {
+	return v.Private
+}
+
+// GetRequirePriorityToLeaveTriage returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.RequirePriorityToLeaveTriage, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetRequirePriorityToLeaveTriage() *bool {
+	return v.RequirePriorityToLeaveTriage
+}
+
+// GetSlackIssueComments returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.SlackIssueComments, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetSlackIssueComments() *bool {
+	return v.SlackIssueComments
+}
+
+// GetSlackIssueStatuses returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.SlackIssueStatuses, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetSlackIssueStatuses() *bool {
+	return v.SlackIssueStatuses
+}
+
+// GetSlackNewIssue returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.SlackNewIssue, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetSlackNewIssue() *bool {
+	return v.SlackNewIssue
+}
+
+// GetTimezone returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.Timezone, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetTimezone() *string {
+	return v.Timezone
+}
+
+// GetTriageEnabled returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.TriageEnabled, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetTriageEnabled() *bool {
+	return v.TriageEnabled
+}
+
+// GetUpcomingCycleCount returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.UpcomingCycleCount, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetUpcomingCycleCount() *float64 {
+	return v.UpcomingCycleCount
+}
+
+// GetUpdatedAt returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser includes the requested fields of the GraphQL type User.
+// The GraphQL type's documentation follows.
+//
+// A user that has access to the the resources of an organization.
+type listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// Whether the user account is active or disabled (suspended).
+	Active *bool `json:"active"`
+	// Whether the user is an organization administrator.
+	Admin *bool `json:"admin"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// An URL to the user's avatar image.
+	AvatarUrl *string `json:"avatarUrl"`
+	// [DEPRECATED] Hash for the user to be used in calendar URLs.
+	CalendarHash *string `json:"calendarHash"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// Number of issues created.
+	CreatedIssueCount *int `json:"createdIssueCount"`
+	// A short description of the user, either its title or bio.
+	Description *string `json:"description"`
+	// Reason why is the account disabled.
+	DisableReason *string `json:"disableReason"`
+	// The user's display (nick) name. Unique within each organization.
+	DisplayName *string `json:"displayName"`
+	// The user's email address.
+	Email *string `json:"email"`
+	// Whether the user is a guest in the workspace and limited to accessing a subset of teams.
+	Guest *bool `json:"guest"`
+	// Unique hash for the user to be used in invite URLs.
+	InviteHash *string `json:"inviteHash"`
+	// Whether the user is the currently authenticated user.
+	IsMe *bool `json:"isMe"`
+	// The last time the user was seen online. If null, the user is currently online.
+	LastSeen *time.Time `json:"lastSeen"`
+	// The user's full name.
+	Name *string `json:"name"`
+	// The emoji to represent the user current status.
+	StatusEmoji *string `json:"statusEmoji"`
+	// The label of the user current status.
+	StatusLabel *string `json:"statusLabel"`
+	// A date at which the user current status should be cleared.
+	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	// The local timezone of the user.
+	Timezone *string `json:"timezone"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// User's profile URL.
+	Url *string `json:"url"`
+}
+
+// GetId returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.Id, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetId() *string {
+	return v.Id
+}
+
+// GetActive returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.Active, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetActive() *bool {
+	return v.Active
+}
+
+// GetAdmin returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.Admin, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetAdmin() *bool {
+	return v.Admin
+}
+
+// GetArchivedAt returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetAvatarUrl returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.AvatarUrl, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetAvatarUrl() *string {
+	return v.AvatarUrl
+}
+
+// GetCalendarHash returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.CalendarHash, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetCalendarHash() *string {
+	return v.CalendarHash
+}
+
+// GetCreatedAt returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetCreatedIssueCount returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.CreatedIssueCount, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetCreatedIssueCount() *int {
+	return v.CreatedIssueCount
+}
+
+// GetDescription returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.Description, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetDescription() *string {
+	return v.Description
+}
+
+// GetDisableReason returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.DisableReason, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetDisableReason() *string {
+	return v.DisableReason
+}
+
+// GetDisplayName returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.DisplayName, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetDisplayName() *string {
+	return v.DisplayName
+}
+
+// GetEmail returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.Email, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetEmail() *string {
+	return v.Email
+}
+
+// GetGuest returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.Guest, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetGuest() *bool {
+	return v.Guest
+}
+
+// GetInviteHash returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.InviteHash, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetInviteHash() *string {
+	return v.InviteHash
+}
+
+// GetIsMe returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.IsMe, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetIsMe() *bool {
+	return v.IsMe
+}
+
+// GetLastSeen returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.LastSeen, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetLastSeen() *time.Time {
+	return v.LastSeen
+}
+
+// GetName returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.Name, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetName() *string {
+	return v.Name
+}
+
+// GetStatusEmoji returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.StatusEmoji, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetStatusEmoji() *string {
+	return v.StatusEmoji
+}
+
+// GetStatusLabel returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.StatusLabel, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetStatusLabel() *string {
+	return v.StatusLabel
+}
+
+// GetStatusUntilAt returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.StatusUntilAt, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetStatusUntilAt() *time.Time {
+	return v.StatusUntilAt
+}
+
+// GetTimezone returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.Timezone, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetTimezone() *string {
+	return v.Timezone
+}
+
+// GetUpdatedAt returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// GetUrl returns listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.Url, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) GetUrl() *string {
+	return v.Url
+}
+
+// listTeamMembershipTeamMembershipsTeamMembershipConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
+type listTeamMembershipTeamMembershipsTeamMembershipConnectionPageInfo struct {
+	// Indicates if there are more results when paginating forward.
+	HasNextPage *bool `json:"hasNextPage"`
+	// Cursor representing the last result in the paginated results.
+	EndCursor *string `json:"endCursor"`
+}
+
+// GetHasNextPage returns listTeamMembershipTeamMembershipsTeamMembershipConnectionPageInfo.HasNextPage, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionPageInfo) GetHasNextPage() *bool {
+	return v.HasNextPage
+}
+
+// GetEndCursor returns listTeamMembershipTeamMembershipsTeamMembershipConnectionPageInfo.EndCursor, and is useful for accessing the field via an interface.
+func (v *listTeamMembershipTeamMembershipsTeamMembershipConnectionPageInfo) GetEndCursor() *string {
+	return v.EndCursor
+}
 
 // listTeamResponse is returned by listTeam on success.
 type listTeamResponse struct {
@@ -6788,6 +10564,885 @@ func (v *listUserUsersUserConnectionPageInfo) GetHasNextPage() *bool { return v.
 // GetEndCursor returns listUserUsersUserConnectionPageInfo.EndCursor, and is useful for accessing the field via an interface.
 func (v *listUserUsersUserConnectionPageInfo) GetEndCursor() *string { return v.EndCursor }
 
+// listWorkflowStateResponse is returned by listWorkflowState on success.
+type listWorkflowStateResponse struct {
+	// All issue workflow states.
+	WorkflowStates *listWorkflowStateWorkflowStatesWorkflowStateConnection `json:"workflowStates"`
+}
+
+// GetWorkflowStates returns listWorkflowStateResponse.WorkflowStates, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateResponse) GetWorkflowStates() *listWorkflowStateWorkflowStatesWorkflowStateConnection {
+	return v.WorkflowStates
+}
+
+// listWorkflowStateWorkflowStatesWorkflowStateConnection includes the requested fields of the GraphQL type WorkflowStateConnection.
+type listWorkflowStateWorkflowStatesWorkflowStateConnection struct {
+	PageInfo *listWorkflowStateWorkflowStatesWorkflowStateConnectionPageInfo             `json:"pageInfo"`
+	Nodes    []*listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState `json:"nodes"`
+}
+
+// GetPageInfo returns listWorkflowStateWorkflowStatesWorkflowStateConnection.PageInfo, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnection) GetPageInfo() *listWorkflowStateWorkflowStatesWorkflowStateConnectionPageInfo {
+	return v.PageInfo
+}
+
+// GetNodes returns listWorkflowStateWorkflowStatesWorkflowStateConnection.Nodes, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnection) GetNodes() []*listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState {
+	return v.Nodes
+}
+
+// listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState includes the requested fields of the GraphQL type WorkflowState.
+// The GraphQL type's documentation follows.
+//
+// A state in a team workflow.
+type listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// The state's UI color as a HEX string.
+	Color *string `json:"color"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// Description of the state.
+	Description *string `json:"description"`
+	// The state's name.
+	Name *string `json:"name"`
+	// The position of the state in the team flow.
+	Position *float64 `json:"position"`
+	// The type of the state.
+	Type *string `json:"type"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// The team to which this state belongs to.
+	Team *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam `json:"team"`
+}
+
+// GetId returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState.Id, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetId() *string {
+	return v.Id
+}
+
+// GetArchivedAt returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetColor returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState.Color, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetColor() *string {
+	return v.Color
+}
+
+// GetCreatedAt returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetDescription returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState.Description, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetDescription() *string {
+	return v.Description
+}
+
+// GetName returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState.Name, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetName() *string {
+	return v.Name
+}
+
+// GetPosition returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState.Position, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetPosition() *float64 {
+	return v.Position
+}
+
+// GetType returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState.Type, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetType() *string {
+	return v.Type
+}
+
+// GetUpdatedAt returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// GetTeam returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState.Team, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetTeam() *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam {
+	return v.Team
+}
+
+// listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam includes the requested fields of the GraphQL type Team.
+// The GraphQL type's documentation follows.
+//
+// An organizational unit that contains issues.
+type listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// Period after which automatically closed and completed issues are automatically archived in months.
+	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
+	// Period after which issues are automatically closed in months. Null/undefined means disabled.
+	AutoClosePeriod *float64 `json:"autoClosePeriod"`
+	// The canceled workflow state which auto closed issues will be set to. Defaults to the first canceled state.
+	AutoCloseStateId *string `json:"autoCloseStateId"`
+	// The team's color.
+	Color *string `json:"color"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// Calendar feed URL (iCal) for cycles.
+	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
+	// The cooldown time after each cycle in weeks.
+	CycleCooldownTime *float64 `json:"cycleCooldownTime"`
+	// The duration of a cycle in weeks.
+	CycleDuration *float64 `json:"cycleDuration"`
+	// Auto assign completed issues to current cycle.
+	CycleIssueAutoAssignCompleted *bool `json:"cycleIssueAutoAssignCompleted"`
+	// Auto assign started issues to current cycle.
+	CycleIssueAutoAssignStarted *bool `json:"cycleIssueAutoAssignStarted"`
+	// Only allow issues issues with cycles in Active Issues.
+	CycleLockToActive *bool `json:"cycleLockToActive"`
+	// The day of the week that a new cycle starts.
+	CycleStartDay *float64 `json:"cycleStartDay"`
+	// Whether the team uses cycles.
+	CyclesEnabled *bool `json:"cyclesEnabled"`
+	// What to use as an default estimate for unestimated issues.
+	DefaultIssueEstimate *float64 `json:"defaultIssueEstimate"`
+	// The id of the default template to use for new issues created by members of the team.
+	DefaultTemplateForMembersId *string `json:"defaultTemplateForMembersId"`
+	// The id of the default template to use for new issues created by non-members of the team.
+	DefaultTemplateForNonMembersId *string `json:"defaultTemplateForNonMembersId"`
+	// The team's description.
+	Description *string `json:"description"`
+	// Whether to group recent issue history entries.
+	GroupIssueHistory *bool `json:"groupIssueHistory"`
+	// The icon of the team.
+	Icon *string `json:"icon"`
+	// Unique hash for the team to be used in invite URLs.
+	InviteHash *string `json:"inviteHash"`
+	// Whether to allow zeros in issues estimates.
+	IssueEstimationAllowZero *bool `json:"issueEstimationAllowZero"`
+	// Whether to add additional points to the estimate scale.
+	IssueEstimationExtended *bool `json:"issueEstimationExtended"`
+	// The issue estimation type to use.
+	IssueEstimationType *string `json:"issueEstimationType"`
+	// Whether issues without priority should be sorted first.
+	IssueOrderingNoPriorityFirst *bool `json:"issueOrderingNoPriorityFirst"`
+	// Whether to move issues to bottom of the column when changing state.
+	IssueSortOrderDefaultToBottom *bool `json:"issueSortOrderDefaultToBottom"`
+	// The team's unique key. The key is used in URLs.
+	Key *string `json:"key"`
+	// The team's name.
+	Name *string `json:"name"`
+	// Whether the team is private or not.
+	Private *bool `json:"private"`
+	// Whether an issue needs to have a priority set before leaving triage
+	RequirePriorityToLeaveTriage *bool `json:"requirePriorityToLeaveTriage"`
+	// Whether to send new issue comment notifications to Slack.
+	SlackIssueComments *bool `json:"slackIssueComments"`
+	// Whether to send new issue status updates to Slack.
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+	// Whether to send new issue notifications to Slack.
+	SlackNewIssue *bool `json:"slackNewIssue"`
+	// The timezone of the team. Defaults to "America/Los_Angeles"
+	Timezone *string `json:"timezone"`
+	// Whether triage mode is enabled for the team or not.
+	TriageEnabled *bool `json:"triageEnabled"`
+	// How many upcoming cycles to create.
+	UpcomingCycleCount *float64 `json:"upcomingCycleCount"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+}
+
+// GetId returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.Id, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetId() *string {
+	return v.Id
+}
+
+// GetArchivedAt returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetAutoArchivePeriod returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.AutoArchivePeriod, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetAutoArchivePeriod() *float64 {
+	return v.AutoArchivePeriod
+}
+
+// GetAutoClosePeriod returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.AutoClosePeriod, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetAutoClosePeriod() *float64 {
+	return v.AutoClosePeriod
+}
+
+// GetAutoCloseStateId returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.AutoCloseStateId, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetAutoCloseStateId() *string {
+	return v.AutoCloseStateId
+}
+
+// GetColor returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.Color, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetColor() *string {
+	return v.Color
+}
+
+// GetCreatedAt returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetCycleCalenderUrl returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CycleCalenderUrl, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCycleCalenderUrl() *string {
+	return v.CycleCalenderUrl
+}
+
+// GetCycleCooldownTime returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CycleCooldownTime, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCycleCooldownTime() *float64 {
+	return v.CycleCooldownTime
+}
+
+// GetCycleDuration returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CycleDuration, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCycleDuration() *float64 {
+	return v.CycleDuration
+}
+
+// GetCycleIssueAutoAssignCompleted returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CycleIssueAutoAssignCompleted, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCycleIssueAutoAssignCompleted() *bool {
+	return v.CycleIssueAutoAssignCompleted
+}
+
+// GetCycleIssueAutoAssignStarted returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CycleIssueAutoAssignStarted, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCycleIssueAutoAssignStarted() *bool {
+	return v.CycleIssueAutoAssignStarted
+}
+
+// GetCycleLockToActive returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CycleLockToActive, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCycleLockToActive() *bool {
+	return v.CycleLockToActive
+}
+
+// GetCycleStartDay returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CycleStartDay, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCycleStartDay() *float64 {
+	return v.CycleStartDay
+}
+
+// GetCyclesEnabled returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CyclesEnabled, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCyclesEnabled() *bool {
+	return v.CyclesEnabled
+}
+
+// GetDefaultIssueEstimate returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.DefaultIssueEstimate, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetDefaultIssueEstimate() *float64 {
+	return v.DefaultIssueEstimate
+}
+
+// GetDefaultTemplateForMembersId returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.DefaultTemplateForMembersId, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetDefaultTemplateForMembersId() *string {
+	return v.DefaultTemplateForMembersId
+}
+
+// GetDefaultTemplateForNonMembersId returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.DefaultTemplateForNonMembersId, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetDefaultTemplateForNonMembersId() *string {
+	return v.DefaultTemplateForNonMembersId
+}
+
+// GetDescription returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.Description, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetDescription() *string {
+	return v.Description
+}
+
+// GetGroupIssueHistory returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.GroupIssueHistory, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetGroupIssueHistory() *bool {
+	return v.GroupIssueHistory
+}
+
+// GetIcon returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.Icon, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetIcon() *string {
+	return v.Icon
+}
+
+// GetInviteHash returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.InviteHash, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetInviteHash() *string {
+	return v.InviteHash
+}
+
+// GetIssueEstimationAllowZero returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.IssueEstimationAllowZero, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetIssueEstimationAllowZero() *bool {
+	return v.IssueEstimationAllowZero
+}
+
+// GetIssueEstimationExtended returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.IssueEstimationExtended, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetIssueEstimationExtended() *bool {
+	return v.IssueEstimationExtended
+}
+
+// GetIssueEstimationType returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.IssueEstimationType, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetIssueEstimationType() *string {
+	return v.IssueEstimationType
+}
+
+// GetIssueOrderingNoPriorityFirst returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.IssueOrderingNoPriorityFirst, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetIssueOrderingNoPriorityFirst() *bool {
+	return v.IssueOrderingNoPriorityFirst
+}
+
+// GetIssueSortOrderDefaultToBottom returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.IssueSortOrderDefaultToBottom, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetIssueSortOrderDefaultToBottom() *bool {
+	return v.IssueSortOrderDefaultToBottom
+}
+
+// GetKey returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.Key, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetKey() *string {
+	return v.Key
+}
+
+// GetName returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.Name, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetName() *string {
+	return v.Name
+}
+
+// GetPrivate returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.Private, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetPrivate() *bool {
+	return v.Private
+}
+
+// GetRequirePriorityToLeaveTriage returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.RequirePriorityToLeaveTriage, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetRequirePriorityToLeaveTriage() *bool {
+	return v.RequirePriorityToLeaveTriage
+}
+
+// GetSlackIssueComments returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.SlackIssueComments, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetSlackIssueComments() *bool {
+	return v.SlackIssueComments
+}
+
+// GetSlackIssueStatuses returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.SlackIssueStatuses, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetSlackIssueStatuses() *bool {
+	return v.SlackIssueStatuses
+}
+
+// GetSlackNewIssue returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.SlackNewIssue, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetSlackNewIssue() *bool {
+	return v.SlackNewIssue
+}
+
+// GetTimezone returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.Timezone, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetTimezone() *string {
+	return v.Timezone
+}
+
+// GetTriageEnabled returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.TriageEnabled, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetTriageEnabled() *bool {
+	return v.TriageEnabled
+}
+
+// GetUpcomingCycleCount returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.UpcomingCycleCount, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetUpcomingCycleCount() *float64 {
+	return v.UpcomingCycleCount
+}
+
+// GetUpdatedAt returns listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// listWorkflowStateWorkflowStatesWorkflowStateConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
+type listWorkflowStateWorkflowStatesWorkflowStateConnectionPageInfo struct {
+	// Indicates if there are more results when paginating forward.
+	HasNextPage *bool `json:"hasNextPage"`
+	// Cursor representing the last result in the paginated results.
+	EndCursor *string `json:"endCursor"`
+}
+
+// GetHasNextPage returns listWorkflowStateWorkflowStatesWorkflowStateConnectionPageInfo.HasNextPage, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionPageInfo) GetHasNextPage() *bool {
+	return v.HasNextPage
+}
+
+// GetEndCursor returns listWorkflowStateWorkflowStatesWorkflowStateConnectionPageInfo.EndCursor, and is useful for accessing the field via an interface.
+func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionPageInfo) GetEndCursor() *string {
+	return v.EndCursor
+}
+
+// The query or mutation executed by listAttachment.
+const listAttachment_Operation = `
+query listAttachment ($first: Int, $after: String, $filter: AttachmentFilter, $includeCreator: Boolean!, $includeIssue: Boolean!) {
+	attachments(first: $first, after: $after, filter: $filter) {
+		pageInfo {
+			hasNextPage
+			endCursor
+		}
+		nodes {
+			id
+			archivedAt
+			createdAt
+			groupBySource
+			metadata
+			source
+			sourceType
+			subtitle
+			title
+			updatedAt
+			url
+			creator @skip(if: $includeCreator) {
+				id
+				active
+				admin
+				archivedAt
+				avatarUrl
+				calendarHash
+				createdAt
+				createdIssueCount
+				description
+				disableReason
+				displayName
+				email
+				guest
+				inviteHash
+				isMe
+				lastSeen
+				name
+				statusEmoji
+				statusLabel
+				statusUntilAt
+				timezone
+				updatedAt
+				url
+			}
+			issue @skip(if: $includeIssue) {
+				id
+				createdAt
+				updatedAt
+				archivedAt
+				number
+				title
+				description
+				priority
+				estimate
+				sortOrder
+				startedAt
+				completedAt
+				canceledAt
+				autoClosedAt
+				autoArchivedAt
+				dueDate
+				trashed
+				snoozedUntilAt
+				previousIdentifiers
+				subIssueSortOrder
+				priorityLabel
+				identifier
+				url
+				branchName
+				customerTicketCount
+			}
+		}
+	}
+}
+`
+
+func listAttachment(
+	ctx context.Context,
+	client graphql.Client,
+	first int,
+	after string,
+	filter *AttachmentFilter,
+	includeCreator *bool,
+	includeIssue *bool,
+) (*listAttachmentResponse, error) {
+	req := &graphql.Request{
+		OpName: "listAttachment",
+		Query:  listAttachment_Operation,
+		Variables: &__listAttachmentInput{
+			First:          first,
+			After:          after,
+			Filter:         filter,
+			IncludeCreator: includeCreator,
+			IncludeIssue:   includeIssue,
+		},
+	}
+	var err error
+
+	var data listAttachmentResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+// The query or mutation executed by listComment.
+const listComment_Operation = `
+query listComment ($first: Int, $after: String, $filter: CommentFilter, $includeIssue: Boolean!, $includeParent: Boolean!, $includeUser: Boolean!) {
+	comments(first: $first, after: $after, filter: $filter) {
+		pageInfo {
+			hasNextPage
+			endCursor
+		}
+		nodes {
+			id
+			archivedAt
+			body
+			bodyData
+			createdAt
+			editedAt
+			reactionData
+			updatedAt
+			url
+			user @skip(if: $includeUser) {
+				id
+				active
+				admin
+				archivedAt
+				avatarUrl
+				calendarHash
+				createdAt
+				createdIssueCount
+				description
+				disableReason
+				displayName
+				email
+				guest
+				inviteHash
+				isMe
+				lastSeen
+				name
+				statusEmoji
+				statusLabel
+				statusUntilAt
+				timezone
+				updatedAt
+				url
+			}
+			parent @skip(if: $includeParent) {
+				id
+				archivedAt
+				body
+				bodyData
+				createdAt
+				editedAt
+				reactionData
+				updatedAt
+				url
+			}
+			issue @skip(if: $includeIssue) {
+				id
+				createdAt
+				updatedAt
+				archivedAt
+				number
+				title
+				description
+				priority
+				estimate
+				sortOrder
+				startedAt
+				completedAt
+				canceledAt
+				autoClosedAt
+				autoArchivedAt
+				dueDate
+				trashed
+				snoozedUntilAt
+				previousIdentifiers
+				subIssueSortOrder
+				priorityLabel
+				identifier
+				url
+				branchName
+				customerTicketCount
+			}
+		}
+	}
+}
+`
+
+func listComment(
+	ctx context.Context,
+	client graphql.Client,
+	first int,
+	after string,
+	filter *CommentFilter,
+	includeIssue *bool,
+	includeParent *bool,
+	includeUser *bool,
+) (*listCommentResponse, error) {
+	req := &graphql.Request{
+		OpName: "listComment",
+		Query:  listComment_Operation,
+		Variables: &__listCommentInput{
+			First:         first,
+			After:         after,
+			Filter:        filter,
+			IncludeIssue:  includeIssue,
+			IncludeParent: includeParent,
+			IncludeUser:   includeUser,
+		},
+	}
+	var err error
+
+	var data listCommentResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+// The query or mutation executed by listCycle.
+const listCycle_Operation = `
+query listCycle ($first: Int, $after: String, $filter: CycleFilter, $includeTeam: Boolean!) {
+	cycles(first: $first, after: $after, filter: $filter) {
+		pageInfo {
+			hasNextPage
+			endCursor
+		}
+		nodes {
+			id
+			archivedAt
+			autoArchivedAt
+			completedAt
+			completedIssueCountHistory
+			completedScopeHistory
+			createdAt
+			description
+			endsAt
+			inProgressScopeHistory
+			issueCountHistory
+			name
+			number
+			progress
+			scopeHistory
+			startsAt
+			updatedAt
+			team @skip(if: $includeTeam) {
+				id
+				archivedAt
+				autoArchivePeriod
+				autoClosePeriod
+				autoCloseStateId
+				color
+				createdAt
+				cycleCalenderUrl
+				cycleCooldownTime
+				cycleDuration
+				cycleIssueAutoAssignCompleted
+				cycleIssueAutoAssignStarted
+				cycleLockToActive
+				cycleStartDay
+				cyclesEnabled
+				defaultIssueEstimate
+				defaultTemplateForMembersId
+				defaultTemplateForNonMembersId
+				description
+				groupIssueHistory
+				icon
+				inviteHash
+				issueEstimationAllowZero
+				issueEstimationExtended
+				issueEstimationType
+				issueOrderingNoPriorityFirst
+				issueSortOrderDefaultToBottom
+				key
+				name
+				private
+				requirePriorityToLeaveTriage
+				slackIssueComments
+				slackIssueStatuses
+				slackNewIssue
+				timezone
+				triageEnabled
+				upcomingCycleCount
+				updatedAt
+			}
+		}
+	}
+}
+`
+
+func listCycle(
+	ctx context.Context,
+	client graphql.Client,
+	first int,
+	after string,
+	filter *CycleFilter,
+	includeTeam *bool,
+) (*listCycleResponse, error) {
+	req := &graphql.Request{
+		OpName: "listCycle",
+		Query:  listCycle_Operation,
+		Variables: &__listCycleInput{
+			First:       first,
+			After:       after,
+			Filter:      filter,
+			IncludeTeam: includeTeam,
+		},
+	}
+	var err error
+
+	var data listCycleResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+// The query or mutation executed by listIntegration.
+const listIntegration_Operation = `
+query listIntegration ($first: Int, $after: String, $includeCreator: Boolean!, $includeOrganization: Boolean!, $includeTeam: Boolean!) {
+	integrations(first: $first, after: $after) {
+		pageInfo {
+			hasNextPage
+			endCursor
+		}
+		nodes {
+			id
+			archivedAt
+			createdAt
+			service
+			updatedAt
+			team @skip(if: $includeTeam) {
+				id
+				archivedAt
+				autoArchivePeriod
+				autoClosePeriod
+				autoCloseStateId
+				color
+				createdAt
+				cycleCalenderUrl
+				cycleCooldownTime
+				cycleDuration
+				cycleIssueAutoAssignCompleted
+				cycleIssueAutoAssignStarted
+				cycleLockToActive
+				cycleStartDay
+				cyclesEnabled
+				defaultIssueEstimate
+				defaultTemplateForMembersId
+				defaultTemplateForNonMembersId
+				description
+				groupIssueHistory
+				icon
+				inviteHash
+				issueEstimationAllowZero
+				issueEstimationExtended
+				issueEstimationType
+				issueOrderingNoPriorityFirst
+				issueSortOrderDefaultToBottom
+				key
+				name
+				private
+				requirePriorityToLeaveTriage
+				slackIssueComments
+				slackIssueStatuses
+				slackNewIssue
+				timezone
+				triageEnabled
+				upcomingCycleCount
+				updatedAt
+			}
+			creator @skip(if: $includeCreator) {
+				id
+				active
+				admin
+				archivedAt
+				avatarUrl
+				calendarHash
+				createdAt
+				createdIssueCount
+				description
+				disableReason
+				displayName
+				email
+				guest
+				inviteHash
+				isMe
+				lastSeen
+				name
+				statusEmoji
+				statusLabel
+				statusUntilAt
+				timezone
+				updatedAt
+				url
+			}
+			organization @skip(if: $includeOrganization) {
+				id
+				allowedAuthServices
+				archivedAt
+				createdAt
+				createdIssueCount
+				deletionRequestedAt
+				gitBranchFormat
+				gitLinkbackMessagesEnabled
+				gitPublicLinkbackMessagesEnabled
+				logoUrl
+				name
+				periodUploadVolume
+				previousUrlKeys
+				projectUpdateRemindersDay
+				projectUpdateRemindersHour
+				projectUpdatesReminderFrequency
+				releaseChannel
+				roadmapEnabled
+				samlEnabled
+				scimEnabled
+				trialEndsAt
+				updatedAt
+				urlKey
+				userCount
+			}
+		}
+	}
+}
+`
+
+func listIntegration(
+	ctx context.Context,
+	client graphql.Client,
+	first int,
+	after string,
+	includeCreator *bool,
+	includeOrganization *bool,
+	includeTeam *bool,
+) (*listIntegrationResponse, error) {
+	req := &graphql.Request{
+		OpName: "listIntegration",
+		Query:  listIntegration_Operation,
+		Variables: &__listIntegrationInput{
+			First:               first,
+			After:               after,
+			IncludeCreator:      includeCreator,
+			IncludeOrganization: includeOrganization,
+			IncludeTeam:         includeTeam,
+		},
+	}
+	var err error
+
+	var data listIntegrationResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
 // The query or mutation executed by listIssue.
 const listIssue_Operation = `
 query listIssue ($first: Int, $after: String, $filter: IssueFilter, $includeTeam: Boolean!, $includeCycle: Boolean!, $includeProject: Boolean!, $includeCreator: Boolean!, $includeAssignee: Boolean!, $includeSnoozedBy: Boolean!, $includeState: Boolean!, $includeParent: Boolean!, $includeProjectMilestone: Boolean!) {
@@ -7070,6 +11725,165 @@ func listIssue(
 	var err error
 
 	var data listIssueResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+// The query or mutation executed by listIssueLabel.
+const listIssueLabel_Operation = `
+query listIssueLabel ($first: Int, $after: String, $filter: IssueLabelFilter, $includeCreator: Boolean!, $includeOrganization: Boolean!, $includeParent: Boolean!, $includeTeam: Boolean!) {
+	issueLabels(first: $first, after: $after, filter: $filter) {
+		pageInfo {
+			hasNextPage
+			endCursor
+		}
+		nodes {
+			id
+			archivedAt
+			color
+			createdAt
+			description
+			name
+			updatedAt
+			team @skip(if: $includeTeam) {
+				id
+				archivedAt
+				autoArchivePeriod
+				autoClosePeriod
+				autoCloseStateId
+				color
+				createdAt
+				cycleCalenderUrl
+				cycleCooldownTime
+				cycleDuration
+				cycleIssueAutoAssignCompleted
+				cycleIssueAutoAssignStarted
+				cycleLockToActive
+				cycleStartDay
+				cyclesEnabled
+				defaultIssueEstimate
+				defaultTemplateForMembersId
+				defaultTemplateForNonMembersId
+				description
+				groupIssueHistory
+				icon
+				inviteHash
+				issueEstimationAllowZero
+				issueEstimationExtended
+				issueEstimationType
+				issueOrderingNoPriorityFirst
+				issueSortOrderDefaultToBottom
+				key
+				name
+				private
+				requirePriorityToLeaveTriage
+				slackIssueComments
+				slackIssueStatuses
+				slackNewIssue
+				timezone
+				triageEnabled
+				upcomingCycleCount
+				updatedAt
+			}
+			creator @skip(if: $includeCreator) {
+				id
+				active
+				admin
+				archivedAt
+				avatarUrl
+				calendarHash
+				createdAt
+				createdIssueCount
+				description
+				disableReason
+				displayName
+				email
+				guest
+				inviteHash
+				isMe
+				lastSeen
+				name
+				statusEmoji
+				statusLabel
+				statusUntilAt
+				timezone
+				updatedAt
+				url
+			}
+			organization @skip(if: $includeOrganization) {
+				id
+				allowedAuthServices
+				archivedAt
+				createdAt
+				createdIssueCount
+				deletionRequestedAt
+				gitBranchFormat
+				gitLinkbackMessagesEnabled
+				gitPublicLinkbackMessagesEnabled
+				logoUrl
+				name
+				periodUploadVolume
+				previousUrlKeys
+				projectUpdateRemindersDay
+				projectUpdateRemindersHour
+				projectUpdatesReminderFrequency
+				releaseChannel
+				roadmapEnabled
+				samlEnabled
+				scimEnabled
+				trialEndsAt
+				updatedAt
+				urlKey
+				userCount
+			}
+			parent @skip(if: $includeParent) {
+				id
+				archivedAt
+				color
+				createdAt
+				description
+				name
+				updatedAt
+			}
+		}
+	}
+}
+`
+
+func listIssueLabel(
+	ctx context.Context,
+	client graphql.Client,
+	first int,
+	after string,
+	filter *IssueLabelFilter,
+	includeCreator *bool,
+	includeOrganization *bool,
+	includeParent *bool,
+	includeTeam *bool,
+) (*listIssueLabelResponse, error) {
+	req := &graphql.Request{
+		OpName: "listIssueLabel",
+		Query:  listIssueLabel_Operation,
+		Variables: &__listIssueLabelInput{
+			First:               first,
+			After:               after,
+			Filter:              filter,
+			IncludeCreator:      includeCreator,
+			IncludeOrganization: includeOrganization,
+			IncludeParent:       includeParent,
+			IncludeTeam:         includeTeam,
+		},
+	}
+	var err error
+
+	var data listIssueLabelResponse
 	resp := &graphql.Response{Data: &data}
 
 	err = client.MakeRequest(
@@ -7580,6 +12394,123 @@ func listTeam(
 	return &data, err
 }
 
+// The query or mutation executed by listTeamMembership.
+const listTeamMembership_Operation = `
+query listTeamMembership ($first: Int, $after: String, $includeTeam: Boolean!, $includeUser: Boolean!) {
+	teamMemberships(first: $first, after: $after) {
+		pageInfo {
+			hasNextPage
+			endCursor
+		}
+		nodes {
+			id
+			archivedAt
+			createdAt
+			owner
+			sortOrder
+			updatedAt
+			team @skip(if: $includeTeam) {
+				id
+				archivedAt
+				autoArchivePeriod
+				autoClosePeriod
+				autoCloseStateId
+				color
+				createdAt
+				cycleCalenderUrl
+				cycleCooldownTime
+				cycleDuration
+				cycleIssueAutoAssignCompleted
+				cycleIssueAutoAssignStarted
+				cycleLockToActive
+				cycleStartDay
+				cyclesEnabled
+				defaultIssueEstimate
+				defaultTemplateForMembersId
+				defaultTemplateForNonMembersId
+				description
+				groupIssueHistory
+				icon
+				inviteHash
+				issueEstimationAllowZero
+				issueEstimationExtended
+				issueEstimationType
+				issueOrderingNoPriorityFirst
+				issueSortOrderDefaultToBottom
+				key
+				name
+				private
+				requirePriorityToLeaveTriage
+				slackIssueComments
+				slackIssueStatuses
+				slackNewIssue
+				timezone
+				triageEnabled
+				upcomingCycleCount
+				updatedAt
+			}
+			user @skip(if: $includeUser) {
+				id
+				active
+				admin
+				archivedAt
+				avatarUrl
+				calendarHash
+				createdAt
+				createdIssueCount
+				description
+				disableReason
+				displayName
+				email
+				guest
+				inviteHash
+				isMe
+				lastSeen
+				name
+				statusEmoji
+				statusLabel
+				statusUntilAt
+				timezone
+				updatedAt
+				url
+			}
+		}
+	}
+}
+`
+
+func listTeamMembership(
+	ctx context.Context,
+	client graphql.Client,
+	first int,
+	after string,
+	includeTeam *bool,
+	includeUser *bool,
+) (*listTeamMembershipResponse, error) {
+	req := &graphql.Request{
+		OpName: "listTeamMembership",
+		Query:  listTeamMembership_Operation,
+		Variables: &__listTeamMembershipInput{
+			First:       first,
+			After:       after,
+			IncludeTeam: includeTeam,
+			IncludeUser: includeUser,
+		},
+	}
+	var err error
+
+	var data listTeamMembershipResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
 // The query or mutation executed by listUser.
 const listUser_Operation = `
 query listUser ($first: Int, $after: String, $filter: UserFilter, $includeOrganization: Boolean!) {
@@ -7664,6 +12595,101 @@ func listUser(
 	var err error
 
 	var data listUserResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+// The query or mutation executed by listWorkflowState.
+const listWorkflowState_Operation = `
+query listWorkflowState ($first: Int, $after: String, $filter: WorkflowStateFilter, $includeTeam: Boolean!) {
+	workflowStates(first: $first, after: $after, filter: $filter) {
+		pageInfo {
+			hasNextPage
+			endCursor
+		}
+		nodes {
+			id
+			archivedAt
+			color
+			createdAt
+			description
+			name
+			position
+			type
+			updatedAt
+			team @skip(if: $includeTeam) {
+				id
+				archivedAt
+				autoArchivePeriod
+				autoClosePeriod
+				autoCloseStateId
+				color
+				createdAt
+				cycleCalenderUrl
+				cycleCooldownTime
+				cycleDuration
+				cycleIssueAutoAssignCompleted
+				cycleIssueAutoAssignStarted
+				cycleLockToActive
+				cycleStartDay
+				cyclesEnabled
+				defaultIssueEstimate
+				defaultTemplateForMembersId
+				defaultTemplateForNonMembersId
+				description
+				groupIssueHistory
+				icon
+				inviteHash
+				issueEstimationAllowZero
+				issueEstimationExtended
+				issueEstimationType
+				issueOrderingNoPriorityFirst
+				issueSortOrderDefaultToBottom
+				key
+				name
+				private
+				requirePriorityToLeaveTriage
+				slackIssueComments
+				slackIssueStatuses
+				slackNewIssue
+				timezone
+				triageEnabled
+				upcomingCycleCount
+				updatedAt
+			}
+		}
+	}
+}
+`
+
+func listWorkflowState(
+	ctx context.Context,
+	client graphql.Client,
+	first int,
+	after string,
+	filter *WorkflowStateFilter,
+	includeTeam *bool,
+) (*listWorkflowStateResponse, error) {
+	req := &graphql.Request{
+		OpName: "listWorkflowState",
+		Query:  listWorkflowState_Operation,
+		Variables: &__listWorkflowStateInput{
+			First:       first,
+			After:       after,
+			Filter:      filter,
+			IncludeTeam: includeTeam,
+		},
+	}
+	var err error
+
+	var data listWorkflowStateResponse
 	resp := &graphql.Response{Data: &data}
 
 	err = client.MakeRequest(
