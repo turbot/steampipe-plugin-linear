@@ -348,7 +348,7 @@ func listTeams(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	filters := setTeamFilters(d, ctx)
 
 	for {
-		listTeamResponse, err := gql.ListTeam(ctx, conn, pageSize, endCursor, &filters, &includeCycle, &includeIssueState, &includeTemplateForMembers, &includeTemplateForNonMembers, &includeWorkflowState, &includeIntegrationsSettings, &includeDuplicateWorkflowState, &includeOrganization, &includeReviewWorkflowState, &includeStartWorkflowState, &includeTriageWorkflowState)
+		listTeamResponse, err := gql.ListTeam(ctx, conn, pageSize, endCursor, true, &filters, &includeCycle, &includeIssueState, &includeTemplateForMembers, &includeTemplateForNonMembers, &includeWorkflowState, &includeIntegrationsSettings, &includeDuplicateWorkflowState, &includeOrganization, &includeReviewWorkflowState, &includeStartWorkflowState, &includeTriageWorkflowState)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_team.listTeams", "api_error", err)
 			return nil, err

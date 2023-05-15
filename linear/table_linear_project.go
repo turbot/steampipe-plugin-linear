@@ -266,7 +266,7 @@ func listProjects(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	filters := setProjectFilters(d, ctx)
 
 	for {
-		listProjectResponse, err := gql.ListProject(ctx, conn, pageSize, endCursor, &filters, &includeConvertedFromIssue, &includeIntegrationsSettings, &includeLead, &includeCreator)
+		listProjectResponse, err := gql.ListProject(ctx, conn, pageSize, endCursor, true, &filters, &includeConvertedFromIssue, &includeIntegrationsSettings, &includeLead, &includeCreator)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_project.listProjects", "api_error", err)
 			return nil, err
@@ -287,10 +287,6 @@ func listProjects(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	return nil, nil
 }
-
-// start_date
-// completed_at
-// target_date
 
 // Set the requested filter
 func setProjectFilters(d *plugin.QueryData, ctx context.Context) gql.ProjectFilter {

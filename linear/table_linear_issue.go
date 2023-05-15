@@ -266,7 +266,7 @@ func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 
 	var endCursor string
-	var pageSize int = 50
+	var pageSize int = 60
 	if d.QueryContext.Limit != nil {
 		if int(*d.QueryContext.Limit) < pageSize {
 			pageSize = int(*d.QueryContext.Limit)
@@ -302,7 +302,7 @@ func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	filters := setIssueFilters(d, ctx)
 
 	for {
-		listIssueResponse, err := gql.ListIssue(ctx, conn, pageSize, endCursor, &filters, &includeTeam, &includeCycle, &includeProject, &includeCreator, &includeAssignee, &includeSnoozedBy, &includeState, &includeParent, &includeProjectMilestone)
+		listIssueResponse, err := gql.ListIssue(ctx, conn, pageSize, endCursor, true, &filters, &includeTeam, &includeCycle, &includeProject, &includeCreator, &includeAssignee, &includeSnoozedBy, &includeState, &includeParent, &includeProjectMilestone)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_issue.listIssues", "api_error", err)
 			return nil, err

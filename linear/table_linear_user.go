@@ -211,7 +211,7 @@ func listUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	filters := setUserFilters(d, ctx)
 
 	for {
-		listUserResponse, err := gql.ListUser(ctx, conn, pageSize, endCursor, &filters, &includeOrganization)
+		listUserResponse, err := gql.ListUser(ctx, conn, pageSize, endCursor, true, &filters, &includeOrganization)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_user.listUsers", "api_error", err)
 			return nil, err

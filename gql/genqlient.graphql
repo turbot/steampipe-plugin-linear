@@ -4,6 +4,8 @@ query listIssue(
   $first: Int
   # @genqlient(pointer: false)
   $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean
   $filter: IssueFilter
   $includeTeam: Boolean!
   $includeCycle: Boolean!
@@ -15,13 +17,275 @@ query listIssue(
   $includeParent: Boolean!
   $includeProjectMilestone: Boolean!
 ) {
-  issues(first: $first, after: $after, filter: $filter) {
+  issues(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
     pageInfo {
       hasNextPage
       endCursor
     }
     nodes {
       id
+      createdAt
+      updatedAt
+      archivedAt
+      number
+      title
+      description
+      priority
+      estimate
+      sortOrder
+      startedAt
+      completedAt
+      canceledAt
+      autoClosedAt
+      autoArchivedAt
+      dueDate
+      trashed
+      snoozedUntilAt
+      previousIdentifiers
+      subIssueSortOrder
+      priorityLabel
+      identifier
+      url
+      branchName
+      customerTicketCount
+      # @genqlient(pointer: true)
+      labels (first: 10, after: $after, includeArchived: $includeArchived) {
+      pageInfo {
+      hasNextPage
+      endCursor
+      }
+    nodes {
+       id
+      archivedAt
+      color
+      createdAt
+      description
+      name
+      updatedAt
+      }
+    }
+      # @genqlient(pointer: true)
+      team @skip(if: $includeTeam) {
+        id
+        archivedAt
+        autoArchivePeriod
+        autoClosePeriod
+        autoCloseStateId
+        color
+        createdAt
+        cycleCalenderUrl
+        cycleCooldownTime
+        cycleDuration
+        cycleIssueAutoAssignCompleted
+        cycleIssueAutoAssignStarted
+        cycleLockToActive
+        cycleStartDay
+        cyclesEnabled
+        defaultIssueEstimate
+        defaultTemplateForMembersId
+        defaultTemplateForNonMembersId
+        description
+        groupIssueHistory
+        icon
+        inviteHash
+        issueEstimationAllowZero
+        issueEstimationExtended
+        issueEstimationType
+        issueOrderingNoPriorityFirst
+        issueSortOrderDefaultToBottom
+        key
+        name
+        private
+        requirePriorityToLeaveTriage
+        slackIssueComments
+        slackIssueStatuses
+        slackNewIssue
+        timezone
+        triageEnabled
+        upcomingCycleCount
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      cycle @skip(if: $includeCycle) {
+        id
+        archivedAt
+        autoArchivedAt
+        completedAt
+        completedIssueCountHistory
+        completedScopeHistory
+        createdAt
+        description
+        endsAt
+        inProgressScopeHistory
+        issueCountHistory
+        name
+        number
+        progress
+        scopeHistory
+        startsAt
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      project @skip(if: $includeProject) {
+        id
+        archivedAt
+        autoArchivedAt
+        canceledAt
+        color
+        completedAt
+        completedIssueCountHistory
+        completedScopeHistory
+        createdAt
+        description
+        icon
+        inProgressScopeHistory
+        issueCountHistory
+        name
+        progress
+        projectUpdateRemindersPausedUntilAt
+        scope
+        scopeHistory
+        slackIssueComments
+        slackIssueStatuses
+        slackNewIssue
+        slugId
+        sortOrder
+        startDate
+        startedAt
+        state
+        targetDate
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      creator @skip(if: $includeCreator) {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      assignee @skip(if: $includeAssignee) {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      snoozedBy @skip(if: $includeSnoozedBy) {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      state @skip(if: $includeState) {
+        id
+        archivedAt
+        color
+        createdAt
+        description
+        name
+        position
+        type
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      parent @skip(if: $includeParent) {
+        id
+        createdAt
+        updatedAt
+        archivedAt
+        number
+        title
+        description
+        priority
+        estimate
+        sortOrder
+        startedAt
+        completedAt
+        canceledAt
+        autoClosedAt
+        autoArchivedAt
+        dueDate
+        trashed
+        snoozedUntilAt
+        previousIdentifiers
+      }
+      # @genqlient(pointer: true)
+      projectMilestone @skip(if: $includeProjectMilestone) {
+        archivedAt
+        createdAt
+        description
+        id
+        name
+        sortOrder
+        updatedAt
+      }
+    }
+  }
+}
+
+query getIssue($issueId: String!) {
+  issue(id: $issueId) {
+  id
       createdAt
       updatedAt
       archivedAt
@@ -261,23 +525,23 @@ query listIssue(
         sortOrder
         updatedAt
       }
-    }
-  }
 }
-
+}
 # @genqlient(omitempty: true,pointer: true)
 query listProject(
   # @genqlient(pointer: false)
   $first: Int
   # @genqlient(pointer: false)
   $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean
   $filter: ProjectFilter
   $includeConvertedFromIssue: Boolean!
   $includeIntegrationsSettings: Boolean!
   $includeLead: Boolean!
   $includeCreator: Boolean!
 ) {
-  projects(first: $first, after: $after, filter: $filter) {
+  projects(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
     pageInfo {
       hasNextPage
       endCursor
@@ -413,16 +677,149 @@ query listProject(
   }
 }
 
+query getProject($projectId: String!) {
+  project(id: $projectId) {
+      id
+      archivedAt
+      autoArchivedAt
+      canceledAt
+      color
+      completedAt
+      completedIssueCountHistory
+      completedScopeHistory
+      createdAt
+      description
+      icon
+      inProgressScopeHistory
+      issueCountHistory
+      name
+      progress
+      projectUpdateRemindersPausedUntilAt
+      scope
+      scopeHistory
+      slackIssueComments
+      slackIssueStatuses
+      slackNewIssue
+      slugId
+      sortOrder
+      startDate
+      startedAt
+      state
+      targetDate
+      updatedAt
+      url
+      # @genqlient(pointer: true)
+      convertedFromIssue @skip(if: $includeConvertedFromIssue) {
+        id
+        createdAt
+        updatedAt
+        archivedAt
+        number
+        title
+        description
+        priority
+        estimate
+        sortOrder
+        startedAt
+        completedAt
+        canceledAt
+        autoClosedAt
+        autoArchivedAt
+        dueDate
+        trashed
+        snoozedUntilAt
+        previousIdentifiers
+        subIssueSortOrder
+        priorityLabel
+        identifier
+        url
+        branchName
+        customerTicketCount
+      }
+      # @genqlient(pointer: true)
+      integrationsSettings @skip(if: $includeIntegrationsSettings) {
+        id
+        archivedAt
+        createdAt
+        slackIssueAddedToTriage
+        slackIssueCreated
+        slackIssueNewComment
+        slackIssueSlaBreached
+        slackIssueSlaHighRisk
+        slackIssueStatusChangedAll
+        slackIssueStatusChangedDone
+        slackProjectUpdateCreated
+        slackProjectUpdateCreatedToTeam
+        slackProjectUpdateCreatedToWorkspace
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      creator @skip(if: $includeCreator) {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      lead @skip(if: $includeLead) {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+}
+}
+
 # @genqlient(omitempty: true,pointer: true)
 query listUser(
   # @genqlient(pointer: false)
   $first: Int
   # @genqlient(pointer: false)
   $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean
   $filter: UserFilter
   $includeOrganization: Boolean!
 ) {
-  users(first: $first, after: $after, filter: $filter) {
+  users(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
     pageInfo {
       hasNextPage
       endCursor
@@ -482,12 +879,70 @@ query listUser(
   }
 }
 
+query getUser($userId: String!) {
+  user(id: $userId) {
+      id
+      active
+      admin
+      archivedAt
+      avatarUrl
+      calendarHash
+      createdAt
+      createdIssueCount
+      description
+      disableReason
+      displayName
+      email
+      guest
+      inviteHash
+      isMe
+      lastSeen
+      name
+      statusEmoji
+      statusLabel
+      statusUntilAt
+      timezone
+      updatedAt
+      url
+      # @genqlient(pointer: true)
+      organization @skip(if: $includeOrganization) {
+        id
+        allowedAuthServices
+        archivedAt
+        createdAt
+        createdIssueCount
+        deletionRequestedAt
+        gitBranchFormat
+        gitLinkbackMessagesEnabled
+        gitPublicLinkbackMessagesEnabled
+        logoUrl
+        name
+        periodUploadVolume
+        previousUrlKeys
+        projectUpdateRemindersDay
+        projectUpdateRemindersHour
+        projectUpdatesReminderFrequency
+        releaseChannel
+        roadmapEnabled
+        samlEnabled
+        scimEnabled
+        trialEndsAt
+        updatedAt
+        urlKey
+        userCount
+      }
+      }
+}
+}
+
 # @genqlient(omitempty: true,pointer: true)
 query listTeam(
   # @genqlient(pointer: false)
   $first: Int
   # @genqlient(pointer: false)
   $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean
   $filter: TeamFilter
   $includeCycle: Boolean!
   $includeIssueState: Boolean!
@@ -501,7 +956,7 @@ query listTeam(
   $includeStartWorkflowState: Boolean!
   $includeTriageWorkflowState: Boolean!
 ) {
-  teams(first: $first, after: $after, filter: $filter) {
+  teams(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
     pageInfo {
       hasNextPage
       endCursor
@@ -707,6 +1162,207 @@ query listTeam(
   }
 }
 
+query getTeam($teamId: String!) {
+  team(id: $teamId) {
+      id
+      archivedAt
+      autoArchivePeriod
+      autoClosePeriod
+      autoCloseStateId
+      color
+      createdAt
+      cycleCalenderUrl
+      cycleCooldownTime
+      cycleDuration
+      cycleIssueAutoAssignCompleted
+      cycleIssueAutoAssignStarted
+      cycleLockToActive
+      cycleStartDay
+      cyclesEnabled
+      defaultIssueEstimate
+      defaultTemplateForMembersId
+      defaultTemplateForNonMembersId
+      description
+      groupIssueHistory
+      icon
+      inviteHash
+      issueEstimationAllowZero
+      issueEstimationExtended
+      issueEstimationType
+      issueOrderingNoPriorityFirst
+      issueSortOrderDefaultToBottom
+      key
+      name
+      private
+      requirePriorityToLeaveTriage
+      slackIssueComments
+      slackIssueStatuses
+      slackNewIssue
+      timezone
+      triageEnabled
+      upcomingCycleCount
+      updatedAt
+      # @genqlient(pointer: true)
+      activeCycle @skip(if: $includeCycle) {
+        id
+        archivedAt
+        autoArchivedAt
+        completedAt
+        completedIssueCountHistory
+        completedScopeHistory
+        createdAt
+        description
+        endsAt
+        inProgressScopeHistory
+        issueCountHistory
+        name
+        number
+        progress
+        scopeHistory
+        startsAt
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      defaultIssueState @skip(if: $includeIssueState) {
+        id
+        archivedAt
+        color
+        createdAt
+        description
+        name
+        position
+        type
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      defaultTemplateForMembers @skip(if: $includeTemplateForMembers) {
+        id
+        archivedAt
+        description
+        createdAt
+        type
+        name
+        updatedAt
+        templateData
+      }
+      # @genqlient(pointer: true)
+      defaultTemplateForNonMembers @skip(if: $includeTemplateForNonMembers) {
+        id
+        archivedAt
+        description
+        createdAt
+        type
+        name
+        updatedAt
+        templateData
+      }
+      # @genqlient(pointer: true)
+      draftWorkflowState @skip(if: $includeWorkflowState) {
+        id
+        archivedAt
+        color
+        createdAt
+        description
+        name
+        position
+        type
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      integrationsSettings @skip(if: $includeIntegrationsSettings) {
+        id
+        archivedAt
+        createdAt
+        slackIssueAddedToTriage
+        slackIssueCreated
+        slackIssueNewComment
+        slackIssueSlaBreached
+        slackIssueSlaHighRisk
+        slackIssueStatusChangedAll
+        slackIssueStatusChangedDone
+        slackProjectUpdateCreated
+        slackProjectUpdateCreatedToTeam
+        slackProjectUpdateCreatedToWorkspace
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      markedAsDuplicateWorkflowState @skip(if: $includeDuplicateWorkflowState) {
+        id
+        archivedAt
+        color
+        createdAt
+        description
+        name
+        position
+        type
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      organization @skip(if: $includeOrganization) {
+        id
+        allowedAuthServices
+        archivedAt
+        createdAt
+        createdIssueCount
+        deletionRequestedAt
+        gitBranchFormat
+        gitLinkbackMessagesEnabled
+        gitPublicLinkbackMessagesEnabled
+        logoUrl
+        name
+        periodUploadVolume
+        previousUrlKeys
+        projectUpdateRemindersDay
+        projectUpdateRemindersHour
+        projectUpdatesReminderFrequency
+        releaseChannel
+        roadmapEnabled
+        samlEnabled
+        scimEnabled
+        trialEndsAt
+        updatedAt
+        urlKey
+        userCount
+      }
+      # @genqlient(pointer: true)
+      reviewWorkflowState @skip(if: $includeReviewWorkflowState) {
+        id
+        archivedAt
+        color
+        createdAt
+        description
+        name
+        position
+        type
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      startWorkflowState @skip(if: $includeStartWorkflowState) {
+        id
+        archivedAt
+        color
+        createdAt
+        description
+        name
+        position
+        type
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      triageIssueState @skip(if: $includeTriageWorkflowState) {
+        id
+        archivedAt
+        color
+        createdAt
+        description
+        name
+        position
+        type
+        updatedAt
+      }
+}
+}
+
 # @genqlient(pointer: true)
 query listOrganization($includeSubscription: Boolean!) {
   organization() {
@@ -760,11 +1416,13 @@ query listAttachment(
   $first: Int
   # @genqlient(pointer: false)
   $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean
   $filter: AttachmentFilter
   $includeCreator: Boolean!
   $includeIssue: Boolean!
 ) {
-  attachments(first: $first, after: $after, filter: $filter) {
+  attachments(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
     pageInfo {
       hasNextPage
       endCursor
@@ -839,18 +1497,90 @@ query listAttachment(
   }
 }
 
+query getAttachment($attachmentId: String!) {
+  attachment(id: $attachmentId) {
+      id
+      archivedAt
+      createdAt
+      groupBySource
+      metadata
+      source
+      sourceType
+      subtitle
+      title
+      updatedAt
+      url
+      # @genqlient(pointer: true)
+      creator @skip(if: $includeCreator) {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      issue @skip(if: $includeIssue) {
+        id
+      createdAt
+      updatedAt
+      archivedAt
+      number
+      title
+      description
+      priority
+      estimate
+      sortOrder
+      startedAt
+      completedAt
+      canceledAt
+      autoClosedAt
+      autoArchivedAt
+      dueDate
+      trashed
+      snoozedUntilAt
+      previousIdentifiers
+      subIssueSortOrder
+      priorityLabel
+      identifier
+      url
+      branchName
+      customerTicketCount
+      }
+}
+}
+
 # @genqlient(omitempty: true,pointer: true)
 query listComment(
   # @genqlient(pointer: false)
   $first: Int
   # @genqlient(pointer: false)
   $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean
   $filter: CommentFilter
   $includeIssue: Boolean!
   $includeParent: Boolean!
   $includeUser: Boolean!
 ) {
-  comments(first: $first, after: $after, filter: $filter) {
+  comments(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
     pageInfo {
       hasNextPage
       endCursor
@@ -935,16 +1665,98 @@ query listComment(
   }
 }
 
+query getComment($commentId: String!) {
+  comment(id: $commentId) {
+      id
+      archivedAt
+      body
+      bodyData
+      createdAt
+      editedAt
+      reactionData
+      updatedAt
+      url
+      # @genqlient(pointer: true)
+      user @skip(if: $includeUser) {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      parent @skip(if: $includeParent) {
+      id
+      archivedAt
+      body
+      bodyData
+      createdAt
+      editedAt
+      reactionData
+      updatedAt
+      url
+      }
+      # @genqlient(pointer: true)
+      issue @skip(if: $includeIssue) {
+      id
+      createdAt
+      updatedAt
+      archivedAt
+      number
+      title
+      description
+      priority
+      estimate
+      sortOrder
+      startedAt
+      completedAt
+      canceledAt
+      autoClosedAt
+      autoArchivedAt
+      dueDate
+      trashed
+      snoozedUntilAt
+      previousIdentifiers
+      subIssueSortOrder
+      priorityLabel
+      identifier
+      url
+      branchName
+      customerTicketCount
+      }
+}
+}
+
 # @genqlient(omitempty: true,pointer: true)
 query listCycle(
   # @genqlient(pointer: false)
   $first: Int
   # @genqlient(pointer: false)
   $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean
   $filter: CycleFilter
   $includeTeam: Boolean!
 ) {
-  cycles(first: $first, after: $after, filter: $filter) {
+  cycles(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
     pageInfo {
       hasNextPage
       endCursor
@@ -1018,11 +1830,13 @@ query listIntegration(
   $first: Int
   # @genqlient(pointer: false)
   $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean
   $includeCreator: Boolean!
   $includeOrganization: Boolean!
   $includeTeam: Boolean!
 ) {
-  integrations(first: $first, after: $after) {
+  integrations(first: $first, after: $after, includeArchived: $includeArchived) {
     pageInfo {
       hasNextPage
       endCursor
@@ -1131,16 +1945,122 @@ query listIntegration(
   }
 }
 
+query getIntegration($integrationId: String!) {
+  integration(id: $integrationId) {
+      id
+      archivedAt
+      createdAt
+      service
+      updatedAt
+      # @genqlient(pointer: true)
+      team @skip(if: $includeTeam) {
+        id
+        archivedAt
+        autoArchivePeriod
+        autoClosePeriod
+        autoCloseStateId
+        color
+        createdAt
+        cycleCalenderUrl
+        cycleCooldownTime
+        cycleDuration
+        cycleIssueAutoAssignCompleted
+        cycleIssueAutoAssignStarted
+        cycleLockToActive
+        cycleStartDay
+        cyclesEnabled
+        defaultIssueEstimate
+        defaultTemplateForMembersId
+        defaultTemplateForNonMembersId
+        description
+        groupIssueHistory
+        icon
+        inviteHash
+        issueEstimationAllowZero
+        issueEstimationExtended
+        issueEstimationType
+        issueOrderingNoPriorityFirst
+        issueSortOrderDefaultToBottom
+        key
+        name
+        private
+        requirePriorityToLeaveTriage
+        slackIssueComments
+        slackIssueStatuses
+        slackNewIssue
+        timezone
+        triageEnabled
+        upcomingCycleCount
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      creator @skip(if: $includeCreator) {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      organization @skip(if: $includeOrganization) {
+        id
+        allowedAuthServices
+        archivedAt
+        createdAt
+        createdIssueCount
+        deletionRequestedAt
+        gitBranchFormat
+        gitLinkbackMessagesEnabled
+        gitPublicLinkbackMessagesEnabled
+        logoUrl
+        name
+        periodUploadVolume
+        previousUrlKeys
+        projectUpdateRemindersDay
+        projectUpdateRemindersHour
+        projectUpdatesReminderFrequency
+        releaseChannel
+        roadmapEnabled
+        samlEnabled
+        scimEnabled
+        trialEndsAt
+        updatedAt
+        urlKey
+        userCount
+      }
+}
+}
+
 # @genqlient(omitempty: true,pointer: true)
 query listTeamMembership(
   # @genqlient(pointer: false)
   $first: Int
   # @genqlient(pointer: false)
   $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean
   $includeTeam: Boolean!
   $includeUser: Boolean!
 ) {
-  teamMemberships(first: $first, after: $after) {
+  teamMemberships(first: $first, after: $after, includeArchived: $includeArchived) {
     pageInfo {
       hasNextPage
       endCursor
@@ -1229,10 +2149,12 @@ query listWorkflowState(
   $first: Int
   # @genqlient(pointer: false)
   $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean
   $filter: WorkflowStateFilter
   $includeTeam: Boolean!
 ) {
-  workflowStates(first: $first, after: $after,filter: $filter) {
+  workflowStates(first: $first, after: $after,filter: $filter, includeArchived: $includeArchived) {
     pageInfo {
       hasNextPage
       endCursor
@@ -1298,13 +2220,15 @@ query listIssueLabel(
   $first: Int
   # @genqlient(pointer: false)
   $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean
   $filter: IssueLabelFilter
   $includeCreator: Boolean!
   $includeOrganization: Boolean!
   $includeParent: Boolean!
   $includeTeam: Boolean!
 ) {
-  issueLabels(first: $first, after: $after,filter: $filter) {
+  issueLabels(first: $first, after: $after,filter: $filter, includeArchived: $includeArchived) {
     pageInfo {
       hasNextPage
       endCursor
@@ -1317,6 +2241,15 @@ query listIssueLabel(
       description
       name
       updatedAt
+      issues(first: $first, after: $after, includeArchived: $includeArchived) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      }
+      }
       # @genqlient(pointer: true)
       team @skip(if: $includeTeam) {
         id

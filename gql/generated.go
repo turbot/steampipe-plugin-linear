@@ -2443,11 +2443,12 @@ func (v *WorkflowStateFilter) GetUpdatedAt() *DateComparator { return v.UpdatedA
 
 // __listAttachmentInput is used internally by genqlient
 type __listAttachmentInput struct {
-	First          int               `json:"first,omitempty"`
-	After          string            `json:"after,omitempty"`
-	Filter         *AttachmentFilter `json:"filter,omitempty"`
-	IncludeCreator *bool             `json:"includeCreator,omitempty"`
-	IncludeIssue   *bool             `json:"includeIssue,omitempty"`
+	First           int               `json:"first,omitempty"`
+	After           string            `json:"after,omitempty"`
+	IncludeArchived bool              `json:"includeArchived,omitempty"`
+	Filter          *AttachmentFilter `json:"filter,omitempty"`
+	IncludeCreator  *bool             `json:"includeCreator,omitempty"`
+	IncludeIssue    *bool             `json:"includeIssue,omitempty"`
 }
 
 // GetFirst returns __listAttachmentInput.First, and is useful for accessing the field via an interface.
@@ -2455,6 +2456,9 @@ func (v *__listAttachmentInput) GetFirst() int { return v.First }
 
 // GetAfter returns __listAttachmentInput.After, and is useful for accessing the field via an interface.
 func (v *__listAttachmentInput) GetAfter() string { return v.After }
+
+// GetIncludeArchived returns __listAttachmentInput.IncludeArchived, and is useful for accessing the field via an interface.
+func (v *__listAttachmentInput) GetIncludeArchived() bool { return v.IncludeArchived }
 
 // GetFilter returns __listAttachmentInput.Filter, and is useful for accessing the field via an interface.
 func (v *__listAttachmentInput) GetFilter() *AttachmentFilter { return v.Filter }
@@ -2467,12 +2471,13 @@ func (v *__listAttachmentInput) GetIncludeIssue() *bool { return v.IncludeIssue 
 
 // __listCommentInput is used internally by genqlient
 type __listCommentInput struct {
-	First         int            `json:"first,omitempty"`
-	After         string         `json:"after,omitempty"`
-	Filter        *CommentFilter `json:"filter,omitempty"`
-	IncludeIssue  *bool          `json:"includeIssue,omitempty"`
-	IncludeParent *bool          `json:"includeParent,omitempty"`
-	IncludeUser   *bool          `json:"includeUser,omitempty"`
+	First           int            `json:"first,omitempty"`
+	After           string         `json:"after,omitempty"`
+	IncludeArchived bool           `json:"includeArchived,omitempty"`
+	Filter          *CommentFilter `json:"filter,omitempty"`
+	IncludeIssue    *bool          `json:"includeIssue,omitempty"`
+	IncludeParent   *bool          `json:"includeParent,omitempty"`
+	IncludeUser     *bool          `json:"includeUser,omitempty"`
 }
 
 // GetFirst returns __listCommentInput.First, and is useful for accessing the field via an interface.
@@ -2480,6 +2485,9 @@ func (v *__listCommentInput) GetFirst() int { return v.First }
 
 // GetAfter returns __listCommentInput.After, and is useful for accessing the field via an interface.
 func (v *__listCommentInput) GetAfter() string { return v.After }
+
+// GetIncludeArchived returns __listCommentInput.IncludeArchived, and is useful for accessing the field via an interface.
+func (v *__listCommentInput) GetIncludeArchived() bool { return v.IncludeArchived }
 
 // GetFilter returns __listCommentInput.Filter, and is useful for accessing the field via an interface.
 func (v *__listCommentInput) GetFilter() *CommentFilter { return v.Filter }
@@ -2495,10 +2503,11 @@ func (v *__listCommentInput) GetIncludeUser() *bool { return v.IncludeUser }
 
 // __listCycleInput is used internally by genqlient
 type __listCycleInput struct {
-	First       int          `json:"first,omitempty"`
-	After       string       `json:"after,omitempty"`
-	Filter      *CycleFilter `json:"filter,omitempty"`
-	IncludeTeam *bool        `json:"includeTeam,omitempty"`
+	First           int          `json:"first,omitempty"`
+	After           string       `json:"after,omitempty"`
+	IncludeArchived bool         `json:"includeArchived,omitempty"`
+	Filter          *CycleFilter `json:"filter,omitempty"`
+	IncludeTeam     *bool        `json:"includeTeam,omitempty"`
 }
 
 // GetFirst returns __listCycleInput.First, and is useful for accessing the field via an interface.
@@ -2506,6 +2515,9 @@ func (v *__listCycleInput) GetFirst() int { return v.First }
 
 // GetAfter returns __listCycleInput.After, and is useful for accessing the field via an interface.
 func (v *__listCycleInput) GetAfter() string { return v.After }
+
+// GetIncludeArchived returns __listCycleInput.IncludeArchived, and is useful for accessing the field via an interface.
+func (v *__listCycleInput) GetIncludeArchived() bool { return v.IncludeArchived }
 
 // GetFilter returns __listCycleInput.Filter, and is useful for accessing the field via an interface.
 func (v *__listCycleInput) GetFilter() *CycleFilter { return v.Filter }
@@ -2517,6 +2529,7 @@ func (v *__listCycleInput) GetIncludeTeam() *bool { return v.IncludeTeam }
 type __listIntegrationInput struct {
 	First               int    `json:"first,omitempty"`
 	After               string `json:"after,omitempty"`
+	IncludeArchived     bool   `json:"includeArchived,omitempty"`
 	IncludeCreator      *bool  `json:"includeCreator,omitempty"`
 	IncludeOrganization *bool  `json:"includeOrganization,omitempty"`
 	IncludeTeam         *bool  `json:"includeTeam,omitempty"`
@@ -2527,6 +2540,9 @@ func (v *__listIntegrationInput) GetFirst() int { return v.First }
 
 // GetAfter returns __listIntegrationInput.After, and is useful for accessing the field via an interface.
 func (v *__listIntegrationInput) GetAfter() string { return v.After }
+
+// GetIncludeArchived returns __listIntegrationInput.IncludeArchived, and is useful for accessing the field via an interface.
+func (v *__listIntegrationInput) GetIncludeArchived() bool { return v.IncludeArchived }
 
 // GetIncludeCreator returns __listIntegrationInput.IncludeCreator, and is useful for accessing the field via an interface.
 func (v *__listIntegrationInput) GetIncludeCreator() *bool { return v.IncludeCreator }
@@ -2541,6 +2557,7 @@ func (v *__listIntegrationInput) GetIncludeTeam() *bool { return v.IncludeTeam }
 type __listIssueInput struct {
 	First                   int          `json:"first,omitempty"`
 	After                   string       `json:"after,omitempty"`
+	IncludeArchived         bool         `json:"includeArchived,omitempty"`
 	Filter                  *IssueFilter `json:"filter,omitempty"`
 	IncludeTeam             *bool        `json:"includeTeam,omitempty"`
 	IncludeCycle            *bool        `json:"includeCycle,omitempty"`
@@ -2558,6 +2575,9 @@ func (v *__listIssueInput) GetFirst() int { return v.First }
 
 // GetAfter returns __listIssueInput.After, and is useful for accessing the field via an interface.
 func (v *__listIssueInput) GetAfter() string { return v.After }
+
+// GetIncludeArchived returns __listIssueInput.IncludeArchived, and is useful for accessing the field via an interface.
+func (v *__listIssueInput) GetIncludeArchived() bool { return v.IncludeArchived }
 
 // GetFilter returns __listIssueInput.Filter, and is useful for accessing the field via an interface.
 func (v *__listIssueInput) GetFilter() *IssueFilter { return v.Filter }
@@ -2593,6 +2613,7 @@ func (v *__listIssueInput) GetIncludeProjectMilestone() *bool { return v.Include
 type __listIssueLabelInput struct {
 	First               int               `json:"first,omitempty"`
 	After               string            `json:"after,omitempty"`
+	IncludeArchived     bool              `json:"includeArchived,omitempty"`
 	Filter              *IssueLabelFilter `json:"filter,omitempty"`
 	IncludeCreator      *bool             `json:"includeCreator,omitempty"`
 	IncludeOrganization *bool             `json:"includeOrganization,omitempty"`
@@ -2605,6 +2626,9 @@ func (v *__listIssueLabelInput) GetFirst() int { return v.First }
 
 // GetAfter returns __listIssueLabelInput.After, and is useful for accessing the field via an interface.
 func (v *__listIssueLabelInput) GetAfter() string { return v.After }
+
+// GetIncludeArchived returns __listIssueLabelInput.IncludeArchived, and is useful for accessing the field via an interface.
+func (v *__listIssueLabelInput) GetIncludeArchived() bool { return v.IncludeArchived }
 
 // GetFilter returns __listIssueLabelInput.Filter, and is useful for accessing the field via an interface.
 func (v *__listIssueLabelInput) GetFilter() *IssueLabelFilter { return v.Filter }
@@ -2633,6 +2657,7 @@ func (v *__listOrganizationInput) GetIncludeSubscription() *bool { return v.Incl
 type __listProjectInput struct {
 	First                       int            `json:"first,omitempty"`
 	After                       string         `json:"after,omitempty"`
+	IncludeArchived             bool           `json:"includeArchived,omitempty"`
 	Filter                      *ProjectFilter `json:"filter,omitempty"`
 	IncludeConvertedFromIssue   *bool          `json:"includeConvertedFromIssue,omitempty"`
 	IncludeIntegrationsSettings *bool          `json:"includeIntegrationsSettings,omitempty"`
@@ -2645,6 +2670,9 @@ func (v *__listProjectInput) GetFirst() int { return v.First }
 
 // GetAfter returns __listProjectInput.After, and is useful for accessing the field via an interface.
 func (v *__listProjectInput) GetAfter() string { return v.After }
+
+// GetIncludeArchived returns __listProjectInput.IncludeArchived, and is useful for accessing the field via an interface.
+func (v *__listProjectInput) GetIncludeArchived() bool { return v.IncludeArchived }
 
 // GetFilter returns __listProjectInput.Filter, and is useful for accessing the field via an interface.
 func (v *__listProjectInput) GetFilter() *ProjectFilter { return v.Filter }
@@ -2667,6 +2695,7 @@ func (v *__listProjectInput) GetIncludeCreator() *bool { return v.IncludeCreator
 type __listTeamInput struct {
 	First                         int         `json:"first,omitempty"`
 	After                         string      `json:"after,omitempty"`
+	IncludeArchived               bool        `json:"includeArchived,omitempty"`
 	Filter                        *TeamFilter `json:"filter,omitempty"`
 	IncludeCycle                  *bool       `json:"includeCycle,omitempty"`
 	IncludeIssueState             *bool       `json:"includeIssueState,omitempty"`
@@ -2686,6 +2715,9 @@ func (v *__listTeamInput) GetFirst() int { return v.First }
 
 // GetAfter returns __listTeamInput.After, and is useful for accessing the field via an interface.
 func (v *__listTeamInput) GetAfter() string { return v.After }
+
+// GetIncludeArchived returns __listTeamInput.IncludeArchived, and is useful for accessing the field via an interface.
+func (v *__listTeamInput) GetIncludeArchived() bool { return v.IncludeArchived }
 
 // GetFilter returns __listTeamInput.Filter, and is useful for accessing the field via an interface.
 func (v *__listTeamInput) GetFilter() *TeamFilter { return v.Filter }
@@ -2731,10 +2763,11 @@ func (v *__listTeamInput) GetIncludeTriageWorkflowState() *bool { return v.Inclu
 
 // __listTeamMembershipInput is used internally by genqlient
 type __listTeamMembershipInput struct {
-	First       int    `json:"first,omitempty"`
-	After       string `json:"after,omitempty"`
-	IncludeTeam *bool  `json:"includeTeam,omitempty"`
-	IncludeUser *bool  `json:"includeUser,omitempty"`
+	First           int    `json:"first,omitempty"`
+	After           string `json:"after,omitempty"`
+	IncludeArchived bool   `json:"includeArchived,omitempty"`
+	IncludeTeam     *bool  `json:"includeTeam,omitempty"`
+	IncludeUser     *bool  `json:"includeUser,omitempty"`
 }
 
 // GetFirst returns __listTeamMembershipInput.First, and is useful for accessing the field via an interface.
@@ -2742,6 +2775,9 @@ func (v *__listTeamMembershipInput) GetFirst() int { return v.First }
 
 // GetAfter returns __listTeamMembershipInput.After, and is useful for accessing the field via an interface.
 func (v *__listTeamMembershipInput) GetAfter() string { return v.After }
+
+// GetIncludeArchived returns __listTeamMembershipInput.IncludeArchived, and is useful for accessing the field via an interface.
+func (v *__listTeamMembershipInput) GetIncludeArchived() bool { return v.IncludeArchived }
 
 // GetIncludeTeam returns __listTeamMembershipInput.IncludeTeam, and is useful for accessing the field via an interface.
 func (v *__listTeamMembershipInput) GetIncludeTeam() *bool { return v.IncludeTeam }
@@ -2753,6 +2789,7 @@ func (v *__listTeamMembershipInput) GetIncludeUser() *bool { return v.IncludeUse
 type __listUserInput struct {
 	First               int         `json:"first,omitempty"`
 	After               string      `json:"after,omitempty"`
+	IncludeArchived     bool        `json:"includeArchived,omitempty"`
 	Filter              *UserFilter `json:"filter,omitempty"`
 	IncludeOrganization *bool       `json:"includeOrganization,omitempty"`
 }
@@ -2763,6 +2800,9 @@ func (v *__listUserInput) GetFirst() int { return v.First }
 // GetAfter returns __listUserInput.After, and is useful for accessing the field via an interface.
 func (v *__listUserInput) GetAfter() string { return v.After }
 
+// GetIncludeArchived returns __listUserInput.IncludeArchived, and is useful for accessing the field via an interface.
+func (v *__listUserInput) GetIncludeArchived() bool { return v.IncludeArchived }
+
 // GetFilter returns __listUserInput.Filter, and is useful for accessing the field via an interface.
 func (v *__listUserInput) GetFilter() *UserFilter { return v.Filter }
 
@@ -2771,10 +2811,11 @@ func (v *__listUserInput) GetIncludeOrganization() *bool { return v.IncludeOrgan
 
 // __listWorkflowStateInput is used internally by genqlient
 type __listWorkflowStateInput struct {
-	First       int                  `json:"first,omitempty"`
-	After       string               `json:"after,omitempty"`
-	Filter      *WorkflowStateFilter `json:"filter,omitempty"`
-	IncludeTeam *bool                `json:"includeTeam,omitempty"`
+	First           int                  `json:"first,omitempty"`
+	After           string               `json:"after,omitempty"`
+	IncludeArchived bool                 `json:"includeArchived,omitempty"`
+	Filter          *WorkflowStateFilter `json:"filter,omitempty"`
+	IncludeTeam     *bool                `json:"includeTeam,omitempty"`
 }
 
 // GetFirst returns __listWorkflowStateInput.First, and is useful for accessing the field via an interface.
@@ -2782,6 +2823,9 @@ func (v *__listWorkflowStateInput) GetFirst() int { return v.First }
 
 // GetAfter returns __listWorkflowStateInput.After, and is useful for accessing the field via an interface.
 func (v *__listWorkflowStateInput) GetAfter() string { return v.After }
+
+// GetIncludeArchived returns __listWorkflowStateInput.IncludeArchived, and is useful for accessing the field via an interface.
+func (v *__listWorkflowStateInput) GetIncludeArchived() bool { return v.IncludeArchived }
 
 // GetFilter returns __listWorkflowStateInput.Filter, and is useful for accessing the field via an interface.
 func (v *__listWorkflowStateInput) GetFilter() *WorkflowStateFilter { return v.Filter }
@@ -5018,6 +5062,8 @@ type listIssueIssuesIssueConnectionNodesIssue struct {
 	BranchName *string `json:"branchName"`
 	// Returns the number of Attachment resources which are created by customer support ticketing systems (e.g. Zendesk).
 	CustomerTicketCount *int `json:"customerTicketCount"`
+	// Labels associated with this issue.
+	Labels *listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnection `json:"labels"`
 	// The team that the issue is associated with.
 	Team *listIssueIssuesIssueConnectionNodesIssueTeam `json:"team"`
 	// The cycle that the issue is associated with.
@@ -5123,6 +5169,11 @@ func (v *listIssueIssuesIssueConnectionNodesIssue) GetBranchName() *string { ret
 // GetCustomerTicketCount returns listIssueIssuesIssueConnectionNodesIssue.CustomerTicketCount, and is useful for accessing the field via an interface.
 func (v *listIssueIssuesIssueConnectionNodesIssue) GetCustomerTicketCount() *int {
 	return v.CustomerTicketCount
+}
+
+// GetLabels returns listIssueIssuesIssueConnectionNodesIssue.Labels, and is useful for accessing the field via an interface.
+func (v *listIssueIssuesIssueConnectionNodesIssue) GetLabels() *listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnection {
+	return v.Labels
 }
 
 // GetTeam returns listIssueIssuesIssueConnectionNodesIssue.Team, and is useful for accessing the field via an interface.
@@ -5589,6 +5640,98 @@ func (v *listIssueIssuesIssueConnectionNodesIssueCycle) GetStartsAt() *time.Time
 
 // GetUpdatedAt returns listIssueIssuesIssueConnectionNodesIssueCycle.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *listIssueIssuesIssueConnectionNodesIssueCycle) GetUpdatedAt() *time.Time { return v.UpdatedAt }
+
+// listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnection includes the requested fields of the GraphQL type IssueLabelConnection.
+type listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnection struct {
+	PageInfo *listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionPageInfo          `json:"pageInfo"`
+	Nodes    []*listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel `json:"nodes"`
+}
+
+// GetPageInfo returns listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnection.PageInfo, and is useful for accessing the field via an interface.
+func (v *listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnection) GetPageInfo() *listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionPageInfo {
+	return v.PageInfo
+}
+
+// GetNodes returns listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnection.Nodes, and is useful for accessing the field via an interface.
+func (v *listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnection) GetNodes() []*listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel {
+	return v.Nodes
+}
+
+// listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel includes the requested fields of the GraphQL type IssueLabel.
+// The GraphQL type's documentation follows.
+//
+// Labels that can be associated with issues.
+type listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+	// The time at which the entity was archived. Null if the entity has not been archived.
+	ArchivedAt *time.Time `json:"archivedAt"`
+	// The label's color as a HEX string.
+	Color *string `json:"color"`
+	// The time at which the entity was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// The label's description.
+	Description *string `json:"description"`
+	// The label's name.
+	Name *string `json:"name"`
+	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
+	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
+	// been updated after creation.
+	UpdatedAt *time.Time `json:"updatedAt"`
+}
+
+// GetId returns listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel.Id, and is useful for accessing the field via an interface.
+func (v *listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel) GetId() *string {
+	return v.Id
+}
+
+// GetArchivedAt returns listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel.ArchivedAt, and is useful for accessing the field via an interface.
+func (v *listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel) GetArchivedAt() *time.Time {
+	return v.ArchivedAt
+}
+
+// GetColor returns listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel.Color, and is useful for accessing the field via an interface.
+func (v *listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel) GetColor() *string {
+	return v.Color
+}
+
+// GetCreatedAt returns listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel.CreatedAt, and is useful for accessing the field via an interface.
+func (v *listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetDescription returns listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel.Description, and is useful for accessing the field via an interface.
+func (v *listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel) GetDescription() *string {
+	return v.Description
+}
+
+// GetName returns listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel.Name, and is useful for accessing the field via an interface.
+func (v *listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel) GetName() *string {
+	return v.Name
+}
+
+// GetUpdatedAt returns listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionNodesIssueLabel) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
+type listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionPageInfo struct {
+	// Indicates if there are more results when paginating forward.
+	HasNextPage *bool `json:"hasNextPage"`
+	// Cursor representing the last result in the paginated results.
+	EndCursor *string `json:"endCursor"`
+}
+
+// GetHasNextPage returns listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionPageInfo.HasNextPage, and is useful for accessing the field via an interface.
+func (v *listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionPageInfo) GetHasNextPage() *bool {
+	return v.HasNextPage
+}
+
+// GetEndCursor returns listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionPageInfo.EndCursor, and is useful for accessing the field via an interface.
+func (v *listIssueIssuesIssueConnectionNodesIssueLabelsIssueLabelConnectionPageInfo) GetEndCursor() *string {
+	return v.EndCursor
+}
 
 // listIssueIssuesIssueConnectionNodesIssueParentIssue includes the requested fields of the GraphQL type Issue.
 // The GraphQL type's documentation follows.
@@ -6494,6 +6637,8 @@ type listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel struct {
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
 	UpdatedAt *time.Time `json:"updatedAt"`
+	// Issues associated with the label.
+	Issues *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnection `json:"issues"`
 	// The team that the label is associated with. If null, the label is associated with the global workspace.
 	Team *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelTeam `json:"team"`
 	// The user who created the label.
@@ -6534,6 +6679,11 @@ func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel) GetName()
 // GetUpdatedAt returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel) GetUpdatedAt() *time.Time {
 	return v.UpdatedAt
+}
+
+// GetIssues returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel.Issues, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel) GetIssues() *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnection {
+	return v.Issues
 }
 
 // GetTeam returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabel.Team, and is useful for accessing the field via an interface.
@@ -6724,6 +6874,54 @@ func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser
 // GetUrl returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.Url, and is useful for accessing the field via an interface.
 func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) GetUrl() *string {
 	return v.Url
+}
+
+// listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnection includes the requested fields of the GraphQL type IssueConnection.
+type listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnection struct {
+	PageInfo *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnectionPageInfo     `json:"pageInfo"`
+	Nodes    []*listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnectionNodesIssue `json:"nodes"`
+}
+
+// GetPageInfo returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnection.PageInfo, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnection) GetPageInfo() *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnectionPageInfo {
+	return v.PageInfo
+}
+
+// GetNodes returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnection.Nodes, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnection) GetNodes() []*listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnectionNodesIssue {
+	return v.Nodes
+}
+
+// listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnectionNodesIssue includes the requested fields of the GraphQL type Issue.
+// The GraphQL type's documentation follows.
+//
+// An issue.
+type listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnectionNodesIssue struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+}
+
+// GetId returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnectionNodesIssue.Id, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnectionNodesIssue) GetId() *string {
+	return v.Id
+}
+
+// listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
+type listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnectionPageInfo struct {
+	// Indicates if there are more results when paginating forward.
+	HasNextPage *bool `json:"hasNextPage"`
+	// Cursor representing the last result in the paginated results.
+	EndCursor *string `json:"endCursor"`
+}
+
+// GetHasNextPage returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnectionPageInfo.HasNextPage, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnectionPageInfo) GetHasNextPage() *bool {
+	return v.HasNextPage
+}
+
+// GetEndCursor returns listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnectionPageInfo.EndCursor, and is useful for accessing the field via an interface.
+func (v *listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnectionPageInfo) GetEndCursor() *string {
+	return v.EndCursor
 }
 
 // listIssueLabelIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization includes the requested fields of the GraphQL type Organization.
@@ -10965,8 +11163,8 @@ func (v *listWorkflowStateWorkflowStatesWorkflowStateConnectionPageInfo) GetEndC
 
 // The query or mutation executed by listAttachment.
 const listAttachment_Operation = `
-query listAttachment ($first: Int, $after: String, $filter: AttachmentFilter, $includeCreator: Boolean!, $includeIssue: Boolean!) {
-	attachments(first: $first, after: $after, filter: $filter) {
+query listAttachment ($first: Int, $after: String, $includeArchived: Boolean, $filter: AttachmentFilter, $includeCreator: Boolean!, $includeIssue: Boolean!) {
+	attachments(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
 			endCursor
@@ -11045,6 +11243,7 @@ func listAttachment(
 	client graphql.Client,
 	first int,
 	after string,
+	includeArchived bool,
 	filter *AttachmentFilter,
 	includeCreator *bool,
 	includeIssue *bool,
@@ -11053,11 +11252,12 @@ func listAttachment(
 		OpName: "listAttachment",
 		Query:  listAttachment_Operation,
 		Variables: &__listAttachmentInput{
-			First:          first,
-			After:          after,
-			Filter:         filter,
-			IncludeCreator: includeCreator,
-			IncludeIssue:   includeIssue,
+			First:           first,
+			After:           after,
+			IncludeArchived: includeArchived,
+			Filter:          filter,
+			IncludeCreator:  includeCreator,
+			IncludeIssue:    includeIssue,
 		},
 	}
 	var err error
@@ -11076,8 +11276,8 @@ func listAttachment(
 
 // The query or mutation executed by listComment.
 const listComment_Operation = `
-query listComment ($first: Int, $after: String, $filter: CommentFilter, $includeIssue: Boolean!, $includeParent: Boolean!, $includeUser: Boolean!) {
-	comments(first: $first, after: $after, filter: $filter) {
+query listComment ($first: Int, $after: String, $includeArchived: Boolean, $filter: CommentFilter, $includeIssue: Boolean!, $includeParent: Boolean!, $includeUser: Boolean!) {
+	comments(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
 			endCursor
@@ -11165,6 +11365,7 @@ func listComment(
 	client graphql.Client,
 	first int,
 	after string,
+	includeArchived bool,
 	filter *CommentFilter,
 	includeIssue *bool,
 	includeParent *bool,
@@ -11174,12 +11375,13 @@ func listComment(
 		OpName: "listComment",
 		Query:  listComment_Operation,
 		Variables: &__listCommentInput{
-			First:         first,
-			After:         after,
-			Filter:        filter,
-			IncludeIssue:  includeIssue,
-			IncludeParent: includeParent,
-			IncludeUser:   includeUser,
+			First:           first,
+			After:           after,
+			IncludeArchived: includeArchived,
+			Filter:          filter,
+			IncludeIssue:    includeIssue,
+			IncludeParent:   includeParent,
+			IncludeUser:     includeUser,
 		},
 	}
 	var err error
@@ -11198,8 +11400,8 @@ func listComment(
 
 // The query or mutation executed by listCycle.
 const listCycle_Operation = `
-query listCycle ($first: Int, $after: String, $filter: CycleFilter, $includeTeam: Boolean!) {
-	cycles(first: $first, after: $after, filter: $filter) {
+query listCycle ($first: Int, $after: String, $includeArchived: Boolean, $filter: CycleFilter, $includeTeam: Boolean!) {
+	cycles(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
 			endCursor
@@ -11272,6 +11474,7 @@ func listCycle(
 	client graphql.Client,
 	first int,
 	after string,
+	includeArchived bool,
 	filter *CycleFilter,
 	includeTeam *bool,
 ) (*listCycleResponse, error) {
@@ -11279,10 +11482,11 @@ func listCycle(
 		OpName: "listCycle",
 		Query:  listCycle_Operation,
 		Variables: &__listCycleInput{
-			First:       first,
-			After:       after,
-			Filter:      filter,
-			IncludeTeam: includeTeam,
+			First:           first,
+			After:           after,
+			IncludeArchived: includeArchived,
+			Filter:          filter,
+			IncludeTeam:     includeTeam,
 		},
 	}
 	var err error
@@ -11301,8 +11505,8 @@ func listCycle(
 
 // The query or mutation executed by listIntegration.
 const listIntegration_Operation = `
-query listIntegration ($first: Int, $after: String, $includeCreator: Boolean!, $includeOrganization: Boolean!, $includeTeam: Boolean!) {
-	integrations(first: $first, after: $after) {
+query listIntegration ($first: Int, $after: String, $includeArchived: Boolean, $includeCreator: Boolean!, $includeOrganization: Boolean!, $includeTeam: Boolean!) {
+	integrations(first: $first, after: $after, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
 			endCursor
@@ -11414,6 +11618,7 @@ func listIntegration(
 	client graphql.Client,
 	first int,
 	after string,
+	includeArchived bool,
 	includeCreator *bool,
 	includeOrganization *bool,
 	includeTeam *bool,
@@ -11424,6 +11629,7 @@ func listIntegration(
 		Variables: &__listIntegrationInput{
 			First:               first,
 			After:               after,
+			IncludeArchived:     includeArchived,
 			IncludeCreator:      includeCreator,
 			IncludeOrganization: includeOrganization,
 			IncludeTeam:         includeTeam,
@@ -11445,8 +11651,8 @@ func listIntegration(
 
 // The query or mutation executed by listIssue.
 const listIssue_Operation = `
-query listIssue ($first: Int, $after: String, $filter: IssueFilter, $includeTeam: Boolean!, $includeCycle: Boolean!, $includeProject: Boolean!, $includeCreator: Boolean!, $includeAssignee: Boolean!, $includeSnoozedBy: Boolean!, $includeState: Boolean!, $includeParent: Boolean!, $includeProjectMilestone: Boolean!) {
-	issues(first: $first, after: $after, filter: $filter) {
+query listIssue ($first: Int, $after: String, $includeArchived: Boolean, $filter: IssueFilter, $includeTeam: Boolean!, $includeCycle: Boolean!, $includeProject: Boolean!, $includeCreator: Boolean!, $includeAssignee: Boolean!, $includeSnoozedBy: Boolean!, $includeState: Boolean!, $includeParent: Boolean!, $includeProjectMilestone: Boolean!) {
+	issues(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
 			endCursor
@@ -11477,6 +11683,21 @@ query listIssue ($first: Int, $after: String, $filter: IssueFilter, $includeTeam
 			url
 			branchName
 			customerTicketCount
+			labels(first: 10, after: $after, includeArchived: $includeArchived) {
+				pageInfo {
+					hasNextPage
+					endCursor
+				}
+				nodes {
+					id
+					archivedAt
+					color
+					createdAt
+					description
+					name
+					updatedAt
+				}
+			}
 			team @skip(if: $includeTeam) {
 				id
 				archivedAt
@@ -11693,6 +11914,7 @@ func listIssue(
 	client graphql.Client,
 	first int,
 	after string,
+	includeArchived bool,
 	filter *IssueFilter,
 	includeTeam *bool,
 	includeCycle *bool,
@@ -11710,6 +11932,7 @@ func listIssue(
 		Variables: &__listIssueInput{
 			First:                   first,
 			After:                   after,
+			IncludeArchived:         includeArchived,
 			Filter:                  filter,
 			IncludeTeam:             includeTeam,
 			IncludeCycle:            includeCycle,
@@ -11738,8 +11961,8 @@ func listIssue(
 
 // The query or mutation executed by listIssueLabel.
 const listIssueLabel_Operation = `
-query listIssueLabel ($first: Int, $after: String, $filter: IssueLabelFilter, $includeCreator: Boolean!, $includeOrganization: Boolean!, $includeParent: Boolean!, $includeTeam: Boolean!) {
-	issueLabels(first: $first, after: $after, filter: $filter) {
+query listIssueLabel ($first: Int, $after: String, $includeArchived: Boolean, $filter: IssueLabelFilter, $includeCreator: Boolean!, $includeOrganization: Boolean!, $includeParent: Boolean!, $includeTeam: Boolean!) {
+	issueLabels(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
 			endCursor
@@ -11752,6 +11975,15 @@ query listIssueLabel ($first: Int, $after: String, $filter: IssueLabelFilter, $i
 			description
 			name
 			updatedAt
+			issues(first: $first, after: $after, includeArchived: $includeArchived) {
+				pageInfo {
+					hasNextPage
+					endCursor
+				}
+				nodes {
+					id
+				}
+			}
 			team @skip(if: $includeTeam) {
 				id
 				archivedAt
@@ -11862,6 +12094,7 @@ func listIssueLabel(
 	client graphql.Client,
 	first int,
 	after string,
+	includeArchived bool,
 	filter *IssueLabelFilter,
 	includeCreator *bool,
 	includeOrganization *bool,
@@ -11874,6 +12107,7 @@ func listIssueLabel(
 		Variables: &__listIssueLabelInput{
 			First:               first,
 			After:               after,
+			IncludeArchived:     includeArchived,
 			Filter:              filter,
 			IncludeCreator:      includeCreator,
 			IncludeOrganization: includeOrganization,
@@ -11971,8 +12205,8 @@ func listOrganization(
 
 // The query or mutation executed by listProject.
 const listProject_Operation = `
-query listProject ($first: Int, $after: String, $filter: ProjectFilter, $includeConvertedFromIssue: Boolean!, $includeIntegrationsSettings: Boolean!, $includeLead: Boolean!, $includeCreator: Boolean!) {
-	projects(first: $first, after: $after, filter: $filter) {
+query listProject ($first: Int, $after: String, $includeArchived: Boolean, $filter: ProjectFilter, $includeConvertedFromIssue: Boolean!, $includeIntegrationsSettings: Boolean!, $includeLead: Boolean!, $includeCreator: Boolean!) {
+	projects(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
 			endCursor
@@ -12110,6 +12344,7 @@ func listProject(
 	client graphql.Client,
 	first int,
 	after string,
+	includeArchived bool,
 	filter *ProjectFilter,
 	includeConvertedFromIssue *bool,
 	includeIntegrationsSettings *bool,
@@ -12122,6 +12357,7 @@ func listProject(
 		Variables: &__listProjectInput{
 			First:                       first,
 			After:                       after,
+			IncludeArchived:             includeArchived,
 			Filter:                      filter,
 			IncludeConvertedFromIssue:   includeConvertedFromIssue,
 			IncludeIntegrationsSettings: includeIntegrationsSettings,
@@ -12145,8 +12381,8 @@ func listProject(
 
 // The query or mutation executed by listTeam.
 const listTeam_Operation = `
-query listTeam ($first: Int, $after: String, $filter: TeamFilter, $includeCycle: Boolean!, $includeIssueState: Boolean!, $includeTemplateForMembers: Boolean!, $includeTemplateForNonMembers: Boolean!, $includeWorkflowState: Boolean!, $includeIntegrationsSettings: Boolean!, $includeDuplicateWorkflowState: Boolean!, $includeOrganization: Boolean!, $includeReviewWorkflowState: Boolean!, $includeStartWorkflowState: Boolean!, $includeTriageWorkflowState: Boolean!) {
-	teams(first: $first, after: $after, filter: $filter) {
+query listTeam ($first: Int, $after: String, $includeArchived: Boolean, $filter: TeamFilter, $includeCycle: Boolean!, $includeIssueState: Boolean!, $includeTemplateForMembers: Boolean!, $includeTemplateForNonMembers: Boolean!, $includeWorkflowState: Boolean!, $includeIntegrationsSettings: Boolean!, $includeDuplicateWorkflowState: Boolean!, $includeOrganization: Boolean!, $includeReviewWorkflowState: Boolean!, $includeStartWorkflowState: Boolean!, $includeTriageWorkflowState: Boolean!) {
+	teams(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
 			endCursor
@@ -12347,6 +12583,7 @@ func listTeam(
 	client graphql.Client,
 	first int,
 	after string,
+	includeArchived bool,
 	filter *TeamFilter,
 	includeCycle *bool,
 	includeIssueState *bool,
@@ -12366,6 +12603,7 @@ func listTeam(
 		Variables: &__listTeamInput{
 			First:                         first,
 			After:                         after,
+			IncludeArchived:               includeArchived,
 			Filter:                        filter,
 			IncludeCycle:                  includeCycle,
 			IncludeIssueState:             includeIssueState,
@@ -12396,8 +12634,8 @@ func listTeam(
 
 // The query or mutation executed by listTeamMembership.
 const listTeamMembership_Operation = `
-query listTeamMembership ($first: Int, $after: String, $includeTeam: Boolean!, $includeUser: Boolean!) {
-	teamMemberships(first: $first, after: $after) {
+query listTeamMembership ($first: Int, $after: String, $includeArchived: Boolean, $includeTeam: Boolean!, $includeUser: Boolean!) {
+	teamMemberships(first: $first, after: $after, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
 			endCursor
@@ -12484,6 +12722,7 @@ func listTeamMembership(
 	client graphql.Client,
 	first int,
 	after string,
+	includeArchived bool,
 	includeTeam *bool,
 	includeUser *bool,
 ) (*listTeamMembershipResponse, error) {
@@ -12491,10 +12730,11 @@ func listTeamMembership(
 		OpName: "listTeamMembership",
 		Query:  listTeamMembership_Operation,
 		Variables: &__listTeamMembershipInput{
-			First:       first,
-			After:       after,
-			IncludeTeam: includeTeam,
-			IncludeUser: includeUser,
+			First:           first,
+			After:           after,
+			IncludeArchived: includeArchived,
+			IncludeTeam:     includeTeam,
+			IncludeUser:     includeUser,
 		},
 	}
 	var err error
@@ -12513,8 +12753,8 @@ func listTeamMembership(
 
 // The query or mutation executed by listUser.
 const listUser_Operation = `
-query listUser ($first: Int, $after: String, $filter: UserFilter, $includeOrganization: Boolean!) {
-	users(first: $first, after: $after, filter: $filter) {
+query listUser ($first: Int, $after: String, $includeArchived: Boolean, $filter: UserFilter, $includeOrganization: Boolean!) {
+	users(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
 			endCursor
@@ -12579,6 +12819,7 @@ func listUser(
 	client graphql.Client,
 	first int,
 	after string,
+	includeArchived bool,
 	filter *UserFilter,
 	includeOrganization *bool,
 ) (*listUserResponse, error) {
@@ -12588,6 +12829,7 @@ func listUser(
 		Variables: &__listUserInput{
 			First:               first,
 			After:               after,
+			IncludeArchived:     includeArchived,
 			Filter:              filter,
 			IncludeOrganization: includeOrganization,
 		},
@@ -12608,8 +12850,8 @@ func listUser(
 
 // The query or mutation executed by listWorkflowState.
 const listWorkflowState_Operation = `
-query listWorkflowState ($first: Int, $after: String, $filter: WorkflowStateFilter, $includeTeam: Boolean!) {
-	workflowStates(first: $first, after: $after, filter: $filter) {
+query listWorkflowState ($first: Int, $after: String, $includeArchived: Boolean, $filter: WorkflowStateFilter, $includeTeam: Boolean!) {
+	workflowStates(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
 			endCursor
@@ -12674,6 +12916,7 @@ func listWorkflowState(
 	client graphql.Client,
 	first int,
 	after string,
+	includeArchived bool,
 	filter *WorkflowStateFilter,
 	includeTeam *bool,
 ) (*listWorkflowStateResponse, error) {
@@ -12681,10 +12924,11 @@ func listWorkflowState(
 		OpName: "listWorkflowState",
 		Query:  listWorkflowState_Operation,
 		Variables: &__listWorkflowStateInput{
-			First:       first,
-			After:       after,
-			Filter:      filter,
-			IncludeTeam: includeTeam,
+			First:           first,
+			After:           after,
+			IncludeArchived: includeArchived,
+			Filter:          filter,
+			IncludeTeam:     includeTeam,
 		},
 	}
 	var err error
