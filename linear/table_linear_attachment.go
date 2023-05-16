@@ -48,6 +48,10 @@ func tableLinearAttachment(ctx context.Context) *plugin.Table {
 				},
 			},
 		},
+		Get: &plugin.GetConfig{
+			KeyColumns: plugin.SingleColumn("id"),
+			Hydrate:    getAttachment,
+		},
 		Columns: []*plugin.Column{
 			{
 				Name:        "id",
@@ -149,7 +153,7 @@ func listAttachments(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	filters := setAttachmentFilters(d, ctx)
 
 	for {
-		listAttachmentResponse, err := gql.ListAttachment(ctx, conn, pageSize, endCursor, true, &filters, &includeCreator, &includeIssue)
+		listAttachmentResponse, err := gql.ListAttachments(ctx, conn, pageSize, endCursor, true, &filters, &includeCreator, &includeIssue)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_attachment.listAttachments", "api_error", err)
 			return nil, err
@@ -169,6 +173,40 @@ func listAttachments(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 
 	return nil, nil
+}
+
+func getAttachment(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	id := d.EqualsQualString("id")
+
+	// check if id is empty
+	if id == "" {
+		return nil, nil
+	}
+
+	// By default, nested objects are excluded, and they will only be included if they are requested.
+	includeCreator, includeIssue := true, true
+	for _, column := range d.QueryContext.Columns {
+		switch column {
+		case "creator":
+			includeCreator = false
+		case "issue":
+			includeIssue = false
+		}
+	}
+
+	conn, err := connect(ctx, d)
+	if err != nil {
+		plugin.Logger(ctx).Error("linear_attachment.getAttachment", "connection_error", err)
+		return nil, err
+	}
+
+	getAttachmentResponse, err := gql.GetAttachment(ctx, conn, &id, &includeCreator, &includeIssue)
+	if err != nil {
+		plugin.Logger(ctx).Error("linear_attachment.getAttachment", "api_error", err)
+		return nil, err
+	}
+
+	return getAttachmentResponse.Attachment, nil
 }
 
 // Set the requested filter

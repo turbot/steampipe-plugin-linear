@@ -17,10 +17,6 @@ func tableLinearIssue(ctx context.Context) *plugin.Table {
 			Hydrate: listIssues,
 			KeyColumns: []*plugin.KeyColumn{
 				{
-					Name:    "id",
-					Require: plugin.Optional,
-				},
-				{
 					Name:      "created_at",
 					Require:   plugin.Optional,
 					Operators: []string{"=", ">", ">=", "<=", "<"},
@@ -80,6 +76,10 @@ func tableLinearIssue(ctx context.Context) *plugin.Table {
 					Operators: []string{"=", ">", ">=", "<=", "<"},
 				},
 			},
+		},
+		Get: &plugin.GetConfig{
+			KeyColumns: plugin.SingleColumn("id"),
+			Hydrate:    getIssue,
 		},
 		Columns: []*plugin.Column{
 			{
@@ -259,6 +259,7 @@ func tableLinearIssue(ctx context.Context) *plugin.Table {
 }
 
 func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Error("linear_issue.inside list")
 	conn, err := connect(ctx, d)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_issue.listIssues", "connection_error", err)
@@ -266,7 +267,7 @@ func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 
 	var endCursor string
-	var pageSize int = 60
+	var pageSize int = 50
 	if d.QueryContext.Limit != nil {
 		if int(*d.QueryContext.Limit) < pageSize {
 			pageSize = int(*d.QueryContext.Limit)
@@ -302,12 +303,16 @@ func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	filters := setIssueFilters(d, ctx)
 
 	for {
-		listIssueResponse, err := gql.ListIssue(ctx, conn, pageSize, endCursor, true, &filters, &includeTeam, &includeCycle, &includeProject, &includeCreator, &includeAssignee, &includeSnoozedBy, &includeState, &includeParent, &includeProjectMilestone)
+		listIssueResponse, err := gql.ListIssues(ctx, conn, pageSize, endCursor, true, &filters, &includeTeam, &includeCycle, &includeProject, &includeCreator, &includeAssignee, &includeSnoozedBy, &includeState, &includeParent, &includeProjectMilestone)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_issue.listIssues", "api_error", err)
 			return nil, err
 		}
-
+		for _, limit := range listIssueResponse.RateLimitStatus.Limits {
+			plugin.Logger(ctx).Error("linear_issue.AllowedAmount", *limit.AllowedAmount)
+			plugin.Logger(ctx).Error("linear_issue.RemainingAmount", *limit.RemainingAmount)
+			plugin.Logger(ctx).Error("linear_issue.RequestedAmount", *limit.RequestedAmount)
+		}
 		for _, node := range listIssueResponse.Issues.Nodes {
 			d.StreamListItem(ctx, node)
 
@@ -323,6 +328,55 @@ func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 
 	return nil, nil
+}
+
+func getIssue(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Error("linear_issue.inside get")
+	id := d.EqualsQualString("id")
+
+	// check if id is empty
+	if id == "" {
+		return nil, nil
+	}
+
+	// By default, nested objects are excluded, and they will only be included if they are requested.
+	includeTeam, includeCycle, includeProject, includeCreator, includeAssignee, includeSnoozedBy, includeState, includeParent, includeProjectMilestone := true, true, true, true, true, true, true, true, true
+	for _, column := range d.QueryContext.Columns {
+		switch column {
+		case "team":
+			includeTeam = false
+		case "cycle":
+			includeCycle = false
+		case "project":
+			includeProject = false
+		case "creator":
+			includeCreator = false
+		case "assignee":
+			includeAssignee = false
+		case "snoozed_by":
+			includeSnoozedBy = false
+		case "state":
+			includeState = false
+		case "parent":
+			includeParent = false
+		case "project_milestone":
+			includeProjectMilestone = false
+		}
+	}
+
+	conn, err := connect(ctx, d)
+	if err != nil {
+		plugin.Logger(ctx).Error("linear_issue.getIssue", "connection_error", err)
+		return nil, err
+	}
+
+	getIssueResponse, err := gql.GetIssue(ctx, conn, &id, &includeTeam, &includeCycle, &includeProject, &includeCreator, &includeAssignee, &includeSnoozedBy, &includeState, &includeParent, &includeProjectMilestone)
+	if err != nil {
+		plugin.Logger(ctx).Error("linear_issue.listIssues", "api_error", err)
+		return nil, err
+	}
+
+	return getIssueResponse.Issue, nil
 }
 
 // Set the requested filter

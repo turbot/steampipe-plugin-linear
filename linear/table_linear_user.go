@@ -58,6 +58,10 @@ func tableLinearUser(ctx context.Context) *plugin.Table {
 				},
 			},
 		},
+		Get: &plugin.GetConfig{
+			KeyColumns: plugin.SingleColumn("id"),
+			Hydrate:    getUser,
+		},
 		Columns: []*plugin.Column{
 			{
 				Name:        "id",
@@ -211,7 +215,7 @@ func listUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	filters := setUserFilters(d, ctx)
 
 	for {
-		listUserResponse, err := gql.ListUser(ctx, conn, pageSize, endCursor, true, &filters, &includeOrganization)
+		listUserResponse, err := gql.ListUsers(ctx, conn, pageSize, endCursor, true, &filters, &includeOrganization)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_user.listUsers", "api_error", err)
 			return nil, err
@@ -232,6 +236,35 @@ func listUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	}
 
 	return nil, nil
+}
+
+func getUser(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	id := d.EqualsQualString("id")
+
+	// check if id is empty
+	if id == "" {
+		return nil, nil
+	}
+
+	// By default, nested objects are excluded, and they will only be included if they are requested.
+	includeOrganization := true
+	if helpers.StringSliceContains(d.QueryContext.Columns, "organization") {
+		includeOrganization = false
+	}
+
+	conn, err := connect(ctx, d)
+	if err != nil {
+		plugin.Logger(ctx).Error("linear_user.getUser", "connection_error", err)
+		return nil, err
+	}
+
+	getUserResponse, err := gql.GetUser(ctx, conn, &id, &includeOrganization)
+	if err != nil {
+		plugin.Logger(ctx).Error("linear_user.getUser", "api_error", err)
+		return nil, err
+	}
+
+	return getUserResponse.User, nil
 }
 
 // Set the requested filter

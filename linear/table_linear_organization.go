@@ -15,7 +15,7 @@ func tableLinearOrganization(ctx context.Context) *plugin.Table {
 		Name:        "linear_organization",
 		Description: "Linear Organization",
 		List: &plugin.ListConfig{
-			Hydrate: listOrganizations,
+			Hydrate: getOrganization,
 		},
 		Columns: []*plugin.Column{
 			{
@@ -155,10 +155,10 @@ func tableLinearOrganization(ctx context.Context) *plugin.Table {
 	}
 }
 
-func listOrganizations(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+func getOrganization(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	conn, err := connect(ctx, d)
 	if err != nil {
-		plugin.Logger(ctx).Error("linear_organization.listOrganizations", "connection_error", err)
+		plugin.Logger(ctx).Error("linear_organization.getOrganization", "connection_error", err)
 		return nil, err
 	}
 
@@ -168,13 +168,13 @@ func listOrganizations(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		includeSubscription = false
 	}
 
-	listOrganizationResponse, err := gql.ListOrganization(ctx, conn, &includeSubscription)
+	getOrganizationResponse, err := gql.GetOrganization(ctx, conn, &includeSubscription)
 	if err != nil {
-		plugin.Logger(ctx).Error("linear_organization.listOrganizations", "api_error", err)
+		plugin.Logger(ctx).Error("linear_organization.getOrganization", "api_error", err)
 		return nil, err
 	}
 
-	d.StreamListItem(ctx, listOrganizationResponse.Organization)
+	d.StreamListItem(ctx, getOrganizationResponse.Organization)
 
 	return nil, nil
 }

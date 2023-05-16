@@ -16,6 +16,10 @@ func tableLinearIntegration(ctx context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: listIntegrations,
 		},
+		Get: &plugin.GetConfig{
+			KeyColumns: plugin.SingleColumn("id"),
+			Hydrate:    getIntegration,
+		},
 		Columns: []*plugin.Column{
 			{
 				Name:        "id",
@@ -63,7 +67,7 @@ func tableLinearIntegration(ctx context.Context) *plugin.Table {
 				Name:        "title",
 				Description: "The integration's title.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("ID"),
+				Transform:   transform.FromField("Id"),
 			},
 		},
 	}
@@ -97,7 +101,7 @@ func listIntegrations(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 
 	for {
-		listIntegrationResponse, err := gql.ListIntegration(ctx, conn, pageSize, endCursor, true, &includeCreator, &includeOrganization, &includeTeam)
+		listIntegrationResponse, err := gql.ListIntegrations(ctx, conn, pageSize, endCursor, true, &includeCreator, &includeOrganization, &includeTeam)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_integration.listIntegrations", "api_error", err)
 			return nil, err
@@ -117,4 +121,40 @@ func listIntegrations(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 
 	return nil, nil
+}
+
+func getIntegration(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	id := d.EqualsQualString("id")
+
+	// check if id is empty
+	if id == "" {
+		return nil, nil
+	}
+
+	// By default, nested objects are excluded, and they will only be included if they are requested.
+	includeCreator, includeOrganization, includeTeam := true, true, true
+	for _, column := range d.QueryContext.Columns {
+		switch column {
+		case "creator":
+			includeCreator = false
+		case "organization":
+			includeOrganization = false
+		case "team":
+			includeTeam = false
+		}
+	}
+
+	conn, err := connect(ctx, d)
+	if err != nil {
+		plugin.Logger(ctx).Error("linear_integration.getIntegration", "connection_error", err)
+		return nil, err
+	}
+
+	getIntegrationResponse, err := gql.GetIntegration(ctx, conn, &id, &includeCreator, &includeOrganization, &includeTeam)
+	if err != nil {
+		plugin.Logger(ctx).Error("linear_integration.getIntegration", "api_error", err)
+		return nil, err
+	}
+
+	return getIntegrationResponse.Integration, nil
 }

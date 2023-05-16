@@ -46,6 +46,10 @@ func tableLinearWorkflowState(ctx context.Context) *plugin.Table {
 				},
 			},
 		},
+		Get: &plugin.GetConfig{
+			KeyColumns: plugin.SingleColumn("id"),
+			Hydrate:    getWorkflowState,
+		},
 		Columns: []*plugin.Column{
 			{
 				Name:        "id",
@@ -134,7 +138,7 @@ func listWorkflowStates(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	filters := setWorkflowStateFilters(d, ctx)
 
 	for {
-		listWorkflowStateResponse, err := gql.ListWorkflowState(ctx, conn, pageSize, endCursor, true, &filters, &includeTeam)
+		listWorkflowStateResponse, err := gql.ListWorkflowStates(ctx, conn, pageSize, endCursor, true, &filters, &includeTeam)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_workflow_state.listWorkflowStates", "api_error", err)
 			return nil, err
@@ -155,6 +159,35 @@ func listWorkflowStates(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 
 	return nil, nil
+}
+
+func getWorkflowState(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	id := d.EqualsQualString("id")
+
+	// check if id is empty
+	if id == "" {
+		return nil, nil
+	}
+
+	// By default, nested objects are excluded, and they will only be included if they are requested.
+	includeTeam := true
+	if helpers.StringSliceContains(d.QueryContext.Columns, "team") {
+		includeTeam = false
+	}
+
+	conn, err := connect(ctx, d)
+	if err != nil {
+		plugin.Logger(ctx).Error("linear_workflow_state.getWorkflowState", "connection_error", err)
+		return nil, err
+	}
+
+	getWorkflowStateResponse, err := gql.GetWorkflowState(ctx, conn, &id, &includeTeam)
+	if err != nil {
+		plugin.Logger(ctx).Error("linear_workflow_state.getWorkflowState", "api_error", err)
+		return nil, err
+	}
+
+	return getWorkflowStateResponse.WorkflowState, nil
 }
 
 // Set the requested filter

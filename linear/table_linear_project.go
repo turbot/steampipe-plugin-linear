@@ -55,6 +55,10 @@ func tableLinearProject(ctx context.Context) *plugin.Table {
 				},
 			},
 		},
+		Get: &plugin.GetConfig{
+			KeyColumns: plugin.SingleColumn("id"),
+			Hydrate:    getProject,
+		},
 		Columns: []*plugin.Column{
 			{
 				Name:        "id",
@@ -266,7 +270,7 @@ func listProjects(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	filters := setProjectFilters(d, ctx)
 
 	for {
-		listProjectResponse, err := gql.ListProject(ctx, conn, pageSize, endCursor, true, &filters, &includeConvertedFromIssue, &includeIntegrationsSettings, &includeLead, &includeCreator)
+		listProjectResponse, err := gql.ListProjects(ctx, conn, pageSize, endCursor, true, &filters, &includeConvertedFromIssue, &includeIntegrationsSettings, &includeLead, &includeCreator)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_project.listProjects", "api_error", err)
 			return nil, err
@@ -286,6 +290,44 @@ func listProjects(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 
 	return nil, nil
+}
+
+func getProject(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	id := d.EqualsQualString("id")
+
+	// check if id is empty
+	if id == "" {
+		return nil, nil
+	}
+
+	// By default, nested objects are excluded, and they will only be included if they are requested.
+	includeConvertedFromIssue, includeIntegrationsSettings, includeLead, includeCreator := true, true, true, true
+	for _, column := range d.QueryContext.Columns {
+		switch column {
+		case "converted_from_issue":
+			includeConvertedFromIssue = false
+		case "integrations_settings":
+			includeIntegrationsSettings = false
+		case "lead":
+			includeLead = false
+		case "creator":
+			includeCreator = false
+		}
+	}
+
+	conn, err := connect(ctx, d)
+	if err != nil {
+		plugin.Logger(ctx).Error("linear_project.getProject", "connection_error", err)
+		return nil, err
+	}
+
+	getProjectResponse, err := gql.GetProject(ctx, conn, &id, &includeConvertedFromIssue, &includeIntegrationsSettings, &includeLead, &includeCreator)
+	if err != nil {
+		plugin.Logger(ctx).Error("linear_project.getProject", "api_error", err)
+		return nil, err
+	}
+
+	return getProjectResponse.Project, nil
 }
 
 // Set the requested filter

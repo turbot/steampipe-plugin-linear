@@ -8,9 +8,9 @@ generated: generated.go
 package: gql
 bindings:
   JSONObject:
-    type: string
+    type: encoding/json.RawMessage
   JSON:
-    type: string
+    type: encoding/json.RawMessage
   DateTime:
     type: time.Time
   TimelessDate:

@@ -16,6 +16,10 @@ func tableLinearTeamMembership(ctx context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: listTeamMemberships,
 		},
+		Get: &plugin.GetConfig{
+			KeyColumns: plugin.SingleColumn("id"),
+			Hydrate:    getTeamMembership,
+		},
 		Columns: []*plugin.Column{
 			{
 				Name:        "id",
@@ -63,7 +67,7 @@ func tableLinearTeamMembership(ctx context.Context) *plugin.Table {
 				Name:        "title",
 				Description: "The issue label's title.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("ID"),
+				Transform:   transform.FromField("Id"),
 			},
 		},
 	}
@@ -96,7 +100,7 @@ func listTeamMemberships(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 
 	for {
-		listTeamMembershipResponse, err := gql.ListTeamMembership(ctx, conn, pageSize, endCursor, true, &includeTeam, &includeUser)
+		listTeamMembershipResponse, err := gql.ListTeamMemberships(ctx, conn, pageSize, endCursor, true, &includeTeam, &includeUser)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_team_membership.listTeamMemberships", "api_error", err)
 			return nil, err
@@ -117,4 +121,38 @@ func listTeamMemberships(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 
 	return nil, nil
+}
+
+func getTeamMembership(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	id := d.EqualsQualString("id")
+
+	// check if id is empty
+	if id == "" {
+		return nil, nil
+	}
+
+	// By default, nested objects are excluded, and they will only be included if they are requested.
+	includeTeam, includeUser := true, true
+	for _, column := range d.QueryContext.Columns {
+		switch column {
+		case "team":
+			includeTeam = false
+		case "user":
+			includeUser = false
+		}
+	}
+
+	conn, err := connect(ctx, d)
+	if err != nil {
+		plugin.Logger(ctx).Error("linear_team_membership.getTeamMembership", "connection_error", err)
+		return nil, err
+	}
+
+	getTeamMembershipResponse, err := gql.GetTeamMembership(ctx, conn, &id, &includeTeam, &includeUser)
+	if err != nil {
+		plugin.Logger(ctx).Error("linear_team_membership.getTeamMembership", "api_error", err)
+		return nil, err
+	}
+
+	return getTeamMembershipResponse.TeamMembership, nil
 }

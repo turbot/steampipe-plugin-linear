@@ -18,14 +18,14 @@ func tableLinearIssueLabel(ctx context.Context) *plugin.Table {
 			Hydrate: listIssueLabels,
 			KeyColumns: []*plugin.KeyColumn{
 				{
-					Name:    "id",
-					Require: plugin.Optional,
-				},
-				{
 					Name:    "name",
 					Require: plugin.Optional,
 				},
 			},
+		},
+		Get: &plugin.GetConfig{
+			KeyColumns: plugin.SingleColumn("id"),
+			Hydrate:    getIssueLabel,
 		},
 		Columns: []*plugin.Column{
 			{
@@ -69,6 +69,12 @@ func tableLinearIssueLabel(ctx context.Context) *plugin.Table {
 				Description: "The team that the label is associated with. If null, the label is associated with the global workspace.",
 			},
 			{
+				Name:        "issue_ids",
+				Type:        proto.ColumnType_JSON,
+				Description: "The issue ids associated with the label.",
+				Transform:   transform.FromField("Issues.Nodes"),
+			},
+			{
 				Name:        "creator",
 				Type:        proto.ColumnType_JSON,
 				Description: "The user who created the label.",
@@ -96,6 +102,7 @@ func tableLinearIssueLabel(ctx context.Context) *plugin.Table {
 }
 
 func listIssueLabels(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Error("linear_issue_label.inside list")
 	conn, err := connect(ctx, d)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_issue_label.listIssueLabels", "connection_error", err)
@@ -103,7 +110,7 @@ func listIssueLabels(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 
 	var endCursor string
-	var pageSize int = 70
+	var pageSize int = 50
 	if d.QueryContext.Limit != nil {
 		if int(*d.QueryContext.Limit) < pageSize {
 			pageSize = int(*d.QueryContext.Limit)
@@ -129,12 +136,16 @@ func listIssueLabels(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	filters := setIssueLabelFilters(d, ctx)
 
 	for {
-		listIssueLabelResponse, err := gql.ListIssueLabel(ctx, conn, pageSize, endCursor, true, &filters, &includeCreator, &includeOrganization, &includeParent, &includeTeam)
+		listIssueLabelResponse, err := gql.ListIssueLabels(ctx, conn, pageSize, endCursor, true, &filters, &includeCreator, &includeOrganization, &includeParent, &includeTeam)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_issue_label.listIssueLabels", "api_error", err)
 			return nil, err
 		}
-
+		for _, limit := range listIssueLabelResponse.RateLimitStatus.Limits {
+			plugin.Logger(ctx).Error("linear_issue_label.AllowedAmount", *limit.AllowedAmount)
+			plugin.Logger(ctx).Error("linear_issue_label.RemainingAmount", *limit.RemainingAmount)
+			plugin.Logger(ctx).Error("linear_issue_label.RequestedAmount", *limit.RequestedAmount)
+		}
 		for _, node := range listIssueLabelResponse.IssueLabels.Nodes {
 			d.StreamListItem(ctx, node)
 
@@ -150,6 +161,45 @@ func listIssueLabels(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 
 	return nil, nil
+}
+
+func getIssueLabel(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Error("linear_issue_label.inside get")
+	id := d.EqualsQualString("id")
+
+	// check if id is empty
+	if id == "" {
+		return nil, nil
+	}
+
+	// By default, nested objects are excluded, and they will only be included if they are requested.
+	includeCreator, includeOrganization, includeParent, includeTeam := true, true, true, true
+	for _, column := range d.QueryContext.Columns {
+		switch column {
+		case "team":
+			includeTeam = false
+		case "organization":
+			includeOrganization = false
+		case "parent":
+			includeParent = false
+		case "creator":
+			includeCreator = false
+		}
+	}
+
+	conn, err := connect(ctx, d)
+	if err != nil {
+		plugin.Logger(ctx).Error("linear_issue_label.getIssueLabel", "connection_error", err)
+		return nil, err
+	}
+
+	getIssueLabelResponse, err := gql.GetIssueLabel(ctx, conn, &id, &includeCreator, &includeOrganization, &includeParent, &includeTeam)
+	if err != nil {
+		plugin.Logger(ctx).Error("linear_issue_label.getIssueLabel", "api_error", err)
+		return nil, err
+	}
+
+	return getIssueLabelResponse.IssueLabel, nil
 }
 
 // Set the requested filter
