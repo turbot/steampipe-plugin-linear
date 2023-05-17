@@ -24,12 +24,12 @@ from
 select
   id,
   title,
-  creator ->> 'id' as creator_id,
-  creator ->> 'name' as creator_name,
-  creator ->> 'active' as active,
-  creator ->> 'email' as email,
-  creator ->> 'admin' as admin,
-  creator ->> 'createdAt' as created_at
+  comment_user ->> 'id' as creator_id,
+  comment_user ->> 'name' as creator_name,
+  comment_user ->> 'active' as active,
+  comment_user ->> 'email' as email,
+  comment_user ->> 'admin' as admin,
+  comment_user ->> 'createdAt' as created_at
 from
   linear_comment;
 ```
@@ -58,12 +58,12 @@ select
   title,
   created_at,
   edited_at,
-  updated_at,
+  comment_user,
   url
 from
   linear_comment
 where
-  creator ->> 'admin' = 'true';
+  comment_user ->> 'admin' = 'true';
 ```
 
 ### List comments older than 90 days
@@ -79,5 +79,5 @@ select
 from
   linear_comment
 where
-  created_at > now() - interval '90' day;
+  created_at < now() - interval '90' day;
 ```

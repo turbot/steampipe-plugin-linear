@@ -56,24 +56,6 @@ where
   completed_at is null;
 ```
 
-### List projects which are not associated with any team
-
-```sql
-select
-  id,
-  title,
-  created_at,
-  color,
-  progress,
-  scope,
-  state,
-  updated_at
-from
-  linear_project
-where
-  team is null;
-```
-
 ### List projects created by admin
 
 ```sql

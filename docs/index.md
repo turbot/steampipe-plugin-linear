@@ -18,7 +18,7 @@ og_image: "/images/plugins/turbot/linear-social-graphic.png"
 
 # Handle Rate Limit
 
-It is recommended to request for only specific fields in the query to avoid rate limit issue. But in some cases it may be helpful to request more fields at first to take advantage of Steampipe caching.
+To avoid potential rate limit issues, it is advisable to request only the specific fields needed in a query. However, in certain scenarios, requesting additional fields initially can be advantageous to leverage Steampipe caching.
 
 List your Linear issues:
 
@@ -36,7 +36,7 @@ from
 +----------------------------------------------------------------+---------------------------+-------------------------------------------------------+----------+
 | title                                                          | created_at                | branch_name                                           | priority |
 +----------------------------------------------------------------+---------------------------+-------------------------------------------------------+----------+
-| ProTip: Mouse over this issue & press [Space]                | 2023-05-09T12:41:21+05:30 | sourav/tur-8-protip-mouse-over-this-issue-press-space | 4        |
+| ProTip: Mouse over this issue & press [Space]                  | 2023-05-09T12:41:21+05:30 | sourav/tur-8-protip-mouse-over-this-issue-press-space | 4        |
 | test linear                                                    | 2023-05-09T12:43:21+05:30 | sourav/tur-11-test-linear                             | 0        |
 ```
 
@@ -74,7 +74,7 @@ connection "linear" {
   # `token` - API token for your Linear account. It can be a personal access key or OAuth2 token (Required)
   # For more information on the API Token, please see https://developers.linear.app/docs/graphql/working-with-the-graphql-api.
   # Can also be set with the LINEAR_TOKEN environment variable.
-  # api_key = "lin_api_0aHa1iYv9WMTLrEAoSNWlG1RHPy4N5DuM4uILY"
+  # token = "lin_api_0aHa1iYv9WMTLrEAoSNWlG1RHPy4N5DuM4uILY"
 
   # `page_size` - The requeted page size per API request. Default is 50. (Optional)
   # It is recommended to use lower page size when you are trying to fetch large data set to avoid complexity limit breach.

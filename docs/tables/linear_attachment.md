@@ -50,7 +50,7 @@ select
 from
   linear_attachment
 where
-  archived is not null;
+  archived_at is not null;
 ```
 
 ### List attachments where source information is unavailable
@@ -76,11 +76,9 @@ where
 select
   id,
   title,
-  subtitle,
   source_type,
   created_at,
-  updated_at,
-  url
+  creator
 from
   linear_attachment
 where

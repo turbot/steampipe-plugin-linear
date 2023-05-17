@@ -35,11 +35,11 @@ where
 
 ```sql
 select
-  user ->> 'id' as user_id,
-  user ->> 'name' as name,,
-  user ->> 'admin' as admin,
-  user ->> 'email' as email,
-  user ->> 'active' as active
+  membership_user ->> 'id' as user_id,
+  membership_user ->> 'name' as name,
+  membership_user ->> 'admin' as admin,
+  membership_user ->> 'email' as email,
+  membership_user ->> 'active' as active
 from
   linear_team_membership
 where
