@@ -31,7 +31,7 @@ Configure your account details in `~/.steampipe/config/linear.spc`:
 
 You may specify the Token to authenticate:
 
-- `token`: The linear API token.
+- `token`: The linear API token. It can be a personal access key or oAuth2 token.
 
 ```hcl
 connection "linear" {
@@ -81,7 +81,7 @@ from
 +----------------------------------------------------------------+---------------------------+-------------------------------------------------------+----------+
 | title                                                          | created_at                | branch_name                                           | priority |
 +----------------------------------------------------------------+---------------------------+-------------------------------------------------------+----------+
-| ProTip: Mouse over this issue & press [Space]                | 2023-05-09T12:41:21+05:30 | sourav/tur-8-protip-mouse-over-this-issue-press-space | 4        |
+| ProTip: Mouse over this issue & press [Space]                  | 2023-05-09T12:41:21+05:30 | sourav/tur-8-protip-mouse-over-this-issue-press-space | 4        |
 | test linear                                                    | 2023-05-09T12:43:21+05:30 | sourav/tur-11-test-linear                             | 0        |
 ```
 
