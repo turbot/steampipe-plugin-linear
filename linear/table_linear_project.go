@@ -18,10 +18,6 @@ func tableLinearProject(ctx context.Context) *plugin.Table {
 			Hydrate: listProjects,
 			KeyColumns: []*plugin.KeyColumn{
 				{
-					Name:    "id",
-					Require: plugin.Optional,
-				},
-				{
 					Name:      "created_at",
 					Require:   plugin.Optional,
 					Operators: []string{"=", ">", ">=", "<=", "<"},
@@ -244,7 +240,9 @@ func listProjects(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 		return nil, err
 	}
 	var endCursor string
-	var pageSize int = 50
+
+	// set page size
+	var pageSize int = int(conn.pageSize)
 	if d.QueryContext.Limit != nil {
 		if int(*d.QueryContext.Limit) < pageSize {
 			pageSize = int(*d.QueryContext.Limit)
@@ -270,7 +268,7 @@ func listProjects(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	filters := setProjectFilters(d, ctx)
 
 	for {
-		listProjectResponse, err := gql.ListProjects(ctx, conn, pageSize, endCursor, true, &filters, &includeConvertedFromIssue, &includeIntegrationsSettings, &includeLead, &includeCreator)
+		listProjectResponse, err := gql.ListProjects(ctx, conn.client, pageSize, endCursor, true, &filters, &includeConvertedFromIssue, &includeIntegrationsSettings, &includeLead, &includeCreator)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_project.listProjects", "api_error", err)
 			return nil, err
@@ -321,7 +319,7 @@ func getProject(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 		return nil, err
 	}
 
-	getProjectResponse, err := gql.GetProject(ctx, conn, &id, &includeConvertedFromIssue, &includeIntegrationsSettings, &includeLead, &includeCreator)
+	getProjectResponse, err := gql.GetProject(ctx, conn.client, &id, &includeConvertedFromIssue, &includeIntegrationsSettings, &includeLead, &includeCreator)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_project.getProject", "api_error", err)
 		return nil, err
@@ -333,12 +331,6 @@ func getProject(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 // Set the requested filter
 func setProjectFilters(d *plugin.QueryData, ctx context.Context) gql.ProjectFilter {
 	var filter gql.ProjectFilter
-	if d.EqualsQuals["id"] != nil {
-		id := &gql.IDComparator{
-			Eq: types.String(d.EqualsQualString("id")),
-		}
-		filter.Id = id
-	}
 	if d.Quals["created_at"] != nil {
 		createdAt := &gql.DateComparator{}
 		for _, q := range d.Quals["created_at"].Quals {

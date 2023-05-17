@@ -2412,14 +2412,22 @@ func (v *__getIntegrationInput) GetIncludeTeam() *bool { return v.IncludeTeam }
 // __getIssueIdsInput is used internally by genqlient
 type __getIssueIdsInput struct {
 	IssueLabelId    *string `json:"issueLabelId"`
-	IncludeArchived *bool   `json:"includeArchived"`
+	First           int     `json:"first"`
+	After           string  `json:"after"`
+	IncludeArchived bool    `json:"includeArchived"`
 }
 
 // GetIssueLabelId returns __getIssueIdsInput.IssueLabelId, and is useful for accessing the field via an interface.
 func (v *__getIssueIdsInput) GetIssueLabelId() *string { return v.IssueLabelId }
 
+// GetFirst returns __getIssueIdsInput.First, and is useful for accessing the field via an interface.
+func (v *__getIssueIdsInput) GetFirst() int { return v.First }
+
+// GetAfter returns __getIssueIdsInput.After, and is useful for accessing the field via an interface.
+func (v *__getIssueIdsInput) GetAfter() string { return v.After }
+
 // GetIncludeArchived returns __getIssueIdsInput.IncludeArchived, and is useful for accessing the field via an interface.
-func (v *__getIssueIdsInput) GetIncludeArchived() *bool { return v.IncludeArchived }
+func (v *__getIssueIdsInput) GetIncludeArchived() bool { return v.IncludeArchived }
 
 // __getIssueInput is used internally by genqlient
 type __getIssueInput struct {
@@ -2468,6 +2476,8 @@ func (v *__getIssueInput) GetIncludeProjectMilestone() *bool { return v.IncludeP
 // __getIssueLabelInput is used internally by genqlient
 type __getIssueLabelInput struct {
 	IssueLabelId        *string `json:"issueLabelId"`
+	FirstIssue          int     `json:"firstIssue"`
+	IncludeArchived     bool    `json:"includeArchived"`
 	IncludeCreator      *bool   `json:"includeCreator"`
 	IncludeOrganization *bool   `json:"includeOrganization"`
 	IncludeParent       *bool   `json:"includeParent"`
@@ -2476,6 +2486,12 @@ type __getIssueLabelInput struct {
 
 // GetIssueLabelId returns __getIssueLabelInput.IssueLabelId, and is useful for accessing the field via an interface.
 func (v *__getIssueLabelInput) GetIssueLabelId() *string { return v.IssueLabelId }
+
+// GetFirstIssue returns __getIssueLabelInput.FirstIssue, and is useful for accessing the field via an interface.
+func (v *__getIssueLabelInput) GetFirstIssue() int { return v.FirstIssue }
+
+// GetIncludeArchived returns __getIssueLabelInput.IncludeArchived, and is useful for accessing the field via an interface.
+func (v *__getIssueLabelInput) GetIncludeArchived() bool { return v.IncludeArchived }
 
 // GetIncludeCreator returns __getIssueLabelInput.IncludeCreator, and is useful for accessing the field via an interface.
 func (v *__getIssueLabelInput) GetIncludeCreator() *bool { return v.IncludeCreator }
@@ -2607,18 +2623,6 @@ func (v *__getUserInput) GetUserId() *string { return v.UserId }
 // GetIncludeOrganization returns __getUserInput.IncludeOrganization, and is useful for accessing the field via an interface.
 func (v *__getUserInput) GetIncludeOrganization() *bool { return v.IncludeOrganization }
 
-// __getWorkflowStateInput is used internally by genqlient
-type __getWorkflowStateInput struct {
-	WorkflowStateId *string `json:"workflowStateId"`
-	IncludeTeam     *bool   `json:"includeTeam"`
-}
-
-// GetWorkflowStateId returns __getWorkflowStateInput.WorkflowStateId, and is useful for accessing the field via an interface.
-func (v *__getWorkflowStateInput) GetWorkflowStateId() *string { return v.WorkflowStateId }
-
-// GetIncludeTeam returns __getWorkflowStateInput.IncludeTeam, and is useful for accessing the field via an interface.
-func (v *__getWorkflowStateInput) GetIncludeTeam() *bool { return v.IncludeTeam }
-
 // __listAttachmentsInput is used internally by genqlient
 type __listAttachmentsInput struct {
 	First           int               `json:"first,omitempty"`
@@ -2710,6 +2714,7 @@ func (v *__listIntegrationsInput) GetIncludeTeam() *bool { return v.IncludeTeam 
 // __listIssueLabelsInput is used internally by genqlient
 type __listIssueLabelsInput struct {
 	First               int               `json:"first,omitempty"`
+	FirstIssue          int               `json:"firstIssue,omitempty"`
 	After               string            `json:"after,omitempty"`
 	IncludeArchived     bool              `json:"includeArchived,omitempty"`
 	Filter              *IssueLabelFilter `json:"filter,omitempty"`
@@ -2721,6 +2726,9 @@ type __listIssueLabelsInput struct {
 
 // GetFirst returns __listIssueLabelsInput.First, and is useful for accessing the field via an interface.
 func (v *__listIssueLabelsInput) GetFirst() int { return v.First }
+
+// GetFirstIssue returns __listIssueLabelsInput.FirstIssue, and is useful for accessing the field via an interface.
+func (v *__listIssueLabelsInput) GetFirstIssue() int { return v.FirstIssue }
 
 // GetAfter returns __listIssueLabelsInput.After, and is useful for accessing the field via an interface.
 func (v *__listIssueLabelsInput) GetAfter() string { return v.After }
@@ -2956,30 +2964,6 @@ func (v *__listUsersInput) GetFilter() *UserFilter { return v.Filter }
 
 // GetIncludeOrganization returns __listUsersInput.IncludeOrganization, and is useful for accessing the field via an interface.
 func (v *__listUsersInput) GetIncludeOrganization() *bool { return v.IncludeOrganization }
-
-// __listWorkflowStatesInput is used internally by genqlient
-type __listWorkflowStatesInput struct {
-	First           int                  `json:"first,omitempty"`
-	After           string               `json:"after,omitempty"`
-	IncludeArchived bool                 `json:"includeArchived,omitempty"`
-	Filter          *WorkflowStateFilter `json:"filter,omitempty"`
-	IncludeTeam     *bool                `json:"includeTeam,omitempty"`
-}
-
-// GetFirst returns __listWorkflowStatesInput.First, and is useful for accessing the field via an interface.
-func (v *__listWorkflowStatesInput) GetFirst() int { return v.First }
-
-// GetAfter returns __listWorkflowStatesInput.After, and is useful for accessing the field via an interface.
-func (v *__listWorkflowStatesInput) GetAfter() string { return v.After }
-
-// GetIncludeArchived returns __listWorkflowStatesInput.IncludeArchived, and is useful for accessing the field via an interface.
-func (v *__listWorkflowStatesInput) GetIncludeArchived() bool { return v.IncludeArchived }
-
-// GetFilter returns __listWorkflowStatesInput.Filter, and is useful for accessing the field via an interface.
-func (v *__listWorkflowStatesInput) GetFilter() *WorkflowStateFilter { return v.Filter }
-
-// GetIncludeTeam returns __listWorkflowStatesInput.IncludeTeam, and is useful for accessing the field via an interface.
-func (v *__listWorkflowStatesInput) GetIncludeTeam() *bool { return v.IncludeTeam }
 
 // getAttachmentAttachment includes the requested fields of the GraphQL type Attachment.
 // The GraphQL type's documentation follows.
@@ -5596,6 +5580,8 @@ type getIssueLabelIssueLabel struct {
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
 	UpdatedAt *time.Time `json:"updatedAt"`
+	// Issues associated with the label.
+	Issues *getIssueLabelIssueLabelIssuesIssueConnection `json:"issues"`
 	// The team that the label is associated with. If null, the label is associated with the global workspace.
 	Team *getIssueLabelIssueLabelTeam `json:"team"`
 	// The user who created the label.
@@ -5625,6 +5611,11 @@ func (v *getIssueLabelIssueLabel) GetName() *string { return v.Name }
 
 // GetUpdatedAt returns getIssueLabelIssueLabel.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getIssueLabelIssueLabel) GetUpdatedAt() *time.Time { return v.UpdatedAt }
+
+// GetIssues returns getIssueLabelIssueLabel.Issues, and is useful for accessing the field via an interface.
+func (v *getIssueLabelIssueLabel) GetIssues() *getIssueLabelIssueLabelIssuesIssueConnection {
+	return v.Issues
+}
 
 // GetTeam returns getIssueLabelIssueLabel.Team, and is useful for accessing the field via an interface.
 func (v *getIssueLabelIssueLabel) GetTeam() *getIssueLabelIssueLabelTeam { return v.Team }
@@ -5765,6 +5756,52 @@ func (v *getIssueLabelIssueLabelCreatorUser) GetUpdatedAt() *time.Time { return 
 
 // GetUrl returns getIssueLabelIssueLabelCreatorUser.Url, and is useful for accessing the field via an interface.
 func (v *getIssueLabelIssueLabelCreatorUser) GetUrl() *string { return v.Url }
+
+// getIssueLabelIssueLabelIssuesIssueConnection includes the requested fields of the GraphQL type IssueConnection.
+type getIssueLabelIssueLabelIssuesIssueConnection struct {
+	PageInfo *getIssueLabelIssueLabelIssuesIssueConnectionPageInfo     `json:"pageInfo"`
+	Nodes    []*getIssueLabelIssueLabelIssuesIssueConnectionNodesIssue `json:"nodes"`
+}
+
+// GetPageInfo returns getIssueLabelIssueLabelIssuesIssueConnection.PageInfo, and is useful for accessing the field via an interface.
+func (v *getIssueLabelIssueLabelIssuesIssueConnection) GetPageInfo() *getIssueLabelIssueLabelIssuesIssueConnectionPageInfo {
+	return v.PageInfo
+}
+
+// GetNodes returns getIssueLabelIssueLabelIssuesIssueConnection.Nodes, and is useful for accessing the field via an interface.
+func (v *getIssueLabelIssueLabelIssuesIssueConnection) GetNodes() []*getIssueLabelIssueLabelIssuesIssueConnectionNodesIssue {
+	return v.Nodes
+}
+
+// getIssueLabelIssueLabelIssuesIssueConnectionNodesIssue includes the requested fields of the GraphQL type Issue.
+// The GraphQL type's documentation follows.
+//
+// An issue.
+type getIssueLabelIssueLabelIssuesIssueConnectionNodesIssue struct {
+	// The unique identifier of the entity.
+	Id *string `json:"id"`
+}
+
+// GetId returns getIssueLabelIssueLabelIssuesIssueConnectionNodesIssue.Id, and is useful for accessing the field via an interface.
+func (v *getIssueLabelIssueLabelIssuesIssueConnectionNodesIssue) GetId() *string { return v.Id }
+
+// getIssueLabelIssueLabelIssuesIssueConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
+type getIssueLabelIssueLabelIssuesIssueConnectionPageInfo struct {
+	// Indicates if there are more results when paginating forward.
+	HasNextPage *bool `json:"hasNextPage"`
+	// Cursor representing the last result in the paginated results.
+	EndCursor *string `json:"endCursor"`
+}
+
+// GetHasNextPage returns getIssueLabelIssueLabelIssuesIssueConnectionPageInfo.HasNextPage, and is useful for accessing the field via an interface.
+func (v *getIssueLabelIssueLabelIssuesIssueConnectionPageInfo) GetHasNextPage() *bool {
+	return v.HasNextPage
+}
+
+// GetEndCursor returns getIssueLabelIssueLabelIssuesIssueConnectionPageInfo.EndCursor, and is useful for accessing the field via an interface.
+func (v *getIssueLabelIssueLabelIssuesIssueConnectionPageInfo) GetEndCursor() *string {
+	return v.EndCursor
+}
 
 // getIssueLabelIssueLabelOrganization includes the requested fields of the GraphQL type Organization.
 // The GraphQL type's documentation follows.
@@ -8877,307 +8914,6 @@ func (v *getUserUserOrganization) GetUrlKey() *string { return v.UrlKey }
 
 // GetUserCount returns getUserUserOrganization.UserCount, and is useful for accessing the field via an interface.
 func (v *getUserUserOrganization) GetUserCount() *int { return v.UserCount }
-
-// getWorkflowStateResponse is returned by getWorkflowState on success.
-type getWorkflowStateResponse struct {
-	// One specific state.
-	WorkflowState *getWorkflowStateWorkflowState `json:"workflowState"`
-}
-
-// GetWorkflowState returns getWorkflowStateResponse.WorkflowState, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateResponse) GetWorkflowState() *getWorkflowStateWorkflowState {
-	return v.WorkflowState
-}
-
-// getWorkflowStateWorkflowState includes the requested fields of the GraphQL type WorkflowState.
-// The GraphQL type's documentation follows.
-//
-// A state in a team workflow.
-type getWorkflowStateWorkflowState struct {
-	// The unique identifier of the entity.
-	Id *string `json:"id"`
-	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
-	// The state's UI color as a HEX string.
-	Color *string `json:"color"`
-	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
-	// Description of the state.
-	Description *string `json:"description"`
-	// The state's name.
-	Name *string `json:"name"`
-	// The position of the state in the team flow.
-	Position *float64 `json:"position"`
-	// The type of the state.
-	Type *string `json:"type"`
-	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
-	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
-	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
-	// The team to which this state belongs to.
-	Team *getWorkflowStateWorkflowStateTeam `json:"team"`
-}
-
-// GetId returns getWorkflowStateWorkflowState.Id, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowState) GetId() *string { return v.Id }
-
-// GetArchivedAt returns getWorkflowStateWorkflowState.ArchivedAt, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowState) GetArchivedAt() *time.Time { return v.ArchivedAt }
-
-// GetColor returns getWorkflowStateWorkflowState.Color, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowState) GetColor() *string { return v.Color }
-
-// GetCreatedAt returns getWorkflowStateWorkflowState.CreatedAt, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowState) GetCreatedAt() *time.Time { return v.CreatedAt }
-
-// GetDescription returns getWorkflowStateWorkflowState.Description, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowState) GetDescription() *string { return v.Description }
-
-// GetName returns getWorkflowStateWorkflowState.Name, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowState) GetName() *string { return v.Name }
-
-// GetPosition returns getWorkflowStateWorkflowState.Position, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowState) GetPosition() *float64 { return v.Position }
-
-// GetType returns getWorkflowStateWorkflowState.Type, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowState) GetType() *string { return v.Type }
-
-// GetUpdatedAt returns getWorkflowStateWorkflowState.UpdatedAt, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowState) GetUpdatedAt() *time.Time { return v.UpdatedAt }
-
-// GetTeam returns getWorkflowStateWorkflowState.Team, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowState) GetTeam() *getWorkflowStateWorkflowStateTeam { return v.Team }
-
-// getWorkflowStateWorkflowStateTeam includes the requested fields of the GraphQL type Team.
-// The GraphQL type's documentation follows.
-//
-// An organizational unit that contains issues.
-type getWorkflowStateWorkflowStateTeam struct {
-	// The unique identifier of the entity.
-	Id *string `json:"id"`
-	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
-	// Period after which automatically closed and completed issues are automatically archived in months.
-	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
-	// Period after which issues are automatically closed in months. Null/undefined means disabled.
-	AutoClosePeriod *float64 `json:"autoClosePeriod"`
-	// The canceled workflow state which auto closed issues will be set to. Defaults to the first canceled state.
-	AutoCloseStateId *string `json:"autoCloseStateId"`
-	// The team's color.
-	Color *string `json:"color"`
-	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
-	// Calendar feed URL (iCal) for cycles.
-	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
-	// The cooldown time after each cycle in weeks.
-	CycleCooldownTime *float64 `json:"cycleCooldownTime"`
-	// The duration of a cycle in weeks.
-	CycleDuration *float64 `json:"cycleDuration"`
-	// Auto assign completed issues to current cycle.
-	CycleIssueAutoAssignCompleted *bool `json:"cycleIssueAutoAssignCompleted"`
-	// Auto assign started issues to current cycle.
-	CycleIssueAutoAssignStarted *bool `json:"cycleIssueAutoAssignStarted"`
-	// Only allow issues issues with cycles in Active Issues.
-	CycleLockToActive *bool `json:"cycleLockToActive"`
-	// The day of the week that a new cycle starts.
-	CycleStartDay *float64 `json:"cycleStartDay"`
-	// Whether the team uses cycles.
-	CyclesEnabled *bool `json:"cyclesEnabled"`
-	// What to use as an default estimate for unestimated issues.
-	DefaultIssueEstimate *float64 `json:"defaultIssueEstimate"`
-	// The id of the default template to use for new issues created by members of the team.
-	DefaultTemplateForMembersId *string `json:"defaultTemplateForMembersId"`
-	// The id of the default template to use for new issues created by non-members of the team.
-	DefaultTemplateForNonMembersId *string `json:"defaultTemplateForNonMembersId"`
-	// The team's description.
-	Description *string `json:"description"`
-	// Whether to group recent issue history entries.
-	GroupIssueHistory *bool `json:"groupIssueHistory"`
-	// The icon of the team.
-	Icon *string `json:"icon"`
-	// Unique hash for the team to be used in invite URLs.
-	InviteHash *string `json:"inviteHash"`
-	// Whether to allow zeros in issues estimates.
-	IssueEstimationAllowZero *bool `json:"issueEstimationAllowZero"`
-	// Whether to add additional points to the estimate scale.
-	IssueEstimationExtended *bool `json:"issueEstimationExtended"`
-	// The issue estimation type to use.
-	IssueEstimationType *string `json:"issueEstimationType"`
-	// Whether issues without priority should be sorted first.
-	IssueOrderingNoPriorityFirst *bool `json:"issueOrderingNoPriorityFirst"`
-	// Whether to move issues to bottom of the column when changing state.
-	IssueSortOrderDefaultToBottom *bool `json:"issueSortOrderDefaultToBottom"`
-	// The team's unique key. The key is used in URLs.
-	Key *string `json:"key"`
-	// The team's name.
-	Name *string `json:"name"`
-	// Whether the team is private or not.
-	Private *bool `json:"private"`
-	// Whether an issue needs to have a priority set before leaving triage
-	RequirePriorityToLeaveTriage *bool `json:"requirePriorityToLeaveTriage"`
-	// Whether to send new issue comment notifications to Slack.
-	SlackIssueComments *bool `json:"slackIssueComments"`
-	// Whether to send new issue status updates to Slack.
-	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
-	// Whether to send new issue notifications to Slack.
-	SlackNewIssue *bool `json:"slackNewIssue"`
-	// The timezone of the team. Defaults to "America/Los_Angeles"
-	Timezone *string `json:"timezone"`
-	// Whether triage mode is enabled for the team or not.
-	TriageEnabled *bool `json:"triageEnabled"`
-	// How many upcoming cycles to create.
-	UpcomingCycleCount *float64 `json:"upcomingCycleCount"`
-	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
-	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
-	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
-}
-
-// GetId returns getWorkflowStateWorkflowStateTeam.Id, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetId() *string { return v.Id }
-
-// GetArchivedAt returns getWorkflowStateWorkflowStateTeam.ArchivedAt, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetArchivedAt() *time.Time { return v.ArchivedAt }
-
-// GetAutoArchivePeriod returns getWorkflowStateWorkflowStateTeam.AutoArchivePeriod, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetAutoArchivePeriod() *float64 {
-	return v.AutoArchivePeriod
-}
-
-// GetAutoClosePeriod returns getWorkflowStateWorkflowStateTeam.AutoClosePeriod, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetAutoClosePeriod() *float64 { return v.AutoClosePeriod }
-
-// GetAutoCloseStateId returns getWorkflowStateWorkflowStateTeam.AutoCloseStateId, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetAutoCloseStateId() *string { return v.AutoCloseStateId }
-
-// GetColor returns getWorkflowStateWorkflowStateTeam.Color, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetColor() *string { return v.Color }
-
-// GetCreatedAt returns getWorkflowStateWorkflowStateTeam.CreatedAt, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetCreatedAt() *time.Time { return v.CreatedAt }
-
-// GetCycleCalenderUrl returns getWorkflowStateWorkflowStateTeam.CycleCalenderUrl, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetCycleCalenderUrl() *string { return v.CycleCalenderUrl }
-
-// GetCycleCooldownTime returns getWorkflowStateWorkflowStateTeam.CycleCooldownTime, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetCycleCooldownTime() *float64 {
-	return v.CycleCooldownTime
-}
-
-// GetCycleDuration returns getWorkflowStateWorkflowStateTeam.CycleDuration, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetCycleDuration() *float64 { return v.CycleDuration }
-
-// GetCycleIssueAutoAssignCompleted returns getWorkflowStateWorkflowStateTeam.CycleIssueAutoAssignCompleted, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetCycleIssueAutoAssignCompleted() *bool {
-	return v.CycleIssueAutoAssignCompleted
-}
-
-// GetCycleIssueAutoAssignStarted returns getWorkflowStateWorkflowStateTeam.CycleIssueAutoAssignStarted, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetCycleIssueAutoAssignStarted() *bool {
-	return v.CycleIssueAutoAssignStarted
-}
-
-// GetCycleLockToActive returns getWorkflowStateWorkflowStateTeam.CycleLockToActive, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetCycleLockToActive() *bool { return v.CycleLockToActive }
-
-// GetCycleStartDay returns getWorkflowStateWorkflowStateTeam.CycleStartDay, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetCycleStartDay() *float64 { return v.CycleStartDay }
-
-// GetCyclesEnabled returns getWorkflowStateWorkflowStateTeam.CyclesEnabled, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetCyclesEnabled() *bool { return v.CyclesEnabled }
-
-// GetDefaultIssueEstimate returns getWorkflowStateWorkflowStateTeam.DefaultIssueEstimate, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetDefaultIssueEstimate() *float64 {
-	return v.DefaultIssueEstimate
-}
-
-// GetDefaultTemplateForMembersId returns getWorkflowStateWorkflowStateTeam.DefaultTemplateForMembersId, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetDefaultTemplateForMembersId() *string {
-	return v.DefaultTemplateForMembersId
-}
-
-// GetDefaultTemplateForNonMembersId returns getWorkflowStateWorkflowStateTeam.DefaultTemplateForNonMembersId, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetDefaultTemplateForNonMembersId() *string {
-	return v.DefaultTemplateForNonMembersId
-}
-
-// GetDescription returns getWorkflowStateWorkflowStateTeam.Description, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetDescription() *string { return v.Description }
-
-// GetGroupIssueHistory returns getWorkflowStateWorkflowStateTeam.GroupIssueHistory, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetGroupIssueHistory() *bool { return v.GroupIssueHistory }
-
-// GetIcon returns getWorkflowStateWorkflowStateTeam.Icon, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetIcon() *string { return v.Icon }
-
-// GetInviteHash returns getWorkflowStateWorkflowStateTeam.InviteHash, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetInviteHash() *string { return v.InviteHash }
-
-// GetIssueEstimationAllowZero returns getWorkflowStateWorkflowStateTeam.IssueEstimationAllowZero, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetIssueEstimationAllowZero() *bool {
-	return v.IssueEstimationAllowZero
-}
-
-// GetIssueEstimationExtended returns getWorkflowStateWorkflowStateTeam.IssueEstimationExtended, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetIssueEstimationExtended() *bool {
-	return v.IssueEstimationExtended
-}
-
-// GetIssueEstimationType returns getWorkflowStateWorkflowStateTeam.IssueEstimationType, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetIssueEstimationType() *string {
-	return v.IssueEstimationType
-}
-
-// GetIssueOrderingNoPriorityFirst returns getWorkflowStateWorkflowStateTeam.IssueOrderingNoPriorityFirst, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetIssueOrderingNoPriorityFirst() *bool {
-	return v.IssueOrderingNoPriorityFirst
-}
-
-// GetIssueSortOrderDefaultToBottom returns getWorkflowStateWorkflowStateTeam.IssueSortOrderDefaultToBottom, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetIssueSortOrderDefaultToBottom() *bool {
-	return v.IssueSortOrderDefaultToBottom
-}
-
-// GetKey returns getWorkflowStateWorkflowStateTeam.Key, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetKey() *string { return v.Key }
-
-// GetName returns getWorkflowStateWorkflowStateTeam.Name, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetName() *string { return v.Name }
-
-// GetPrivate returns getWorkflowStateWorkflowStateTeam.Private, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetPrivate() *bool { return v.Private }
-
-// GetRequirePriorityToLeaveTriage returns getWorkflowStateWorkflowStateTeam.RequirePriorityToLeaveTriage, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetRequirePriorityToLeaveTriage() *bool {
-	return v.RequirePriorityToLeaveTriage
-}
-
-// GetSlackIssueComments returns getWorkflowStateWorkflowStateTeam.SlackIssueComments, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetSlackIssueComments() *bool {
-	return v.SlackIssueComments
-}
-
-// GetSlackIssueStatuses returns getWorkflowStateWorkflowStateTeam.SlackIssueStatuses, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetSlackIssueStatuses() *bool {
-	return v.SlackIssueStatuses
-}
-
-// GetSlackNewIssue returns getWorkflowStateWorkflowStateTeam.SlackNewIssue, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetSlackNewIssue() *bool { return v.SlackNewIssue }
-
-// GetTimezone returns getWorkflowStateWorkflowStateTeam.Timezone, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetTimezone() *string { return v.Timezone }
-
-// GetTriageEnabled returns getWorkflowStateWorkflowStateTeam.TriageEnabled, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetTriageEnabled() *bool { return v.TriageEnabled }
-
-// GetUpcomingCycleCount returns getWorkflowStateWorkflowStateTeam.UpcomingCycleCount, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetUpcomingCycleCount() *float64 {
-	return v.UpcomingCycleCount
-}
-
-// GetUpdatedAt returns getWorkflowStateWorkflowStateTeam.UpdatedAt, and is useful for accessing the field via an interface.
-func (v *getWorkflowStateWorkflowStateTeam) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
 // listAttachmentsAttachmentsAttachmentConnection includes the requested fields of the GraphQL type AttachmentConnection.
 type listAttachmentsAttachmentsAttachmentConnection struct {
@@ -16475,405 +16211,6 @@ func (v *listUsersUsersUserConnectionPageInfo) GetHasNextPage() *bool { return v
 // GetEndCursor returns listUsersUsersUserConnectionPageInfo.EndCursor, and is useful for accessing the field via an interface.
 func (v *listUsersUsersUserConnectionPageInfo) GetEndCursor() *string { return v.EndCursor }
 
-// listWorkflowStatesResponse is returned by listWorkflowStates on success.
-type listWorkflowStatesResponse struct {
-	// All issue workflow states.
-	WorkflowStates *listWorkflowStatesWorkflowStatesWorkflowStateConnection `json:"workflowStates"`
-}
-
-// GetWorkflowStates returns listWorkflowStatesResponse.WorkflowStates, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesResponse) GetWorkflowStates() *listWorkflowStatesWorkflowStatesWorkflowStateConnection {
-	return v.WorkflowStates
-}
-
-// listWorkflowStatesWorkflowStatesWorkflowStateConnection includes the requested fields of the GraphQL type WorkflowStateConnection.
-type listWorkflowStatesWorkflowStatesWorkflowStateConnection struct {
-	PageInfo *listWorkflowStatesWorkflowStatesWorkflowStateConnectionPageInfo             `json:"pageInfo"`
-	Nodes    []*listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState `json:"nodes"`
-}
-
-// GetPageInfo returns listWorkflowStatesWorkflowStatesWorkflowStateConnection.PageInfo, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnection) GetPageInfo() *listWorkflowStatesWorkflowStatesWorkflowStateConnectionPageInfo {
-	return v.PageInfo
-}
-
-// GetNodes returns listWorkflowStatesWorkflowStatesWorkflowStateConnection.Nodes, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnection) GetNodes() []*listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState {
-	return v.Nodes
-}
-
-// listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState includes the requested fields of the GraphQL type WorkflowState.
-// The GraphQL type's documentation follows.
-//
-// A state in a team workflow.
-type listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState struct {
-	// The unique identifier of the entity.
-	Id *string `json:"id"`
-	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
-	// The state's UI color as a HEX string.
-	Color *string `json:"color"`
-	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
-	// Description of the state.
-	Description *string `json:"description"`
-	// The state's name.
-	Name *string `json:"name"`
-	// The position of the state in the team flow.
-	Position *float64 `json:"position"`
-	// The type of the state.
-	Type *string `json:"type"`
-	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
-	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
-	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
-	// The team to which this state belongs to.
-	Team *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam `json:"team"`
-}
-
-// GetId returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState.Id, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetId() *string {
-	return v.Id
-}
-
-// GetArchivedAt returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState.ArchivedAt, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetArchivedAt() *time.Time {
-	return v.ArchivedAt
-}
-
-// GetColor returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState.Color, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetColor() *string {
-	return v.Color
-}
-
-// GetCreatedAt returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState.CreatedAt, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetCreatedAt() *time.Time {
-	return v.CreatedAt
-}
-
-// GetDescription returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState.Description, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetDescription() *string {
-	return v.Description
-}
-
-// GetName returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState.Name, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetName() *string {
-	return v.Name
-}
-
-// GetPosition returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState.Position, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetPosition() *float64 {
-	return v.Position
-}
-
-// GetType returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState.Type, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetType() *string {
-	return v.Type
-}
-
-// GetUpdatedAt returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState.UpdatedAt, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetUpdatedAt() *time.Time {
-	return v.UpdatedAt
-}
-
-// GetTeam returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState.Team, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowState) GetTeam() *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam {
-	return v.Team
-}
-
-// listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam includes the requested fields of the GraphQL type Team.
-// The GraphQL type's documentation follows.
-//
-// An organizational unit that contains issues.
-type listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam struct {
-	// The unique identifier of the entity.
-	Id *string `json:"id"`
-	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
-	// Period after which automatically closed and completed issues are automatically archived in months.
-	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
-	// Period after which issues are automatically closed in months. Null/undefined means disabled.
-	AutoClosePeriod *float64 `json:"autoClosePeriod"`
-	// The canceled workflow state which auto closed issues will be set to. Defaults to the first canceled state.
-	AutoCloseStateId *string `json:"autoCloseStateId"`
-	// The team's color.
-	Color *string `json:"color"`
-	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
-	// Calendar feed URL (iCal) for cycles.
-	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
-	// The cooldown time after each cycle in weeks.
-	CycleCooldownTime *float64 `json:"cycleCooldownTime"`
-	// The duration of a cycle in weeks.
-	CycleDuration *float64 `json:"cycleDuration"`
-	// Auto assign completed issues to current cycle.
-	CycleIssueAutoAssignCompleted *bool `json:"cycleIssueAutoAssignCompleted"`
-	// Auto assign started issues to current cycle.
-	CycleIssueAutoAssignStarted *bool `json:"cycleIssueAutoAssignStarted"`
-	// Only allow issues issues with cycles in Active Issues.
-	CycleLockToActive *bool `json:"cycleLockToActive"`
-	// The day of the week that a new cycle starts.
-	CycleStartDay *float64 `json:"cycleStartDay"`
-	// Whether the team uses cycles.
-	CyclesEnabled *bool `json:"cyclesEnabled"`
-	// What to use as an default estimate for unestimated issues.
-	DefaultIssueEstimate *float64 `json:"defaultIssueEstimate"`
-	// The id of the default template to use for new issues created by members of the team.
-	DefaultTemplateForMembersId *string `json:"defaultTemplateForMembersId"`
-	// The id of the default template to use for new issues created by non-members of the team.
-	DefaultTemplateForNonMembersId *string `json:"defaultTemplateForNonMembersId"`
-	// The team's description.
-	Description *string `json:"description"`
-	// Whether to group recent issue history entries.
-	GroupIssueHistory *bool `json:"groupIssueHistory"`
-	// The icon of the team.
-	Icon *string `json:"icon"`
-	// Unique hash for the team to be used in invite URLs.
-	InviteHash *string `json:"inviteHash"`
-	// Whether to allow zeros in issues estimates.
-	IssueEstimationAllowZero *bool `json:"issueEstimationAllowZero"`
-	// Whether to add additional points to the estimate scale.
-	IssueEstimationExtended *bool `json:"issueEstimationExtended"`
-	// The issue estimation type to use.
-	IssueEstimationType *string `json:"issueEstimationType"`
-	// Whether issues without priority should be sorted first.
-	IssueOrderingNoPriorityFirst *bool `json:"issueOrderingNoPriorityFirst"`
-	// Whether to move issues to bottom of the column when changing state.
-	IssueSortOrderDefaultToBottom *bool `json:"issueSortOrderDefaultToBottom"`
-	// The team's unique key. The key is used in URLs.
-	Key *string `json:"key"`
-	// The team's name.
-	Name *string `json:"name"`
-	// Whether the team is private or not.
-	Private *bool `json:"private"`
-	// Whether an issue needs to have a priority set before leaving triage
-	RequirePriorityToLeaveTriage *bool `json:"requirePriorityToLeaveTriage"`
-	// Whether to send new issue comment notifications to Slack.
-	SlackIssueComments *bool `json:"slackIssueComments"`
-	// Whether to send new issue status updates to Slack.
-	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
-	// Whether to send new issue notifications to Slack.
-	SlackNewIssue *bool `json:"slackNewIssue"`
-	// The timezone of the team. Defaults to "America/Los_Angeles"
-	Timezone *string `json:"timezone"`
-	// Whether triage mode is enabled for the team or not.
-	TriageEnabled *bool `json:"triageEnabled"`
-	// How many upcoming cycles to create.
-	UpcomingCycleCount *float64 `json:"upcomingCycleCount"`
-	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
-	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
-	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
-}
-
-// GetId returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.Id, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetId() *string {
-	return v.Id
-}
-
-// GetArchivedAt returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.ArchivedAt, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetArchivedAt() *time.Time {
-	return v.ArchivedAt
-}
-
-// GetAutoArchivePeriod returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.AutoArchivePeriod, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetAutoArchivePeriod() *float64 {
-	return v.AutoArchivePeriod
-}
-
-// GetAutoClosePeriod returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.AutoClosePeriod, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetAutoClosePeriod() *float64 {
-	return v.AutoClosePeriod
-}
-
-// GetAutoCloseStateId returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.AutoCloseStateId, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetAutoCloseStateId() *string {
-	return v.AutoCloseStateId
-}
-
-// GetColor returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.Color, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetColor() *string {
-	return v.Color
-}
-
-// GetCreatedAt returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CreatedAt, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCreatedAt() *time.Time {
-	return v.CreatedAt
-}
-
-// GetCycleCalenderUrl returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CycleCalenderUrl, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCycleCalenderUrl() *string {
-	return v.CycleCalenderUrl
-}
-
-// GetCycleCooldownTime returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CycleCooldownTime, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCycleCooldownTime() *float64 {
-	return v.CycleCooldownTime
-}
-
-// GetCycleDuration returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CycleDuration, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCycleDuration() *float64 {
-	return v.CycleDuration
-}
-
-// GetCycleIssueAutoAssignCompleted returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CycleIssueAutoAssignCompleted, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCycleIssueAutoAssignCompleted() *bool {
-	return v.CycleIssueAutoAssignCompleted
-}
-
-// GetCycleIssueAutoAssignStarted returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CycleIssueAutoAssignStarted, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCycleIssueAutoAssignStarted() *bool {
-	return v.CycleIssueAutoAssignStarted
-}
-
-// GetCycleLockToActive returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CycleLockToActive, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCycleLockToActive() *bool {
-	return v.CycleLockToActive
-}
-
-// GetCycleStartDay returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CycleStartDay, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCycleStartDay() *float64 {
-	return v.CycleStartDay
-}
-
-// GetCyclesEnabled returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.CyclesEnabled, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetCyclesEnabled() *bool {
-	return v.CyclesEnabled
-}
-
-// GetDefaultIssueEstimate returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.DefaultIssueEstimate, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetDefaultIssueEstimate() *float64 {
-	return v.DefaultIssueEstimate
-}
-
-// GetDefaultTemplateForMembersId returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.DefaultTemplateForMembersId, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetDefaultTemplateForMembersId() *string {
-	return v.DefaultTemplateForMembersId
-}
-
-// GetDefaultTemplateForNonMembersId returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.DefaultTemplateForNonMembersId, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetDefaultTemplateForNonMembersId() *string {
-	return v.DefaultTemplateForNonMembersId
-}
-
-// GetDescription returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.Description, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetDescription() *string {
-	return v.Description
-}
-
-// GetGroupIssueHistory returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.GroupIssueHistory, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetGroupIssueHistory() *bool {
-	return v.GroupIssueHistory
-}
-
-// GetIcon returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.Icon, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetIcon() *string {
-	return v.Icon
-}
-
-// GetInviteHash returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.InviteHash, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetInviteHash() *string {
-	return v.InviteHash
-}
-
-// GetIssueEstimationAllowZero returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.IssueEstimationAllowZero, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetIssueEstimationAllowZero() *bool {
-	return v.IssueEstimationAllowZero
-}
-
-// GetIssueEstimationExtended returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.IssueEstimationExtended, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetIssueEstimationExtended() *bool {
-	return v.IssueEstimationExtended
-}
-
-// GetIssueEstimationType returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.IssueEstimationType, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetIssueEstimationType() *string {
-	return v.IssueEstimationType
-}
-
-// GetIssueOrderingNoPriorityFirst returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.IssueOrderingNoPriorityFirst, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetIssueOrderingNoPriorityFirst() *bool {
-	return v.IssueOrderingNoPriorityFirst
-}
-
-// GetIssueSortOrderDefaultToBottom returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.IssueSortOrderDefaultToBottom, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetIssueSortOrderDefaultToBottom() *bool {
-	return v.IssueSortOrderDefaultToBottom
-}
-
-// GetKey returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.Key, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetKey() *string {
-	return v.Key
-}
-
-// GetName returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.Name, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetName() *string {
-	return v.Name
-}
-
-// GetPrivate returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.Private, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetPrivate() *bool {
-	return v.Private
-}
-
-// GetRequirePriorityToLeaveTriage returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.RequirePriorityToLeaveTriage, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetRequirePriorityToLeaveTriage() *bool {
-	return v.RequirePriorityToLeaveTriage
-}
-
-// GetSlackIssueComments returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.SlackIssueComments, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetSlackIssueComments() *bool {
-	return v.SlackIssueComments
-}
-
-// GetSlackIssueStatuses returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.SlackIssueStatuses, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetSlackIssueStatuses() *bool {
-	return v.SlackIssueStatuses
-}
-
-// GetSlackNewIssue returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.SlackNewIssue, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetSlackNewIssue() *bool {
-	return v.SlackNewIssue
-}
-
-// GetTimezone returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.Timezone, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetTimezone() *string {
-	return v.Timezone
-}
-
-// GetTriageEnabled returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.TriageEnabled, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetTriageEnabled() *bool {
-	return v.TriageEnabled
-}
-
-// GetUpcomingCycleCount returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.UpcomingCycleCount, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetUpcomingCycleCount() *float64 {
-	return v.UpcomingCycleCount
-}
-
-// GetUpdatedAt returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam.UpdatedAt, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionNodesWorkflowStateTeam) GetUpdatedAt() *time.Time {
-	return v.UpdatedAt
-}
-
-// listWorkflowStatesWorkflowStatesWorkflowStateConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
-type listWorkflowStatesWorkflowStatesWorkflowStateConnectionPageInfo struct {
-	// Indicates if there are more results when paginating forward.
-	HasNextPage *bool `json:"hasNextPage"`
-	// Cursor representing the last result in the paginated results.
-	EndCursor *string `json:"endCursor"`
-}
-
-// GetHasNextPage returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionPageInfo.HasNextPage, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionPageInfo) GetHasNextPage() *bool {
-	return v.HasNextPage
-}
-
-// GetEndCursor returns listWorkflowStatesWorkflowStatesWorkflowStateConnectionPageInfo.EndCursor, and is useful for accessing the field via an interface.
-func (v *listWorkflowStatesWorkflowStatesWorkflowStateConnectionPageInfo) GetEndCursor() *string {
-	return v.EndCursor
-}
-
 // The query or mutation executed by getAttachment.
 const getAttachment_Operation = `
 query getAttachment ($attachmentId: String!, $includeCreator: Boolean!, $includeIssue: Boolean!) {
@@ -17508,10 +16845,10 @@ func getIssue(
 
 // The query or mutation executed by getIssueIds.
 const getIssueIds_Operation = `
-query getIssueIds ($issueLabelId: String!, $includeArchived: Boolean!) {
+query getIssueIds ($issueLabelId: String!, $first: Int, $after: String, $includeArchived: Boolean!) {
 	issueLabel(id: $issueLabelId) {
 		id
-		issues(includeArchived: $includeArchived) {
+		issues(first: $first, after: $after, includeArchived: $includeArchived) {
 			pageInfo {
 				hasNextPage
 				endCursor
@@ -17528,13 +16865,17 @@ func getIssueIds(
 	ctx context.Context,
 	client graphql.Client,
 	issueLabelId *string,
-	includeArchived *bool,
+	first int,
+	after string,
+	includeArchived bool,
 ) (*getIssueIdsResponse, error) {
 	req := &graphql.Request{
 		OpName: "getIssueIds",
 		Query:  getIssueIds_Operation,
 		Variables: &__getIssueIdsInput{
 			IssueLabelId:    issueLabelId,
+			First:           first,
+			After:           after,
 			IncludeArchived: includeArchived,
 		},
 	}
@@ -17554,7 +16895,7 @@ func getIssueIds(
 
 // The query or mutation executed by getIssueLabel.
 const getIssueLabel_Operation = `
-query getIssueLabel ($issueLabelId: String!, $includeCreator: Boolean!, $includeOrganization: Boolean!, $includeParent: Boolean!, $includeTeam: Boolean!) {
+query getIssueLabel ($issueLabelId: String!, $firstIssue: Int, $includeArchived: Boolean!, $includeCreator: Boolean!, $includeOrganization: Boolean!, $includeParent: Boolean!, $includeTeam: Boolean!) {
 	issueLabel(id: $issueLabelId) {
 		id
 		archivedAt
@@ -17563,6 +16904,15 @@ query getIssueLabel ($issueLabelId: String!, $includeCreator: Boolean!, $include
 		description
 		name
 		updatedAt
+		issues(first: $firstIssue, includeArchived: $includeArchived) {
+			pageInfo {
+				hasNextPage
+				endCursor
+			}
+			nodes {
+				id
+			}
+		}
 		team @skip(if: $includeTeam) {
 			id
 			archivedAt
@@ -17671,6 +17021,8 @@ func getIssueLabel(
 	ctx context.Context,
 	client graphql.Client,
 	issueLabelId *string,
+	firstIssue int,
+	includeArchived bool,
 	includeCreator *bool,
 	includeOrganization *bool,
 	includeParent *bool,
@@ -17681,6 +17033,8 @@ func getIssueLabel(
 		Query:  getIssueLabel_Operation,
 		Variables: &__getIssueLabelInput{
 			IssueLabelId:        issueLabelId,
+			FirstIssue:          firstIssue,
+			IncludeArchived:     includeArchived,
 			IncludeCreator:      includeCreator,
 			IncludeOrganization: includeOrganization,
 			IncludeParent:       includeParent,
@@ -18374,91 +17728,6 @@ func getUser(
 	return &data, err
 }
 
-// The query or mutation executed by getWorkflowState.
-const getWorkflowState_Operation = `
-query getWorkflowState ($workflowStateId: String!, $includeTeam: Boolean!) {
-	workflowState(id: $workflowStateId) {
-		id
-		archivedAt
-		color
-		createdAt
-		description
-		name
-		position
-		type
-		updatedAt
-		team @skip(if: $includeTeam) {
-			id
-			archivedAt
-			autoArchivePeriod
-			autoClosePeriod
-			autoCloseStateId
-			color
-			createdAt
-			cycleCalenderUrl
-			cycleCooldownTime
-			cycleDuration
-			cycleIssueAutoAssignCompleted
-			cycleIssueAutoAssignStarted
-			cycleLockToActive
-			cycleStartDay
-			cyclesEnabled
-			defaultIssueEstimate
-			defaultTemplateForMembersId
-			defaultTemplateForNonMembersId
-			description
-			groupIssueHistory
-			icon
-			inviteHash
-			issueEstimationAllowZero
-			issueEstimationExtended
-			issueEstimationType
-			issueOrderingNoPriorityFirst
-			issueSortOrderDefaultToBottom
-			key
-			name
-			private
-			requirePriorityToLeaveTriage
-			slackIssueComments
-			slackIssueStatuses
-			slackNewIssue
-			timezone
-			triageEnabled
-			upcomingCycleCount
-			updatedAt
-		}
-	}
-}
-`
-
-func getWorkflowState(
-	ctx context.Context,
-	client graphql.Client,
-	workflowStateId *string,
-	includeTeam *bool,
-) (*getWorkflowStateResponse, error) {
-	req := &graphql.Request{
-		OpName: "getWorkflowState",
-		Query:  getWorkflowState_Operation,
-		Variables: &__getWorkflowStateInput{
-			WorkflowStateId: workflowStateId,
-			IncludeTeam:     includeTeam,
-		},
-	}
-	var err error
-
-	var data getWorkflowStateResponse
-	resp := &graphql.Response{Data: &data}
-
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
-	)
-
-	return &data, err
-}
-
 // The query or mutation executed by listAttachments.
 const listAttachments_Operation = `
 query listAttachments ($first: Int, $after: String, $includeArchived: Boolean, $filter: AttachmentFilter, $includeCreator: Boolean!, $includeIssue: Boolean!) {
@@ -18844,7 +18113,7 @@ func listIntegrations(
 
 // The query or mutation executed by listIssueLabels.
 const listIssueLabels_Operation = `
-query listIssueLabels ($first: Int, $after: String, $includeArchived: Boolean, $filter: IssueLabelFilter, $includeCreator: Boolean!, $includeOrganization: Boolean!, $includeParent: Boolean!, $includeTeam: Boolean!) {
+query listIssueLabels ($first: Int, $firstIssue: Int, $after: String, $includeArchived: Boolean, $filter: IssueLabelFilter, $includeCreator: Boolean!, $includeOrganization: Boolean!, $includeParent: Boolean!, $includeTeam: Boolean!) {
 	rateLimitStatus {
 		limits {
 			allowedAmount
@@ -18865,7 +18134,7 @@ query listIssueLabels ($first: Int, $after: String, $includeArchived: Boolean, $
 			description
 			name
 			updatedAt
-			issues(first: $first, after: $after, includeArchived: $includeArchived) {
+			issues(first: $firstIssue, after: $after, includeArchived: $includeArchived) {
 				pageInfo {
 					hasNextPage
 					endCursor
@@ -18983,6 +18252,7 @@ func listIssueLabels(
 	ctx context.Context,
 	client graphql.Client,
 	first int,
+	firstIssue int,
 	after string,
 	includeArchived bool,
 	filter *IssueLabelFilter,
@@ -18996,6 +18266,7 @@ func listIssueLabels(
 		Query:  listIssueLabels_Operation,
 		Variables: &__listIssueLabelsInput{
 			First:               first,
+			FirstIssue:          firstIssue,
 			After:               after,
 			IncludeArchived:     includeArchived,
 			Filter:              filter,
@@ -19955,103 +19226,6 @@ func listUsers(
 	var err error
 
 	var data listUsersResponse
-	resp := &graphql.Response{Data: &data}
-
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
-	)
-
-	return &data, err
-}
-
-// The query or mutation executed by listWorkflowStates.
-const listWorkflowStates_Operation = `
-query listWorkflowStates ($first: Int, $after: String, $includeArchived: Boolean, $filter: WorkflowStateFilter, $includeTeam: Boolean!) {
-	workflowStates(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
-		pageInfo {
-			hasNextPage
-			endCursor
-		}
-		nodes {
-			id
-			archivedAt
-			color
-			createdAt
-			description
-			name
-			position
-			type
-			updatedAt
-			team @skip(if: $includeTeam) {
-				id
-				archivedAt
-				autoArchivePeriod
-				autoClosePeriod
-				autoCloseStateId
-				color
-				createdAt
-				cycleCalenderUrl
-				cycleCooldownTime
-				cycleDuration
-				cycleIssueAutoAssignCompleted
-				cycleIssueAutoAssignStarted
-				cycleLockToActive
-				cycleStartDay
-				cyclesEnabled
-				defaultIssueEstimate
-				defaultTemplateForMembersId
-				defaultTemplateForNonMembersId
-				description
-				groupIssueHistory
-				icon
-				inviteHash
-				issueEstimationAllowZero
-				issueEstimationExtended
-				issueEstimationType
-				issueOrderingNoPriorityFirst
-				issueSortOrderDefaultToBottom
-				key
-				name
-				private
-				requirePriorityToLeaveTriage
-				slackIssueComments
-				slackIssueStatuses
-				slackNewIssue
-				timezone
-				triageEnabled
-				upcomingCycleCount
-				updatedAt
-			}
-		}
-	}
-}
-`
-
-func listWorkflowStates(
-	ctx context.Context,
-	client graphql.Client,
-	first int,
-	after string,
-	includeArchived bool,
-	filter *WorkflowStateFilter,
-	includeTeam *bool,
-) (*listWorkflowStatesResponse, error) {
-	req := &graphql.Request{
-		OpName: "listWorkflowStates",
-		Query:  listWorkflowStates_Operation,
-		Variables: &__listWorkflowStatesInput{
-			First:           first,
-			After:           after,
-			IncludeArchived: includeArchived,
-			Filter:          filter,
-			IncludeTeam:     includeTeam,
-		},
-	}
-	var err error
-
-	var data listWorkflowStatesResponse
 	resp := &graphql.Response{Data: &data}
 
 	err = client.MakeRequest(

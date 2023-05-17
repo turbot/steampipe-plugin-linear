@@ -80,7 +80,9 @@ func listIntegrations(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		return nil, err
 	}
 	var endCursor string
-	var pageSize int = 50
+
+	// set page size
+	var pageSize int = int(conn.pageSize)
 	if d.QueryContext.Limit != nil {
 		if int(*d.QueryContext.Limit) < pageSize {
 			pageSize = int(*d.QueryContext.Limit)
@@ -101,7 +103,7 @@ func listIntegrations(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 
 	for {
-		listIntegrationResponse, err := gql.ListIntegrations(ctx, conn, pageSize, endCursor, true, &includeCreator, &includeOrganization, &includeTeam)
+		listIntegrationResponse, err := gql.ListIntegrations(ctx, conn.client, pageSize, endCursor, true, &includeCreator, &includeOrganization, &includeTeam)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_integration.listIntegrations", "api_error", err)
 			return nil, err
@@ -150,7 +152,7 @@ func getIntegration(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateD
 		return nil, err
 	}
 
-	getIntegrationResponse, err := gql.GetIntegration(ctx, conn, &id, &includeCreator, &includeOrganization, &includeTeam)
+	getIntegrationResponse, err := gql.GetIntegration(ctx, conn.client, &id, &includeCreator, &includeOrganization, &includeTeam)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_integration.getIntegration", "api_error", err)
 		return nil, err

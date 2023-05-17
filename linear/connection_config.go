@@ -6,12 +6,16 @@ import (
 )
 
 type linearConfig struct {
-	Token *string `cty:"token"`
+	Token    *string `cty:"token"`
+	PageSize *int64  `cty:"page_size"`
 }
 
 var ConfigSchema = map[string]*schema.Attribute{
 	"token": {
 		Type: schema.TypeString,
+	},
+	"page_size": {
+		Type: schema.TypeInt,
 	},
 }
 

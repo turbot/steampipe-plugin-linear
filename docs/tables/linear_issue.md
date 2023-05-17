@@ -14,7 +14,7 @@ select
   branch_name,
   priority,
   estimate,
-  updated_at,
+  updated_at
 from
   linear_issue;
 ```

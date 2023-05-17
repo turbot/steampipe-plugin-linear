@@ -102,7 +102,6 @@ func tableLinearIssueLabel(ctx context.Context) *plugin.Table {
 }
 
 func listIssueLabels(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Error("linear_issue_label.inside list")
 	conn, err := connect(ctx, d)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_issue_label.listIssueLabels", "connection_error", err)
@@ -110,12 +109,17 @@ func listIssueLabels(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 
 	var endCursor string
-	var pageSize int = 50
+
+	// set page size
+	var pageSize int = int(conn.pageSize)
 	if d.QueryContext.Limit != nil {
 		if int(*d.QueryContext.Limit) < pageSize {
 			pageSize = int(*d.QueryContext.Limit)
 		}
 	}
+
+	// set default pageSize for nested field issue ids
+	var issuePageSize int = 50
 
 	// By default, nested objects are excluded, and they will only be included if they are requested.
 	includeCreator, includeOrganization, includeParent, includeTeam := true, true, true, true
@@ -136,17 +140,28 @@ func listIssueLabels(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	filters := setIssueLabelFilters(d, ctx)
 
 	for {
-		listIssueLabelResponse, err := gql.ListIssueLabels(ctx, conn, pageSize, endCursor, true, &filters, &includeCreator, &includeOrganization, &includeParent, &includeTeam)
+		listIssueLabelResponse, err := gql.ListIssueLabels(ctx, conn.client, pageSize, issuePageSize, endCursor, true, &filters, &includeCreator, &includeOrganization, &includeParent, &includeTeam)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_issue_label.listIssueLabels", "api_error", err)
 			return nil, err
 		}
-		for _, limit := range listIssueLabelResponse.RateLimitStatus.Limits {
-			plugin.Logger(ctx).Error("linear_issue_label.AllowedAmount", *limit.AllowedAmount)
-			plugin.Logger(ctx).Error("linear_issue_label.RemainingAmount", *limit.RemainingAmount)
-			plugin.Logger(ctx).Error("linear_issue_label.RequestedAmount", *limit.RequestedAmount)
-		}
 		for _, node := range listIssueLabelResponse.IssueLabels.Nodes {
+			if *node.Issues.PageInfo.HasNextPage {
+				endIssueCursor := *node.Issues.PageInfo.EndCursor
+				for {
+					getIssueIdsResponse, err := gql.GetIssueIds(ctx, conn.client, node.Id, issuePageSize, endIssueCursor, true)
+					if err != nil {
+						plugin.Logger(ctx).Error("linear_issue_label.listIssueLabels.GetIssueIds", "api_error", err)
+						return nil, err
+					}
+					issueNodes := fetchIssueNodesFromList(getIssueIdsResponse.IssueLabel.Issues.Nodes)
+					node.Issues.Nodes = append(node.Issues.Nodes, issueNodes...)
+					if !*getIssueIdsResponse.IssueLabel.Issues.PageInfo.HasNextPage {
+						break
+					}
+					endIssueCursor = *getIssueIdsResponse.IssueLabel.Issues.PageInfo.EndCursor
+				}
+			}
 			d.StreamListItem(ctx, node)
 
 			// Context can be cancelled due to manual cancellation or the limit has been hit
@@ -163,14 +178,29 @@ func listIssueLabels(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	return nil, nil
 }
 
+func fetchIssueNodesFromList(nodes []*gql.GetIssuesNode) []*gql.ListIssuesNodes {
+	var issueNodes []*gql.ListIssuesNodes
+	for _, issueNode := range nodes {
+		node := &gql.ListIssuesNodes{
+			Id: issueNode.Id,
+		}
+		issueNodes = append(issueNodes, node)
+	}
+	return issueNodes
+}
+
 func getIssueLabel(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Error("linear_issue_label.inside get")
 	id := d.EqualsQualString("id")
 
 	// check if id is empty
 	if id == "" {
 		return nil, nil
 	}
+
+	var endCursor string
+
+	// set default pageSize for nested field issue ids
+	var issuePageSize int = 50
 
 	// By default, nested objects are excluded, and they will only be included if they are requested.
 	includeCreator, includeOrganization, includeParent, includeTeam := true, true, true, true
@@ -193,24 +223,45 @@ func getIssueLabel(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 		return nil, err
 	}
 
-	getIssueLabelResponse, err := gql.GetIssueLabel(ctx, conn, &id, &includeCreator, &includeOrganization, &includeParent, &includeTeam)
+	getIssueLabelResponse, err := gql.GetIssueLabel(ctx, conn.client, &id, issuePageSize, true, &includeCreator, &includeOrganization, &includeParent, &includeTeam)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_issue_label.getIssueLabel", "api_error", err)
 		return nil, err
+	}
+	if *getIssueLabelResponse.IssueLabel.Issues.PageInfo.HasNextPage {
+		endCursor = *getIssueLabelResponse.IssueLabel.Issues.PageInfo.EndCursor
+		for {
+			getIssueIdsResponse, err := gql.GetIssueIds(ctx, conn.client, &id, issuePageSize, endCursor, true)
+			if err != nil {
+				plugin.Logger(ctx).Error("linear_issue_label.getIssueLabel.GetIssueIds", "api_error", err)
+				return nil, err
+			}
+			issueNodes := fetchIssueNodesFromGet(getIssueIdsResponse.IssueLabel.Issues.Nodes)
+			getIssueLabelResponse.IssueLabel.Issues.Nodes = append(getIssueLabelResponse.IssueLabel.Issues.Nodes, issueNodes...)
+			if !*getIssueIdsResponse.IssueLabel.Issues.PageInfo.HasNextPage {
+				break
+			}
+			endCursor = *getIssueIdsResponse.IssueLabel.Issues.PageInfo.EndCursor
+		}
 	}
 
 	return getIssueLabelResponse.IssueLabel, nil
 }
 
+func fetchIssueNodesFromGet(nodes []*gql.GetIssuesNode) []*gql.GetIssueNode {
+	var issueNodes []*gql.GetIssueNode
+	for _, issueNode := range nodes {
+		node := &gql.GetIssueNode{
+			Id: issueNode.Id,
+		}
+		issueNodes = append(issueNodes, node)
+	}
+	return issueNodes
+}
+
 // Set the requested filter
 func setIssueLabelFilters(d *plugin.QueryData, ctx context.Context) gql.IssueLabelFilter {
 	var filter gql.IssueLabelFilter
-	if d.EqualsQuals["id"] != nil {
-		id := &gql.IDComparator{
-			Eq: types.String(d.EqualsQualString("id")),
-		}
-		filter.Id = id
-	}
 	if d.EqualsQuals["name"] != nil {
 		name := &gql.StringComparator{
 			Eq: types.String(d.EqualsQualString("name")),

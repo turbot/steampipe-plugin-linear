@@ -259,7 +259,6 @@ func tableLinearIssue(ctx context.Context) *plugin.Table {
 }
 
 func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Error("linear_issue.inside list")
 	conn, err := connect(ctx, d)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_issue.listIssues", "connection_error", err)
@@ -267,7 +266,9 @@ func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 
 	var endCursor string
-	var pageSize int = 50
+
+	// set page size
+	var pageSize int = int(conn.pageSize)
 	if d.QueryContext.Limit != nil {
 		if int(*d.QueryContext.Limit) < pageSize {
 			pageSize = int(*d.QueryContext.Limit)
@@ -303,15 +304,10 @@ func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	filters := setIssueFilters(d, ctx)
 
 	for {
-		listIssueResponse, err := gql.ListIssues(ctx, conn, pageSize, endCursor, true, &filters, &includeTeam, &includeCycle, &includeProject, &includeCreator, &includeAssignee, &includeSnoozedBy, &includeState, &includeParent, &includeProjectMilestone)
+		listIssueResponse, err := gql.ListIssues(ctx, conn.client, pageSize, endCursor, true, &filters, &includeTeam, &includeCycle, &includeProject, &includeCreator, &includeAssignee, &includeSnoozedBy, &includeState, &includeParent, &includeProjectMilestone)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_issue.listIssues", "api_error", err)
 			return nil, err
-		}
-		for _, limit := range listIssueResponse.RateLimitStatus.Limits {
-			plugin.Logger(ctx).Error("linear_issue.AllowedAmount", *limit.AllowedAmount)
-			plugin.Logger(ctx).Error("linear_issue.RemainingAmount", *limit.RemainingAmount)
-			plugin.Logger(ctx).Error("linear_issue.RequestedAmount", *limit.RequestedAmount)
 		}
 		for _, node := range listIssueResponse.Issues.Nodes {
 			d.StreamListItem(ctx, node)
@@ -331,7 +327,6 @@ func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 }
 
 func getIssue(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Error("linear_issue.inside get")
 	id := d.EqualsQualString("id")
 
 	// check if id is empty
@@ -370,7 +365,7 @@ func getIssue(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (
 		return nil, err
 	}
 
-	getIssueResponse, err := gql.GetIssue(ctx, conn, &id, &includeTeam, &includeCycle, &includeProject, &includeCreator, &includeAssignee, &includeSnoozedBy, &includeState, &includeParent, &includeProjectMilestone)
+	getIssueResponse, err := gql.GetIssue(ctx, conn.client, &id, &includeTeam, &includeCycle, &includeProject, &includeCreator, &includeAssignee, &includeSnoozedBy, &includeState, &includeParent, &includeProjectMilestone)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_issue.listIssues", "api_error", err)
 		return nil, err
@@ -382,12 +377,6 @@ func getIssue(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (
 // Set the requested filter
 func setIssueFilters(d *plugin.QueryData, ctx context.Context) gql.IssueFilter {
 	var filter gql.IssueFilter
-	if d.EqualsQuals["id"] != nil {
-		id := &gql.IDComparator{
-			Eq: types.String(d.EqualsQualString("id")),
-		}
-		filter.Id = id
-	}
 	if d.Quals["created_at"] != nil {
 		createdAt := &gql.DateComparator{}
 		for _, q := range d.Quals["created_at"].Quals {

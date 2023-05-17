@@ -15,18 +15,32 @@ type authedTransport struct {
 	wrapped http.RoundTripper
 }
 
+type linearClient struct {
+	client   graphql.Client
+	pageSize int64
+}
+
 func (t *authedTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	req.Header.Set("Authorization", "Bearer "+t.key)
 	return t.wrapped.RoundTrip(req)
 }
 
-func connect(ctx context.Context, d *plugin.QueryData) (graphql.Client, error) {
+func connect(ctx context.Context, d *plugin.QueryData) (*linearClient, error) {
 	token := os.Getenv("LINEAR_TOKEN")
 
+	// default Size
+	pageSize := int64(50)
+
 	linearConfig := GetConfig(d.Connection)
-	if &linearConfig != nil {
-		if linearConfig.Token != nil {
-			token = *linearConfig.Token
+	if linearConfig.Token != nil {
+		token = *linearConfig.Token
+	}
+	if linearConfig.PageSize != nil {
+		// check if the provided value is more than the max limit
+		if *linearConfig.PageSize > 250 {
+			pageSize = 250
+		} else {
+			pageSize = *linearConfig.PageSize
 		}
 	}
 
@@ -42,5 +56,10 @@ func connect(ctx context.Context, d *plugin.QueryData) (graphql.Client, error) {
 	}
 	graphqlClient := graphql.NewClient("https://api.linear.app/graphql", &httpClient)
 
-	return graphqlClient, nil
+	gqlClient := &linearClient{
+		client:   graphqlClient,
+		pageSize: pageSize,
+	}
+
+	return gqlClient, nil
 }

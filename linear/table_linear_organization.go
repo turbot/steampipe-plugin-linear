@@ -168,7 +168,7 @@ func getOrganization(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		includeSubscription = false
 	}
 
-	getOrganizationResponse, err := gql.GetOrganization(ctx, conn, &includeSubscription)
+	getOrganizationResponse, err := gql.GetOrganization(ctx, conn.client, &includeSubscription)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_organization.getOrganization", "api_error", err)
 		return nil, err

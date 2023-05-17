@@ -31,7 +31,6 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"linear_team":            tableLinearTeam(ctx),
 			"linear_team_membership": tableLinearTeamMembership(ctx),
 			"linear_user":            tableLinearUser(ctx),
-			"linear_workflow_state":  tableLinearWorkflowState(ctx),
 		},
 	}
 	return p

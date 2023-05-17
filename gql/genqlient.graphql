@@ -2181,141 +2181,11 @@ query getTeamMembership(
 }
 
 # @genqlient(omitempty: true,pointer: true)
-query listWorkflowStates(
-  # @genqlient(pointer: false)
-  $first: Int
-  # @genqlient(pointer: false)
-  $after: String
-  # @genqlient(pointer: false)
-  $includeArchived: Boolean
-  $filter: WorkflowStateFilter
-  $includeTeam: Boolean!
-) {
-  workflowStates(
-    first: $first
-    after: $after
-    filter: $filter
-    includeArchived: $includeArchived
-  ) {
-    pageInfo {
-      hasNextPage
-      endCursor
-    }
-    nodes {
-      id
-      archivedAt
-      color
-      createdAt
-      description
-      name
-      position
-      type
-      updatedAt
-      # @genqlient(pointer: true)
-      team @skip(if: $includeTeam) {
-        id
-        archivedAt
-        autoArchivePeriod
-        autoClosePeriod
-        autoCloseStateId
-        color
-        createdAt
-        cycleCalenderUrl
-        cycleCooldownTime
-        cycleDuration
-        cycleIssueAutoAssignCompleted
-        cycleIssueAutoAssignStarted
-        cycleLockToActive
-        cycleStartDay
-        cyclesEnabled
-        defaultIssueEstimate
-        defaultTemplateForMembersId
-        defaultTemplateForNonMembersId
-        description
-        groupIssueHistory
-        icon
-        inviteHash
-        issueEstimationAllowZero
-        issueEstimationExtended
-        issueEstimationType
-        issueOrderingNoPriorityFirst
-        issueSortOrderDefaultToBottom
-        key
-        name
-        private
-        requirePriorityToLeaveTriage
-        slackIssueComments
-        slackIssueStatuses
-        slackNewIssue
-        timezone
-        triageEnabled
-        upcomingCycleCount
-        updatedAt
-      }
-    }
-  }
-}
-
-# @genqlient(pointer: true)
-query getWorkflowState($workflowStateId: String!, $includeTeam: Boolean!) {
-  workflowState(id: $workflowStateId) {
-    id
-    archivedAt
-    color
-    createdAt
-    description
-    name
-    position
-    type
-    updatedAt
-    # @genqlient(pointer: true)
-    team @skip(if: $includeTeam) {
-      id
-      archivedAt
-      autoArchivePeriod
-      autoClosePeriod
-      autoCloseStateId
-      color
-      createdAt
-      cycleCalenderUrl
-      cycleCooldownTime
-      cycleDuration
-      cycleIssueAutoAssignCompleted
-      cycleIssueAutoAssignStarted
-      cycleLockToActive
-      cycleStartDay
-      cyclesEnabled
-      defaultIssueEstimate
-      defaultTemplateForMembersId
-      defaultTemplateForNonMembersId
-      description
-      groupIssueHistory
-      icon
-      inviteHash
-      issueEstimationAllowZero
-      issueEstimationExtended
-      issueEstimationType
-      issueOrderingNoPriorityFirst
-      issueSortOrderDefaultToBottom
-      key
-      name
-      private
-      requirePriorityToLeaveTriage
-      slackIssueComments
-      slackIssueStatuses
-      slackNewIssue
-      timezone
-      triageEnabled
-      upcomingCycleCount
-      updatedAt
-    }
-  }
-}
-
-# @genqlient(omitempty: true,pointer: true)
 query listIssueLabels(
   # @genqlient(pointer: false)
   $first: Int
+  # @genqlient(pointer: false)
+  $firstIssue: Int
   # @genqlient(pointer: false)
   $after: String
   # @genqlient(pointer: false)
@@ -2352,7 +2222,11 @@ query listIssueLabels(
       name
       updatedAt
       # @genqlient(pointer: true)
-      issues(first: $first, after: $after, includeArchived: $includeArchived) {
+      issues(
+        first: $firstIssue
+        after: $after
+        includeArchived: $includeArchived
+      ) {
         pageInfo {
           hasNextPage
           endCursor
@@ -2472,6 +2346,10 @@ query listIssueLabels(
 # @genqlient(pointer: true)
 query getIssueLabel(
   $issueLabelId: String!
+  # @genqlient(pointer: false)
+  $firstIssue: Int
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean!
   $includeCreator: Boolean!
   $includeOrganization: Boolean!
   $includeParent: Boolean!
@@ -2485,6 +2363,16 @@ query getIssueLabel(
     description
     name
     updatedAt
+    # @genqlient(pointer: true)
+    issues(first: $firstIssue, includeArchived: $includeArchived) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        id
+      }
+    }
     # @genqlient(pointer: true)
     team @skip(if: $includeTeam) {
       id
@@ -2593,11 +2481,19 @@ query getIssueLabel(
 }
 
 # @genqlient(pointer: true)
-query getIssueIds($issueLabelId: String!, $includeArchived: Boolean!) {
+query getIssueIds(
+  $issueLabelId: String!
+  # @genqlient(pointer: false)
+  $first: Int
+  # @genqlient(pointer: false)
+  $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean!
+) {
   issueLabel(id: $issueLabelId) {
     id
     # @genqlient(pointer: true)
-    issues(includeArchived: $includeArchived) {
+    issues(first: $first, after: $after, includeArchived: $includeArchived) {
       pageInfo {
         hasNextPage
         endCursor

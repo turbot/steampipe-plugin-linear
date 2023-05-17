@@ -19,10 +19,6 @@ func tableLinearUser(ctx context.Context) *plugin.Table {
 			Hydrate: listUsers,
 			KeyColumns: []*plugin.KeyColumn{
 				{
-					Name:    "id",
-					Require: plugin.Optional,
-				},
-				{
 					Name:    "active",
 					Require: plugin.Optional,
 				},
@@ -198,7 +194,9 @@ func listUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	}
 
 	var endCursor string
-	var pageSize int = 50
+
+	// set page size
+	var pageSize int = int(conn.pageSize)
 	if d.QueryContext.Limit != nil {
 		if int(*d.QueryContext.Limit) < pageSize {
 			pageSize = int(*d.QueryContext.Limit)
@@ -215,7 +213,7 @@ func listUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	filters := setUserFilters(d, ctx)
 
 	for {
-		listUserResponse, err := gql.ListUsers(ctx, conn, pageSize, endCursor, true, &filters, &includeOrganization)
+		listUserResponse, err := gql.ListUsers(ctx, conn.client, pageSize, endCursor, true, &filters, &includeOrganization)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_user.listUsers", "api_error", err)
 			return nil, err
@@ -258,7 +256,7 @@ func getUser(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (i
 		return nil, err
 	}
 
-	getUserResponse, err := gql.GetUser(ctx, conn, &id, &includeOrganization)
+	getUserResponse, err := gql.GetUser(ctx, conn.client, &id, &includeOrganization)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_user.getUser", "api_error", err)
 		return nil, err
@@ -270,12 +268,6 @@ func getUser(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (i
 // Set the requested filter
 func setUserFilters(d *plugin.QueryData, ctx context.Context) gql.UserFilter {
 	var filter gql.UserFilter
-	if d.EqualsQuals["id"] != nil {
-		id := &gql.IDComparator{
-			Eq: types.String(d.EqualsQualString("id")),
-		}
-		filter.Id = id
-	}
 	if d.Quals["created_at"] != nil {
 		createdAt := &gql.DateComparator{}
 		for _, q := range d.Quals["created_at"].Quals {

@@ -6,6 +6,10 @@ import (
 	"github.com/Khan/genqlient/graphql"
 )
 
+type ListIssuesNodes = listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnectionNodesIssue
+type GetIssuesNode = getIssueIdsIssueLabelIssuesIssueConnectionNodesIssue
+type GetIssueNode = getIssueLabelIssueLabelIssuesIssueConnectionNodesIssue
+
 func ListIssues(ctx context.Context, client graphql.Client, first int, after string, includeArchived bool, filter *IssueFilter, includeTeam *bool, includeCycle *bool, includeProject *bool, includeCreator *bool, includeAssignee *bool, includeSnoozedBy *bool, includeState *bool, includeParent *bool, includeProjectMilestone *bool) (*listIssuesResponse, error) {
 	return listIssues(ctx, client, first, after, includeArchived, filter, includeTeam, includeCycle, includeProject, includeCreator, includeAssignee, includeSnoozedBy, includeState, includeParent, includeProjectMilestone)
 }
@@ -70,24 +74,16 @@ func GetTeam(ctx context.Context, client graphql.Client, id *string, includeCycl
 	return getTeam(ctx, client, id, includeCycle, includeIssueState, includeTemplateForMembers, includeTemplateForNonMembers, includeWorkflowState, includeIntegrationsSettings, includeDuplicateWorkflowState, includeOrganization, includeReviewWorkflowState, includeStartWorkflowState, includeTriageWorkflowState)
 }
 
-func ListWorkflowStates(ctx context.Context, client graphql.Client, first int, after string, includeArchived bool, filter *WorkflowStateFilter, includeTeam *bool) (*listWorkflowStatesResponse, error) {
-	return listWorkflowStates(ctx, client, first, after, includeArchived, filter, includeTeam)
+func ListIssueLabels(ctx context.Context, client graphql.Client, first int, firstIssue int, after string, includeArchived bool, filter *IssueLabelFilter, includeCreator *bool, includeOrganization *bool, includeParent *bool, includeTeam *bool) (*listIssueLabelsResponse, error) {
+	return listIssueLabels(ctx, client, first, firstIssue, after, includeArchived, filter, includeCreator, includeOrganization, includeParent, includeTeam)
 }
 
-func GetWorkflowState(ctx context.Context, client graphql.Client, id *string, includeTeam *bool) (*getWorkflowStateResponse, error) {
-	return getWorkflowState(ctx, client, id, includeTeam)
+func GetIssueLabel(ctx context.Context, client graphql.Client, id *string, first int, includeArchived bool, includeCreator *bool, includeOrganization *bool, includeParent *bool, includeTeam *bool) (*getIssueLabelResponse, error) {
+	return getIssueLabel(ctx, client, id, first, includeArchived, includeCreator, includeOrganization, includeParent, includeTeam)
 }
 
-func ListIssueLabels(ctx context.Context, client graphql.Client, first int, after string, includeArchived bool, filter *IssueLabelFilter, includeCreator *bool, includeOrganization *bool, includeParent *bool, includeTeam *bool) (*listIssueLabelsResponse, error) {
-	return listIssueLabels(ctx, client, first, after, includeArchived, filter, includeCreator, includeOrganization, includeParent, includeTeam)
-}
-
-func GetIssueLabel(ctx context.Context, client graphql.Client, id *string, includeCreator *bool, includeOrganization *bool, includeParent *bool, includeTeam *bool) (*getIssueLabelResponse, error) {
-	return getIssueLabel(ctx, client, id, includeCreator, includeOrganization, includeParent, includeTeam)
-}
-
-func GetIssueIds(ctx context.Context, client graphql.Client, id *string, includeArchived *bool) (*getIssueIdsResponse, error) {
-	return getIssueIds(ctx, client, id, includeArchived)
+func GetIssueIds(ctx context.Context, client graphql.Client, id *string, first int, after string, includeArchived bool) (*getIssueIdsResponse, error) {
+	return getIssueIds(ctx, client, id, first, after, includeArchived)
 }
 
 func GetOrganization(ctx context.Context, client graphql.Client, includeSubscription *bool) (*getOrganizationResponse, error) {

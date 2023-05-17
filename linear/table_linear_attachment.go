@@ -17,10 +17,6 @@ func tableLinearAttachment(ctx context.Context) *plugin.Table {
 			Hydrate: listAttachments,
 			KeyColumns: []*plugin.KeyColumn{
 				{
-					Name:    "id",
-					Require: plugin.Optional,
-				},
-				{
 					Name:      "created_at",
 					Require:   plugin.Optional,
 					Operators: []string{"=", ">", ">=", "<=", "<"},
@@ -131,7 +127,9 @@ func listAttachments(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		return nil, err
 	}
 	var endCursor string
-	var pageSize int = 50
+
+	// set page size
+	var pageSize int = int(conn.pageSize)
 	if d.QueryContext.Limit != nil {
 		if int(*d.QueryContext.Limit) < pageSize {
 			pageSize = int(*d.QueryContext.Limit)
@@ -153,7 +151,7 @@ func listAttachments(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	filters := setAttachmentFilters(d, ctx)
 
 	for {
-		listAttachmentResponse, err := gql.ListAttachments(ctx, conn, pageSize, endCursor, true, &filters, &includeCreator, &includeIssue)
+		listAttachmentResponse, err := gql.ListAttachments(ctx, conn.client, pageSize, endCursor, true, &filters, &includeCreator, &includeIssue)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_attachment.listAttachments", "api_error", err)
 			return nil, err
@@ -200,7 +198,7 @@ func getAttachment(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 		return nil, err
 	}
 
-	getAttachmentResponse, err := gql.GetAttachment(ctx, conn, &id, &includeCreator, &includeIssue)
+	getAttachmentResponse, err := gql.GetAttachment(ctx, conn.client, &id, &includeCreator, &includeIssue)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_attachment.getAttachment", "api_error", err)
 		return nil, err
@@ -212,12 +210,6 @@ func getAttachment(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 // Set the requested filter
 func setAttachmentFilters(d *plugin.QueryData, ctx context.Context) gql.AttachmentFilter {
 	var filter gql.AttachmentFilter
-	if d.EqualsQuals["id"] != nil {
-		id := &gql.IDComparator{
-			Eq: types.String(d.EqualsQualString("id")),
-		}
-		filter.Id = id
-	}
 	if d.Quals["created_at"] != nil {
 		createdAt := &gql.DateComparator{}
 		for _, q := range d.Quals["created_at"].Quals {

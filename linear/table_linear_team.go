@@ -18,10 +18,6 @@ func tableLinearTeam(ctx context.Context) *plugin.Table {
 			Hydrate: listTeams,
 			KeyColumns: []*plugin.KeyColumn{
 				{
-					Name:    "id",
-					Require: plugin.Optional,
-				},
-				{
 					Name:    "key",
 					Require: plugin.Optional,
 				},
@@ -311,7 +307,9 @@ func listTeams(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	}
 
 	var endCursor string
-	var pageSize int = 50
+
+	// set page size
+	var pageSize int = int(conn.pageSize)
 	if d.QueryContext.Limit != nil {
 		if int(*d.QueryContext.Limit) < pageSize {
 			pageSize = int(*d.QueryContext.Limit)
@@ -352,7 +350,7 @@ func listTeams(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	filters := setTeamFilters(d, ctx)
 
 	for {
-		listTeamResponse, err := gql.ListTeams(ctx, conn, pageSize, endCursor, true, &filters, &includeCycle, &includeIssueState, &includeTemplateForMembers, &includeTemplateForNonMembers, &includeWorkflowState, &includeIntegrationsSettings, &includeDuplicateWorkflowState, &includeOrganization, &includeReviewWorkflowState, &includeStartWorkflowState, &includeTriageWorkflowState)
+		listTeamResponse, err := gql.ListTeams(ctx, conn.client, pageSize, endCursor, true, &filters, &includeCycle, &includeIssueState, &includeTemplateForMembers, &includeTemplateForNonMembers, &includeWorkflowState, &includeIntegrationsSettings, &includeDuplicateWorkflowState, &includeOrganization, &includeReviewWorkflowState, &includeStartWorkflowState, &includeTriageWorkflowState)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_team.listTeams", "api_error", err)
 			return nil, err
@@ -419,7 +417,7 @@ func getTeam(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (i
 		return nil, err
 	}
 
-	getTeamResponse, err := gql.GetTeam(ctx, conn, &id, &includeCycle, &includeIssueState, &includeTemplateForMembers, &includeTemplateForNonMembers, &includeWorkflowState, &includeIntegrationsSettings, &includeDuplicateWorkflowState, &includeOrganization, &includeReviewWorkflowState, &includeStartWorkflowState, &includeTriageWorkflowState)
+	getTeamResponse, err := gql.GetTeam(ctx, conn.client, &id, &includeCycle, &includeIssueState, &includeTemplateForMembers, &includeTemplateForNonMembers, &includeWorkflowState, &includeIntegrationsSettings, &includeDuplicateWorkflowState, &includeOrganization, &includeReviewWorkflowState, &includeStartWorkflowState, &includeTriageWorkflowState)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_team.getTeam", "api_error", err)
 		return nil, err
@@ -431,12 +429,6 @@ func getTeam(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (i
 // Set the requested filter
 func setTeamFilters(d *plugin.QueryData, ctx context.Context) gql.TeamFilter {
 	var filter gql.TeamFilter
-	if d.EqualsQuals["id"] != nil {
-		id := &gql.IDComparator{
-			Eq: types.String(d.EqualsQualString("id")),
-		}
-		filter.Id = id
-	}
 	if d.Quals["created_at"] != nil {
 		createdAt := &gql.DateComparator{}
 		for _, q := range d.Quals["created_at"].Quals {

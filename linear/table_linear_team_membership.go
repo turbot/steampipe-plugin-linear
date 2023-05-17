@@ -56,10 +56,12 @@ func tableLinearTeamMembership(ctx context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 				Description: "The team that the membership is associated with.",
 			},
+			// user is a keyword, so here transform function has been used
 			{
-				Name:        "user",
+				Name:        "membership_user",
 				Type:        proto.ColumnType_JSON,
 				Description: "The user that the membership is associated with.",
+				Transform:   transform.FromField("User"),
 			},
 
 			// Steampipe standard columns
@@ -81,7 +83,9 @@ func listTeamMemberships(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 
 	var endCursor string
-	var pageSize int = 50
+
+	// set page size
+	var pageSize int = int(conn.pageSize)
 	if d.QueryContext.Limit != nil {
 		if int(*d.QueryContext.Limit) < pageSize {
 			pageSize = int(*d.QueryContext.Limit)
@@ -94,13 +98,13 @@ func listTeamMemberships(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		switch column {
 		case "team":
 			includeTeam = false
-		case "user":
+		case "membership_user":
 			includeUser = false
 		}
 	}
 
 	for {
-		listTeamMembershipResponse, err := gql.ListTeamMemberships(ctx, conn, pageSize, endCursor, true, &includeTeam, &includeUser)
+		listTeamMembershipResponse, err := gql.ListTeamMemberships(ctx, conn.client, pageSize, endCursor, true, &includeTeam, &includeUser)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_team_membership.listTeamMemberships", "api_error", err)
 			return nil, err
@@ -137,7 +141,7 @@ func getTeamMembership(ctx context.Context, d *plugin.QueryData, h *plugin.Hydra
 		switch column {
 		case "team":
 			includeTeam = false
-		case "user":
+		case "membership_user":
 			includeUser = false
 		}
 	}
@@ -148,7 +152,7 @@ func getTeamMembership(ctx context.Context, d *plugin.QueryData, h *plugin.Hydra
 		return nil, err
 	}
 
-	getTeamMembershipResponse, err := gql.GetTeamMembership(ctx, conn, &id, &includeTeam, &includeUser)
+	getTeamMembershipResponse, err := gql.GetTeamMembership(ctx, conn.client, &id, &includeTeam, &includeUser)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_team_membership.getTeamMembership", "api_error", err)
 		return nil, err

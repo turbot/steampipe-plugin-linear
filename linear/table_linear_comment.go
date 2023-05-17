@@ -18,10 +18,6 @@ func tableLinearComment(ctx context.Context) *plugin.Table {
 			Hydrate: listComments,
 			KeyColumns: []*plugin.KeyColumn{
 				{
-					Name:    "id",
-					Require: plugin.Optional,
-				},
-				{
 					Name:      "created_at",
 					Require:   plugin.Optional,
 					Operators: []string{"=", ">", ">=", "<=", "<"},
@@ -89,7 +85,7 @@ func tableLinearComment(ctx context.Context) *plugin.Table {
 			},
 			// user is a keyword, so here transform function has been used
 			{
-				Name:        "creator",
+				Name:        "comment_user",
 				Type:        proto.ColumnType_JSON,
 				Description: "The user who wrote the comment.",
 				Transform:   transform.FromField("User"),
@@ -123,7 +119,9 @@ func listComments(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 		return nil, err
 	}
 	var endCursor string
-	var pageSize int = 50
+
+	// set page size
+	var pageSize int = int(conn.pageSize)
 	if d.QueryContext.Limit != nil {
 		if int(*d.QueryContext.Limit) < pageSize {
 			pageSize = int(*d.QueryContext.Limit)
@@ -138,7 +136,7 @@ func listComments(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 			includeIssue = false
 		case "parent":
 			includeParent = false
-		case "creator":
+		case "comment_user":
 			includeUser = false
 		}
 	}
@@ -147,7 +145,7 @@ func listComments(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	filters := setCommentFilters(d, ctx)
 
 	for {
-		listCommentResponse, err := gql.ListComments(ctx, conn, pageSize, endCursor, true, &filters, &includeIssue, &includeParent, &includeUser)
+		listCommentResponse, err := gql.ListComments(ctx, conn.client, pageSize, endCursor, true, &filters, &includeIssue, &includeParent, &includeUser)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_comment.listComments", "api_error", err)
 			return nil, err
@@ -185,7 +183,7 @@ func getComment(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 			includeIssue = false
 		case "parent":
 			includeParent = false
-		case "user":
+		case "comment_user":
 			includeUser = false
 		}
 	}
@@ -196,7 +194,7 @@ func getComment(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 		return nil, err
 	}
 
-	getCommentResponse, err := gql.GetComment(ctx, conn, &id, &includeIssue, &includeParent, &includeUser)
+	getCommentResponse, err := gql.GetComment(ctx, conn.client, &id, &includeIssue, &includeParent, &includeUser)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_comment.getComment", "api_error", err)
 		return nil, err
@@ -208,12 +206,6 @@ func getComment(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 // Set the requested filter
 func setCommentFilters(d *plugin.QueryData, ctx context.Context) gql.CommentFilter {
 	var filter gql.CommentFilter
-	if d.EqualsQuals["id"] != nil {
-		id := &gql.IDComparator{
-			Eq: types.String(d.EqualsQualString("id")),
-		}
-		filter.Id = id
-	}
 	if d.Quals["created_at"] != nil {
 		createdAt := &gql.DateComparator{}
 		for _, q := range d.Quals["created_at"].Quals {
