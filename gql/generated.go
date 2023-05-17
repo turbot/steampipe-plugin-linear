@@ -11524,53 +11524,10 @@ func (v *listIssueLabelsIssueLabelsIssueLabelConnectionPageInfo) GetEndCursor() 
 	return v.EndCursor
 }
 
-// listIssueLabelsRateLimitStatusRateLimitPayload includes the requested fields of the GraphQL type RateLimitPayload.
-type listIssueLabelsRateLimitStatusRateLimitPayload struct {
-	// The state of the rate limit.
-	Limits []*listIssueLabelsRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload `json:"limits"`
-}
-
-// GetLimits returns listIssueLabelsRateLimitStatusRateLimitPayload.Limits, and is useful for accessing the field via an interface.
-func (v *listIssueLabelsRateLimitStatusRateLimitPayload) GetLimits() []*listIssueLabelsRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload {
-	return v.Limits
-}
-
-// listIssueLabelsRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload includes the requested fields of the GraphQL type RateLimitResultPayload.
-type listIssueLabelsRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload struct {
-	// The total allowed quantity for this type of limit.
-	AllowedAmount *float64 `json:"allowedAmount"`
-	// The requested quantity for this type of limit.
-	RequestedAmount *float64 `json:"requestedAmount"`
-	// The remaining quantity for this type of limit after this request.
-	RemainingAmount *float64 `json:"remainingAmount"`
-}
-
-// GetAllowedAmount returns listIssueLabelsRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload.AllowedAmount, and is useful for accessing the field via an interface.
-func (v *listIssueLabelsRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload) GetAllowedAmount() *float64 {
-	return v.AllowedAmount
-}
-
-// GetRequestedAmount returns listIssueLabelsRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload.RequestedAmount, and is useful for accessing the field via an interface.
-func (v *listIssueLabelsRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload) GetRequestedAmount() *float64 {
-	return v.RequestedAmount
-}
-
-// GetRemainingAmount returns listIssueLabelsRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload.RemainingAmount, and is useful for accessing the field via an interface.
-func (v *listIssueLabelsRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload) GetRemainingAmount() *float64 {
-	return v.RemainingAmount
-}
-
 // listIssueLabelsResponse is returned by listIssueLabels on success.
 type listIssueLabelsResponse struct {
-	// The status of the rate limiter.
-	RateLimitStatus *listIssueLabelsRateLimitStatusRateLimitPayload `json:"rateLimitStatus"`
 	// All issue labels.
 	IssueLabels *listIssueLabelsIssueLabelsIssueLabelConnection `json:"issueLabels"`
-}
-
-// GetRateLimitStatus returns listIssueLabelsResponse.RateLimitStatus, and is useful for accessing the field via an interface.
-func (v *listIssueLabelsResponse) GetRateLimitStatus() *listIssueLabelsRateLimitStatusRateLimitPayload {
-	return v.RateLimitStatus
 }
 
 // GetIssueLabels returns listIssueLabelsResponse.IssueLabels, and is useful for accessing the field via an interface.
@@ -13104,53 +13061,10 @@ func (v *listIssuesIssuesIssueConnectionPageInfo) GetHasNextPage() *bool { retur
 // GetEndCursor returns listIssuesIssuesIssueConnectionPageInfo.EndCursor, and is useful for accessing the field via an interface.
 func (v *listIssuesIssuesIssueConnectionPageInfo) GetEndCursor() *string { return v.EndCursor }
 
-// listIssuesRateLimitStatusRateLimitPayload includes the requested fields of the GraphQL type RateLimitPayload.
-type listIssuesRateLimitStatusRateLimitPayload struct {
-	// The state of the rate limit.
-	Limits []*listIssuesRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload `json:"limits"`
-}
-
-// GetLimits returns listIssuesRateLimitStatusRateLimitPayload.Limits, and is useful for accessing the field via an interface.
-func (v *listIssuesRateLimitStatusRateLimitPayload) GetLimits() []*listIssuesRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload {
-	return v.Limits
-}
-
-// listIssuesRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload includes the requested fields of the GraphQL type RateLimitResultPayload.
-type listIssuesRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload struct {
-	// The total allowed quantity for this type of limit.
-	AllowedAmount *float64 `json:"allowedAmount"`
-	// The requested quantity for this type of limit.
-	RequestedAmount *float64 `json:"requestedAmount"`
-	// The remaining quantity for this type of limit after this request.
-	RemainingAmount *float64 `json:"remainingAmount"`
-}
-
-// GetAllowedAmount returns listIssuesRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload.AllowedAmount, and is useful for accessing the field via an interface.
-func (v *listIssuesRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload) GetAllowedAmount() *float64 {
-	return v.AllowedAmount
-}
-
-// GetRequestedAmount returns listIssuesRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload.RequestedAmount, and is useful for accessing the field via an interface.
-func (v *listIssuesRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload) GetRequestedAmount() *float64 {
-	return v.RequestedAmount
-}
-
-// GetRemainingAmount returns listIssuesRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload.RemainingAmount, and is useful for accessing the field via an interface.
-func (v *listIssuesRateLimitStatusRateLimitPayloadLimitsRateLimitResultPayload) GetRemainingAmount() *float64 {
-	return v.RemainingAmount
-}
-
 // listIssuesResponse is returned by listIssues on success.
 type listIssuesResponse struct {
-	// The status of the rate limiter.
-	RateLimitStatus *listIssuesRateLimitStatusRateLimitPayload `json:"rateLimitStatus"`
 	// All issues.
 	Issues *listIssuesIssuesIssueConnection `json:"issues"`
-}
-
-// GetRateLimitStatus returns listIssuesResponse.RateLimitStatus, and is useful for accessing the field via an interface.
-func (v *listIssuesResponse) GetRateLimitStatus() *listIssuesRateLimitStatusRateLimitPayload {
-	return v.RateLimitStatus
 }
 
 // GetIssues returns listIssuesResponse.Issues, and is useful for accessing the field via an interface.
@@ -18114,13 +18028,6 @@ func listIntegrations(
 // The query or mutation executed by listIssueLabels.
 const listIssueLabels_Operation = `
 query listIssueLabels ($first: Int, $firstIssue: Int, $after: String, $includeArchived: Boolean, $filter: IssueLabelFilter, $includeCreator: Boolean!, $includeOrganization: Boolean!, $includeParent: Boolean!, $includeTeam: Boolean!) {
-	rateLimitStatus {
-		limits {
-			allowedAmount
-			requestedAmount
-			remainingAmount
-		}
-	}
 	issueLabels(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
@@ -18293,13 +18200,6 @@ func listIssueLabels(
 // The query or mutation executed by listIssues.
 const listIssues_Operation = `
 query listIssues ($first: Int, $after: String, $includeArchived: Boolean, $filter: IssueFilter, $includeTeam: Boolean!, $includeCycle: Boolean!, $includeProject: Boolean!, $includeCreator: Boolean!, $includeAssignee: Boolean!, $includeSnoozedBy: Boolean!, $includeState: Boolean!, $includeParent: Boolean!, $includeProjectMilestone: Boolean!) {
-	rateLimitStatus {
-		limits {
-			allowedAmount
-			requestedAmount
-			remainingAmount
-		}
-	}
 	issues(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage

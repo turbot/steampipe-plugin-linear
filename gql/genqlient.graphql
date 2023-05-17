@@ -17,13 +17,6 @@ query listIssues(
   $includeParent: Boolean!
   $includeProjectMilestone: Boolean!
 ) {
-  rateLimitStatus {
-    limits {
-      allowedAmount
-      requestedAmount
-      remainingAmount
-    }
-  }
   issues(
     first: $first
     after: $after
@@ -2196,13 +2189,6 @@ query listIssueLabels(
   $includeParent: Boolean!
   $includeTeam: Boolean!
 ) {
-  rateLimitStatus {
-    limits {
-      allowedAmount
-      requestedAmount
-      remainingAmount
-    }
-  }
   issueLabels(
     first: $first
     after: $after
