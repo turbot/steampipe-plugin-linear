@@ -275,36 +275,11 @@ func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 		}
 	}
 
-	// By default, nested objects are excluded, and they will only be included if they are requested.
-	includeTeam, includeCycle, includeProject, includeCreator, includeAssignee, includeSnoozedBy, includeState, includeParent, includeProjectMilestone := true, true, true, true, true, true, true, true, true
-	for _, column := range d.QueryContext.Columns {
-		switch column {
-		case "team":
-			includeTeam = false
-		case "cycle":
-			includeCycle = false
-		case "project":
-			includeProject = false
-		case "creator":
-			includeCreator = false
-		case "assignee":
-			includeAssignee = false
-		case "snoozed_by":
-			includeSnoozedBy = false
-		case "state":
-			includeState = false
-		case "parent":
-			includeParent = false
-		case "project_milestone":
-			includeProjectMilestone = false
-		}
-	}
-
 	// set the requested filters
 	filters := setIssueFilters(d, ctx)
 
 	for {
-		listIssueResponse, err := gql.ListIssues(ctx, conn.client, pageSize, endCursor, true, &filters, &includeTeam, &includeCycle, &includeProject, &includeCreator, &includeAssignee, &includeSnoozedBy, &includeState, &includeParent, &includeProjectMilestone)
+		listIssueResponse, err := gql.ListIssues(ctx, conn.client, pageSize, endCursor, true, &filters)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_issue.listIssues", "api_error", err)
 			return nil, err
@@ -334,38 +309,13 @@ func getIssue(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (
 		return nil, nil
 	}
 
-	// By default, nested objects are excluded, and they will only be included if they are requested.
-	includeTeam, includeCycle, includeProject, includeCreator, includeAssignee, includeSnoozedBy, includeState, includeParent, includeProjectMilestone := true, true, true, true, true, true, true, true, true
-	for _, column := range d.QueryContext.Columns {
-		switch column {
-		case "team":
-			includeTeam = false
-		case "cycle":
-			includeCycle = false
-		case "project":
-			includeProject = false
-		case "creator":
-			includeCreator = false
-		case "assignee":
-			includeAssignee = false
-		case "snoozed_by":
-			includeSnoozedBy = false
-		case "state":
-			includeState = false
-		case "parent":
-			includeParent = false
-		case "project_milestone":
-			includeProjectMilestone = false
-		}
-	}
-
 	conn, err := connect(ctx, d)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_issue.getIssue", "connection_error", err)
 		return nil, err
 	}
 
-	getIssueResponse, err := gql.GetIssue(ctx, conn.client, &id, &includeTeam, &includeCycle, &includeProject, &includeCreator, &includeAssignee, &includeSnoozedBy, &includeState, &includeParent, &includeProjectMilestone)
+	getIssueResponse, err := gql.GetIssue(ctx, conn.client, &id)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_issue.listIssues", "api_error", err)
 		return nil, err

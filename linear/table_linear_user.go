@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/steampipe-plugin-linear/gql"
-	"github.com/turbot/go-kit/helpers"
 	"github.com/turbot/go-kit/types"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -203,17 +202,11 @@ func listUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 		}
 	}
 
-	// By default, nested objects are excluded, and they will only be included if they are requested.
-	includeOrganization := true
-	if helpers.StringSliceContains(d.QueryContext.Columns, "organization") {
-		includeOrganization = false
-	}
-
 	// set the requested filters
 	filters := setUserFilters(d, ctx)
 
 	for {
-		listUserResponse, err := gql.ListUsers(ctx, conn.client, pageSize, endCursor, true, &filters, &includeOrganization)
+		listUserResponse, err := gql.ListUsers(ctx, conn.client, pageSize, endCursor, true, &filters)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_user.listUsers", "api_error", err)
 			return nil, err
@@ -244,19 +237,13 @@ func getUser(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (i
 		return nil, nil
 	}
 
-	// By default, nested objects are excluded, and they will only be included if they are requested.
-	includeOrganization := true
-	if helpers.StringSliceContains(d.QueryContext.Columns, "organization") {
-		includeOrganization = false
-	}
-
 	conn, err := connect(ctx, d)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_user.getUser", "connection_error", err)
 		return nil, err
 	}
 
-	getUserResponse, err := gql.GetUser(ctx, conn.client, &id, &includeOrganization)
+	getUserResponse, err := gql.GetUser(ctx, conn.client, &id)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_user.getUser", "api_error", err)
 		return nil, err

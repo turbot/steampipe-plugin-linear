@@ -128,24 +128,11 @@ func listComments(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 		}
 	}
 
-	// By default, nested objects are excluded, and they will only be included if they are requested.
-	includeIssue, includeParent, includeUser := true, true, true
-	for _, column := range d.QueryContext.Columns {
-		switch column {
-		case "issue":
-			includeIssue = false
-		case "parent":
-			includeParent = false
-		case "comment_user":
-			includeUser = false
-		}
-	}
-
 	// set the requested filters
 	filters := setCommentFilters(d, ctx)
 
 	for {
-		listCommentResponse, err := gql.ListComments(ctx, conn.client, pageSize, endCursor, true, &filters, &includeIssue, &includeParent, &includeUser)
+		listCommentResponse, err := gql.ListComments(ctx, conn.client, pageSize, endCursor, true, &filters)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_comment.listComments", "api_error", err)
 			return nil, err
@@ -175,26 +162,13 @@ func getComment(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 		return nil, nil
 	}
 
-	// By default, nested objects are excluded, and they will only be included if they are requested.
-	includeIssue, includeParent, includeUser := true, true, true
-	for _, column := range d.QueryContext.Columns {
-		switch column {
-		case "issue":
-			includeIssue = false
-		case "parent":
-			includeParent = false
-		case "comment_user":
-			includeUser = false
-		}
-	}
-
 	conn, err := connect(ctx, d)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_comment.getComment", "connection_error", err)
 		return nil, err
 	}
 
-	getCommentResponse, err := gql.GetComment(ctx, conn.client, &id, &includeIssue, &includeParent, &includeUser)
+	getCommentResponse, err := gql.GetComment(ctx, conn.client, &id)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_comment.getComment", "api_error", err)
 		return nil, err

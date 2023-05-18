@@ -89,21 +89,8 @@ func listIntegrations(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		}
 	}
 
-	// By default, nested objects are excluded, and they will only be included if they are requested.
-	includeCreator, includeOrganization, includeTeam := true, true, true
-	for _, column := range d.QueryContext.Columns {
-		switch column {
-		case "creator":
-			includeCreator = false
-		case "organization":
-			includeOrganization = false
-		case "team":
-			includeTeam = false
-		}
-	}
-
 	for {
-		listIntegrationResponse, err := gql.ListIntegrations(ctx, conn.client, pageSize, endCursor, true, &includeCreator, &includeOrganization, &includeTeam)
+		listIntegrationResponse, err := gql.ListIntegrations(ctx, conn.client, pageSize, endCursor, true)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_integration.listIntegrations", "api_error", err)
 			return nil, err
@@ -133,26 +120,13 @@ func getIntegration(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateD
 		return nil, nil
 	}
 
-	// By default, nested objects are excluded, and they will only be included if they are requested.
-	includeCreator, includeOrganization, includeTeam := true, true, true
-	for _, column := range d.QueryContext.Columns {
-		switch column {
-		case "creator":
-			includeCreator = false
-		case "organization":
-			includeOrganization = false
-		case "team":
-			includeTeam = false
-		}
-	}
-
 	conn, err := connect(ctx, d)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_integration.getIntegration", "connection_error", err)
 		return nil, err
 	}
 
-	getIntegrationResponse, err := gql.GetIntegration(ctx, conn.client, &id, &includeCreator, &includeOrganization, &includeTeam)
+	getIntegrationResponse, err := gql.GetIntegration(ctx, conn.client, &id)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_integration.getIntegration", "api_error", err)
 		return nil, err

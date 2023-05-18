@@ -2355,59 +2355,27 @@ func (v *WorkflowStateFilter) GetUpdatedAt() *DateComparator { return v.UpdatedA
 
 // __getAttachmentInput is used internally by genqlient
 type __getAttachmentInput struct {
-	AttachmentId   *string `json:"attachmentId"`
-	IncludeCreator *bool   `json:"includeCreator"`
-	IncludeIssue   *bool   `json:"includeIssue"`
+	AttachmentId *string `json:"attachmentId"`
 }
 
 // GetAttachmentId returns __getAttachmentInput.AttachmentId, and is useful for accessing the field via an interface.
 func (v *__getAttachmentInput) GetAttachmentId() *string { return v.AttachmentId }
 
-// GetIncludeCreator returns __getAttachmentInput.IncludeCreator, and is useful for accessing the field via an interface.
-func (v *__getAttachmentInput) GetIncludeCreator() *bool { return v.IncludeCreator }
-
-// GetIncludeIssue returns __getAttachmentInput.IncludeIssue, and is useful for accessing the field via an interface.
-func (v *__getAttachmentInput) GetIncludeIssue() *bool { return v.IncludeIssue }
-
 // __getCommentInput is used internally by genqlient
 type __getCommentInput struct {
-	CommentId     *string `json:"commentId"`
-	IncludeIssue  *bool   `json:"includeIssue"`
-	IncludeParent *bool   `json:"includeParent"`
-	IncludeUser   *bool   `json:"includeUser"`
+	CommentId *string `json:"commentId"`
 }
 
 // GetCommentId returns __getCommentInput.CommentId, and is useful for accessing the field via an interface.
 func (v *__getCommentInput) GetCommentId() *string { return v.CommentId }
 
-// GetIncludeIssue returns __getCommentInput.IncludeIssue, and is useful for accessing the field via an interface.
-func (v *__getCommentInput) GetIncludeIssue() *bool { return v.IncludeIssue }
-
-// GetIncludeParent returns __getCommentInput.IncludeParent, and is useful for accessing the field via an interface.
-func (v *__getCommentInput) GetIncludeParent() *bool { return v.IncludeParent }
-
-// GetIncludeUser returns __getCommentInput.IncludeUser, and is useful for accessing the field via an interface.
-func (v *__getCommentInput) GetIncludeUser() *bool { return v.IncludeUser }
-
 // __getIntegrationInput is used internally by genqlient
 type __getIntegrationInput struct {
-	IntegrationId       *string `json:"integrationId"`
-	IncludeCreator      *bool   `json:"includeCreator"`
-	IncludeOrganization *bool   `json:"includeOrganization"`
-	IncludeTeam         *bool   `json:"includeTeam"`
+	IntegrationId *string `json:"integrationId"`
 }
 
 // GetIntegrationId returns __getIntegrationInput.IntegrationId, and is useful for accessing the field via an interface.
 func (v *__getIntegrationInput) GetIntegrationId() *string { return v.IntegrationId }
-
-// GetIncludeCreator returns __getIntegrationInput.IncludeCreator, and is useful for accessing the field via an interface.
-func (v *__getIntegrationInput) GetIncludeCreator() *bool { return v.IncludeCreator }
-
-// GetIncludeOrganization returns __getIntegrationInput.IncludeOrganization, and is useful for accessing the field via an interface.
-func (v *__getIntegrationInput) GetIncludeOrganization() *bool { return v.IncludeOrganization }
-
-// GetIncludeTeam returns __getIntegrationInput.IncludeTeam, and is useful for accessing the field via an interface.
-func (v *__getIntegrationInput) GetIncludeTeam() *bool { return v.IncludeTeam }
 
 // __getIssueIdsInput is used internally by genqlient
 type __getIssueIdsInput struct {
@@ -2431,57 +2399,17 @@ func (v *__getIssueIdsInput) GetIncludeArchived() bool { return v.IncludeArchive
 
 // __getIssueInput is used internally by genqlient
 type __getIssueInput struct {
-	IssueId                 *string `json:"issueId"`
-	IncludeTeam             *bool   `json:"includeTeam"`
-	IncludeCycle            *bool   `json:"includeCycle"`
-	IncludeProject          *bool   `json:"includeProject"`
-	IncludeCreator          *bool   `json:"includeCreator"`
-	IncludeAssignee         *bool   `json:"includeAssignee"`
-	IncludeSnoozedBy        *bool   `json:"includeSnoozedBy"`
-	IncludeState            *bool   `json:"includeState"`
-	IncludeParent           *bool   `json:"includeParent"`
-	IncludeProjectMilestone *bool   `json:"includeProjectMilestone"`
+	IssueId *string `json:"issueId"`
 }
 
 // GetIssueId returns __getIssueInput.IssueId, and is useful for accessing the field via an interface.
 func (v *__getIssueInput) GetIssueId() *string { return v.IssueId }
 
-// GetIncludeTeam returns __getIssueInput.IncludeTeam, and is useful for accessing the field via an interface.
-func (v *__getIssueInput) GetIncludeTeam() *bool { return v.IncludeTeam }
-
-// GetIncludeCycle returns __getIssueInput.IncludeCycle, and is useful for accessing the field via an interface.
-func (v *__getIssueInput) GetIncludeCycle() *bool { return v.IncludeCycle }
-
-// GetIncludeProject returns __getIssueInput.IncludeProject, and is useful for accessing the field via an interface.
-func (v *__getIssueInput) GetIncludeProject() *bool { return v.IncludeProject }
-
-// GetIncludeCreator returns __getIssueInput.IncludeCreator, and is useful for accessing the field via an interface.
-func (v *__getIssueInput) GetIncludeCreator() *bool { return v.IncludeCreator }
-
-// GetIncludeAssignee returns __getIssueInput.IncludeAssignee, and is useful for accessing the field via an interface.
-func (v *__getIssueInput) GetIncludeAssignee() *bool { return v.IncludeAssignee }
-
-// GetIncludeSnoozedBy returns __getIssueInput.IncludeSnoozedBy, and is useful for accessing the field via an interface.
-func (v *__getIssueInput) GetIncludeSnoozedBy() *bool { return v.IncludeSnoozedBy }
-
-// GetIncludeState returns __getIssueInput.IncludeState, and is useful for accessing the field via an interface.
-func (v *__getIssueInput) GetIncludeState() *bool { return v.IncludeState }
-
-// GetIncludeParent returns __getIssueInput.IncludeParent, and is useful for accessing the field via an interface.
-func (v *__getIssueInput) GetIncludeParent() *bool { return v.IncludeParent }
-
-// GetIncludeProjectMilestone returns __getIssueInput.IncludeProjectMilestone, and is useful for accessing the field via an interface.
-func (v *__getIssueInput) GetIncludeProjectMilestone() *bool { return v.IncludeProjectMilestone }
-
 // __getIssueLabelInput is used internally by genqlient
 type __getIssueLabelInput struct {
-	IssueLabelId        *string `json:"issueLabelId"`
-	FirstIssue          int     `json:"firstIssue"`
-	IncludeArchived     bool    `json:"includeArchived"`
-	IncludeCreator      *bool   `json:"includeCreator"`
-	IncludeOrganization *bool   `json:"includeOrganization"`
-	IncludeParent       *bool   `json:"includeParent"`
-	IncludeTeam         *bool   `json:"includeTeam"`
+	IssueLabelId    *string `json:"issueLabelId"`
+	FirstIssue      int     `json:"firstIssue"`
+	IncludeArchived bool    `json:"includeArchived"`
 }
 
 // GetIssueLabelId returns __getIssueLabelInput.IssueLabelId, and is useful for accessing the field via an interface.
@@ -2493,135 +2421,37 @@ func (v *__getIssueLabelInput) GetFirstIssue() int { return v.FirstIssue }
 // GetIncludeArchived returns __getIssueLabelInput.IncludeArchived, and is useful for accessing the field via an interface.
 func (v *__getIssueLabelInput) GetIncludeArchived() bool { return v.IncludeArchived }
 
-// GetIncludeCreator returns __getIssueLabelInput.IncludeCreator, and is useful for accessing the field via an interface.
-func (v *__getIssueLabelInput) GetIncludeCreator() *bool { return v.IncludeCreator }
-
-// GetIncludeOrganization returns __getIssueLabelInput.IncludeOrganization, and is useful for accessing the field via an interface.
-func (v *__getIssueLabelInput) GetIncludeOrganization() *bool { return v.IncludeOrganization }
-
-// GetIncludeParent returns __getIssueLabelInput.IncludeParent, and is useful for accessing the field via an interface.
-func (v *__getIssueLabelInput) GetIncludeParent() *bool { return v.IncludeParent }
-
-// GetIncludeTeam returns __getIssueLabelInput.IncludeTeam, and is useful for accessing the field via an interface.
-func (v *__getIssueLabelInput) GetIncludeTeam() *bool { return v.IncludeTeam }
-
-// __getOrganizationInput is used internally by genqlient
-type __getOrganizationInput struct {
-	IncludeSubscription *bool `json:"includeSubscription"`
-}
-
-// GetIncludeSubscription returns __getOrganizationInput.IncludeSubscription, and is useful for accessing the field via an interface.
-func (v *__getOrganizationInput) GetIncludeSubscription() *bool { return v.IncludeSubscription }
-
 // __getProjectInput is used internally by genqlient
 type __getProjectInput struct {
-	ProjectId                   *string `json:"projectId"`
-	IncludeConvertedFromIssue   *bool   `json:"includeConvertedFromIssue"`
-	IncludeIntegrationsSettings *bool   `json:"includeIntegrationsSettings"`
-	IncludeLead                 *bool   `json:"includeLead"`
-	IncludeCreator              *bool   `json:"includeCreator"`
+	ProjectId *string `json:"projectId"`
 }
 
 // GetProjectId returns __getProjectInput.ProjectId, and is useful for accessing the field via an interface.
 func (v *__getProjectInput) GetProjectId() *string { return v.ProjectId }
 
-// GetIncludeConvertedFromIssue returns __getProjectInput.IncludeConvertedFromIssue, and is useful for accessing the field via an interface.
-func (v *__getProjectInput) GetIncludeConvertedFromIssue() *bool { return v.IncludeConvertedFromIssue }
-
-// GetIncludeIntegrationsSettings returns __getProjectInput.IncludeIntegrationsSettings, and is useful for accessing the field via an interface.
-func (v *__getProjectInput) GetIncludeIntegrationsSettings() *bool {
-	return v.IncludeIntegrationsSettings
-}
-
-// GetIncludeLead returns __getProjectInput.IncludeLead, and is useful for accessing the field via an interface.
-func (v *__getProjectInput) GetIncludeLead() *bool { return v.IncludeLead }
-
-// GetIncludeCreator returns __getProjectInput.IncludeCreator, and is useful for accessing the field via an interface.
-func (v *__getProjectInput) GetIncludeCreator() *bool { return v.IncludeCreator }
-
 // __getTeamInput is used internally by genqlient
 type __getTeamInput struct {
-	TeamId                        *string `json:"teamId"`
-	IncludeCycle                  *bool   `json:"includeCycle"`
-	IncludeIssueState             *bool   `json:"includeIssueState"`
-	IncludeTemplateForMembers     *bool   `json:"includeTemplateForMembers"`
-	IncludeTemplateForNonMembers  *bool   `json:"includeTemplateForNonMembers"`
-	IncludeWorkflowState          *bool   `json:"includeWorkflowState"`
-	IncludeIntegrationsSettings   *bool   `json:"includeIntegrationsSettings"`
-	IncludeDuplicateWorkflowState *bool   `json:"includeDuplicateWorkflowState"`
-	IncludeOrganization           *bool   `json:"includeOrganization"`
-	IncludeReviewWorkflowState    *bool   `json:"includeReviewWorkflowState"`
-	IncludeStartWorkflowState     *bool   `json:"includeStartWorkflowState"`
-	IncludeTriageWorkflowState    *bool   `json:"includeTriageWorkflowState"`
+	TeamId *string `json:"teamId"`
 }
 
 // GetTeamId returns __getTeamInput.TeamId, and is useful for accessing the field via an interface.
 func (v *__getTeamInput) GetTeamId() *string { return v.TeamId }
 
-// GetIncludeCycle returns __getTeamInput.IncludeCycle, and is useful for accessing the field via an interface.
-func (v *__getTeamInput) GetIncludeCycle() *bool { return v.IncludeCycle }
-
-// GetIncludeIssueState returns __getTeamInput.IncludeIssueState, and is useful for accessing the field via an interface.
-func (v *__getTeamInput) GetIncludeIssueState() *bool { return v.IncludeIssueState }
-
-// GetIncludeTemplateForMembers returns __getTeamInput.IncludeTemplateForMembers, and is useful for accessing the field via an interface.
-func (v *__getTeamInput) GetIncludeTemplateForMembers() *bool { return v.IncludeTemplateForMembers }
-
-// GetIncludeTemplateForNonMembers returns __getTeamInput.IncludeTemplateForNonMembers, and is useful for accessing the field via an interface.
-func (v *__getTeamInput) GetIncludeTemplateForNonMembers() *bool {
-	return v.IncludeTemplateForNonMembers
-}
-
-// GetIncludeWorkflowState returns __getTeamInput.IncludeWorkflowState, and is useful for accessing the field via an interface.
-func (v *__getTeamInput) GetIncludeWorkflowState() *bool { return v.IncludeWorkflowState }
-
-// GetIncludeIntegrationsSettings returns __getTeamInput.IncludeIntegrationsSettings, and is useful for accessing the field via an interface.
-func (v *__getTeamInput) GetIncludeIntegrationsSettings() *bool { return v.IncludeIntegrationsSettings }
-
-// GetIncludeDuplicateWorkflowState returns __getTeamInput.IncludeDuplicateWorkflowState, and is useful for accessing the field via an interface.
-func (v *__getTeamInput) GetIncludeDuplicateWorkflowState() *bool {
-	return v.IncludeDuplicateWorkflowState
-}
-
-// GetIncludeOrganization returns __getTeamInput.IncludeOrganization, and is useful for accessing the field via an interface.
-func (v *__getTeamInput) GetIncludeOrganization() *bool { return v.IncludeOrganization }
-
-// GetIncludeReviewWorkflowState returns __getTeamInput.IncludeReviewWorkflowState, and is useful for accessing the field via an interface.
-func (v *__getTeamInput) GetIncludeReviewWorkflowState() *bool { return v.IncludeReviewWorkflowState }
-
-// GetIncludeStartWorkflowState returns __getTeamInput.IncludeStartWorkflowState, and is useful for accessing the field via an interface.
-func (v *__getTeamInput) GetIncludeStartWorkflowState() *bool { return v.IncludeStartWorkflowState }
-
-// GetIncludeTriageWorkflowState returns __getTeamInput.IncludeTriageWorkflowState, and is useful for accessing the field via an interface.
-func (v *__getTeamInput) GetIncludeTriageWorkflowState() *bool { return v.IncludeTriageWorkflowState }
-
 // __getTeamMembershipInput is used internally by genqlient
 type __getTeamMembershipInput struct {
 	TeamMembershipId *string `json:"teamMembershipId"`
-	IncludeTeam      *bool   `json:"includeTeam"`
-	IncludeUser      *bool   `json:"includeUser"`
 }
 
 // GetTeamMembershipId returns __getTeamMembershipInput.TeamMembershipId, and is useful for accessing the field via an interface.
 func (v *__getTeamMembershipInput) GetTeamMembershipId() *string { return v.TeamMembershipId }
 
-// GetIncludeTeam returns __getTeamMembershipInput.IncludeTeam, and is useful for accessing the field via an interface.
-func (v *__getTeamMembershipInput) GetIncludeTeam() *bool { return v.IncludeTeam }
-
-// GetIncludeUser returns __getTeamMembershipInput.IncludeUser, and is useful for accessing the field via an interface.
-func (v *__getTeamMembershipInput) GetIncludeUser() *bool { return v.IncludeUser }
-
 // __getUserInput is used internally by genqlient
 type __getUserInput struct {
-	UserId              *string `json:"userId"`
-	IncludeOrganization *bool   `json:"includeOrganization"`
+	UserId *string `json:"userId"`
 }
 
 // GetUserId returns __getUserInput.UserId, and is useful for accessing the field via an interface.
 func (v *__getUserInput) GetUserId() *string { return v.UserId }
-
-// GetIncludeOrganization returns __getUserInput.IncludeOrganization, and is useful for accessing the field via an interface.
-func (v *__getUserInput) GetIncludeOrganization() *bool { return v.IncludeOrganization }
 
 // __listAttachmentsInput is used internally by genqlient
 type __listAttachmentsInput struct {
@@ -2629,8 +2459,6 @@ type __listAttachmentsInput struct {
 	After           string            `json:"after,omitempty"`
 	IncludeArchived bool              `json:"includeArchived,omitempty"`
 	Filter          *AttachmentFilter `json:"filter,omitempty"`
-	IncludeCreator  *bool             `json:"includeCreator,omitempty"`
-	IncludeIssue    *bool             `json:"includeIssue,omitempty"`
 }
 
 // GetFirst returns __listAttachmentsInput.First, and is useful for accessing the field via an interface.
@@ -2645,21 +2473,12 @@ func (v *__listAttachmentsInput) GetIncludeArchived() bool { return v.IncludeArc
 // GetFilter returns __listAttachmentsInput.Filter, and is useful for accessing the field via an interface.
 func (v *__listAttachmentsInput) GetFilter() *AttachmentFilter { return v.Filter }
 
-// GetIncludeCreator returns __listAttachmentsInput.IncludeCreator, and is useful for accessing the field via an interface.
-func (v *__listAttachmentsInput) GetIncludeCreator() *bool { return v.IncludeCreator }
-
-// GetIncludeIssue returns __listAttachmentsInput.IncludeIssue, and is useful for accessing the field via an interface.
-func (v *__listAttachmentsInput) GetIncludeIssue() *bool { return v.IncludeIssue }
-
 // __listCommentsInput is used internally by genqlient
 type __listCommentsInput struct {
 	First           int            `json:"first,omitempty"`
 	After           string         `json:"after,omitempty"`
 	IncludeArchived bool           `json:"includeArchived,omitempty"`
 	Filter          *CommentFilter `json:"filter,omitempty"`
-	IncludeIssue    *bool          `json:"includeIssue,omitempty"`
-	IncludeParent   *bool          `json:"includeParent,omitempty"`
-	IncludeUser     *bool          `json:"includeUser,omitempty"`
 }
 
 // GetFirst returns __listCommentsInput.First, and is useful for accessing the field via an interface.
@@ -2674,23 +2493,11 @@ func (v *__listCommentsInput) GetIncludeArchived() bool { return v.IncludeArchiv
 // GetFilter returns __listCommentsInput.Filter, and is useful for accessing the field via an interface.
 func (v *__listCommentsInput) GetFilter() *CommentFilter { return v.Filter }
 
-// GetIncludeIssue returns __listCommentsInput.IncludeIssue, and is useful for accessing the field via an interface.
-func (v *__listCommentsInput) GetIncludeIssue() *bool { return v.IncludeIssue }
-
-// GetIncludeParent returns __listCommentsInput.IncludeParent, and is useful for accessing the field via an interface.
-func (v *__listCommentsInput) GetIncludeParent() *bool { return v.IncludeParent }
-
-// GetIncludeUser returns __listCommentsInput.IncludeUser, and is useful for accessing the field via an interface.
-func (v *__listCommentsInput) GetIncludeUser() *bool { return v.IncludeUser }
-
 // __listIntegrationsInput is used internally by genqlient
 type __listIntegrationsInput struct {
-	First               int    `json:"first,omitempty"`
-	After               string `json:"after,omitempty"`
-	IncludeArchived     bool   `json:"includeArchived,omitempty"`
-	IncludeCreator      *bool  `json:"includeCreator,omitempty"`
-	IncludeOrganization *bool  `json:"includeOrganization,omitempty"`
-	IncludeTeam         *bool  `json:"includeTeam,omitempty"`
+	First           int    `json:"first,omitempty"`
+	After           string `json:"after,omitempty"`
+	IncludeArchived bool   `json:"includeArchived,omitempty"`
 }
 
 // GetFirst returns __listIntegrationsInput.First, and is useful for accessing the field via an interface.
@@ -2702,26 +2509,13 @@ func (v *__listIntegrationsInput) GetAfter() string { return v.After }
 // GetIncludeArchived returns __listIntegrationsInput.IncludeArchived, and is useful for accessing the field via an interface.
 func (v *__listIntegrationsInput) GetIncludeArchived() bool { return v.IncludeArchived }
 
-// GetIncludeCreator returns __listIntegrationsInput.IncludeCreator, and is useful for accessing the field via an interface.
-func (v *__listIntegrationsInput) GetIncludeCreator() *bool { return v.IncludeCreator }
-
-// GetIncludeOrganization returns __listIntegrationsInput.IncludeOrganization, and is useful for accessing the field via an interface.
-func (v *__listIntegrationsInput) GetIncludeOrganization() *bool { return v.IncludeOrganization }
-
-// GetIncludeTeam returns __listIntegrationsInput.IncludeTeam, and is useful for accessing the field via an interface.
-func (v *__listIntegrationsInput) GetIncludeTeam() *bool { return v.IncludeTeam }
-
 // __listIssueLabelsInput is used internally by genqlient
 type __listIssueLabelsInput struct {
-	First               int               `json:"first,omitempty"`
-	FirstIssue          int               `json:"firstIssue,omitempty"`
-	After               string            `json:"after,omitempty"`
-	IncludeArchived     bool              `json:"includeArchived,omitempty"`
-	Filter              *IssueLabelFilter `json:"filter,omitempty"`
-	IncludeCreator      *bool             `json:"includeCreator,omitempty"`
-	IncludeOrganization *bool             `json:"includeOrganization,omitempty"`
-	IncludeParent       *bool             `json:"includeParent,omitempty"`
-	IncludeTeam         *bool             `json:"includeTeam,omitempty"`
+	First           int               `json:"first,omitempty"`
+	FirstIssue      int               `json:"firstIssue,omitempty"`
+	After           string            `json:"after,omitempty"`
+	IncludeArchived bool              `json:"includeArchived,omitempty"`
+	Filter          *IssueLabelFilter `json:"filter,omitempty"`
 }
 
 // GetFirst returns __listIssueLabelsInput.First, and is useful for accessing the field via an interface.
@@ -2739,33 +2533,12 @@ func (v *__listIssueLabelsInput) GetIncludeArchived() bool { return v.IncludeArc
 // GetFilter returns __listIssueLabelsInput.Filter, and is useful for accessing the field via an interface.
 func (v *__listIssueLabelsInput) GetFilter() *IssueLabelFilter { return v.Filter }
 
-// GetIncludeCreator returns __listIssueLabelsInput.IncludeCreator, and is useful for accessing the field via an interface.
-func (v *__listIssueLabelsInput) GetIncludeCreator() *bool { return v.IncludeCreator }
-
-// GetIncludeOrganization returns __listIssueLabelsInput.IncludeOrganization, and is useful for accessing the field via an interface.
-func (v *__listIssueLabelsInput) GetIncludeOrganization() *bool { return v.IncludeOrganization }
-
-// GetIncludeParent returns __listIssueLabelsInput.IncludeParent, and is useful for accessing the field via an interface.
-func (v *__listIssueLabelsInput) GetIncludeParent() *bool { return v.IncludeParent }
-
-// GetIncludeTeam returns __listIssueLabelsInput.IncludeTeam, and is useful for accessing the field via an interface.
-func (v *__listIssueLabelsInput) GetIncludeTeam() *bool { return v.IncludeTeam }
-
 // __listIssuesInput is used internally by genqlient
 type __listIssuesInput struct {
-	First                   int          `json:"first,omitempty"`
-	After                   string       `json:"after,omitempty"`
-	IncludeArchived         bool         `json:"includeArchived,omitempty"`
-	Filter                  *IssueFilter `json:"filter,omitempty"`
-	IncludeTeam             *bool        `json:"includeTeam,omitempty"`
-	IncludeCycle            *bool        `json:"includeCycle,omitempty"`
-	IncludeProject          *bool        `json:"includeProject,omitempty"`
-	IncludeCreator          *bool        `json:"includeCreator,omitempty"`
-	IncludeAssignee         *bool        `json:"includeAssignee,omitempty"`
-	IncludeSnoozedBy        *bool        `json:"includeSnoozedBy,omitempty"`
-	IncludeState            *bool        `json:"includeState,omitempty"`
-	IncludeParent           *bool        `json:"includeParent,omitempty"`
-	IncludeProjectMilestone *bool        `json:"includeProjectMilestone,omitempty"`
+	First           int          `json:"first,omitempty"`
+	After           string       `json:"after,omitempty"`
+	IncludeArchived bool         `json:"includeArchived,omitempty"`
+	Filter          *IssueFilter `json:"filter,omitempty"`
 }
 
 // GetFirst returns __listIssuesInput.First, and is useful for accessing the field via an interface.
@@ -2780,43 +2553,12 @@ func (v *__listIssuesInput) GetIncludeArchived() bool { return v.IncludeArchived
 // GetFilter returns __listIssuesInput.Filter, and is useful for accessing the field via an interface.
 func (v *__listIssuesInput) GetFilter() *IssueFilter { return v.Filter }
 
-// GetIncludeTeam returns __listIssuesInput.IncludeTeam, and is useful for accessing the field via an interface.
-func (v *__listIssuesInput) GetIncludeTeam() *bool { return v.IncludeTeam }
-
-// GetIncludeCycle returns __listIssuesInput.IncludeCycle, and is useful for accessing the field via an interface.
-func (v *__listIssuesInput) GetIncludeCycle() *bool { return v.IncludeCycle }
-
-// GetIncludeProject returns __listIssuesInput.IncludeProject, and is useful for accessing the field via an interface.
-func (v *__listIssuesInput) GetIncludeProject() *bool { return v.IncludeProject }
-
-// GetIncludeCreator returns __listIssuesInput.IncludeCreator, and is useful for accessing the field via an interface.
-func (v *__listIssuesInput) GetIncludeCreator() *bool { return v.IncludeCreator }
-
-// GetIncludeAssignee returns __listIssuesInput.IncludeAssignee, and is useful for accessing the field via an interface.
-func (v *__listIssuesInput) GetIncludeAssignee() *bool { return v.IncludeAssignee }
-
-// GetIncludeSnoozedBy returns __listIssuesInput.IncludeSnoozedBy, and is useful for accessing the field via an interface.
-func (v *__listIssuesInput) GetIncludeSnoozedBy() *bool { return v.IncludeSnoozedBy }
-
-// GetIncludeState returns __listIssuesInput.IncludeState, and is useful for accessing the field via an interface.
-func (v *__listIssuesInput) GetIncludeState() *bool { return v.IncludeState }
-
-// GetIncludeParent returns __listIssuesInput.IncludeParent, and is useful for accessing the field via an interface.
-func (v *__listIssuesInput) GetIncludeParent() *bool { return v.IncludeParent }
-
-// GetIncludeProjectMilestone returns __listIssuesInput.IncludeProjectMilestone, and is useful for accessing the field via an interface.
-func (v *__listIssuesInput) GetIncludeProjectMilestone() *bool { return v.IncludeProjectMilestone }
-
 // __listProjectsInput is used internally by genqlient
 type __listProjectsInput struct {
-	First                       int            `json:"first,omitempty"`
-	After                       string         `json:"after,omitempty"`
-	IncludeArchived             bool           `json:"includeArchived,omitempty"`
-	Filter                      *ProjectFilter `json:"filter,omitempty"`
-	IncludeConvertedFromIssue   *bool          `json:"includeConvertedFromIssue,omitempty"`
-	IncludeIntegrationsSettings *bool          `json:"includeIntegrationsSettings,omitempty"`
-	IncludeLead                 *bool          `json:"includeLead,omitempty"`
-	IncludeCreator              *bool          `json:"includeCreator,omitempty"`
+	First           int            `json:"first,omitempty"`
+	After           string         `json:"after,omitempty"`
+	IncludeArchived bool           `json:"includeArchived,omitempty"`
+	Filter          *ProjectFilter `json:"filter,omitempty"`
 }
 
 // GetFirst returns __listProjectsInput.First, and is useful for accessing the field via an interface.
@@ -2831,29 +2573,11 @@ func (v *__listProjectsInput) GetIncludeArchived() bool { return v.IncludeArchiv
 // GetFilter returns __listProjectsInput.Filter, and is useful for accessing the field via an interface.
 func (v *__listProjectsInput) GetFilter() *ProjectFilter { return v.Filter }
 
-// GetIncludeConvertedFromIssue returns __listProjectsInput.IncludeConvertedFromIssue, and is useful for accessing the field via an interface.
-func (v *__listProjectsInput) GetIncludeConvertedFromIssue() *bool {
-	return v.IncludeConvertedFromIssue
-}
-
-// GetIncludeIntegrationsSettings returns __listProjectsInput.IncludeIntegrationsSettings, and is useful for accessing the field via an interface.
-func (v *__listProjectsInput) GetIncludeIntegrationsSettings() *bool {
-	return v.IncludeIntegrationsSettings
-}
-
-// GetIncludeLead returns __listProjectsInput.IncludeLead, and is useful for accessing the field via an interface.
-func (v *__listProjectsInput) GetIncludeLead() *bool { return v.IncludeLead }
-
-// GetIncludeCreator returns __listProjectsInput.IncludeCreator, and is useful for accessing the field via an interface.
-func (v *__listProjectsInput) GetIncludeCreator() *bool { return v.IncludeCreator }
-
 // __listTeamMembershipsInput is used internally by genqlient
 type __listTeamMembershipsInput struct {
 	First           int    `json:"first,omitempty"`
 	After           string `json:"after,omitempty"`
 	IncludeArchived bool   `json:"includeArchived,omitempty"`
-	IncludeTeam     *bool  `json:"includeTeam,omitempty"`
-	IncludeUser     *bool  `json:"includeUser,omitempty"`
 }
 
 // GetFirst returns __listTeamMembershipsInput.First, and is useful for accessing the field via an interface.
@@ -2865,29 +2589,12 @@ func (v *__listTeamMembershipsInput) GetAfter() string { return v.After }
 // GetIncludeArchived returns __listTeamMembershipsInput.IncludeArchived, and is useful for accessing the field via an interface.
 func (v *__listTeamMembershipsInput) GetIncludeArchived() bool { return v.IncludeArchived }
 
-// GetIncludeTeam returns __listTeamMembershipsInput.IncludeTeam, and is useful for accessing the field via an interface.
-func (v *__listTeamMembershipsInput) GetIncludeTeam() *bool { return v.IncludeTeam }
-
-// GetIncludeUser returns __listTeamMembershipsInput.IncludeUser, and is useful for accessing the field via an interface.
-func (v *__listTeamMembershipsInput) GetIncludeUser() *bool { return v.IncludeUser }
-
 // __listTeamsInput is used internally by genqlient
 type __listTeamsInput struct {
-	First                         int         `json:"first,omitempty"`
-	After                         string      `json:"after,omitempty"`
-	IncludeArchived               bool        `json:"includeArchived,omitempty"`
-	Filter                        *TeamFilter `json:"filter,omitempty"`
-	IncludeCycle                  *bool       `json:"includeCycle,omitempty"`
-	IncludeIssueState             *bool       `json:"includeIssueState,omitempty"`
-	IncludeTemplateForMembers     *bool       `json:"includeTemplateForMembers,omitempty"`
-	IncludeTemplateForNonMembers  *bool       `json:"includeTemplateForNonMembers,omitempty"`
-	IncludeWorkflowState          *bool       `json:"includeWorkflowState,omitempty"`
-	IncludeIntegrationsSettings   *bool       `json:"includeIntegrationsSettings,omitempty"`
-	IncludeDuplicateWorkflowState *bool       `json:"includeDuplicateWorkflowState,omitempty"`
-	IncludeOrganization           *bool       `json:"includeOrganization,omitempty"`
-	IncludeReviewWorkflowState    *bool       `json:"includeReviewWorkflowState,omitempty"`
-	IncludeStartWorkflowState     *bool       `json:"includeStartWorkflowState,omitempty"`
-	IncludeTriageWorkflowState    *bool       `json:"includeTriageWorkflowState,omitempty"`
+	First           int         `json:"first,omitempty"`
+	After           string      `json:"after,omitempty"`
+	IncludeArchived bool        `json:"includeArchived,omitempty"`
+	Filter          *TeamFilter `json:"filter,omitempty"`
 }
 
 // GetFirst returns __listTeamsInput.First, and is useful for accessing the field via an interface.
@@ -2902,52 +2609,12 @@ func (v *__listTeamsInput) GetIncludeArchived() bool { return v.IncludeArchived 
 // GetFilter returns __listTeamsInput.Filter, and is useful for accessing the field via an interface.
 func (v *__listTeamsInput) GetFilter() *TeamFilter { return v.Filter }
 
-// GetIncludeCycle returns __listTeamsInput.IncludeCycle, and is useful for accessing the field via an interface.
-func (v *__listTeamsInput) GetIncludeCycle() *bool { return v.IncludeCycle }
-
-// GetIncludeIssueState returns __listTeamsInput.IncludeIssueState, and is useful for accessing the field via an interface.
-func (v *__listTeamsInput) GetIncludeIssueState() *bool { return v.IncludeIssueState }
-
-// GetIncludeTemplateForMembers returns __listTeamsInput.IncludeTemplateForMembers, and is useful for accessing the field via an interface.
-func (v *__listTeamsInput) GetIncludeTemplateForMembers() *bool { return v.IncludeTemplateForMembers }
-
-// GetIncludeTemplateForNonMembers returns __listTeamsInput.IncludeTemplateForNonMembers, and is useful for accessing the field via an interface.
-func (v *__listTeamsInput) GetIncludeTemplateForNonMembers() *bool {
-	return v.IncludeTemplateForNonMembers
-}
-
-// GetIncludeWorkflowState returns __listTeamsInput.IncludeWorkflowState, and is useful for accessing the field via an interface.
-func (v *__listTeamsInput) GetIncludeWorkflowState() *bool { return v.IncludeWorkflowState }
-
-// GetIncludeIntegrationsSettings returns __listTeamsInput.IncludeIntegrationsSettings, and is useful for accessing the field via an interface.
-func (v *__listTeamsInput) GetIncludeIntegrationsSettings() *bool {
-	return v.IncludeIntegrationsSettings
-}
-
-// GetIncludeDuplicateWorkflowState returns __listTeamsInput.IncludeDuplicateWorkflowState, and is useful for accessing the field via an interface.
-func (v *__listTeamsInput) GetIncludeDuplicateWorkflowState() *bool {
-	return v.IncludeDuplicateWorkflowState
-}
-
-// GetIncludeOrganization returns __listTeamsInput.IncludeOrganization, and is useful for accessing the field via an interface.
-func (v *__listTeamsInput) GetIncludeOrganization() *bool { return v.IncludeOrganization }
-
-// GetIncludeReviewWorkflowState returns __listTeamsInput.IncludeReviewWorkflowState, and is useful for accessing the field via an interface.
-func (v *__listTeamsInput) GetIncludeReviewWorkflowState() *bool { return v.IncludeReviewWorkflowState }
-
-// GetIncludeStartWorkflowState returns __listTeamsInput.IncludeStartWorkflowState, and is useful for accessing the field via an interface.
-func (v *__listTeamsInput) GetIncludeStartWorkflowState() *bool { return v.IncludeStartWorkflowState }
-
-// GetIncludeTriageWorkflowState returns __listTeamsInput.IncludeTriageWorkflowState, and is useful for accessing the field via an interface.
-func (v *__listTeamsInput) GetIncludeTriageWorkflowState() *bool { return v.IncludeTriageWorkflowState }
-
 // __listUsersInput is used internally by genqlient
 type __listUsersInput struct {
-	First               int         `json:"first,omitempty"`
-	After               string      `json:"after,omitempty"`
-	IncludeArchived     bool        `json:"includeArchived,omitempty"`
-	Filter              *UserFilter `json:"filter,omitempty"`
-	IncludeOrganization *bool       `json:"includeOrganization,omitempty"`
+	First           int         `json:"first,omitempty"`
+	After           string      `json:"after,omitempty"`
+	IncludeArchived bool        `json:"includeArchived,omitempty"`
+	Filter          *UserFilter `json:"filter,omitempty"`
 }
 
 // GetFirst returns __listUsersInput.First, and is useful for accessing the field via an interface.
@@ -2961,9 +2628,6 @@ func (v *__listUsersInput) GetIncludeArchived() bool { return v.IncludeArchived 
 
 // GetFilter returns __listUsersInput.Filter, and is useful for accessing the field via an interface.
 func (v *__listUsersInput) GetFilter() *UserFilter { return v.Filter }
-
-// GetIncludeOrganization returns __listUsersInput.IncludeOrganization, and is useful for accessing the field via an interface.
-func (v *__listUsersInput) GetIncludeOrganization() *bool { return v.IncludeOrganization }
 
 // getAttachmentAttachment includes the requested fields of the GraphQL type Attachment.
 // The GraphQL type's documentation follows.
@@ -16127,7 +15791,7 @@ func (v *listUsersUsersUserConnectionPageInfo) GetEndCursor() *string { return v
 
 // The query or mutation executed by getAttachment.
 const getAttachment_Operation = `
-query getAttachment ($attachmentId: String!, $includeCreator: Boolean!, $includeIssue: Boolean!) {
+query getAttachment ($attachmentId: String!) {
 	attachment(id: $attachmentId) {
 		id
 		archivedAt
@@ -16140,7 +15804,7 @@ query getAttachment ($attachmentId: String!, $includeCreator: Boolean!, $include
 		title
 		updatedAt
 		url
-		creator @skip(if: $includeCreator) {
+		creator {
 			id
 			active
 			admin
@@ -16165,7 +15829,7 @@ query getAttachment ($attachmentId: String!, $includeCreator: Boolean!, $include
 			updatedAt
 			url
 		}
-		issue @skip(if: $includeIssue) {
+		issue {
 			id
 			createdAt
 			updatedAt
@@ -16200,16 +15864,12 @@ func getAttachment(
 	ctx context.Context,
 	client graphql.Client,
 	attachmentId *string,
-	includeCreator *bool,
-	includeIssue *bool,
 ) (*getAttachmentResponse, error) {
 	req := &graphql.Request{
 		OpName: "getAttachment",
 		Query:  getAttachment_Operation,
 		Variables: &__getAttachmentInput{
-			AttachmentId:   attachmentId,
-			IncludeCreator: includeCreator,
-			IncludeIssue:   includeIssue,
+			AttachmentId: attachmentId,
 		},
 	}
 	var err error
@@ -16228,7 +15888,7 @@ func getAttachment(
 
 // The query or mutation executed by getComment.
 const getComment_Operation = `
-query getComment ($commentId: String!, $includeIssue: Boolean!, $includeParent: Boolean!, $includeUser: Boolean!) {
+query getComment ($commentId: String!) {
 	comment(id: $commentId) {
 		id
 		archivedAt
@@ -16239,7 +15899,7 @@ query getComment ($commentId: String!, $includeIssue: Boolean!, $includeParent: 
 		reactionData
 		updatedAt
 		url
-		user @skip(if: $includeUser) {
+		user {
 			id
 			active
 			admin
@@ -16264,7 +15924,7 @@ query getComment ($commentId: String!, $includeIssue: Boolean!, $includeParent: 
 			updatedAt
 			url
 		}
-		parent @skip(if: $includeParent) {
+		parent {
 			id
 			archivedAt
 			body
@@ -16275,7 +15935,7 @@ query getComment ($commentId: String!, $includeIssue: Boolean!, $includeParent: 
 			updatedAt
 			url
 		}
-		issue @skip(if: $includeIssue) {
+		issue {
 			id
 			createdAt
 			updatedAt
@@ -16310,18 +15970,12 @@ func getComment(
 	ctx context.Context,
 	client graphql.Client,
 	commentId *string,
-	includeIssue *bool,
-	includeParent *bool,
-	includeUser *bool,
 ) (*getCommentResponse, error) {
 	req := &graphql.Request{
 		OpName: "getComment",
 		Query:  getComment_Operation,
 		Variables: &__getCommentInput{
-			CommentId:     commentId,
-			IncludeIssue:  includeIssue,
-			IncludeParent: includeParent,
-			IncludeUser:   includeUser,
+			CommentId: commentId,
 		},
 	}
 	var err error
@@ -16340,14 +15994,14 @@ func getComment(
 
 // The query or mutation executed by getIntegration.
 const getIntegration_Operation = `
-query getIntegration ($integrationId: String!, $includeCreator: Boolean!, $includeOrganization: Boolean!, $includeTeam: Boolean!) {
+query getIntegration ($integrationId: String!) {
 	integration(id: $integrationId) {
 		id
 		archivedAt
 		createdAt
 		service
 		updatedAt
-		team @skip(if: $includeTeam) {
+		team {
 			id
 			archivedAt
 			autoArchivePeriod
@@ -16387,7 +16041,7 @@ query getIntegration ($integrationId: String!, $includeCreator: Boolean!, $inclu
 			upcomingCycleCount
 			updatedAt
 		}
-		creator @skip(if: $includeCreator) {
+		creator {
 			id
 			active
 			admin
@@ -16412,7 +16066,7 @@ query getIntegration ($integrationId: String!, $includeCreator: Boolean!, $inclu
 			updatedAt
 			url
 		}
-		organization @skip(if: $includeOrganization) {
+		organization {
 			id
 			allowedAuthServices
 			archivedAt
@@ -16446,18 +16100,12 @@ func getIntegration(
 	ctx context.Context,
 	client graphql.Client,
 	integrationId *string,
-	includeCreator *bool,
-	includeOrganization *bool,
-	includeTeam *bool,
 ) (*getIntegrationResponse, error) {
 	req := &graphql.Request{
 		OpName: "getIntegration",
 		Query:  getIntegration_Operation,
 		Variables: &__getIntegrationInput{
-			IntegrationId:       integrationId,
-			IncludeCreator:      includeCreator,
-			IncludeOrganization: includeOrganization,
-			IncludeTeam:         includeTeam,
+			IntegrationId: integrationId,
 		},
 	}
 	var err error
@@ -16476,7 +16124,7 @@ func getIntegration(
 
 // The query or mutation executed by getIssue.
 const getIssue_Operation = `
-query getIssue ($issueId: String!, $includeTeam: Boolean!, $includeCycle: Boolean!, $includeProject: Boolean!, $includeCreator: Boolean!, $includeAssignee: Boolean!, $includeSnoozedBy: Boolean!, $includeState: Boolean!, $includeParent: Boolean!, $includeProjectMilestone: Boolean!) {
+query getIssue ($issueId: String!) {
 	issue(id: $issueId) {
 		id
 		createdAt
@@ -16503,7 +16151,7 @@ query getIssue ($issueId: String!, $includeTeam: Boolean!, $includeCycle: Boolea
 		url
 		branchName
 		customerTicketCount
-		team @skip(if: $includeTeam) {
+		team {
 			id
 			archivedAt
 			autoArchivePeriod
@@ -16543,7 +16191,7 @@ query getIssue ($issueId: String!, $includeTeam: Boolean!, $includeCycle: Boolea
 			upcomingCycleCount
 			updatedAt
 		}
-		cycle @skip(if: $includeCycle) {
+		cycle {
 			id
 			archivedAt
 			autoArchivedAt
@@ -16562,7 +16210,7 @@ query getIssue ($issueId: String!, $includeTeam: Boolean!, $includeCycle: Boolea
 			startsAt
 			updatedAt
 		}
-		project @skip(if: $includeProject) {
+		project {
 			id
 			archivedAt
 			autoArchivedAt
@@ -16593,7 +16241,7 @@ query getIssue ($issueId: String!, $includeTeam: Boolean!, $includeCycle: Boolea
 			updatedAt
 			url
 		}
-		creator @skip(if: $includeCreator) {
+		creator {
 			id
 			active
 			admin
@@ -16618,7 +16266,7 @@ query getIssue ($issueId: String!, $includeTeam: Boolean!, $includeCycle: Boolea
 			updatedAt
 			url
 		}
-		assignee @skip(if: $includeAssignee) {
+		assignee {
 			id
 			active
 			admin
@@ -16643,7 +16291,7 @@ query getIssue ($issueId: String!, $includeTeam: Boolean!, $includeCycle: Boolea
 			updatedAt
 			url
 		}
-		snoozedBy @skip(if: $includeSnoozedBy) {
+		snoozedBy {
 			id
 			active
 			admin
@@ -16668,7 +16316,7 @@ query getIssue ($issueId: String!, $includeTeam: Boolean!, $includeCycle: Boolea
 			updatedAt
 			url
 		}
-		state @skip(if: $includeState) {
+		state {
 			id
 			archivedAt
 			color
@@ -16679,7 +16327,7 @@ query getIssue ($issueId: String!, $includeTeam: Boolean!, $includeCycle: Boolea
 			type
 			updatedAt
 		}
-		parent @skip(if: $includeParent) {
+		parent {
 			id
 			createdAt
 			updatedAt
@@ -16700,7 +16348,7 @@ query getIssue ($issueId: String!, $includeTeam: Boolean!, $includeCycle: Boolea
 			snoozedUntilAt
 			previousIdentifiers
 		}
-		projectMilestone @skip(if: $includeProjectMilestone) {
+		projectMilestone {
 			archivedAt
 			createdAt
 			description
@@ -16717,30 +16365,12 @@ func getIssue(
 	ctx context.Context,
 	client graphql.Client,
 	issueId *string,
-	includeTeam *bool,
-	includeCycle *bool,
-	includeProject *bool,
-	includeCreator *bool,
-	includeAssignee *bool,
-	includeSnoozedBy *bool,
-	includeState *bool,
-	includeParent *bool,
-	includeProjectMilestone *bool,
 ) (*getIssueResponse, error) {
 	req := &graphql.Request{
 		OpName: "getIssue",
 		Query:  getIssue_Operation,
 		Variables: &__getIssueInput{
-			IssueId:                 issueId,
-			IncludeTeam:             includeTeam,
-			IncludeCycle:            includeCycle,
-			IncludeProject:          includeProject,
-			IncludeCreator:          includeCreator,
-			IncludeAssignee:         includeAssignee,
-			IncludeSnoozedBy:        includeSnoozedBy,
-			IncludeState:            includeState,
-			IncludeParent:           includeParent,
-			IncludeProjectMilestone: includeProjectMilestone,
+			IssueId: issueId,
 		},
 	}
 	var err error
@@ -16809,7 +16439,7 @@ func getIssueIds(
 
 // The query or mutation executed by getIssueLabel.
 const getIssueLabel_Operation = `
-query getIssueLabel ($issueLabelId: String!, $firstIssue: Int, $includeArchived: Boolean!, $includeCreator: Boolean!, $includeOrganization: Boolean!, $includeParent: Boolean!, $includeTeam: Boolean!) {
+query getIssueLabel ($issueLabelId: String!, $firstIssue: Int, $includeArchived: Boolean!) {
 	issueLabel(id: $issueLabelId) {
 		id
 		archivedAt
@@ -16827,7 +16457,7 @@ query getIssueLabel ($issueLabelId: String!, $firstIssue: Int, $includeArchived:
 				id
 			}
 		}
-		team @skip(if: $includeTeam) {
+		team {
 			id
 			archivedAt
 			autoArchivePeriod
@@ -16867,7 +16497,7 @@ query getIssueLabel ($issueLabelId: String!, $firstIssue: Int, $includeArchived:
 			upcomingCycleCount
 			updatedAt
 		}
-		creator @skip(if: $includeCreator) {
+		creator {
 			id
 			active
 			admin
@@ -16892,7 +16522,7 @@ query getIssueLabel ($issueLabelId: String!, $firstIssue: Int, $includeArchived:
 			updatedAt
 			url
 		}
-		organization @skip(if: $includeOrganization) {
+		organization {
 			id
 			allowedAuthServices
 			archivedAt
@@ -16918,7 +16548,7 @@ query getIssueLabel ($issueLabelId: String!, $firstIssue: Int, $includeArchived:
 			urlKey
 			userCount
 		}
-		parent @skip(if: $includeParent) {
+		parent {
 			id
 			archivedAt
 			color
@@ -16937,22 +16567,14 @@ func getIssueLabel(
 	issueLabelId *string,
 	firstIssue int,
 	includeArchived bool,
-	includeCreator *bool,
-	includeOrganization *bool,
-	includeParent *bool,
-	includeTeam *bool,
 ) (*getIssueLabelResponse, error) {
 	req := &graphql.Request{
 		OpName: "getIssueLabel",
 		Query:  getIssueLabel_Operation,
 		Variables: &__getIssueLabelInput{
-			IssueLabelId:        issueLabelId,
-			FirstIssue:          firstIssue,
-			IncludeArchived:     includeArchived,
-			IncludeCreator:      includeCreator,
-			IncludeOrganization: includeOrganization,
-			IncludeParent:       includeParent,
-			IncludeTeam:         includeTeam,
+			IssueLabelId:    issueLabelId,
+			FirstIssue:      firstIssue,
+			IncludeArchived: includeArchived,
 		},
 	}
 	var err error
@@ -16971,7 +16593,7 @@ func getIssueLabel(
 
 // The query or mutation executed by getOrganization.
 const getOrganization_Operation = `
-query getOrganization ($includeSubscription: Boolean!) {
+query getOrganization {
 	organization {
 		id
 		allowedAuthServices
@@ -17000,7 +16622,7 @@ query getOrganization ($includeSubscription: Boolean!) {
 		projectUpdateRemindersDay
 		projectUpdatesReminderFrequency
 		releaseChannel
-		subscription @skip(if: $includeSubscription) {
+		subscription {
 			id
 			archivedAt
 			canceledAt
@@ -17020,14 +16642,10 @@ query getOrganization ($includeSubscription: Boolean!) {
 func getOrganization(
 	ctx context.Context,
 	client graphql.Client,
-	includeSubscription *bool,
 ) (*getOrganizationResponse, error) {
 	req := &graphql.Request{
 		OpName: "getOrganization",
 		Query:  getOrganization_Operation,
-		Variables: &__getOrganizationInput{
-			IncludeSubscription: includeSubscription,
-		},
 	}
 	var err error
 
@@ -17045,7 +16663,7 @@ func getOrganization(
 
 // The query or mutation executed by getProject.
 const getProject_Operation = `
-query getProject ($projectId: String!, $includeConvertedFromIssue: Boolean!, $includeIntegrationsSettings: Boolean!, $includeLead: Boolean!, $includeCreator: Boolean!) {
+query getProject ($projectId: String!) {
 	project(id: $projectId) {
 		id
 		archivedAt
@@ -17076,7 +16694,7 @@ query getProject ($projectId: String!, $includeConvertedFromIssue: Boolean!, $in
 		targetDate
 		updatedAt
 		url
-		convertedFromIssue @skip(if: $includeConvertedFromIssue) {
+		convertedFromIssue {
 			id
 			createdAt
 			updatedAt
@@ -17103,7 +16721,7 @@ query getProject ($projectId: String!, $includeConvertedFromIssue: Boolean!, $in
 			branchName
 			customerTicketCount
 		}
-		integrationsSettings @skip(if: $includeIntegrationsSettings) {
+		integrationsSettings {
 			id
 			archivedAt
 			createdAt
@@ -17119,7 +16737,7 @@ query getProject ($projectId: String!, $includeConvertedFromIssue: Boolean!, $in
 			slackProjectUpdateCreatedToWorkspace
 			updatedAt
 		}
-		creator @skip(if: $includeCreator) {
+		creator {
 			id
 			active
 			admin
@@ -17144,7 +16762,7 @@ query getProject ($projectId: String!, $includeConvertedFromIssue: Boolean!, $in
 			updatedAt
 			url
 		}
-		lead @skip(if: $includeLead) {
+		lead {
 			id
 			active
 			admin
@@ -17177,20 +16795,12 @@ func getProject(
 	ctx context.Context,
 	client graphql.Client,
 	projectId *string,
-	includeConvertedFromIssue *bool,
-	includeIntegrationsSettings *bool,
-	includeLead *bool,
-	includeCreator *bool,
 ) (*getProjectResponse, error) {
 	req := &graphql.Request{
 		OpName: "getProject",
 		Query:  getProject_Operation,
 		Variables: &__getProjectInput{
-			ProjectId:                   projectId,
-			IncludeConvertedFromIssue:   includeConvertedFromIssue,
-			IncludeIntegrationsSettings: includeIntegrationsSettings,
-			IncludeLead:                 includeLead,
-			IncludeCreator:              includeCreator,
+			ProjectId: projectId,
 		},
 	}
 	var err error
@@ -17209,7 +16819,7 @@ func getProject(
 
 // The query or mutation executed by getTeam.
 const getTeam_Operation = `
-query getTeam ($teamId: String!, $includeCycle: Boolean!, $includeIssueState: Boolean!, $includeTemplateForMembers: Boolean!, $includeTemplateForNonMembers: Boolean!, $includeWorkflowState: Boolean!, $includeIntegrationsSettings: Boolean!, $includeDuplicateWorkflowState: Boolean!, $includeOrganization: Boolean!, $includeReviewWorkflowState: Boolean!, $includeStartWorkflowState: Boolean!, $includeTriageWorkflowState: Boolean!) {
+query getTeam ($teamId: String!) {
 	team(id: $teamId) {
 		id
 		archivedAt
@@ -17249,7 +16859,7 @@ query getTeam ($teamId: String!, $includeCycle: Boolean!, $includeIssueState: Bo
 		triageEnabled
 		upcomingCycleCount
 		updatedAt
-		activeCycle @skip(if: $includeCycle) {
+		activeCycle {
 			id
 			archivedAt
 			autoArchivedAt
@@ -17268,7 +16878,7 @@ query getTeam ($teamId: String!, $includeCycle: Boolean!, $includeIssueState: Bo
 			startsAt
 			updatedAt
 		}
-		defaultIssueState @skip(if: $includeIssueState) {
+		defaultIssueState {
 			id
 			archivedAt
 			color
@@ -17279,7 +16889,7 @@ query getTeam ($teamId: String!, $includeCycle: Boolean!, $includeIssueState: Bo
 			type
 			updatedAt
 		}
-		defaultTemplateForMembers @skip(if: $includeTemplateForMembers) {
+		defaultTemplateForMembers {
 			id
 			archivedAt
 			description
@@ -17289,7 +16899,7 @@ query getTeam ($teamId: String!, $includeCycle: Boolean!, $includeIssueState: Bo
 			updatedAt
 			templateData
 		}
-		defaultTemplateForNonMembers @skip(if: $includeTemplateForNonMembers) {
+		defaultTemplateForNonMembers {
 			id
 			archivedAt
 			description
@@ -17299,7 +16909,7 @@ query getTeam ($teamId: String!, $includeCycle: Boolean!, $includeIssueState: Bo
 			updatedAt
 			templateData
 		}
-		draftWorkflowState @skip(if: $includeWorkflowState) {
+		draftWorkflowState {
 			id
 			archivedAt
 			color
@@ -17310,7 +16920,7 @@ query getTeam ($teamId: String!, $includeCycle: Boolean!, $includeIssueState: Bo
 			type
 			updatedAt
 		}
-		integrationsSettings @skip(if: $includeIntegrationsSettings) {
+		integrationsSettings {
 			id
 			archivedAt
 			createdAt
@@ -17326,7 +16936,7 @@ query getTeam ($teamId: String!, $includeCycle: Boolean!, $includeIssueState: Bo
 			slackProjectUpdateCreatedToWorkspace
 			updatedAt
 		}
-		markedAsDuplicateWorkflowState @skip(if: $includeDuplicateWorkflowState) {
+		markedAsDuplicateWorkflowState {
 			id
 			archivedAt
 			color
@@ -17337,7 +16947,7 @@ query getTeam ($teamId: String!, $includeCycle: Boolean!, $includeIssueState: Bo
 			type
 			updatedAt
 		}
-		organization @skip(if: $includeOrganization) {
+		organization {
 			id
 			allowedAuthServices
 			archivedAt
@@ -17363,7 +16973,7 @@ query getTeam ($teamId: String!, $includeCycle: Boolean!, $includeIssueState: Bo
 			urlKey
 			userCount
 		}
-		reviewWorkflowState @skip(if: $includeReviewWorkflowState) {
+		reviewWorkflowState {
 			id
 			archivedAt
 			color
@@ -17374,7 +16984,7 @@ query getTeam ($teamId: String!, $includeCycle: Boolean!, $includeIssueState: Bo
 			type
 			updatedAt
 		}
-		startWorkflowState @skip(if: $includeStartWorkflowState) {
+		startWorkflowState {
 			id
 			archivedAt
 			color
@@ -17385,7 +16995,7 @@ query getTeam ($teamId: String!, $includeCycle: Boolean!, $includeIssueState: Bo
 			type
 			updatedAt
 		}
-		triageIssueState @skip(if: $includeTriageWorkflowState) {
+		triageIssueState {
 			id
 			archivedAt
 			color
@@ -17404,34 +17014,12 @@ func getTeam(
 	ctx context.Context,
 	client graphql.Client,
 	teamId *string,
-	includeCycle *bool,
-	includeIssueState *bool,
-	includeTemplateForMembers *bool,
-	includeTemplateForNonMembers *bool,
-	includeWorkflowState *bool,
-	includeIntegrationsSettings *bool,
-	includeDuplicateWorkflowState *bool,
-	includeOrganization *bool,
-	includeReviewWorkflowState *bool,
-	includeStartWorkflowState *bool,
-	includeTriageWorkflowState *bool,
 ) (*getTeamResponse, error) {
 	req := &graphql.Request{
 		OpName: "getTeam",
 		Query:  getTeam_Operation,
 		Variables: &__getTeamInput{
-			TeamId:                        teamId,
-			IncludeCycle:                  includeCycle,
-			IncludeIssueState:             includeIssueState,
-			IncludeTemplateForMembers:     includeTemplateForMembers,
-			IncludeTemplateForNonMembers:  includeTemplateForNonMembers,
-			IncludeWorkflowState:          includeWorkflowState,
-			IncludeIntegrationsSettings:   includeIntegrationsSettings,
-			IncludeDuplicateWorkflowState: includeDuplicateWorkflowState,
-			IncludeOrganization:           includeOrganization,
-			IncludeReviewWorkflowState:    includeReviewWorkflowState,
-			IncludeStartWorkflowState:     includeStartWorkflowState,
-			IncludeTriageWorkflowState:    includeTriageWorkflowState,
+			TeamId: teamId,
 		},
 	}
 	var err error
@@ -17450,7 +17038,7 @@ func getTeam(
 
 // The query or mutation executed by getTeamMembership.
 const getTeamMembership_Operation = `
-query getTeamMembership ($teamMembershipId: String!, $includeTeam: Boolean!, $includeUser: Boolean!) {
+query getTeamMembership ($teamMembershipId: String!) {
 	teamMembership(id: $teamMembershipId) {
 		id
 		archivedAt
@@ -17458,7 +17046,7 @@ query getTeamMembership ($teamMembershipId: String!, $includeTeam: Boolean!, $in
 		owner
 		sortOrder
 		updatedAt
-		team @skip(if: $includeTeam) {
+		team {
 			id
 			archivedAt
 			autoArchivePeriod
@@ -17498,7 +17086,7 @@ query getTeamMembership ($teamMembershipId: String!, $includeTeam: Boolean!, $in
 			upcomingCycleCount
 			updatedAt
 		}
-		user @skip(if: $includeUser) {
+		user {
 			id
 			active
 			admin
@@ -17531,16 +17119,12 @@ func getTeamMembership(
 	ctx context.Context,
 	client graphql.Client,
 	teamMembershipId *string,
-	includeTeam *bool,
-	includeUser *bool,
 ) (*getTeamMembershipResponse, error) {
 	req := &graphql.Request{
 		OpName: "getTeamMembership",
 		Query:  getTeamMembership_Operation,
 		Variables: &__getTeamMembershipInput{
 			TeamMembershipId: teamMembershipId,
-			IncludeTeam:      includeTeam,
-			IncludeUser:      includeUser,
 		},
 	}
 	var err error
@@ -17559,7 +17143,7 @@ func getTeamMembership(
 
 // The query or mutation executed by getUser.
 const getUser_Operation = `
-query getUser ($userId: String!, $includeOrganization: Boolean!) {
+query getUser ($userId: String!) {
 	user(id: $userId) {
 		id
 		active
@@ -17584,7 +17168,7 @@ query getUser ($userId: String!, $includeOrganization: Boolean!) {
 		timezone
 		updatedAt
 		url
-		organization @skip(if: $includeOrganization) {
+		organization {
 			id
 			allowedAuthServices
 			archivedAt
@@ -17618,14 +17202,12 @@ func getUser(
 	ctx context.Context,
 	client graphql.Client,
 	userId *string,
-	includeOrganization *bool,
 ) (*getUserResponse, error) {
 	req := &graphql.Request{
 		OpName: "getUser",
 		Query:  getUser_Operation,
 		Variables: &__getUserInput{
-			UserId:              userId,
-			IncludeOrganization: includeOrganization,
+			UserId: userId,
 		},
 	}
 	var err error
@@ -17644,7 +17226,7 @@ func getUser(
 
 // The query or mutation executed by listAttachments.
 const listAttachments_Operation = `
-query listAttachments ($first: Int, $after: String, $includeArchived: Boolean, $filter: AttachmentFilter, $includeCreator: Boolean!, $includeIssue: Boolean!) {
+query listAttachments ($first: Int, $after: String, $includeArchived: Boolean, $filter: AttachmentFilter) {
 	attachments(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
@@ -17662,7 +17244,7 @@ query listAttachments ($first: Int, $after: String, $includeArchived: Boolean, $
 			title
 			updatedAt
 			url
-			creator @skip(if: $includeCreator) {
+			creator {
 				id
 				active
 				admin
@@ -17687,7 +17269,7 @@ query listAttachments ($first: Int, $after: String, $includeArchived: Boolean, $
 				updatedAt
 				url
 			}
-			issue @skip(if: $includeIssue) {
+			issue {
 				id
 				createdAt
 				updatedAt
@@ -17726,8 +17308,6 @@ func listAttachments(
 	after string,
 	includeArchived bool,
 	filter *AttachmentFilter,
-	includeCreator *bool,
-	includeIssue *bool,
 ) (*listAttachmentsResponse, error) {
 	req := &graphql.Request{
 		OpName: "listAttachments",
@@ -17737,8 +17317,6 @@ func listAttachments(
 			After:           after,
 			IncludeArchived: includeArchived,
 			Filter:          filter,
-			IncludeCreator:  includeCreator,
-			IncludeIssue:    includeIssue,
 		},
 	}
 	var err error
@@ -17757,7 +17335,7 @@ func listAttachments(
 
 // The query or mutation executed by listComments.
 const listComments_Operation = `
-query listComments ($first: Int, $after: String, $includeArchived: Boolean, $filter: CommentFilter, $includeIssue: Boolean!, $includeParent: Boolean!, $includeUser: Boolean!) {
+query listComments ($first: Int, $after: String, $includeArchived: Boolean, $filter: CommentFilter) {
 	comments(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
@@ -17773,7 +17351,7 @@ query listComments ($first: Int, $after: String, $includeArchived: Boolean, $fil
 			reactionData
 			updatedAt
 			url
-			user @skip(if: $includeUser) {
+			user {
 				id
 				active
 				admin
@@ -17798,7 +17376,7 @@ query listComments ($first: Int, $after: String, $includeArchived: Boolean, $fil
 				updatedAt
 				url
 			}
-			parent @skip(if: $includeParent) {
+			parent {
 				id
 				archivedAt
 				body
@@ -17809,7 +17387,7 @@ query listComments ($first: Int, $after: String, $includeArchived: Boolean, $fil
 				updatedAt
 				url
 			}
-			issue @skip(if: $includeIssue) {
+			issue {
 				id
 				createdAt
 				updatedAt
@@ -17848,9 +17426,6 @@ func listComments(
 	after string,
 	includeArchived bool,
 	filter *CommentFilter,
-	includeIssue *bool,
-	includeParent *bool,
-	includeUser *bool,
 ) (*listCommentsResponse, error) {
 	req := &graphql.Request{
 		OpName: "listComments",
@@ -17860,9 +17435,6 @@ func listComments(
 			After:           after,
 			IncludeArchived: includeArchived,
 			Filter:          filter,
-			IncludeIssue:    includeIssue,
-			IncludeParent:   includeParent,
-			IncludeUser:     includeUser,
 		},
 	}
 	var err error
@@ -17881,7 +17453,7 @@ func listComments(
 
 // The query or mutation executed by listIntegrations.
 const listIntegrations_Operation = `
-query listIntegrations ($first: Int, $after: String, $includeArchived: Boolean, $includeCreator: Boolean!, $includeOrganization: Boolean!, $includeTeam: Boolean!) {
+query listIntegrations ($first: Int, $after: String, $includeArchived: Boolean!) {
 	integrations(first: $first, after: $after, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
@@ -17893,7 +17465,7 @@ query listIntegrations ($first: Int, $after: String, $includeArchived: Boolean, 
 			createdAt
 			service
 			updatedAt
-			team @skip(if: $includeTeam) {
+			team {
 				id
 				archivedAt
 				autoArchivePeriod
@@ -17933,7 +17505,7 @@ query listIntegrations ($first: Int, $after: String, $includeArchived: Boolean, 
 				upcomingCycleCount
 				updatedAt
 			}
-			creator @skip(if: $includeCreator) {
+			creator {
 				id
 				active
 				admin
@@ -17958,7 +17530,7 @@ query listIntegrations ($first: Int, $after: String, $includeArchived: Boolean, 
 				updatedAt
 				url
 			}
-			organization @skip(if: $includeOrganization) {
+			organization {
 				id
 				allowedAuthServices
 				archivedAt
@@ -17995,20 +17567,14 @@ func listIntegrations(
 	first int,
 	after string,
 	includeArchived bool,
-	includeCreator *bool,
-	includeOrganization *bool,
-	includeTeam *bool,
 ) (*listIntegrationsResponse, error) {
 	req := &graphql.Request{
 		OpName: "listIntegrations",
 		Query:  listIntegrations_Operation,
 		Variables: &__listIntegrationsInput{
-			First:               first,
-			After:               after,
-			IncludeArchived:     includeArchived,
-			IncludeCreator:      includeCreator,
-			IncludeOrganization: includeOrganization,
-			IncludeTeam:         includeTeam,
+			First:           first,
+			After:           after,
+			IncludeArchived: includeArchived,
 		},
 	}
 	var err error
@@ -18027,7 +17593,7 @@ func listIntegrations(
 
 // The query or mutation executed by listIssueLabels.
 const listIssueLabels_Operation = `
-query listIssueLabels ($first: Int, $firstIssue: Int, $after: String, $includeArchived: Boolean, $filter: IssueLabelFilter, $includeCreator: Boolean!, $includeOrganization: Boolean!, $includeParent: Boolean!, $includeTeam: Boolean!) {
+query listIssueLabels ($first: Int, $firstIssue: Int, $after: String, $includeArchived: Boolean!, $filter: IssueLabelFilter) {
 	issueLabels(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
@@ -18050,7 +17616,7 @@ query listIssueLabels ($first: Int, $firstIssue: Int, $after: String, $includeAr
 					id
 				}
 			}
-			team @skip(if: $includeTeam) {
+			team {
 				id
 				archivedAt
 				autoArchivePeriod
@@ -18090,7 +17656,7 @@ query listIssueLabels ($first: Int, $firstIssue: Int, $after: String, $includeAr
 				upcomingCycleCount
 				updatedAt
 			}
-			creator @skip(if: $includeCreator) {
+			creator {
 				id
 				active
 				admin
@@ -18115,7 +17681,7 @@ query listIssueLabels ($first: Int, $firstIssue: Int, $after: String, $includeAr
 				updatedAt
 				url
 			}
-			organization @skip(if: $includeOrganization) {
+			organization {
 				id
 				allowedAuthServices
 				archivedAt
@@ -18141,7 +17707,7 @@ query listIssueLabels ($first: Int, $firstIssue: Int, $after: String, $includeAr
 				urlKey
 				userCount
 			}
-			parent @skip(if: $includeParent) {
+			parent {
 				id
 				archivedAt
 				color
@@ -18163,24 +17729,16 @@ func listIssueLabels(
 	after string,
 	includeArchived bool,
 	filter *IssueLabelFilter,
-	includeCreator *bool,
-	includeOrganization *bool,
-	includeParent *bool,
-	includeTeam *bool,
 ) (*listIssueLabelsResponse, error) {
 	req := &graphql.Request{
 		OpName: "listIssueLabels",
 		Query:  listIssueLabels_Operation,
 		Variables: &__listIssueLabelsInput{
-			First:               first,
-			FirstIssue:          firstIssue,
-			After:               after,
-			IncludeArchived:     includeArchived,
-			Filter:              filter,
-			IncludeCreator:      includeCreator,
-			IncludeOrganization: includeOrganization,
-			IncludeParent:       includeParent,
-			IncludeTeam:         includeTeam,
+			First:           first,
+			FirstIssue:      firstIssue,
+			After:           after,
+			IncludeArchived: includeArchived,
+			Filter:          filter,
 		},
 	}
 	var err error
@@ -18199,7 +17757,7 @@ func listIssueLabels(
 
 // The query or mutation executed by listIssues.
 const listIssues_Operation = `
-query listIssues ($first: Int, $after: String, $includeArchived: Boolean, $filter: IssueFilter, $includeTeam: Boolean!, $includeCycle: Boolean!, $includeProject: Boolean!, $includeCreator: Boolean!, $includeAssignee: Boolean!, $includeSnoozedBy: Boolean!, $includeState: Boolean!, $includeParent: Boolean!, $includeProjectMilestone: Boolean!) {
+query listIssues ($first: Int, $after: String, $includeArchived: Boolean, $filter: IssueFilter) {
 	issues(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
@@ -18231,7 +17789,7 @@ query listIssues ($first: Int, $after: String, $includeArchived: Boolean, $filte
 			url
 			branchName
 			customerTicketCount
-			team @skip(if: $includeTeam) {
+			team {
 				id
 				archivedAt
 				autoArchivePeriod
@@ -18271,7 +17829,7 @@ query listIssues ($first: Int, $after: String, $includeArchived: Boolean, $filte
 				upcomingCycleCount
 				updatedAt
 			}
-			cycle @skip(if: $includeCycle) {
+			cycle {
 				id
 				archivedAt
 				autoArchivedAt
@@ -18290,7 +17848,7 @@ query listIssues ($first: Int, $after: String, $includeArchived: Boolean, $filte
 				startsAt
 				updatedAt
 			}
-			project @skip(if: $includeProject) {
+			project {
 				id
 				archivedAt
 				autoArchivedAt
@@ -18321,7 +17879,7 @@ query listIssues ($first: Int, $after: String, $includeArchived: Boolean, $filte
 				updatedAt
 				url
 			}
-			creator @skip(if: $includeCreator) {
+			creator {
 				id
 				active
 				admin
@@ -18346,7 +17904,7 @@ query listIssues ($first: Int, $after: String, $includeArchived: Boolean, $filte
 				updatedAt
 				url
 			}
-			assignee @skip(if: $includeAssignee) {
+			assignee {
 				id
 				active
 				admin
@@ -18371,7 +17929,7 @@ query listIssues ($first: Int, $after: String, $includeArchived: Boolean, $filte
 				updatedAt
 				url
 			}
-			snoozedBy @skip(if: $includeSnoozedBy) {
+			snoozedBy {
 				id
 				active
 				admin
@@ -18396,7 +17954,7 @@ query listIssues ($first: Int, $after: String, $includeArchived: Boolean, $filte
 				updatedAt
 				url
 			}
-			state @skip(if: $includeState) {
+			state {
 				id
 				archivedAt
 				color
@@ -18407,7 +17965,7 @@ query listIssues ($first: Int, $after: String, $includeArchived: Boolean, $filte
 				type
 				updatedAt
 			}
-			parent @skip(if: $includeParent) {
+			parent {
 				id
 				createdAt
 				updatedAt
@@ -18428,7 +17986,7 @@ query listIssues ($first: Int, $after: String, $includeArchived: Boolean, $filte
 				snoozedUntilAt
 				previousIdentifiers
 			}
-			projectMilestone @skip(if: $includeProjectMilestone) {
+			projectMilestone {
 				archivedAt
 				createdAt
 				description
@@ -18449,33 +18007,15 @@ func listIssues(
 	after string,
 	includeArchived bool,
 	filter *IssueFilter,
-	includeTeam *bool,
-	includeCycle *bool,
-	includeProject *bool,
-	includeCreator *bool,
-	includeAssignee *bool,
-	includeSnoozedBy *bool,
-	includeState *bool,
-	includeParent *bool,
-	includeProjectMilestone *bool,
 ) (*listIssuesResponse, error) {
 	req := &graphql.Request{
 		OpName: "listIssues",
 		Query:  listIssues_Operation,
 		Variables: &__listIssuesInput{
-			First:                   first,
-			After:                   after,
-			IncludeArchived:         includeArchived,
-			Filter:                  filter,
-			IncludeTeam:             includeTeam,
-			IncludeCycle:            includeCycle,
-			IncludeProject:          includeProject,
-			IncludeCreator:          includeCreator,
-			IncludeAssignee:         includeAssignee,
-			IncludeSnoozedBy:        includeSnoozedBy,
-			IncludeState:            includeState,
-			IncludeParent:           includeParent,
-			IncludeProjectMilestone: includeProjectMilestone,
+			First:           first,
+			After:           after,
+			IncludeArchived: includeArchived,
+			Filter:          filter,
 		},
 	}
 	var err error
@@ -18494,7 +18034,7 @@ func listIssues(
 
 // The query or mutation executed by listProjects.
 const listProjects_Operation = `
-query listProjects ($first: Int, $after: String, $includeArchived: Boolean, $filter: ProjectFilter, $includeConvertedFromIssue: Boolean!, $includeIntegrationsSettings: Boolean!, $includeLead: Boolean!, $includeCreator: Boolean!) {
+query listProjects ($first: Int, $after: String, $includeArchived: Boolean, $filter: ProjectFilter) {
 	projects(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
@@ -18530,7 +18070,7 @@ query listProjects ($first: Int, $after: String, $includeArchived: Boolean, $fil
 			targetDate
 			updatedAt
 			url
-			convertedFromIssue @skip(if: $includeConvertedFromIssue) {
+			convertedFromIssue {
 				id
 				createdAt
 				updatedAt
@@ -18557,7 +18097,7 @@ query listProjects ($first: Int, $after: String, $includeArchived: Boolean, $fil
 				branchName
 				customerTicketCount
 			}
-			integrationsSettings @skip(if: $includeIntegrationsSettings) {
+			integrationsSettings {
 				id
 				archivedAt
 				createdAt
@@ -18573,7 +18113,7 @@ query listProjects ($first: Int, $after: String, $includeArchived: Boolean, $fil
 				slackProjectUpdateCreatedToWorkspace
 				updatedAt
 			}
-			creator @skip(if: $includeCreator) {
+			creator {
 				id
 				active
 				admin
@@ -18598,7 +18138,7 @@ query listProjects ($first: Int, $after: String, $includeArchived: Boolean, $fil
 				updatedAt
 				url
 			}
-			lead @skip(if: $includeLead) {
+			lead {
 				id
 				active
 				admin
@@ -18635,23 +18175,15 @@ func listProjects(
 	after string,
 	includeArchived bool,
 	filter *ProjectFilter,
-	includeConvertedFromIssue *bool,
-	includeIntegrationsSettings *bool,
-	includeLead *bool,
-	includeCreator *bool,
 ) (*listProjectsResponse, error) {
 	req := &graphql.Request{
 		OpName: "listProjects",
 		Query:  listProjects_Operation,
 		Variables: &__listProjectsInput{
-			First:                       first,
-			After:                       after,
-			IncludeArchived:             includeArchived,
-			Filter:                      filter,
-			IncludeConvertedFromIssue:   includeConvertedFromIssue,
-			IncludeIntegrationsSettings: includeIntegrationsSettings,
-			IncludeLead:                 includeLead,
-			IncludeCreator:              includeCreator,
+			First:           first,
+			After:           after,
+			IncludeArchived: includeArchived,
+			Filter:          filter,
 		},
 	}
 	var err error
@@ -18670,7 +18202,7 @@ func listProjects(
 
 // The query or mutation executed by listTeamMemberships.
 const listTeamMemberships_Operation = `
-query listTeamMemberships ($first: Int, $after: String, $includeArchived: Boolean, $includeTeam: Boolean!, $includeUser: Boolean!) {
+query listTeamMemberships ($first: Int, $after: String, $includeArchived: Boolean!) {
 	teamMemberships(first: $first, after: $after, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
@@ -18683,7 +18215,7 @@ query listTeamMemberships ($first: Int, $after: String, $includeArchived: Boolea
 			owner
 			sortOrder
 			updatedAt
-			team @skip(if: $includeTeam) {
+			team {
 				id
 				archivedAt
 				autoArchivePeriod
@@ -18723,7 +18255,7 @@ query listTeamMemberships ($first: Int, $after: String, $includeArchived: Boolea
 				upcomingCycleCount
 				updatedAt
 			}
-			user @skip(if: $includeUser) {
+			user {
 				id
 				active
 				admin
@@ -18759,8 +18291,6 @@ func listTeamMemberships(
 	first int,
 	after string,
 	includeArchived bool,
-	includeTeam *bool,
-	includeUser *bool,
 ) (*listTeamMembershipsResponse, error) {
 	req := &graphql.Request{
 		OpName: "listTeamMemberships",
@@ -18769,8 +18299,6 @@ func listTeamMemberships(
 			First:           first,
 			After:           after,
 			IncludeArchived: includeArchived,
-			IncludeTeam:     includeTeam,
-			IncludeUser:     includeUser,
 		},
 	}
 	var err error
@@ -18789,7 +18317,7 @@ func listTeamMemberships(
 
 // The query or mutation executed by listTeams.
 const listTeams_Operation = `
-query listTeams ($first: Int, $after: String, $includeArchived: Boolean, $filter: TeamFilter, $includeCycle: Boolean!, $includeIssueState: Boolean!, $includeTemplateForMembers: Boolean!, $includeTemplateForNonMembers: Boolean!, $includeWorkflowState: Boolean!, $includeIntegrationsSettings: Boolean!, $includeDuplicateWorkflowState: Boolean!, $includeOrganization: Boolean!, $includeReviewWorkflowState: Boolean!, $includeStartWorkflowState: Boolean!, $includeTriageWorkflowState: Boolean!) {
+query listTeams ($first: Int, $after: String, $includeArchived: Boolean, $filter: TeamFilter) {
 	teams(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
@@ -18834,7 +18362,7 @@ query listTeams ($first: Int, $after: String, $includeArchived: Boolean, $filter
 			triageEnabled
 			upcomingCycleCount
 			updatedAt
-			activeCycle @skip(if: $includeCycle) {
+			activeCycle {
 				id
 				archivedAt
 				autoArchivedAt
@@ -18853,7 +18381,7 @@ query listTeams ($first: Int, $after: String, $includeArchived: Boolean, $filter
 				startsAt
 				updatedAt
 			}
-			defaultIssueState @skip(if: $includeIssueState) {
+			defaultIssueState {
 				id
 				archivedAt
 				color
@@ -18864,7 +18392,7 @@ query listTeams ($first: Int, $after: String, $includeArchived: Boolean, $filter
 				type
 				updatedAt
 			}
-			defaultTemplateForMembers @skip(if: $includeTemplateForMembers) {
+			defaultTemplateForMembers {
 				id
 				archivedAt
 				description
@@ -18874,7 +18402,7 @@ query listTeams ($first: Int, $after: String, $includeArchived: Boolean, $filter
 				updatedAt
 				templateData
 			}
-			defaultTemplateForNonMembers @skip(if: $includeTemplateForNonMembers) {
+			defaultTemplateForNonMembers {
 				id
 				archivedAt
 				description
@@ -18884,7 +18412,7 @@ query listTeams ($first: Int, $after: String, $includeArchived: Boolean, $filter
 				updatedAt
 				templateData
 			}
-			draftWorkflowState @skip(if: $includeWorkflowState) {
+			draftWorkflowState {
 				id
 				archivedAt
 				color
@@ -18895,7 +18423,7 @@ query listTeams ($first: Int, $after: String, $includeArchived: Boolean, $filter
 				type
 				updatedAt
 			}
-			integrationsSettings @skip(if: $includeIntegrationsSettings) {
+			integrationsSettings {
 				id
 				archivedAt
 				createdAt
@@ -18911,7 +18439,7 @@ query listTeams ($first: Int, $after: String, $includeArchived: Boolean, $filter
 				slackProjectUpdateCreatedToWorkspace
 				updatedAt
 			}
-			markedAsDuplicateWorkflowState @skip(if: $includeDuplicateWorkflowState) {
+			markedAsDuplicateWorkflowState {
 				id
 				archivedAt
 				color
@@ -18922,7 +18450,7 @@ query listTeams ($first: Int, $after: String, $includeArchived: Boolean, $filter
 				type
 				updatedAt
 			}
-			organization @skip(if: $includeOrganization) {
+			organization {
 				id
 				allowedAuthServices
 				archivedAt
@@ -18948,7 +18476,7 @@ query listTeams ($first: Int, $after: String, $includeArchived: Boolean, $filter
 				urlKey
 				userCount
 			}
-			reviewWorkflowState @skip(if: $includeReviewWorkflowState) {
+			reviewWorkflowState {
 				id
 				archivedAt
 				color
@@ -18959,7 +18487,7 @@ query listTeams ($first: Int, $after: String, $includeArchived: Boolean, $filter
 				type
 				updatedAt
 			}
-			startWorkflowState @skip(if: $includeStartWorkflowState) {
+			startWorkflowState {
 				id
 				archivedAt
 				color
@@ -18970,7 +18498,7 @@ query listTeams ($first: Int, $after: String, $includeArchived: Boolean, $filter
 				type
 				updatedAt
 			}
-			triageIssueState @skip(if: $includeTriageWorkflowState) {
+			triageIssueState {
 				id
 				archivedAt
 				color
@@ -18993,37 +18521,15 @@ func listTeams(
 	after string,
 	includeArchived bool,
 	filter *TeamFilter,
-	includeCycle *bool,
-	includeIssueState *bool,
-	includeTemplateForMembers *bool,
-	includeTemplateForNonMembers *bool,
-	includeWorkflowState *bool,
-	includeIntegrationsSettings *bool,
-	includeDuplicateWorkflowState *bool,
-	includeOrganization *bool,
-	includeReviewWorkflowState *bool,
-	includeStartWorkflowState *bool,
-	includeTriageWorkflowState *bool,
 ) (*listTeamsResponse, error) {
 	req := &graphql.Request{
 		OpName: "listTeams",
 		Query:  listTeams_Operation,
 		Variables: &__listTeamsInput{
-			First:                         first,
-			After:                         after,
-			IncludeArchived:               includeArchived,
-			Filter:                        filter,
-			IncludeCycle:                  includeCycle,
-			IncludeIssueState:             includeIssueState,
-			IncludeTemplateForMembers:     includeTemplateForMembers,
-			IncludeTemplateForNonMembers:  includeTemplateForNonMembers,
-			IncludeWorkflowState:          includeWorkflowState,
-			IncludeIntegrationsSettings:   includeIntegrationsSettings,
-			IncludeDuplicateWorkflowState: includeDuplicateWorkflowState,
-			IncludeOrganization:           includeOrganization,
-			IncludeReviewWorkflowState:    includeReviewWorkflowState,
-			IncludeStartWorkflowState:     includeStartWorkflowState,
-			IncludeTriageWorkflowState:    includeTriageWorkflowState,
+			First:           first,
+			After:           after,
+			IncludeArchived: includeArchived,
+			Filter:          filter,
 		},
 	}
 	var err error
@@ -19042,7 +18548,7 @@ func listTeams(
 
 // The query or mutation executed by listUsers.
 const listUsers_Operation = `
-query listUsers ($first: Int, $after: String, $includeArchived: Boolean, $filter: UserFilter, $includeOrganization: Boolean!) {
+query listUsers ($first: Int, $after: String, $includeArchived: Boolean, $filter: UserFilter) {
 	users(first: $first, after: $after, filter: $filter, includeArchived: $includeArchived) {
 		pageInfo {
 			hasNextPage
@@ -19072,7 +18578,7 @@ query listUsers ($first: Int, $after: String, $includeArchived: Boolean, $filter
 			timezone
 			updatedAt
 			url
-			organization @skip(if: $includeOrganization) {
+			organization {
 				id
 				allowedAuthServices
 				archivedAt
@@ -19110,17 +18616,15 @@ func listUsers(
 	after string,
 	includeArchived bool,
 	filter *UserFilter,
-	includeOrganization *bool,
 ) (*listUsersResponse, error) {
 	req := &graphql.Request{
 		OpName: "listUsers",
 		Query:  listUsers_Operation,
 		Variables: &__listUsersInput{
-			First:               first,
-			After:               after,
-			IncludeArchived:     includeArchived,
-			Filter:              filter,
-			IncludeOrganization: includeOrganization,
+			First:           first,
+			After:           after,
+			IncludeArchived: includeArchived,
+			Filter:          filter,
 		},
 	}
 	var err error

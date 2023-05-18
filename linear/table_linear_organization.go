@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/steampipe-plugin-linear/gql"
-	"github.com/turbot/go-kit/helpers"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -162,13 +161,7 @@ func getOrganization(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		return nil, err
 	}
 
-	// By default, nested objects are excluded, and they will only be included if they are requested.
-	includeSubscription := true
-	if helpers.StringSliceContains(d.QueryContext.Columns, "subscription") {
-		includeSubscription = false
-	}
-
-	getOrganizationResponse, err := gql.GetOrganization(ctx, conn.client, &includeSubscription)
+	getOrganizationResponse, err := gql.GetOrganization(ctx, conn.client)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_organization.getOrganization", "api_error", err)
 		return nil, err

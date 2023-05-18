@@ -249,26 +249,11 @@ func listProjects(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 		}
 	}
 
-	// By default, nested objects are excluded, and they will only be included if they are requested.
-	includeConvertedFromIssue, includeIntegrationsSettings, includeLead, includeCreator := true, true, true, true
-	for _, column := range d.QueryContext.Columns {
-		switch column {
-		case "converted_from_issue":
-			includeConvertedFromIssue = false
-		case "integrations_settings":
-			includeIntegrationsSettings = false
-		case "lead":
-			includeLead = false
-		case "creator":
-			includeCreator = false
-		}
-	}
-
 	// set the requested filters
 	filters := setProjectFilters(d, ctx)
 
 	for {
-		listProjectResponse, err := gql.ListProjects(ctx, conn.client, pageSize, endCursor, true, &filters, &includeConvertedFromIssue, &includeIntegrationsSettings, &includeLead, &includeCreator)
+		listProjectResponse, err := gql.ListProjects(ctx, conn.client, pageSize, endCursor, true, &filters)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_project.listProjects", "api_error", err)
 			return nil, err
@@ -298,28 +283,13 @@ func getProject(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 		return nil, nil
 	}
 
-	// By default, nested objects are excluded, and they will only be included if they are requested.
-	includeConvertedFromIssue, includeIntegrationsSettings, includeLead, includeCreator := true, true, true, true
-	for _, column := range d.QueryContext.Columns {
-		switch column {
-		case "converted_from_issue":
-			includeConvertedFromIssue = false
-		case "integrations_settings":
-			includeIntegrationsSettings = false
-		case "lead":
-			includeLead = false
-		case "creator":
-			includeCreator = false
-		}
-	}
-
 	conn, err := connect(ctx, d)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_project.getProject", "connection_error", err)
 		return nil, err
 	}
 
-	getProjectResponse, err := gql.GetProject(ctx, conn.client, &id, &includeConvertedFromIssue, &includeIntegrationsSettings, &includeLead, &includeCreator)
+	getProjectResponse, err := gql.GetProject(ctx, conn.client, &id)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_project.getProject", "api_error", err)
 		return nil, err

@@ -92,19 +92,8 @@ func listTeamMemberships(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		}
 	}
 
-	// By default, nested objects are excluded, and they will only be included if they are requested.
-	includeTeam, includeUser := true, true
-	for _, column := range d.QueryContext.Columns {
-		switch column {
-		case "team":
-			includeTeam = false
-		case "membership_user":
-			includeUser = false
-		}
-	}
-
 	for {
-		listTeamMembershipResponse, err := gql.ListTeamMemberships(ctx, conn.client, pageSize, endCursor, true, &includeTeam, &includeUser)
+		listTeamMembershipResponse, err := gql.ListTeamMemberships(ctx, conn.client, pageSize, endCursor, true)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_team_membership.listTeamMemberships", "api_error", err)
 			return nil, err
@@ -135,24 +124,13 @@ func getTeamMembership(ctx context.Context, d *plugin.QueryData, h *plugin.Hydra
 		return nil, nil
 	}
 
-	// By default, nested objects are excluded, and they will only be included if they are requested.
-	includeTeam, includeUser := true, true
-	for _, column := range d.QueryContext.Columns {
-		switch column {
-		case "team":
-			includeTeam = false
-		case "membership_user":
-			includeUser = false
-		}
-	}
-
 	conn, err := connect(ctx, d)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_team_membership.getTeamMembership", "connection_error", err)
 		return nil, err
 	}
 
-	getTeamMembershipResponse, err := gql.GetTeamMembership(ctx, conn.client, &id, &includeTeam, &includeUser)
+	getTeamMembershipResponse, err := gql.GetTeamMembership(ctx, conn.client, &id)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_team_membership.getTeamMembership", "api_error", err)
 		return nil, err

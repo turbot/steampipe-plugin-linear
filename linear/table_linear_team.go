@@ -316,41 +316,11 @@ func listTeams(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 		}
 	}
 
-	// By default, nested objects are excluded, and they will only be included if they are requested.
-	includeCycle, includeIssueState, includeTemplateForMembers, includeTemplateForNonMembers, includeWorkflowState, includeIntegrationsSettings, includeDuplicateWorkflowState, includeOrganization, includeReviewWorkflowState, includeStartWorkflowState, includeTriageWorkflowState := true, true, true, true, true, true, true, true, true, true, true
-	for _, column := range d.QueryContext.Columns {
-		switch column {
-		case "active_cycle":
-			includeCycle = false
-		case "default_issue_state":
-			includeIssueState = false
-		case "default_template_for_members":
-			includeTemplateForMembers = false
-		case "default_template_for_non_members":
-			includeTemplateForNonMembers = false
-		case "draft_workflow_state":
-			includeWorkflowState = false
-		case "integrations_settings":
-			includeIntegrationsSettings = false
-		case "marked_as_duplicate_workflow_state":
-			includeDuplicateWorkflowState = false
-		case "organization":
-			includeOrganization = false
-		case "review_workflow_state":
-			includeReviewWorkflowState = false
-		case "start_workflow_state":
-			includeStartWorkflowState = false
-		case "triage_issue_state":
-			includeTriageWorkflowState = false
-		}
-
-	}
-
 	// set the requested filters
 	filters := setTeamFilters(d, ctx)
 
 	for {
-		listTeamResponse, err := gql.ListTeams(ctx, conn.client, pageSize, endCursor, true, &filters, &includeCycle, &includeIssueState, &includeTemplateForMembers, &includeTemplateForNonMembers, &includeWorkflowState, &includeIntegrationsSettings, &includeDuplicateWorkflowState, &includeOrganization, &includeReviewWorkflowState, &includeStartWorkflowState, &includeTriageWorkflowState)
+		listTeamResponse, err := gql.ListTeams(ctx, conn.client, pageSize, endCursor, true, &filters)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_team.listTeams", "api_error", err)
 			return nil, err
@@ -381,43 +351,13 @@ func getTeam(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (i
 		return nil, nil
 	}
 
-	// By default, nested objects are excluded, and they will only be included if they are requested.
-	includeCycle, includeIssueState, includeTemplateForMembers, includeTemplateForNonMembers, includeWorkflowState, includeIntegrationsSettings, includeDuplicateWorkflowState, includeOrganization, includeReviewWorkflowState, includeStartWorkflowState, includeTriageWorkflowState := true, true, true, true, true, true, true, true, true, true, true
-	for _, column := range d.QueryContext.Columns {
-		switch column {
-		case "active_cycle":
-			includeCycle = false
-		case "default_issue_state":
-			includeIssueState = false
-		case "default_template_for_members":
-			includeTemplateForMembers = false
-		case "default_template_for_non_members":
-			includeTemplateForNonMembers = false
-		case "draft_workflow_state":
-			includeWorkflowState = false
-		case "integrations_settings":
-			includeIntegrationsSettings = false
-		case "marked_as_duplicate_workflow_state":
-			includeDuplicateWorkflowState = false
-		case "organization":
-			includeOrganization = false
-		case "review_workflow_state":
-			includeReviewWorkflowState = false
-		case "start_workflow_state":
-			includeStartWorkflowState = false
-		case "triage_issue_state":
-			includeTriageWorkflowState = false
-		}
-
-	}
-
 	conn, err := connect(ctx, d)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_team.getTeam", "connection_error", err)
 		return nil, err
 	}
 
-	getTeamResponse, err := gql.GetTeam(ctx, conn.client, &id, &includeCycle, &includeIssueState, &includeTemplateForMembers, &includeTemplateForNonMembers, &includeWorkflowState, &includeIntegrationsSettings, &includeDuplicateWorkflowState, &includeOrganization, &includeReviewWorkflowState, &includeStartWorkflowState, &includeTriageWorkflowState)
+	getTeamResponse, err := gql.GetTeam(ctx, conn.client, &id)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_team.getTeam", "api_error", err)
 		return nil, err

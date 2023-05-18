@@ -121,26 +121,11 @@ func listIssueLabels(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	// set default pageSize for nested field issue ids
 	var issuePageSize int = 50
 
-	// By default, nested objects are excluded, and they will only be included if they are requested.
-	includeCreator, includeOrganization, includeParent, includeTeam := true, true, true, true
-	for _, column := range d.QueryContext.Columns {
-		switch column {
-		case "team":
-			includeTeam = false
-		case "organization":
-			includeOrganization = false
-		case "parent":
-			includeParent = false
-		case "creator":
-			includeCreator = false
-		}
-	}
-
 	// set the requested filters
 	filters := setIssueLabelFilters(d, ctx)
 
 	for {
-		listIssueLabelResponse, err := gql.ListIssueLabels(ctx, conn.client, pageSize, issuePageSize, endCursor, true, &filters, &includeCreator, &includeOrganization, &includeParent, &includeTeam)
+		listIssueLabelResponse, err := gql.ListIssueLabels(ctx, conn.client, pageSize, issuePageSize, endCursor, true, &filters)
 		if err != nil {
 			plugin.Logger(ctx).Error("linear_issue_label.listIssueLabels", "api_error", err)
 			return nil, err
@@ -202,28 +187,13 @@ func getIssueLabel(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 	// set default pageSize for nested field issue ids
 	var issuePageSize int = 50
 
-	// By default, nested objects are excluded, and they will only be included if they are requested.
-	includeCreator, includeOrganization, includeParent, includeTeam := true, true, true, true
-	for _, column := range d.QueryContext.Columns {
-		switch column {
-		case "team":
-			includeTeam = false
-		case "organization":
-			includeOrganization = false
-		case "parent":
-			includeParent = false
-		case "creator":
-			includeCreator = false
-		}
-	}
-
 	conn, err := connect(ctx, d)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_issue_label.getIssueLabel", "connection_error", err)
 		return nil, err
 	}
 
-	getIssueLabelResponse, err := gql.GetIssueLabel(ctx, conn.client, &id, issuePageSize, true, &includeCreator, &includeOrganization, &includeParent, &includeTeam)
+	getIssueLabelResponse, err := gql.GetIssueLabel(ctx, conn.client, &id, issuePageSize, true)
 	if err != nil {
 		plugin.Logger(ctx).Error("linear_issue_label.getIssueLabel", "api_error", err)
 		return nil, err
