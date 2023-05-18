@@ -26,6 +26,13 @@ func (t *authedTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 }
 
 func connect(ctx context.Context, d *plugin.QueryData) (*linearClient, error) {
+
+	// Load connection from cache, which preserves throttling protection etc
+	cacheKey := "linear"
+	if cachedData, ok := d.ConnectionManager.Cache.Get(cacheKey); ok {
+		return cachedData.(*linearClient), nil
+	}
+
 	token := os.Getenv("LINEAR_TOKEN")
 
 	// default Size
@@ -60,6 +67,9 @@ func connect(ctx context.Context, d *plugin.QueryData) (*linearClient, error) {
 		client:   graphqlClient,
 		pageSize: pageSize,
 	}
+
+	// Save to cache
+	d.ConnectionManager.Cache.Set(cacheKey, gqlClient)
 
 	return gqlClient, nil
 }
