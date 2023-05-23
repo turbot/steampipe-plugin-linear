@@ -2,7 +2,7 @@
 organization: Turbot
 category: ["software development"]
 icon_url: "/images/plugins/turbot/linear.svg"
-brand_color: ""
+brand_color: "#5E6AD2"
 display_name: "Linear"
 short_name: "linear"
 description: "Steampipe plugin to query issues, teams, users and more from Linear."
