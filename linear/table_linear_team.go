@@ -10,6 +10,8 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
+//// TABLE DEFINITION
+
 func tableLinearTeam(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "linear_team",
@@ -44,248 +46,248 @@ func tableLinearTeam(ctx context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			{
 				Name:        "id",
-				Type:        proto.ColumnType_STRING,
 				Description: "A unique identifier for the team.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "archived_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the team was archived (if it has been).",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "auto_archive_period",
-				Type:        proto.ColumnType_INT,
 				Description: "The period (in months) after which automatically closed and completed issues are automatically archived.",
+				Type:        proto.ColumnType_INT,
 			},
 			{
 				Name:        "auto_close_period",
-				Type:        proto.ColumnType_INT,
 				Description: "The period (in months) after which issues are automatically closed. Null/undefined means this feature is disabled.",
+				Type:        proto.ColumnType_INT,
 			},
 			{
 				Name:        "auto_close_state_id",
-				Type:        proto.ColumnType_STRING,
 				Description: "The canceled workflow state which auto closed issues will be set to. Defaults to the first canceled state.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "color",
-				Type:        proto.ColumnType_STRING,
 				Description: "The team's color.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "created_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the team was created.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "cycle_calender_url",
-				Type:        proto.ColumnType_STRING,
 				Description: "Calendar feed URL (iCal) for cycles.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "cycle_cooldown_time",
-				Type:        proto.ColumnType_INT,
 				Description: "The cooldown time after each cycle in weeks.",
+				Type:        proto.ColumnType_INT,
 			},
 			{
 				Name:        "cycle_duration",
-				Type:        proto.ColumnType_INT,
 				Description: "The duration of a cycle in weeks.",
+				Type:        proto.ColumnType_INT,
 			},
 			{
 				Name:        "cycle_issue_auto_assign_completed",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether completed issues are automatically assigned to the current cycle.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "cycle_issue_auto_assign_started",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether started issues are automatically assigned to the current cycle.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "cycle_lock_to_active",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether only issues with cycles in Active Issues are allowed.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "cycle_start_day",
-				Type:        proto.ColumnType_STRING,
 				Description: "The day of the week that a new cycle starts.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "cycles_enabled",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether the team uses cycles.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "default_issue_estimate",
-				Type:        proto.ColumnType_INT,
 				Description: "The default estimate for unestimated issues.",
+				Type:        proto.ColumnType_INT,
 			},
 			{
 				Name:        "default_template_for_members_id",
-				Type:        proto.ColumnType_STRING,
 				Description: "The ID of the default template to use for new issues created by members of the team.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "default_template_for_non_members_id",
-				Type:        proto.ColumnType_STRING,
 				Description: "The ID of the default template to use for new issues created by non-members of the team.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "description",
-				Type:        proto.ColumnType_STRING,
 				Description: "The team's description.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "group_issue_history",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether to group recent issue history entries.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "icon",
-				Type:        proto.ColumnType_STRING,
 				Description: "The team's icon.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "invite_hash",
-				Type:        proto.ColumnType_STRING,
 				Description: "A unique hash for the team to be used in invite URLs.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "issue_estimation_allow_zero",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether to allow zeros in issues estimates.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "issue_estimation_extended",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether to add additional points to the estimate scale.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "issue_estimation_type",
-				Type:        proto.ColumnType_STRING,
 				Description: "The issue estimation type to use.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "issue_ordering_no_priority_first",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether issues without priority should be sorted first.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "issue_sort_order_default_to_bottom",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether to move issues to bottom of the column when changing state.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "key",
-				Type:        proto.ColumnType_STRING,
 				Description: "The team's unique key. The key is used in URLs.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "name",
-				Type:        proto.ColumnType_STRING,
 				Description: "The team's name.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "private",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether the team is private or not.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "require_priority_to_leave_triage",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether an issue needs to have a priority set before leaving triage.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "slack_issue_comments",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether to send new issue comment notifications to Slack.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "slack_issue_statuses",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether to send new issue status updates to Slack.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "slack_new_issue",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether to send new issue notifications to Slack.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "timezone",
-				Type:        proto.ColumnType_STRING,
 				Description: "The timezone of the team. Defaults to 'America/Los_Angeles'",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "triage_enabled",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether triage mode is enabled for the team or not.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "upcoming_cycle_count",
-				Type:        proto.ColumnType_DOUBLE,
 				Description: "How many upcoming cycles to create.",
+				Type:        proto.ColumnType_DOUBLE,
 			},
 			{
 				Name:        "updated_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't been updated after creation.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "active_cycle",
-				Type:        proto.ColumnType_JSON,
 				Description: "Team's currently active cycle.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "default_issue_state",
-				Type:        proto.ColumnType_JSON,
 				Description: "The default workflow state into which issues are set when they are opened by team members.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "default_template_for_members",
-				Type:        proto.ColumnType_JSON,
 				Description: "The default template to use for new issues created by members of the team.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "default_template_for_non_members",
-				Type:        proto.ColumnType_JSON,
 				Description: "The default template to use for new issues created by non-members of the team.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "draft_workflow_state",
-				Type:        proto.ColumnType_JSON,
 				Description: "The workflow state into which issues are moved when a PR has been opened as draft.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "integrations_settings",
-				Type:        proto.ColumnType_JSON,
 				Description: "Settings for all integrations associated with that team.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "marked_as_duplicate_workflow_state",
-				Type:        proto.ColumnType_JSON,
 				Description: "The workflow state into which issues are moved when they are marked as a duplicate of another issue. Defaults to the first canceled state.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "organization",
-				Type:        proto.ColumnType_JSON,
 				Description: "The organization that the team is associated with.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "review_workflow_state",
-				Type:        proto.ColumnType_JSON,
 				Description: "The workflow state into which issues are moved when a review has been requested for the PR.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "start_workflow_state",
-				Type:        proto.ColumnType_JSON,
 				Description: "The workflow state into which issues are moved when a PR has been opened.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "triage_issue_state",
-				Type:        proto.ColumnType_JSON,
 				Description: "The workflow state into which issues are set when they are opened by non-team members or integrations if triage is enabled.",
+				Type:        proto.ColumnType_JSON,
 			},
 
 			// Steampipe standard columns
@@ -298,6 +300,8 @@ func tableLinearTeam(ctx context.Context) *plugin.Table {
 		},
 	}
 }
+
+// LIST FUNCTION
 
 func listTeams(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	conn, err := connect(ctx, d)
@@ -342,6 +346,8 @@ func listTeams(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 
 	return nil, nil
 }
+
+// HYDRATE FUNCTION
 
 func getTeam(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	id := d.EqualsQualString("id")

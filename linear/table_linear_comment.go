@@ -10,6 +10,8 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
+//// TABLE DEFINITION
+
 func tableLinearComment(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "linear_comment",
@@ -40,54 +42,54 @@ func tableLinearComment(ctx context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			{
 				Name:        "id",
-				Type:        proto.ColumnType_STRING,
 				Description: "The unique identifier of the entity.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "archived_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the entity was archived. Null if the entity has not been archived.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "body",
-				Type:        proto.ColumnType_STRING,
 				Description: "The comment content in markdown format.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "body_data",
-				Type:        proto.ColumnType_STRING,
 				Description: "The comment content as a Prosemirror document.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "created_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the entity was created.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "edited_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time user edited the comment.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "reaction_data",
-				Type:        proto.ColumnType_JSON,
 				Description: "Emoji reaction summary, grouped by emoji type.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "updated_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The last time at which the entity was meaningfully updated, i.e., for all changes of syncable properties except those for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't been updated after creation.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "url",
-				Type:        proto.ColumnType_STRING,
 				Description: "Comment's URL.",
+				Type:        proto.ColumnType_STRING,
 			},
 			// user is a keyword, so here transform function has been used
 			{
 				Name:        "comment_user",
-				Type:        proto.ColumnType_JSON,
 				Description: "The user who wrote the comment.",
+				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("User"),
 			},
 			{
@@ -111,6 +113,8 @@ func tableLinearComment(ctx context.Context) *plugin.Table {
 		},
 	}
 }
+
+// LIST FUNCTION
 
 func listComments(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	conn, err := connect(ctx, d)
@@ -153,6 +157,8 @@ func listComments(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	return nil, nil
 }
+
+// HYDRATE FUNCTION
 
 func getComment(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	id := d.EqualsQualString("id")

@@ -46,7 +46,7 @@ where
   i.id = ids ->> 'id';
 ```
 
-### Show deleted labels
+### Show archived labels
 
 ```sql
 select

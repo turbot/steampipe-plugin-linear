@@ -10,6 +10,8 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
+//// TABLE DEFINITION
+
 func tableLinearIssueLabel(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "linear_issue_label",
@@ -30,64 +32,64 @@ func tableLinearIssueLabel(ctx context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			{
 				Name:        "id",
-				Type:        proto.ColumnType_STRING,
 				Description: "The unique identifier of the entity.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "archived_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the entity was archived. Null if the entity has not been archived.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "color",
-				Type:        proto.ColumnType_STRING,
 				Description: "The label's color as a HEX string.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "created_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the entity was created.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "description",
-				Type:        proto.ColumnType_STRING,
 				Description: "The label's description.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "name",
-				Type:        proto.ColumnType_STRING,
 				Description: "The label's name.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "updated_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't been updated after creation.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "team",
-				Type:        proto.ColumnType_JSON,
 				Description: "The team that the label is associated with. If null, the label is associated with the global workspace.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "issue_ids",
-				Type:        proto.ColumnType_JSON,
 				Description: "The issue ids associated with the label.",
+				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Issues.Nodes"),
 			},
 			{
 				Name:        "creator",
-				Type:        proto.ColumnType_JSON,
 				Description: "The user who created the label.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "organization",
-				Type:        proto.ColumnType_JSON,
 				Description: "The organization associated with the label.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "parent",
-				Type:        proto.ColumnType_JSON,
 				Description: "The parent label.",
+				Type:        proto.ColumnType_JSON,
 			},
 
 			// Steampipe standard columns
@@ -100,6 +102,8 @@ func tableLinearIssueLabel(ctx context.Context) *plugin.Table {
 		},
 	}
 }
+
+// LIST FUNCTION
 
 func listIssueLabels(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	conn, err := connect(ctx, d)
@@ -173,6 +177,8 @@ func fetchIssueNodesFromList(nodes []*gql.GetIssuesNode) []*gql.ListIssuesNodes 
 	}
 	return issueNodes
 }
+
+// HYDRATE FUNCTION
 
 func getIssueLabel(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	id := d.EqualsQualString("id")

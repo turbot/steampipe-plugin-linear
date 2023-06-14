@@ -44,7 +44,7 @@ where
   service = 'github';
 ```
 
-### Show deleted integrations
+### Show archived integrations
 
 ```sql
 select

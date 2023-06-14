@@ -9,6 +9,8 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
+//// TABLE DEFINITION
+
 func tableLinearOrganization(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "linear_organization",
@@ -19,103 +21,103 @@ func tableLinearOrganization(ctx context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			{
 				Name:        "id",
-				Type:        proto.ColumnType_STRING,
 				Description: "The unique identifier of the entity.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "allowed_auth_services",
-				Type:        proto.ColumnType_JSON,
 				Description: "Allowed authentication providers, empty array means all are allowed",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "archived_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the entity was archived. Null if the entity has not been archived.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "created_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the entity was created.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "created_issue_count",
-				Type:        proto.ColumnType_INT,
 				Description: "Number of issues in the organization.",
+				Type:        proto.ColumnType_INT,
 			},
 			{
 				Name:        "deletion_requested_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which deletion of the organization was requested.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "git_branch_format",
-				Type:        proto.ColumnType_STRING,
 				Description: "How git branches are formatted. If null, default formatting will be used.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "git_linkback_messages_enabled",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether the Git integration linkback messages should be sent to private repositories.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "git_public_linkback_messages_enabled",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether the Git integration linkback messages should be sent to public repositories.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "logo_url",
-				Type:        proto.ColumnType_STRING,
 				Description: "The organization's logo URL.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "name",
-				Type:        proto.ColumnType_STRING,
 				Description: "The organization's name.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "period_upload_volume",
-				Type:        proto.ColumnType_DOUBLE,
 				Description: "Rolling 30-day total upload volume for the organization, in megabytes.",
+				Type:        proto.ColumnType_DOUBLE,
 			},
 			{
 				Name:        "previous_url_keys",
-				Type:        proto.ColumnType_JSON,
 				Description: "Previously used URL keys for the organization (last 3 are kept and redirected).",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "project_update_reminders_day",
-				Type:        proto.ColumnType_STRING,
 				Description: "The day at which to prompt for project updates.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "project_update_reminders_hour",
-				Type:        proto.ColumnType_DOUBLE,
 				Description: "The hour at which to prompt for project updates.",
+				Type:        proto.ColumnType_DOUBLE,
 			},
 			{
 				Name:        "project_updates_reminder_frequency",
-				Type:        proto.ColumnType_STRING,
 				Description: "The frequency at which to prompt for project updates.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "release_channel",
-				Type:        proto.ColumnType_STRING,
 				Description: "The feature release channel the organization belongs to.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "roadmap_enabled",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether the organization is using a roadmap.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "saml_enabled",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether SAML authentication is enabled for organization.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "scim_enabled",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether SCIM provisioning is enabled for organization.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "trial_ends_at",
@@ -124,23 +126,23 @@ func tableLinearOrganization(ctx context.Context) *plugin.Table {
 			},
 			{
 				Name:        "updated_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't been updated after creation.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "url_key",
-				Type:        proto.ColumnType_STRING,
 				Description: "The organization's unique URL key.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "user_count",
-				Type:        proto.ColumnType_INT,
 				Description: "Number of active users in the organization.",
+				Type:        proto.ColumnType_INT,
 			},
 			{
 				Name:        "subscription",
-				Type:        proto.ColumnType_JSON,
 				Description: "The organization's subscription to a paid plan.",
+				Type:        proto.ColumnType_JSON,
 			},
 
 			// Steampipe standard columns
@@ -153,6 +155,8 @@ func tableLinearOrganization(ctx context.Context) *plugin.Table {
 		},
 	}
 }
+
+// HYDRATE FUNCTION
 
 func getOrganization(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	conn, err := connect(ctx, d)

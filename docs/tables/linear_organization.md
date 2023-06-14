@@ -69,7 +69,7 @@ where
   o.id = i.organization ->> 'id';
 ```
 
-### Show subscription details
+### Show subscription details of the organizations
 
 ```sql
 select
@@ -80,4 +80,58 @@ select
   subscription ->> 'createdAt' as created_at
 from
   linear_organization;
+```
+
+### List the organizations having roadmap enabled
+
+```sql
+select
+  id,
+  title,
+  created_at,
+  url_key,
+  user_count,
+  roadmap_enabled,
+  release_channel,
+  updated_at
+from
+  linear_organization
+where
+  roadmap_enabled;
+```
+
+### List the organizations with SAML authentication enabled
+
+```sql
+select
+  id,
+  title,
+  created_at,
+  url_key,
+  user_count,
+  saml_enabled,
+  release_channel,
+  updated_at
+from
+  linear_organization
+where
+  saml_enabled;
+```
+
+### List the organizations with SCIM provisioning enabled
+
+```sql
+select
+  id,
+  title,
+  created_at,
+  url_key,
+  user_count,
+  scim_enabled,
+  release_channel,
+  updated_at
+from
+  linear_organization
+where
+  scim_enabled;
 ```

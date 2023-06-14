@@ -9,6 +9,8 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
+//// TABLE DEFINITION
+
 func tableLinearIntegration(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "linear_integration",
@@ -23,43 +25,43 @@ func tableLinearIntegration(ctx context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			{
 				Name:        "id",
-				Type:        proto.ColumnType_STRING,
 				Description: "The unique identifier of the entity.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "archived_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the entity was archived. Null if the entity has not been archived.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "created_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the entity was created.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "service",
-				Type:        proto.ColumnType_STRING,
 				Description: "The integration's type.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "updated_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The last time at which the entity was meaningfully updated, i.e., for all changes of syncable properties except those for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't been updated after creation.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "team",
-				Type:        proto.ColumnType_JSON,
 				Description: "The team that the integration is associated with.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "creator",
-				Type:        proto.ColumnType_JSON,
 				Description: "The user that added the integration.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "organization",
-				Type:        proto.ColumnType_JSON,
 				Description: "The organization that the integration is associated with.",
+				Type:        proto.ColumnType_JSON,
 			},
 
 			// Steampipe standard columns
@@ -72,6 +74,8 @@ func tableLinearIntegration(ctx context.Context) *plugin.Table {
 		},
 	}
 }
+
+// LIST FUNCTION
 
 func listIntegrations(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	conn, err := connect(ctx, d)
@@ -111,6 +115,8 @@ func listIntegrations(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	return nil, nil
 }
+
+// HYDRATE FUNCTION
 
 func getIntegration(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	id := d.EqualsQualString("id")

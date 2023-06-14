@@ -9,6 +9,8 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
+//// TABLE DEFINITION
+
 func tableLinearIssue(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "linear_issue",
@@ -84,168 +86,168 @@ func tableLinearIssue(ctx context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			{
 				Name:        "id",
-				Type:        proto.ColumnType_STRING,
 				Description: "The unique identifier of the entity.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "created_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the entity was created.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "updated_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The last time at which the entity was meaningfully updated. This is the same as the creation time if the entity hasn't been updated after creation.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "archived_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the entity was archived. Null if the entity has not been archived.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "number",
-				Type:        proto.ColumnType_DOUBLE,
 				Description: "The issue's unique number.",
+				Type:        proto.ColumnType_DOUBLE,
 			},
 			{
 				Name:        "description",
-				Type:        proto.ColumnType_STRING,
 				Description: "The issue's description in markdown format.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "priority",
-				Type:        proto.ColumnType_DOUBLE,
 				Description: "The priority of the issue. 0 = No priority, 1 = Urgent, 2 = High, 3 = Normal, 4 = Low.",
+				Type:        proto.ColumnType_DOUBLE,
 			},
 			{
 				Name:        "estimate",
-				Type:        proto.ColumnType_DOUBLE,
 				Description: "The estimate of the complexity of the issue.",
+				Type:        proto.ColumnType_DOUBLE,
 			},
 			{
 				Name:        "sort_order",
-				Type:        proto.ColumnType_DOUBLE,
 				Description: "The order of the item in relation to other items in the organization.",
+				Type:        proto.ColumnType_DOUBLE,
 			},
 			{
 				Name:        "started_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the issue was moved into started state.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "completed_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the issue was moved into completed state.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "canceled_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the issue was moved into canceled state.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "auto_closed_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the issue was automatically closed by the auto pruning process.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "auto_archived_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the issue was automatically archived by the auto pruning process.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "due_date",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The date at which the issue is due.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "trashed",
-				Type:        proto.ColumnType_BOOL,
 				Description: "A flag that indicates whether the issue is in the trash bin.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "snoozed_until_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time until an issue will be snoozed in Triage view.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "previous_identifiers",
-				Type:        proto.ColumnType_JSON,
 				Description: "Previous identifiers of the issue if it has been moved between teams.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "sub_issue_sort_order",
-				Type:        proto.ColumnType_DOUBLE,
 				Description: "The order of the item in the sub-issue list. Only set if the issue has a parent.",
+				Type:        proto.ColumnType_DOUBLE,
 			},
 			{
 				Name:        "priority_label",
-				Type:        proto.ColumnType_STRING,
 				Description: "Label for the priority.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "identifier",
-				Type:        proto.ColumnType_STRING,
 				Description: "Issue's human readable identifier (e.g. ENG-123).",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "url",
-				Type:        proto.ColumnType_STRING,
 				Description: "Issue URL.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "branch_name",
-				Type:        proto.ColumnType_STRING,
 				Description: "Suggested branch name for the issue.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "customer_ticket_count",
-				Type:        proto.ColumnType_INT,
 				Description: "Returns the number of Attachment resources which are created by customer support ticketing systems (e.g. Zendesk).",
+				Type:        proto.ColumnType_INT,
 			},
 			{
 				Name:        "team",
-				Type:        proto.ColumnType_JSON,
 				Description: "The team that the issue is associated with.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "cycle",
-				Type:        proto.ColumnType_JSON,
 				Description: "The cycle that the issue is associated with.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "project",
-				Type:        proto.ColumnType_JSON,
 				Description: "The project that the issue is associated with.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "creator",
-				Type:        proto.ColumnType_JSON,
 				Description: "The user who created the issue.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "assignee",
-				Type:        proto.ColumnType_JSON,
 				Description: "The user to whom the issue is assigned to.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "snoozed_by",
-				Type:        proto.ColumnType_JSON,
 				Description: "The user who snoozed the issue.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "state",
-				Type:        proto.ColumnType_JSON,
 				Description: "The workflow state that the issue is associated with.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "parent",
-				Type:        proto.ColumnType_JSON,
 				Description: "The parent of the issue.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "project_milestone",
-				Type:        proto.ColumnType_JSON,
 				Description: "The projectMilestone that the issue is associated with.",
+				Type:        proto.ColumnType_JSON,
 			},
 
 			// Steampipe standard columns
@@ -257,6 +259,8 @@ func tableLinearIssue(ctx context.Context) *plugin.Table {
 		},
 	}
 }
+
+// LIST FUNCTION
 
 func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	conn, err := connect(ctx, d)
@@ -300,6 +304,8 @@ func listIssues(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 	return nil, nil
 }
+
+// HYDRATE FUNCTION
 
 func getIssue(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	id := d.EqualsQualString("id")

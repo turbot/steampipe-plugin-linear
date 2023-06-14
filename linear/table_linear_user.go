@@ -10,6 +10,8 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
+//// TABLE DEFINITION
+
 func tableLinearUser(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "linear_user",
@@ -60,118 +62,119 @@ func tableLinearUser(ctx context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			{
 				Name:        "id",
-				Type:        proto.ColumnType_STRING,
 				Description: "The unique identifier of the entity.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "active",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether the user account is active or disabled (suspended).",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "admin",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether the user is an organization administrator.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "archived_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the entity was archived. Null if the entity has not been archived.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "avatar_url",
-				Type:        proto.ColumnType_STRING,
 				Description: "An URL to the user's avatar image.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "created_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the entity was created.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "created_issue_count",
-				Type:        proto.ColumnType_INT,
 				Description: "Number of issues created.",
+				Type:        proto.ColumnType_INT,
 			},
 			{
 				Name:        "description",
-				Type:        proto.ColumnType_STRING,
 				Description: "A short description of the user, either its title or bio.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "disable_reason",
-				Type:        proto.ColumnType_STRING,
 				Description: "Reason why is the account disabled.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "display_name",
-				Type:        proto.ColumnType_STRING,
 				Description: "The user's display (nick) name. Unique within each organization.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "email",
-				Type:        proto.ColumnType_STRING,
 				Description: "The user's email address.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "guest",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether the user is a guest in the workspace and limited to accessing a subset of teams.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "invite_hash",
-				Type:        proto.ColumnType_STRING,
 				Description: "Unique hash for the user to be used in invite URLs.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "is_me",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether the user is the currently authenticated user.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "last_seen",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The last time the user was seen online. If null, the user is currently online.",
+				Type:        proto.ColumnType_TIMESTAMP,
+
 			},
 			{
 				Name:        "name",
-				Type:        proto.ColumnType_STRING,
 				Description: "The user's full name.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "status_emoji",
-				Type:        proto.ColumnType_STRING,
 				Description: "The emoji to represent the user current status.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "status_label",
-				Type:        proto.ColumnType_STRING,
 				Description: "The label of the user current status.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "status_until_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "A date at which the user current status should be cleared.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "timezone",
-				Type:        proto.ColumnType_STRING,
 				Description: "The local timezone of the user.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "updated_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't been updated after creation.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "url",
-				Type:        proto.ColumnType_STRING,
 				Description: "User's profile URL.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "organization",
-				Type:        proto.ColumnType_JSON,
 				Description: "Organization the user belongs to.",
+				Type:        proto.ColumnType_JSON,
 			},
 
 			// Steampipe standard columns
@@ -184,6 +187,8 @@ func tableLinearUser(ctx context.Context) *plugin.Table {
 		},
 	}
 }
+
+// LIST FUNCTION
 
 func listUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	conn, err := connect(ctx, d)
@@ -228,6 +233,8 @@ func listUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 
 	return nil, nil
 }
+
+// HYDRATE FUNCTION
 
 func getUser(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	id := d.EqualsQualString("id")

@@ -9,6 +9,8 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
+//// TABLE DEFINITION
+
 func tableLinearTeamMembership(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "linear_team_membership",
@@ -23,44 +25,44 @@ func tableLinearTeamMembership(ctx context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			{
 				Name:        "id",
-				Type:        proto.ColumnType_STRING,
 				Description: "The unique identifier of the entity.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "archived_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the entity was archived. Null if the entity has not been archived.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "created_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the entity was created.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "owner",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether the user is the owner of the team.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "sort_order",
-				Type:        proto.ColumnType_DOUBLE,
 				Description: "The order of the item in the user's team list.",
+				Type:        proto.ColumnType_DOUBLE,
 			},
 			{
 				Name:        "updated_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The last time at which the entity was meaningfully updated, i.e., for all changes of syncable properties except those for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't been updated after creation.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "team",
-				Type:        proto.ColumnType_JSON,
 				Description: "The team that the membership is associated with.",
+				Type:        proto.ColumnType_JSON,
 			},
 			// user is a keyword, so here transform function has been used
 			{
 				Name:        "membership_user",
-				Type:        proto.ColumnType_JSON,
 				Description: "The user that the membership is associated with.",
+				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("User"),
 			},
 
@@ -74,6 +76,8 @@ func tableLinearTeamMembership(ctx context.Context) *plugin.Table {
 		},
 	}
 }
+
+// LIST FUNCTION
 
 func listTeamMemberships(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	conn, err := connect(ctx, d)
@@ -115,6 +119,8 @@ func listTeamMemberships(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	return nil, nil
 }
+
+// HYDRATE FUNCTION
 
 func getTeamMembership(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	id := d.EqualsQualString("id")

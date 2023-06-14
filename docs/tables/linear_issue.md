@@ -19,7 +19,7 @@ from
   linear_issue;
 ```
 
-### List issues with high priority
+### List issues with 'urgent' priority
 
 ```sql
 select
@@ -36,8 +36,7 @@ where
   priority = 1;
 ```
 
-### List issues which are not started
-
+### List issues that have not been started
 ```sql
 select
   id,
@@ -50,10 +49,10 @@ select
 from
   linear_issue
 where
-  started_at is not null;
+  started_at is null;
 ```
 
-### List issues which has cross the due date
+### List issues that have crossed the due date
 
 ```sql
 select

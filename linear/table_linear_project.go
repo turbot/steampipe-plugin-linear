@@ -10,6 +10,8 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
+//// TABLE DEFINITION
+
 func tableLinearProject(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "linear_project",
@@ -58,168 +60,168 @@ func tableLinearProject(ctx context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			{
 				Name:        "id",
-				Type:        proto.ColumnType_STRING,
 				Description: "The unique identifier of the entity.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "archived_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the entity was archived. Null if the entity has not been archived.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "auto_archived_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the project was automatically archived by the auto pruning process.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "canceled_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the project was moved into canceled state.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "color",
-				Type:        proto.ColumnType_STRING,
 				Description: "The project's color.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "completed_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the project was moved into completed state.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "completed_issue_count_history",
-				Type:        proto.ColumnType_JSON,
 				Description: "The number of completed issues in the project after each week.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "completed_scope_history",
-				Type:        proto.ColumnType_JSON,
 				Description: "The number of completed estimation points after each week.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "created_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the entity was created.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "description",
-				Type:        proto.ColumnType_STRING,
 				Description: "The project's description.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "icon",
-				Type:        proto.ColumnType_STRING,
 				Description: "The icon of the project.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "in_progress_scope_history",
-				Type:        proto.ColumnType_JSON,
 				Description: "The number of in progress estimation points after each week.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "issue_count_history",
-				Type:        proto.ColumnType_JSON,
 				Description: "The total number of issues in the project after each week.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "name",
-				Type:        proto.ColumnType_STRING,
 				Description: "The project's name.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "progress",
-				Type:        proto.ColumnType_DOUBLE,
 				Description: "The overall progress of the project. This is the (completed estimate points + 0.25 * in progress estimate points) / total estimate points.",
+				Type:        proto.ColumnType_DOUBLE,
 			},
 			{
 				Name:        "project_update_reminders_paused_until_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time until which project update reminders are paused.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "scope",
-				Type:        proto.ColumnType_DOUBLE,
 				Description: "The overall scope (total estimate points) of the project.",
+				Type:        proto.ColumnType_DOUBLE,
 			},
 			{
 				Name:        "scope_history",
-				Type:        proto.ColumnType_JSON,
 				Description: "The total number of estimation points after each week.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "slack_issue_comments",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether to send new issue comment notifications to Slack.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "slack_issue_statuses",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether to send new issue status updates to Slack.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "slack_new_issue",
-				Type:        proto.ColumnType_BOOL,
 				Description: "Whether to send new issue notifications to Slack.",
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "slug_id",
-				Type:        proto.ColumnType_STRING,
 				Description: "The project's unique URL slug.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "sort_order",
-				Type:        proto.ColumnType_DOUBLE,
 				Description: "The sort order for the project within the organization.",
+				Type:        proto.ColumnType_DOUBLE,
 			},
 			{
 				Name:        "start_date",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The estimated start date of the project.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "started_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The time at which the project was moved into started state.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "state",
-				Type:        proto.ColumnType_STRING,
 				Description: "The type of the state.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "target_date",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The estimated completion date of the project.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "updated_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't been updated after creation.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "url",
-				Type:        proto.ColumnType_STRING,
 				Description: "Project URL.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "converted_from_issue",
-				Type:        proto.ColumnType_JSON,
 				Description: "The project was created based on this issue.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "integrations_settings",
-				Type:        proto.ColumnType_JSON,
 				Description: "Settings for all integrations associated with that project.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "creator",
-				Type:        proto.ColumnType_JSON,
 				Description: "The user who created the project.",
+				Type:        proto.ColumnType_JSON,
 			},
 			{
 				Name:        "lead",
-				Type:        proto.ColumnType_JSON,
 				Description: "The project lead.",
+				Type:        proto.ColumnType_JSON,
 			},
 
 			// Steampipe standard columns
@@ -232,6 +234,8 @@ func tableLinearProject(ctx context.Context) *plugin.Table {
 		},
 	}
 }
+
+// LIST FUNCTION
 
 func listProjects(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	conn, err := connect(ctx, d)
@@ -274,6 +278,8 @@ func listProjects(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	return nil, nil
 }
+
+// HYDRATE FUNCTION
 
 func getProject(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	id := d.EqualsQualString("id")

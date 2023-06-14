@@ -17,6 +17,8 @@ Use SQL to query issues, teams, users and more from Linear.
 
 ## Quick start
 
+### Install
+
 Download and install the latest Linear plugin:
 
 ```bash
@@ -25,38 +27,21 @@ steampipe plugin install linear
 
 Configure your [credentials](https://hub.steampipe.io/plugins/turbot/linear#credentials) and [config file](https://hub.steampipe.io/plugins/turbot/linear#configuration).
 
-### Configuring Linear Credentials
-
 Configure your account details in `~/.steampipe/config/linear.spc`:
-
-You may specify the Token to authenticate:
-
-- `token`: The linear API token. It can be a personal access key or oAuth2 token.
 
 ```hcl
 connection "linear" {
   plugin  = "linear"
+
+  # Authentication information
   token   = "lin_api_0aHa1iYv9WMTLrEAoSNWlG1RHPy4N5DuM4uILY"
 }
 ```
 
-or you may specify the Token and Page size to authenticate:
-
-- `token`: The linear API token.
-- `page_size`: The page size per API request. The default is 50.
-
-```hcl
-connection "linear" {
-  plugin    = "linear"
-  token     = "lin_api_0aHa1iYv9WMTLrEAoSNWlG1RHPy4N5DuM4uILY"
-  page_size = 100
-}
-```
-
-or through environment variables
+Or through environment variables
 
 ```sh
-export LINEAR_TOKEN="lin_api_0aHa1iYv9WMTLrEAoSNWlG1RHPy4N5DuM4uILY"
+export LINEAR_TOKEN=lin_api_0aHa1iYv9WMTLrEAoSNWlG1RHPy4N5DuM4uILY
 ```
 
 Run steampipe:
