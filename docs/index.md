@@ -12,13 +12,9 @@ og_image: "/images/plugins/turbot/linear-social-graphic.png"
 
 # Linear + Steampipe
 
-[Linear](https://linear.app/) is a application that streamlines issues, sprints, and product roadmaps. It's the new standard for modern software development.
+[Linear](https://linear.app/) is an application that streamlines issues, sprints, and product roadmaps. It's the new standard for modern software development.
 
 [Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
-
-# Handle Rate Limit
-
-To avoid potential rate limit issues, it is advisable to request only the specific fields needed in a query. However, in certain scenarios, requesting additional fields initially can be advantageous to leverage Steampipe caching.
 
 List your Linear issues:
 
@@ -38,6 +34,7 @@ from
 +----------------------------------------------------------------+---------------------------+-------------------------------------------------------+----------+
 | ProTip: Mouse over this issue & press [Space]                  | 2023-05-09T12:41:21+05:30 | sourav/tur-8-protip-mouse-over-this-issue-press-space | 4        |
 | test linear                                                    | 2023-05-09T12:43:21+05:30 | sourav/tur-11-test-linear                             | 0        |
++----------------------------------------------------------------+---------------------------+-------------------------------------------------------+----------+
 ```
 
 ## Documentation
@@ -50,7 +47,7 @@ from
 
 Download and install the latest Linear plugin:
 
-```bash
+```sh
 steampipe plugin install linear
 ```
 
@@ -76,13 +73,13 @@ connection "linear" {
   # Can also be set with the LINEAR_TOKEN environment variable.
   # token = "lin_api_0aHa1iYv9WMTLrEAoSNWlG1RHPy4N5DuM4uILY"
 
-  # `page_size` - The requeted page size per API request. Default is 50. Optional.
+  # `page_size` - The requested page size per API request. Default is 50. Optional.
   # It is recommended to use lower page size when you are trying to fetch large data set to avoid complexity limit breach.
   # page_size = 50
 }
 ```
 
-Alternatively, you can also use the standard Linear environment variables to obtain credentials **only if other argument (`LINEAR_TOKEN`) is not specified** in the connection:
+Alternatively, you can also use the standard Linear environment variables to obtain credentials **only if other argument (`token`) is not specified** in the connection:
 
 ```sh
 export LINEAR_TOKEN=lin_api_0aHa1iYv9WMTLrEAoSNWlG1RHPy4N5DuM4uILY

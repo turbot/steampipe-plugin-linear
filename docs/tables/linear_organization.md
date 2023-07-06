@@ -69,7 +69,7 @@ where
   o.id = i.organization ->> 'id';
 ```
 
-### Show subscription details of the organizations
+### Show subscription details of the organization
 
 ```sql
 select
@@ -82,7 +82,7 @@ from
   linear_organization;
 ```
 
-### List the organizations having roadmap enabled
+### List organizations that have roadmap enabled
 
 ```sql
 select

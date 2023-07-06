@@ -6,7 +6,7 @@ connection "linear" {
   # Can also be set with the LINEAR_TOKEN environment variable.
   # token = "lin_api_0aHa1iYv9WMTLrEAoSNWlG1RHPy4N5DuM4uILY"
 
-  # `page_size` - The requeted page size per API request. Default is 50. Optional.
+  # `page_size` - The requested page size per API request. Default is 50. Optional.
   # It is recommended to use lower page size when you are trying to fetch large data set to avoid complexity limit breach.
   # page_size = 50
 }

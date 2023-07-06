@@ -9,12 +9,6 @@ Use SQL to query issues, teams, users and more from Linear.
 - Community: [Slack Channel](https://steampipe.io/community/join)
 - Get involved: [Issues](https://github.com/turbot/steampipe-plugin-linear/issues)
 
-### Linear GraphQL API
-
-- In Linear plugin we have used a library called [genqlient](https://github.com/Khan/genqlient) to generate Go code to query the Linear GraphQL API.
-- Please update the [genqlient.graphql](https://github.com/turbot/steampipe-plugin-linear/blob/main/gql/genqlient.graphql) file to add or modify any query.
-- After updating the query run `go run github.com/Khan/genqlient` command to generate the Go code, which then you can use as per your requirement.
-
 ## Quick start
 
 ### Install
@@ -31,10 +25,10 @@ Configure your account details in `~/.steampipe/config/linear.spc`:
 
 ```hcl
 connection "linear" {
-  plugin  = "linear"
+  plugin = "linear"
 
   # Authentication information
-  token   = "lin_api_0aHa1iYv9WMTLrEAoSNWlG1RHPy4N5DuM4uILY"
+  token  = "lin_api_0aHa1iYv9WMTLrEAoSNWlG1RHPy4N5DuM4uILY"
 }
 ```
 
@@ -68,6 +62,7 @@ from
 +----------------------------------------------------------------+---------------------------+-------------------------------------------------------+----------+
 | ProTip: Mouse over this issue & press [Space]                  | 2023-05-09T12:41:21+05:30 | sourav/tur-8-protip-mouse-over-this-issue-press-space | 4        |
 | test linear                                                    | 2023-05-09T12:43:21+05:30 | sourav/tur-11-test-linear                             | 0        |
++----------------------------------------------------------------+---------------------------+-------------------------------------------------------+----------+
 ```
 
 ## Developing

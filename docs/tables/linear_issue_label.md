@@ -32,7 +32,7 @@ where
   team is null;
 ```
 
-### List all labels for each issues
+### List all labels for each issue
 
 ```sql
 select

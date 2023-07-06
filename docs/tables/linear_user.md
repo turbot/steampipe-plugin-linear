@@ -27,7 +27,7 @@ from
   linear_user;
 ```
 
-### List users who are admins
+### List admin users
 
 ```sql
 select

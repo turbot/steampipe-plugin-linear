@@ -42,7 +42,7 @@ where
   not private;
 ```
 
-### List teams which are not using any cycles
+### List teams that are not using cycles
 
 ```sql
 select
@@ -62,7 +62,7 @@ where
   not cycles_enabled;
 ```
 
-### List teams which are not associated with any integration
+### List teams that are not associated with any integration
 
 ```sql
 select

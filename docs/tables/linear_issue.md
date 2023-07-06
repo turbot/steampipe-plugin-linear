@@ -1,6 +1,6 @@
 # Table: linear_issue
 
-The most basic concept in Linear is the issue. It's the building block of the app and most concepts in Linear are either associated with issues or group issues together. Issues are always tied to a specific team. I
+The most basic concept in Linear is the issue. It's the building block of the app and most concepts in Linear are either associated with issues or group issues together. Issues are always tied to a specific team.
 
 ## Examples
 
@@ -19,7 +19,7 @@ from
   linear_issue;
 ```
 
-### List issues with 'urgent' priority
+### List urgent issues
 
 ```sql
 select
@@ -37,6 +37,7 @@ where
 ```
 
 ### List issues that have not been started
+
 ```sql
 select
   id,
