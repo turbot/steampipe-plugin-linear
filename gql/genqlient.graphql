@@ -1,0 +1,2448 @@
+# @genqlient(omitempty: true,pointer: true)
+query listIssues(
+  # @genqlient(pointer: false)
+  $first: Int
+  # @genqlient(pointer: false)
+  $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean
+  $filter: IssueFilter
+) {
+  issues(
+    first: $first
+    after: $after
+    filter: $filter
+    includeArchived: $includeArchived
+  ) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      createdAt
+      updatedAt
+      archivedAt
+      number
+      title
+      description
+      priority
+      estimate
+      sortOrder
+      startedAt
+      completedAt
+      canceledAt
+      autoClosedAt
+      autoArchivedAt
+      dueDate
+      trashed
+      snoozedUntilAt
+      previousIdentifiers
+      subIssueSortOrder
+      priorityLabel
+      identifier
+      url
+      branchName
+      customerTicketCount
+      # @genqlient(pointer: true)
+      team {
+        id
+        archivedAt
+        autoArchivePeriod
+        autoClosePeriod
+        autoCloseStateId
+        color
+        createdAt
+        cycleCalenderUrl
+        cycleCooldownTime
+        cycleDuration
+        cycleIssueAutoAssignCompleted
+        cycleIssueAutoAssignStarted
+        cycleLockToActive
+        cycleStartDay
+        cyclesEnabled
+        defaultIssueEstimate
+        defaultTemplateForMembersId
+        defaultTemplateForNonMembersId
+        description
+        groupIssueHistory
+        icon
+        inviteHash
+        issueEstimationAllowZero
+        issueEstimationExtended
+        issueEstimationType
+        issueOrderingNoPriorityFirst
+        issueSortOrderDefaultToBottom
+        key
+        name
+        private
+        requirePriorityToLeaveTriage
+        slackIssueComments
+        slackIssueStatuses
+        slackNewIssue
+        timezone
+        triageEnabled
+        upcomingCycleCount
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      cycle {
+        id
+        archivedAt
+        autoArchivedAt
+        completedAt
+        completedIssueCountHistory
+        completedScopeHistory
+        createdAt
+        description
+        endsAt
+        inProgressScopeHistory
+        issueCountHistory
+        name
+        number
+        progress
+        scopeHistory
+        startsAt
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      project {
+        id
+        archivedAt
+        autoArchivedAt
+        canceledAt
+        color
+        completedAt
+        completedIssueCountHistory
+        completedScopeHistory
+        createdAt
+        description
+        icon
+        inProgressScopeHistory
+        issueCountHistory
+        name
+        progress
+        projectUpdateRemindersPausedUntilAt
+        scope
+        scopeHistory
+        slackIssueComments
+        slackIssueStatuses
+        slackNewIssue
+        slugId
+        sortOrder
+        startDate
+        startedAt
+        state
+        targetDate
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      creator {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      assignee {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      snoozedBy {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      state {
+        id
+        archivedAt
+        color
+        createdAt
+        description
+        name
+        position
+        type
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      parent {
+        id
+        createdAt
+        updatedAt
+        archivedAt
+        number
+        title
+        description
+        priority
+        estimate
+        sortOrder
+        startedAt
+        completedAt
+        canceledAt
+        autoClosedAt
+        autoArchivedAt
+        dueDate
+        trashed
+        snoozedUntilAt
+        previousIdentifiers
+      }
+      # @genqlient(pointer: true)
+      projectMilestone {
+        archivedAt
+        createdAt
+        description
+        id
+        name
+        sortOrder
+        updatedAt
+      }
+    }
+  }
+}
+
+# @genqlient(pointer: true)
+query getIssue($issueId: String!) {
+  issue(id: $issueId) {
+    id
+    createdAt
+    updatedAt
+    archivedAt
+    number
+    title
+    description
+    priority
+    estimate
+    sortOrder
+    startedAt
+    completedAt
+    canceledAt
+    autoClosedAt
+    autoArchivedAt
+    dueDate
+    trashed
+    snoozedUntilAt
+    previousIdentifiers
+    subIssueSortOrder
+    priorityLabel
+    identifier
+    url
+    branchName
+    customerTicketCount
+    # @genqlient(pointer: true)
+    team {
+      id
+      archivedAt
+      autoArchivePeriod
+      autoClosePeriod
+      autoCloseStateId
+      color
+      createdAt
+      cycleCalenderUrl
+      cycleCooldownTime
+      cycleDuration
+      cycleIssueAutoAssignCompleted
+      cycleIssueAutoAssignStarted
+      cycleLockToActive
+      cycleStartDay
+      cyclesEnabled
+      defaultIssueEstimate
+      defaultTemplateForMembersId
+      defaultTemplateForNonMembersId
+      description
+      groupIssueHistory
+      icon
+      inviteHash
+      issueEstimationAllowZero
+      issueEstimationExtended
+      issueEstimationType
+      issueOrderingNoPriorityFirst
+      issueSortOrderDefaultToBottom
+      key
+      name
+      private
+      requirePriorityToLeaveTriage
+      slackIssueComments
+      slackIssueStatuses
+      slackNewIssue
+      timezone
+      triageEnabled
+      upcomingCycleCount
+      updatedAt
+    }
+    # @genqlient(pointer: true)
+    cycle {
+      id
+      archivedAt
+      autoArchivedAt
+      completedAt
+      completedIssueCountHistory
+      completedScopeHistory
+      createdAt
+      description
+      endsAt
+      inProgressScopeHistory
+      issueCountHistory
+      name
+      number
+      progress
+      scopeHistory
+      startsAt
+      updatedAt
+    }
+    # @genqlient(pointer: true)
+    project {
+      id
+      archivedAt
+      autoArchivedAt
+      canceledAt
+      color
+      completedAt
+      completedIssueCountHistory
+      completedScopeHistory
+      createdAt
+      description
+      icon
+      inProgressScopeHistory
+      issueCountHistory
+      name
+      progress
+      projectUpdateRemindersPausedUntilAt
+      scope
+      scopeHistory
+      slackIssueComments
+      slackIssueStatuses
+      slackNewIssue
+      slugId
+      sortOrder
+      startDate
+      startedAt
+      state
+      targetDate
+      updatedAt
+      url
+    }
+    # @genqlient(pointer: true)
+    creator {
+      id
+      active
+      admin
+      archivedAt
+      avatarUrl
+      calendarHash
+      createdAt
+      createdIssueCount
+      description
+      disableReason
+      displayName
+      email
+      guest
+      inviteHash
+      isMe
+      lastSeen
+      name
+      statusEmoji
+      statusLabel
+      statusUntilAt
+      timezone
+      updatedAt
+      url
+    }
+    # @genqlient(pointer: true)
+    assignee {
+      id
+      active
+      admin
+      archivedAt
+      avatarUrl
+      calendarHash
+      createdAt
+      createdIssueCount
+      description
+      disableReason
+      displayName
+      email
+      guest
+      inviteHash
+      isMe
+      lastSeen
+      name
+      statusEmoji
+      statusLabel
+      statusUntilAt
+      timezone
+      updatedAt
+      url
+    }
+    # @genqlient(pointer: true)
+    snoozedBy {
+      id
+      active
+      admin
+      archivedAt
+      avatarUrl
+      calendarHash
+      createdAt
+      createdIssueCount
+      description
+      disableReason
+      displayName
+      email
+      guest
+      inviteHash
+      isMe
+      lastSeen
+      name
+      statusEmoji
+      statusLabel
+      statusUntilAt
+      timezone
+      updatedAt
+      url
+    }
+    # @genqlient(pointer: true)
+    state {
+      id
+      archivedAt
+      color
+      createdAt
+      description
+      name
+      position
+      type
+      updatedAt
+    }
+    # @genqlient(pointer: true)
+    parent {
+      id
+      createdAt
+      updatedAt
+      archivedAt
+      number
+      title
+      description
+      priority
+      estimate
+      sortOrder
+      startedAt
+      completedAt
+      canceledAt
+      autoClosedAt
+      autoArchivedAt
+      dueDate
+      trashed
+      snoozedUntilAt
+      previousIdentifiers
+    }
+    # @genqlient(pointer: true)
+    projectMilestone {
+      archivedAt
+      createdAt
+      description
+      id
+      name
+      sortOrder
+      updatedAt
+    }
+  }
+}
+
+# @genqlient(omitempty: true,pointer: true)
+query listProjects(
+  # @genqlient(pointer: false)
+  $first: Int
+  # @genqlient(pointer: false)
+  $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean
+  $filter: ProjectFilter
+) {
+  projects(
+    first: $first
+    after: $after
+    filter: $filter
+    includeArchived: $includeArchived
+  ) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      archivedAt
+      autoArchivedAt
+      canceledAt
+      color
+      completedAt
+      completedIssueCountHistory
+      completedScopeHistory
+      createdAt
+      description
+      icon
+      inProgressScopeHistory
+      issueCountHistory
+      name
+      progress
+      projectUpdateRemindersPausedUntilAt
+      scope
+      scopeHistory
+      slackIssueComments
+      slackIssueStatuses
+      slackNewIssue
+      slugId
+      sortOrder
+      startDate
+      startedAt
+      state
+      targetDate
+      updatedAt
+      url
+      # @genqlient(pointer: true)
+      convertedFromIssue {
+        id
+        createdAt
+        updatedAt
+        archivedAt
+        number
+        title
+        description
+        priority
+        estimate
+        sortOrder
+        startedAt
+        completedAt
+        canceledAt
+        autoClosedAt
+        autoArchivedAt
+        dueDate
+        trashed
+        snoozedUntilAt
+        previousIdentifiers
+        subIssueSortOrder
+        priorityLabel
+        identifier
+        url
+        branchName
+        customerTicketCount
+      }
+      # @genqlient(pointer: true)
+      integrationsSettings {
+        id
+        archivedAt
+        createdAt
+        slackIssueAddedToTriage
+        slackIssueCreated
+        slackIssueNewComment
+        slackIssueSlaBreached
+        slackIssueSlaHighRisk
+        slackIssueStatusChangedAll
+        slackIssueStatusChangedDone
+        slackProjectUpdateCreated
+        slackProjectUpdateCreatedToTeam
+        slackProjectUpdateCreatedToWorkspace
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      creator {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      lead {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+    }
+  }
+}
+
+# @genqlient(pointer: true)
+query getProject($projectId: String!) {
+  project(id: $projectId) {
+    id
+    archivedAt
+    autoArchivedAt
+    canceledAt
+    color
+    completedAt
+    completedIssueCountHistory
+    completedScopeHistory
+    createdAt
+    description
+    icon
+    inProgressScopeHistory
+    issueCountHistory
+    name
+    progress
+    projectUpdateRemindersPausedUntilAt
+    scope
+    scopeHistory
+    slackIssueComments
+    slackIssueStatuses
+    slackNewIssue
+    slugId
+    sortOrder
+    startDate
+    startedAt
+    state
+    targetDate
+    updatedAt
+    url
+    # @genqlient(pointer: true)
+    convertedFromIssue {
+      id
+      createdAt
+      updatedAt
+      archivedAt
+      number
+      title
+      description
+      priority
+      estimate
+      sortOrder
+      startedAt
+      completedAt
+      canceledAt
+      autoClosedAt
+      autoArchivedAt
+      dueDate
+      trashed
+      snoozedUntilAt
+      previousIdentifiers
+      subIssueSortOrder
+      priorityLabel
+      identifier
+      url
+      branchName
+      customerTicketCount
+    }
+    # @genqlient(pointer: true)
+    integrationsSettings {
+      id
+      archivedAt
+      createdAt
+      slackIssueAddedToTriage
+      slackIssueCreated
+      slackIssueNewComment
+      slackIssueSlaBreached
+      slackIssueSlaHighRisk
+      slackIssueStatusChangedAll
+      slackIssueStatusChangedDone
+      slackProjectUpdateCreated
+      slackProjectUpdateCreatedToTeam
+      slackProjectUpdateCreatedToWorkspace
+      updatedAt
+    }
+    # @genqlient(pointer: true)
+    creator {
+      id
+      active
+      admin
+      archivedAt
+      avatarUrl
+      calendarHash
+      createdAt
+      createdIssueCount
+      description
+      disableReason
+      displayName
+      email
+      guest
+      inviteHash
+      isMe
+      lastSeen
+      name
+      statusEmoji
+      statusLabel
+      statusUntilAt
+      timezone
+      updatedAt
+      url
+    }
+    # @genqlient(pointer: true)
+    lead {
+      id
+      active
+      admin
+      archivedAt
+      avatarUrl
+      calendarHash
+      createdAt
+      createdIssueCount
+      description
+      disableReason
+      displayName
+      email
+      guest
+      inviteHash
+      isMe
+      lastSeen
+      name
+      statusEmoji
+      statusLabel
+      statusUntilAt
+      timezone
+      updatedAt
+      url
+    }
+  }
+}
+
+# @genqlient(omitempty: true,pointer: true)
+query listUsers(
+  # @genqlient(pointer: false)
+  $first: Int
+  # @genqlient(pointer: false)
+  $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean
+  $filter: UserFilter
+) {
+  users(
+    first: $first
+    after: $after
+    filter: $filter
+    includeArchived: $includeArchived
+  ) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      active
+      admin
+      archivedAt
+      avatarUrl
+      calendarHash
+      createdAt
+      createdIssueCount
+      description
+      disableReason
+      displayName
+      email
+      guest
+      inviteHash
+      isMe
+      lastSeen
+      name
+      statusEmoji
+      statusLabel
+      statusUntilAt
+      timezone
+      updatedAt
+      url
+      # @genqlient(pointer: true)
+      organization {
+        id
+        allowedAuthServices
+        archivedAt
+        createdAt
+        createdIssueCount
+        deletionRequestedAt
+        gitBranchFormat
+        gitLinkbackMessagesEnabled
+        gitPublicLinkbackMessagesEnabled
+        logoUrl
+        name
+        periodUploadVolume
+        previousUrlKeys
+        projectUpdateRemindersDay
+        projectUpdateRemindersHour
+        projectUpdatesReminderFrequency
+        releaseChannel
+        roadmapEnabled
+        samlEnabled
+        scimEnabled
+        trialEndsAt
+        updatedAt
+        urlKey
+        userCount
+      }
+    }
+  }
+}
+
+# @genqlient(pointer: true)
+query getUser($userId: String!) {
+  user(id: $userId) {
+    id
+    active
+    admin
+    archivedAt
+    avatarUrl
+    calendarHash
+    createdAt
+    createdIssueCount
+    description
+    disableReason
+    displayName
+    email
+    guest
+    inviteHash
+    isMe
+    lastSeen
+    name
+    statusEmoji
+    statusLabel
+    statusUntilAt
+    timezone
+    updatedAt
+    url
+    # @genqlient(pointer: true)
+    organization {
+      id
+      allowedAuthServices
+      archivedAt
+      createdAt
+      createdIssueCount
+      deletionRequestedAt
+      gitBranchFormat
+      gitLinkbackMessagesEnabled
+      gitPublicLinkbackMessagesEnabled
+      logoUrl
+      name
+      periodUploadVolume
+      previousUrlKeys
+      projectUpdateRemindersDay
+      projectUpdateRemindersHour
+      projectUpdatesReminderFrequency
+      releaseChannel
+      roadmapEnabled
+      samlEnabled
+      scimEnabled
+      trialEndsAt
+      updatedAt
+      urlKey
+      userCount
+    }
+  }
+}
+
+# @genqlient(omitempty: true,pointer: true)
+query listTeams(
+  # @genqlient(pointer: false)
+  $first: Int
+  # @genqlient(pointer: false)
+  $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean
+  $filter: TeamFilter
+) {
+  teams(
+    first: $first
+    after: $after
+    filter: $filter
+    includeArchived: $includeArchived
+  ) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      archivedAt
+      autoArchivePeriod
+      autoClosePeriod
+      autoCloseStateId
+      color
+      createdAt
+      cycleCalenderUrl
+      cycleCooldownTime
+      cycleDuration
+      cycleIssueAutoAssignCompleted
+      cycleIssueAutoAssignStarted
+      cycleLockToActive
+      cycleStartDay
+      cyclesEnabled
+      defaultIssueEstimate
+      defaultTemplateForMembersId
+      defaultTemplateForNonMembersId
+      description
+      groupIssueHistory
+      icon
+      inviteHash
+      issueEstimationAllowZero
+      issueEstimationExtended
+      issueEstimationType
+      issueOrderingNoPriorityFirst
+      issueSortOrderDefaultToBottom
+      key
+      name
+      private
+      requirePriorityToLeaveTriage
+      slackIssueComments
+      slackIssueStatuses
+      slackNewIssue
+      timezone
+      triageEnabled
+      upcomingCycleCount
+      updatedAt
+      # @genqlient(pointer: true)
+      activeCycle {
+        id
+        archivedAt
+        autoArchivedAt
+        completedAt
+        completedIssueCountHistory
+        completedScopeHistory
+        createdAt
+        description
+        endsAt
+        inProgressScopeHistory
+        issueCountHistory
+        name
+        number
+        progress
+        scopeHistory
+        startsAt
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      defaultIssueState {
+        id
+        archivedAt
+        color
+        createdAt
+        description
+        name
+        position
+        type
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      defaultTemplateForMembers {
+        id
+        archivedAt
+        description
+        createdAt
+        type
+        name
+        updatedAt
+        templateData
+      }
+      # @genqlient(pointer: true)
+      defaultTemplateForNonMembers {
+        id
+        archivedAt
+        description
+        createdAt
+        type
+        name
+        updatedAt
+        templateData
+      }
+      # @genqlient(pointer: true)
+      draftWorkflowState {
+        id
+        archivedAt
+        color
+        createdAt
+        description
+        name
+        position
+        type
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      integrationsSettings {
+        id
+        archivedAt
+        createdAt
+        slackIssueAddedToTriage
+        slackIssueCreated
+        slackIssueNewComment
+        slackIssueSlaBreached
+        slackIssueSlaHighRisk
+        slackIssueStatusChangedAll
+        slackIssueStatusChangedDone
+        slackProjectUpdateCreated
+        slackProjectUpdateCreatedToTeam
+        slackProjectUpdateCreatedToWorkspace
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      markedAsDuplicateWorkflowState {
+        id
+        archivedAt
+        color
+        createdAt
+        description
+        name
+        position
+        type
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      organization {
+        id
+        allowedAuthServices
+        archivedAt
+        createdAt
+        createdIssueCount
+        deletionRequestedAt
+        gitBranchFormat
+        gitLinkbackMessagesEnabled
+        gitPublicLinkbackMessagesEnabled
+        logoUrl
+        name
+        periodUploadVolume
+        previousUrlKeys
+        projectUpdateRemindersDay
+        projectUpdateRemindersHour
+        projectUpdatesReminderFrequency
+        releaseChannel
+        roadmapEnabled
+        samlEnabled
+        scimEnabled
+        trialEndsAt
+        updatedAt
+        urlKey
+        userCount
+      }
+      # @genqlient(pointer: true)
+      reviewWorkflowState {
+        id
+        archivedAt
+        color
+        createdAt
+        description
+        name
+        position
+        type
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      startWorkflowState {
+        id
+        archivedAt
+        color
+        createdAt
+        description
+        name
+        position
+        type
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      triageIssueState {
+        id
+        archivedAt
+        color
+        createdAt
+        description
+        name
+        position
+        type
+        updatedAt
+      }
+    }
+  }
+}
+
+# @genqlient(pointer: true)
+query getTeam($teamId: String!) {
+  team(id: $teamId) {
+    id
+    archivedAt
+    autoArchivePeriod
+    autoClosePeriod
+    autoCloseStateId
+    color
+    createdAt
+    cycleCalenderUrl
+    cycleCooldownTime
+    cycleDuration
+    cycleIssueAutoAssignCompleted
+    cycleIssueAutoAssignStarted
+    cycleLockToActive
+    cycleStartDay
+    cyclesEnabled
+    defaultIssueEstimate
+    defaultTemplateForMembersId
+    defaultTemplateForNonMembersId
+    description
+    groupIssueHistory
+    icon
+    inviteHash
+    issueEstimationAllowZero
+    issueEstimationExtended
+    issueEstimationType
+    issueOrderingNoPriorityFirst
+    issueSortOrderDefaultToBottom
+    key
+    name
+    private
+    requirePriorityToLeaveTriage
+    slackIssueComments
+    slackIssueStatuses
+    slackNewIssue
+    timezone
+    triageEnabled
+    upcomingCycleCount
+    updatedAt
+    # @genqlient(pointer: true)
+    activeCycle {
+      id
+      archivedAt
+      autoArchivedAt
+      completedAt
+      completedIssueCountHistory
+      completedScopeHistory
+      createdAt
+      description
+      endsAt
+      inProgressScopeHistory
+      issueCountHistory
+      name
+      number
+      progress
+      scopeHistory
+      startsAt
+      updatedAt
+    }
+    # @genqlient(pointer: true)
+    defaultIssueState {
+      id
+      archivedAt
+      color
+      createdAt
+      description
+      name
+      position
+      type
+      updatedAt
+    }
+    # @genqlient(pointer: true)
+    defaultTemplateForMembers {
+      id
+      archivedAt
+      description
+      createdAt
+      type
+      name
+      updatedAt
+      templateData
+    }
+    # @genqlient(pointer: true)
+    defaultTemplateForNonMembers {
+      id
+      archivedAt
+      description
+      createdAt
+      type
+      name
+      updatedAt
+      templateData
+    }
+    # @genqlient(pointer: true)
+    draftWorkflowState {
+      id
+      archivedAt
+      color
+      createdAt
+      description
+      name
+      position
+      type
+      updatedAt
+    }
+    # @genqlient(pointer: true)
+    integrationsSettings {
+      id
+      archivedAt
+      createdAt
+      slackIssueAddedToTriage
+      slackIssueCreated
+      slackIssueNewComment
+      slackIssueSlaBreached
+      slackIssueSlaHighRisk
+      slackIssueStatusChangedAll
+      slackIssueStatusChangedDone
+      slackProjectUpdateCreated
+      slackProjectUpdateCreatedToTeam
+      slackProjectUpdateCreatedToWorkspace
+      updatedAt
+    }
+    # @genqlient(pointer: true)
+    markedAsDuplicateWorkflowState {
+      id
+      archivedAt
+      color
+      createdAt
+      description
+      name
+      position
+      type
+      updatedAt
+    }
+    # @genqlient(pointer: true)
+    organization {
+      id
+      allowedAuthServices
+      archivedAt
+      createdAt
+      createdIssueCount
+      deletionRequestedAt
+      gitBranchFormat
+      gitLinkbackMessagesEnabled
+      gitPublicLinkbackMessagesEnabled
+      logoUrl
+      name
+      periodUploadVolume
+      previousUrlKeys
+      projectUpdateRemindersDay
+      projectUpdateRemindersHour
+      projectUpdatesReminderFrequency
+      releaseChannel
+      roadmapEnabled
+      samlEnabled
+      scimEnabled
+      trialEndsAt
+      updatedAt
+      urlKey
+      userCount
+    }
+    # @genqlient(pointer: true)
+    reviewWorkflowState {
+      id
+      archivedAt
+      color
+      createdAt
+      description
+      name
+      position
+      type
+      updatedAt
+    }
+    # @genqlient(pointer: true)
+    startWorkflowState {
+      id
+      archivedAt
+      color
+      createdAt
+      description
+      name
+      position
+      type
+      updatedAt
+    }
+    # @genqlient(pointer: true)
+    triageIssueState {
+      id
+      archivedAt
+      color
+      createdAt
+      description
+      name
+      position
+      type
+      updatedAt
+    }
+  }
+}
+
+# @genqlient(omitempty: true,pointer: true)
+query listAttachments(
+  # @genqlient(pointer: false)
+  $first: Int
+  # @genqlient(pointer: false)
+  $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean
+  $filter: AttachmentFilter
+) {
+  attachments(
+    first: $first
+    after: $after
+    filter: $filter
+    includeArchived: $includeArchived
+  ) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      archivedAt
+      createdAt
+      groupBySource
+      metadata
+      source
+      sourceType
+      subtitle
+      title
+      updatedAt
+      url
+      # @genqlient(pointer: true)
+      creator {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      issue {
+        id
+        createdAt
+        updatedAt
+        archivedAt
+        number
+        title
+        description
+        priority
+        estimate
+        sortOrder
+        startedAt
+        completedAt
+        canceledAt
+        autoClosedAt
+        autoArchivedAt
+        dueDate
+        trashed
+        snoozedUntilAt
+        previousIdentifiers
+        subIssueSortOrder
+        priorityLabel
+        identifier
+        url
+        branchName
+        customerTicketCount
+      }
+    }
+  }
+}
+
+# @genqlient(pointer: true)
+query getAttachment($attachmentId: String!) {
+  attachment(id: $attachmentId) {
+    id
+    archivedAt
+    createdAt
+    groupBySource
+    metadata
+    source
+    sourceType
+    subtitle
+    title
+    updatedAt
+    url
+    # @genqlient(pointer: true)
+    creator {
+      id
+      active
+      admin
+      archivedAt
+      avatarUrl
+      calendarHash
+      createdAt
+      createdIssueCount
+      description
+      disableReason
+      displayName
+      email
+      guest
+      inviteHash
+      isMe
+      lastSeen
+      name
+      statusEmoji
+      statusLabel
+      statusUntilAt
+      timezone
+      updatedAt
+      url
+    }
+    # @genqlient(pointer: true)
+    issue {
+      id
+      createdAt
+      updatedAt
+      archivedAt
+      number
+      title
+      description
+      priority
+      estimate
+      sortOrder
+      startedAt
+      completedAt
+      canceledAt
+      autoClosedAt
+      autoArchivedAt
+      dueDate
+      trashed
+      snoozedUntilAt
+      previousIdentifiers
+      subIssueSortOrder
+      priorityLabel
+      identifier
+      url
+      branchName
+      customerTicketCount
+    }
+  }
+}
+
+# @genqlient(omitempty: true,pointer: true)
+query listComments(
+  # @genqlient(pointer: false)
+  $first: Int
+  # @genqlient(pointer: false)
+  $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean
+  $filter: CommentFilter
+) {
+  comments(
+    first: $first
+    after: $after
+    filter: $filter
+    includeArchived: $includeArchived
+  ) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      archivedAt
+      body
+      bodyData
+      createdAt
+      editedAt
+      reactionData
+      updatedAt
+      url
+      # @genqlient(pointer: true)
+      user {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      parent {
+        id
+        archivedAt
+        body
+        bodyData
+        createdAt
+        editedAt
+        reactionData
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      issue {
+        id
+        createdAt
+        updatedAt
+        archivedAt
+        number
+        title
+        description
+        priority
+        estimate
+        sortOrder
+        startedAt
+        completedAt
+        canceledAt
+        autoClosedAt
+        autoArchivedAt
+        dueDate
+        trashed
+        snoozedUntilAt
+        previousIdentifiers
+        subIssueSortOrder
+        priorityLabel
+        identifier
+        url
+        branchName
+        customerTicketCount
+      }
+    }
+  }
+}
+
+# @genqlient(pointer: true)
+query getComment($commentId: String!) {
+  comment(id: $commentId) {
+    id
+    archivedAt
+    body
+    bodyData
+    createdAt
+    editedAt
+    reactionData
+    updatedAt
+    url
+    # @genqlient(pointer: true)
+    user {
+      id
+      active
+      admin
+      archivedAt
+      avatarUrl
+      calendarHash
+      createdAt
+      createdIssueCount
+      description
+      disableReason
+      displayName
+      email
+      guest
+      inviteHash
+      isMe
+      lastSeen
+      name
+      statusEmoji
+      statusLabel
+      statusUntilAt
+      timezone
+      updatedAt
+      url
+    }
+    # @genqlient(pointer: true)
+    parent {
+      id
+      archivedAt
+      body
+      bodyData
+      createdAt
+      editedAt
+      reactionData
+      updatedAt
+      url
+    }
+    # @genqlient(pointer: true)
+    issue {
+      id
+      createdAt
+      updatedAt
+      archivedAt
+      number
+      title
+      description
+      priority
+      estimate
+      sortOrder
+      startedAt
+      completedAt
+      canceledAt
+      autoClosedAt
+      autoArchivedAt
+      dueDate
+      trashed
+      snoozedUntilAt
+      previousIdentifiers
+      subIssueSortOrder
+      priorityLabel
+      identifier
+      url
+      branchName
+      customerTicketCount
+    }
+  }
+}
+
+# @genqlient(omitempty: true,pointer: true)
+query listIntegrations(
+  # @genqlient(pointer: false)
+  $first: Int
+  # @genqlient(pointer: false)
+  $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean!
+) {
+  integrations(
+    first: $first
+    after: $after
+    includeArchived: $includeArchived
+  ) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      archivedAt
+      createdAt
+      service
+      updatedAt
+      # @genqlient(pointer: true)
+      team {
+        id
+        archivedAt
+        autoArchivePeriod
+        autoClosePeriod
+        autoCloseStateId
+        color
+        createdAt
+        cycleCalenderUrl
+        cycleCooldownTime
+        cycleDuration
+        cycleIssueAutoAssignCompleted
+        cycleIssueAutoAssignStarted
+        cycleLockToActive
+        cycleStartDay
+        cyclesEnabled
+        defaultIssueEstimate
+        defaultTemplateForMembersId
+        defaultTemplateForNonMembersId
+        description
+        groupIssueHistory
+        icon
+        inviteHash
+        issueEstimationAllowZero
+        issueEstimationExtended
+        issueEstimationType
+        issueOrderingNoPriorityFirst
+        issueSortOrderDefaultToBottom
+        key
+        name
+        private
+        requirePriorityToLeaveTriage
+        slackIssueComments
+        slackIssueStatuses
+        slackNewIssue
+        timezone
+        triageEnabled
+        upcomingCycleCount
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      creator {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      organization {
+        id
+        allowedAuthServices
+        archivedAt
+        createdAt
+        createdIssueCount
+        deletionRequestedAt
+        gitBranchFormat
+        gitLinkbackMessagesEnabled
+        gitPublicLinkbackMessagesEnabled
+        logoUrl
+        name
+        periodUploadVolume
+        previousUrlKeys
+        projectUpdateRemindersDay
+        projectUpdateRemindersHour
+        projectUpdatesReminderFrequency
+        releaseChannel
+        roadmapEnabled
+        samlEnabled
+        scimEnabled
+        trialEndsAt
+        updatedAt
+        urlKey
+        userCount
+      }
+    }
+  }
+}
+
+# @genqlient(pointer: true)
+query getIntegration($integrationId: String!) {
+  integration(id: $integrationId) {
+    id
+    archivedAt
+    createdAt
+    service
+    updatedAt
+    # @genqlient(pointer: true)
+    team {
+      id
+      archivedAt
+      autoArchivePeriod
+      autoClosePeriod
+      autoCloseStateId
+      color
+      createdAt
+      cycleCalenderUrl
+      cycleCooldownTime
+      cycleDuration
+      cycleIssueAutoAssignCompleted
+      cycleIssueAutoAssignStarted
+      cycleLockToActive
+      cycleStartDay
+      cyclesEnabled
+      defaultIssueEstimate
+      defaultTemplateForMembersId
+      defaultTemplateForNonMembersId
+      description
+      groupIssueHistory
+      icon
+      inviteHash
+      issueEstimationAllowZero
+      issueEstimationExtended
+      issueEstimationType
+      issueOrderingNoPriorityFirst
+      issueSortOrderDefaultToBottom
+      key
+      name
+      private
+      requirePriorityToLeaveTriage
+      slackIssueComments
+      slackIssueStatuses
+      slackNewIssue
+      timezone
+      triageEnabled
+      upcomingCycleCount
+      updatedAt
+    }
+    # @genqlient(pointer: true)
+    creator {
+      id
+      active
+      admin
+      archivedAt
+      avatarUrl
+      calendarHash
+      createdAt
+      createdIssueCount
+      description
+      disableReason
+      displayName
+      email
+      guest
+      inviteHash
+      isMe
+      lastSeen
+      name
+      statusEmoji
+      statusLabel
+      statusUntilAt
+      timezone
+      updatedAt
+      url
+    }
+    # @genqlient(pointer: true)
+    organization {
+      id
+      allowedAuthServices
+      archivedAt
+      createdAt
+      createdIssueCount
+      deletionRequestedAt
+      gitBranchFormat
+      gitLinkbackMessagesEnabled
+      gitPublicLinkbackMessagesEnabled
+      logoUrl
+      name
+      periodUploadVolume
+      previousUrlKeys
+      projectUpdateRemindersDay
+      projectUpdateRemindersHour
+      projectUpdatesReminderFrequency
+      releaseChannel
+      roadmapEnabled
+      samlEnabled
+      scimEnabled
+      trialEndsAt
+      updatedAt
+      urlKey
+      userCount
+    }
+  }
+}
+
+# @genqlient(omitempty: true,pointer: true)
+query listTeamMemberships(
+  # @genqlient(pointer: false)
+  $first: Int
+  # @genqlient(pointer: false)
+  $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean!
+) {
+  teamMemberships(
+    first: $first
+    after: $after
+    includeArchived: $includeArchived
+  ) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      archivedAt
+      createdAt
+      owner
+      sortOrder
+      updatedAt
+      # @genqlient(pointer: true)
+      team {
+        id
+        archivedAt
+        autoArchivePeriod
+        autoClosePeriod
+        autoCloseStateId
+        color
+        createdAt
+        cycleCalenderUrl
+        cycleCooldownTime
+        cycleDuration
+        cycleIssueAutoAssignCompleted
+        cycleIssueAutoAssignStarted
+        cycleLockToActive
+        cycleStartDay
+        cyclesEnabled
+        defaultIssueEstimate
+        defaultTemplateForMembersId
+        defaultTemplateForNonMembersId
+        description
+        groupIssueHistory
+        icon
+        inviteHash
+        issueEstimationAllowZero
+        issueEstimationExtended
+        issueEstimationType
+        issueOrderingNoPriorityFirst
+        issueSortOrderDefaultToBottom
+        key
+        name
+        private
+        requirePriorityToLeaveTriage
+        slackIssueComments
+        slackIssueStatuses
+        slackNewIssue
+        timezone
+        triageEnabled
+        upcomingCycleCount
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      user {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+    }
+  }
+}
+
+# @genqlient(pointer: true)
+query getTeamMembership($teamMembershipId: String!) {
+  teamMembership(id: $teamMembershipId) {
+    id
+    archivedAt
+    createdAt
+    owner
+    sortOrder
+    updatedAt
+    # @genqlient(pointer: true)
+    team {
+      id
+      archivedAt
+      autoArchivePeriod
+      autoClosePeriod
+      autoCloseStateId
+      color
+      createdAt
+      cycleCalenderUrl
+      cycleCooldownTime
+      cycleDuration
+      cycleIssueAutoAssignCompleted
+      cycleIssueAutoAssignStarted
+      cycleLockToActive
+      cycleStartDay
+      cyclesEnabled
+      defaultIssueEstimate
+      defaultTemplateForMembersId
+      defaultTemplateForNonMembersId
+      description
+      groupIssueHistory
+      icon
+      inviteHash
+      issueEstimationAllowZero
+      issueEstimationExtended
+      issueEstimationType
+      issueOrderingNoPriorityFirst
+      issueSortOrderDefaultToBottom
+      key
+      name
+      private
+      requirePriorityToLeaveTriage
+      slackIssueComments
+      slackIssueStatuses
+      slackNewIssue
+      timezone
+      triageEnabled
+      upcomingCycleCount
+      updatedAt
+    }
+    # @genqlient(pointer: true)
+    user {
+      id
+      active
+      admin
+      archivedAt
+      avatarUrl
+      calendarHash
+      createdAt
+      createdIssueCount
+      description
+      disableReason
+      displayName
+      email
+      guest
+      inviteHash
+      isMe
+      lastSeen
+      name
+      statusEmoji
+      statusLabel
+      statusUntilAt
+      timezone
+      updatedAt
+      url
+    }
+  }
+}
+
+# @genqlient(omitempty: true,pointer: true)
+query listIssueLabels(
+  # @genqlient(pointer: false)
+  $first: Int
+  # @genqlient(pointer: false)
+  $firstIssue: Int
+  # @genqlient(pointer: false)
+  $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean!
+  $filter: IssueLabelFilter
+) {
+  issueLabels(
+    first: $first
+    after: $after
+    filter: $filter
+    includeArchived: $includeArchived
+  ) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      archivedAt
+      color
+      createdAt
+      description
+      name
+      updatedAt
+      # @genqlient(pointer: true)
+      issues(
+        first: $firstIssue
+        after: $after
+        includeArchived: $includeArchived
+      ) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        nodes {
+          id
+        }
+      }
+      # @genqlient(pointer: true)
+      team {
+        id
+        archivedAt
+        autoArchivePeriod
+        autoClosePeriod
+        autoCloseStateId
+        color
+        createdAt
+        cycleCalenderUrl
+        cycleCooldownTime
+        cycleDuration
+        cycleIssueAutoAssignCompleted
+        cycleIssueAutoAssignStarted
+        cycleLockToActive
+        cycleStartDay
+        cyclesEnabled
+        defaultIssueEstimate
+        defaultTemplateForMembersId
+        defaultTemplateForNonMembersId
+        description
+        groupIssueHistory
+        icon
+        inviteHash
+        issueEstimationAllowZero
+        issueEstimationExtended
+        issueEstimationType
+        issueOrderingNoPriorityFirst
+        issueSortOrderDefaultToBottom
+        key
+        name
+        private
+        requirePriorityToLeaveTriage
+        slackIssueComments
+        slackIssueStatuses
+        slackNewIssue
+        timezone
+        triageEnabled
+        upcomingCycleCount
+        updatedAt
+      }
+      # @genqlient(pointer: true)
+      creator {
+        id
+        active
+        admin
+        archivedAt
+        avatarUrl
+        calendarHash
+        createdAt
+        createdIssueCount
+        description
+        disableReason
+        displayName
+        email
+        guest
+        inviteHash
+        isMe
+        lastSeen
+        name
+        statusEmoji
+        statusLabel
+        statusUntilAt
+        timezone
+        updatedAt
+        url
+      }
+      # @genqlient(pointer: true)
+      organization {
+        id
+        allowedAuthServices
+        archivedAt
+        createdAt
+        createdIssueCount
+        deletionRequestedAt
+        gitBranchFormat
+        gitLinkbackMessagesEnabled
+        gitPublicLinkbackMessagesEnabled
+        logoUrl
+        name
+        periodUploadVolume
+        previousUrlKeys
+        projectUpdateRemindersDay
+        projectUpdateRemindersHour
+        projectUpdatesReminderFrequency
+        releaseChannel
+        roadmapEnabled
+        samlEnabled
+        scimEnabled
+        trialEndsAt
+        updatedAt
+        urlKey
+        userCount
+      }
+      # @genqlient(pointer: true)
+      parent {
+        id
+        archivedAt
+        color
+        createdAt
+        description
+        name
+        updatedAt
+      }
+    }
+  }
+}
+
+# @genqlient(pointer: true)
+query getIssueLabel(
+  $issueLabelId: String!
+  # @genqlient(pointer: false)
+  $firstIssue: Int
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean!
+) {
+  issueLabel(id: $issueLabelId) {
+    id
+    archivedAt
+    color
+    createdAt
+    description
+    name
+    updatedAt
+    # @genqlient(pointer: true)
+    issues(first: $firstIssue, includeArchived: $includeArchived) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        id
+      }
+    }
+    # @genqlient(pointer: true)
+    team {
+      id
+      archivedAt
+      autoArchivePeriod
+      autoClosePeriod
+      autoCloseStateId
+      color
+      createdAt
+      cycleCalenderUrl
+      cycleCooldownTime
+      cycleDuration
+      cycleIssueAutoAssignCompleted
+      cycleIssueAutoAssignStarted
+      cycleLockToActive
+      cycleStartDay
+      cyclesEnabled
+      defaultIssueEstimate
+      defaultTemplateForMembersId
+      defaultTemplateForNonMembersId
+      description
+      groupIssueHistory
+      icon
+      inviteHash
+      issueEstimationAllowZero
+      issueEstimationExtended
+      issueEstimationType
+      issueOrderingNoPriorityFirst
+      issueSortOrderDefaultToBottom
+      key
+      name
+      private
+      requirePriorityToLeaveTriage
+      slackIssueComments
+      slackIssueStatuses
+      slackNewIssue
+      timezone
+      triageEnabled
+      upcomingCycleCount
+      updatedAt
+    }
+    # @genqlient(pointer: true)
+    creator {
+      id
+      active
+      admin
+      archivedAt
+      avatarUrl
+      calendarHash
+      createdAt
+      createdIssueCount
+      description
+      disableReason
+      displayName
+      email
+      guest
+      inviteHash
+      isMe
+      lastSeen
+      name
+      statusEmoji
+      statusLabel
+      statusUntilAt
+      timezone
+      updatedAt
+      url
+    }
+    # @genqlient(pointer: true)
+    organization {
+      id
+      allowedAuthServices
+      archivedAt
+      createdAt
+      createdIssueCount
+      deletionRequestedAt
+      gitBranchFormat
+      gitLinkbackMessagesEnabled
+      gitPublicLinkbackMessagesEnabled
+      logoUrl
+      name
+      periodUploadVolume
+      previousUrlKeys
+      projectUpdateRemindersDay
+      projectUpdateRemindersHour
+      projectUpdatesReminderFrequency
+      releaseChannel
+      roadmapEnabled
+      samlEnabled
+      scimEnabled
+      trialEndsAt
+      updatedAt
+      urlKey
+      userCount
+    }
+    # @genqlient(pointer: true)
+    parent {
+      id
+      archivedAt
+      color
+      createdAt
+      description
+      name
+      updatedAt
+    }
+  }
+}
+
+# @genqlient(pointer: true)
+query getIssueIds(
+  $issueLabelId: String!
+  # @genqlient(pointer: false)
+  $first: Int
+  # @genqlient(pointer: false)
+  $after: String
+  # @genqlient(pointer: false)
+  $includeArchived: Boolean!
+) {
+  issueLabel(id: $issueLabelId) {
+    id
+    # @genqlient(pointer: true)
+    issues(first: $first, after: $after, includeArchived: $includeArchived) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        id
+      }
+    }
+  }
+}
+
+# @genqlient(pointer: true)
+query getOrganization() {
+  organization {
+    id
+    allowedAuthServices
+    archivedAt
+    createdAt
+    createdIssueCount
+    deletionRequestedAt
+    gitBranchFormat
+    gitLinkbackMessagesEnabled
+    gitPublicLinkbackMessagesEnabled
+    logoUrl
+    name
+    periodUploadVolume
+    previousUrlKeys
+    projectUpdateRemindersDay
+    projectUpdateRemindersHour
+    projectUpdatesReminderFrequency
+    releaseChannel
+    roadmapEnabled
+    samlEnabled
+    scimEnabled
+    trialEndsAt
+    updatedAt
+    urlKey
+    userCount
+    projectUpdateRemindersDay
+    projectUpdatesReminderFrequency
+    releaseChannel
+    # @genqlient(pointer: true)
+    subscription {
+      id
+      archivedAt
+      canceledAt
+      createdAt
+      nextBillingAt
+      pendingChangeType
+      seats
+      seatsMaximum
+      seatsMinimum
+      type
+      updatedAt
+    }
+  }
+}
