@@ -6,7 +6,7 @@ Use SQL to query issues, teams, users and more from Linear.
 
 - **[Get started →](https://hub.steampipe.io/plugins/turbot/linear)**
 - Documentation: [Table definitions & examples](https://hub.steampipe.io/plugins/turbot/linear/tables)
-- Community: [Slack Channel](https://steampipe.io/community/join)
+- Community: [Join #steampipe on Slack →](https://turbot.com/community/join)
 - Get involved: [Issues](https://github.com/turbot/steampipe-plugin-linear/issues)
 
 ## Quick start
