@@ -1,10 +1,20 @@
-# Table: linear_project
+---
+title: "Steampipe Table: linear_project - Query Linear Projects using SQL"
+description: "Allows users to query Linear Projects. This table returns information about the projects in Linear, including their name, status, and description."
+---
 
-Projects define larger pieces of work that have a clear outcome or completion date, such as launching a new feature. They can be shared across multiple teams and come with their own unique features, graph, and notification options.
+# Table: linear_project - Query Linear Projects using SQL
+
+Linear Project is a resource in Linear, a software development management tool. It allows users to organize tasks, issues, and objectives into specific projects. Each project in Linear has a unique identifier, name, and status, and may contain additional details such as description, label, and team information.
+
+## Table Usage Guide
+
+The `linear_project` table provides insights into projects within Linear. As a project manager or a software development team member, you can explore project-specific details through this table, including their status, description, and associated team information. Utilize it to manage and monitor the progress of different projects, understand their scope, and ensure timely completion of tasks and objectives.
 
 ## Examples
 
 ### Basic info
+Discover the segments that are currently in progress within your projects and assess their status and timeline. This can help you understand the overall progress and manage your projects more efficiently.
 
 ```sql
 select
@@ -21,6 +31,7 @@ from
 ```
 
 ### List planned projects
+Explore which projects are in the planning stage to effectively manage resources and prioritize tasks. This aids in strategic decision-making by providing insights into upcoming projects.
 
 ```sql
 select
@@ -39,6 +50,7 @@ where
 ```
 
 ### List projects which are incomplete
+Explore which projects are still ongoing. This is useful for tracking progress and identifying tasks that may need additional resources or attention.
 
 ```sql
 select
@@ -57,6 +69,7 @@ where
 ```
 
 ### List projects created by admin
+Discover the projects that were established by administrative users. This can be particularly useful for auditing or understanding the distribution of project creation responsibilities within your team.
 
 ```sql
 select
@@ -75,6 +88,7 @@ where
 ```
 
 ### Show lead details of each project
+Explore the leadership details of each project to gain insights into their activity status and roles. This can help in assessing the active involvement and administrative roles of the leads in different projects.
 
 ```sql
 select

@@ -1,10 +1,20 @@
-# Table: linear_team_membership
+---
+title: "Steampipe Table: linear_team_membership - Query Linear Team Memberships using SQL"
+description: "Allows users to query Team Memberships in Linear, specifically providing details about the relationship between teams and members within the Linear service."
+---
 
-Linear team membership is a feature of the Linear project management tool that allows you to add users to your team and give them access to your workspace. Team members can then view and edit issues, tasks, and conversations, and they can also participate in team discussions.
+# Table: linear_team_membership - Query Linear Team Memberships using SQL
+
+Linear Team Memberships are a critical part of the Linear service, defining the relationship between teams and their members. They provide a mechanism for grouping members into teams for better organization and management. Team Memberships in Linear are essential for managing workload distribution, task assignment, and overall project management within the service.
+
+## Table Usage Guide
+
+The `linear_team_membership` table provides insights into the team memberships within Linear. As a project manager or team leader, you can explore specific details about the relationship between teams and members through this table. Use it to understand team composition, member roles, and to manage workload distribution and task assignments more effectively.
 
 ## Examples
 
 ### Basic info
+Explore the creation and modification details of team memberships in Linear. This information can help to understand team dynamics and track changes over time.
 
 ```sql
 select
@@ -18,6 +28,7 @@ from
 ```
 
 ### List teams with owner details
+Discover the segments that include team ownership details, allowing you to understand who holds control over different teams and when the last updates were made. This can be particularly useful in larger organizations where team ownership may shift frequently.
 
 ```sql
 select
@@ -32,6 +43,7 @@ where
 ```
 
 ### List members of a particular team
+Explore which members belong to a specific team, gaining insights into their user ID, name, admin status, email, and activity status. This is particularly useful for managing team dynamics and understanding the roles of different team members.
 
 ```sql
 select
@@ -47,6 +59,7 @@ where
 ```
 
 ### List archived membership
+Explore which team memberships in Linear have been archived to manage team structure and access effectively. This could be useful in maintaining the organization's data hygiene and understanding team dynamics over time.
 
 ```sql
 select
