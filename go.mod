@@ -1,4 +1,4 @@
-module github.com/steampipe-plugin-linear
+module github.com/turbot/steampipe-plugin-linear
 
 go 1.21
 
