@@ -3,7 +3,7 @@ package linear
 import (
 	"context"
 
-	"github.com/steampipe-plugin-linear/gql"
+	"github.com/turbot/steampipe-plugin-linear/gql"
 	"github.com/turbot/go-kit/types"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
