@@ -11,6 +11,12 @@ Linear is a streamlined software project management service, designed to help te
 
 The `linear_user` table provides insights into users within the Linear platform. As a project manager or team lead, explore user-specific details through this table, including usernames, email addresses, and associated team information. Utilize it to uncover information about user activity, such as task assignment, project involvement, and user status within the platform.
 
+**Important Notes**
+- There are three types of users in Linear:
+  - Admins: Admins have full access to a workspace and can manage team members.
+  - Members: Members have read-write access to a workspace and can participate in team discussions.
+  - Guests: Guests have read-only access to a workspace and cannot participate in team discussions.
+
 ## Examples
 
 ### Basic info
