@@ -16,7 +16,20 @@ The `linear_issue` table provides insights into issues within Linear's project m
 ### Basic info
 Explore the issues in your project, including their creation date, branch name, priority, and estimate time, to manage your workflow and prioritize tasks more effectively. This query helps you gain insights into the status of different issues, allowing you to make informed decisions and streamline your project management process.
 
-```sql
+```sql+postgres
+select
+  id,
+  title,
+  created_at,
+  branch_name,
+  priority,
+  estimate,
+  updated_at
+from
+  linear_issue;
+```
+
+```sql+sqlite
 select
   id,
   title,
@@ -32,7 +45,22 @@ from
 ### List urgent issues
 Discover the segments that contain high-priority tasks in your workflow. This query assists in identifying urgent issues that require immediate attention, helping to prioritize and manage tasks effectively.
 
-```sql
+```sql+postgres
+select
+  id,
+  title,
+  created_at,
+  branch_name,
+  priority,
+  estimate,
+  updated_at
+from
+  linear_issue
+where
+  priority = 1;
+```
+
+```sql+sqlite
 select
   id,
   title,
@@ -50,7 +78,22 @@ where
 ### List issues that have not been started
 Identify instances where certain issues have yet to begin, allowing for better prioritization and task management.
 
-```sql
+```sql+postgres
+select
+  id,
+  title,
+  created_at,
+  branch_name,
+  priority,
+  estimate,
+  updated_at
+from
+  linear_issue
+where
+  started_at is null;
+```
+
+```sql+sqlite
 select
   id,
   title,
@@ -68,7 +111,7 @@ where
 ### List issues that have crossed the due date
 Discover the segments that have missed their deadlines by identifying issues that have surpassed their due dates. This can be useful in project management to assess the elements within your workflow that need attention or re-evaluation.
 
-```sql
+```sql+postgres
 select
   id,
   title,
@@ -83,10 +126,25 @@ where
   due_date < now();
 ```
 
+```sql+sqlite
+select
+  id,
+  title,
+  created_at,
+  branch_name,
+  priority,
+  estimate,
+  updated_at
+from
+  linear_issue
+where
+  due_date < datetime('now');
+```
+
 ### List trashed issues
 Explore which issues have been moved to trash on Linear. This can assist in tracking the progress of tasks and identifying any potential bottlenecks or problems that have led to tasks being discarded.
 
-```sql
+```sql+postgres
 select
   id,
   title,
@@ -101,10 +159,25 @@ where
   trashed;
 ```
 
+```sql+sqlite
+select
+  id,
+  title,
+  created_at,
+  branch_name,
+  priority,
+  estimate,
+  updated_at
+from
+  linear_issue
+where
+  trashed = 1;
+```
+
 ### List issues created by admin
 Identify instances where administrative users have created issues. This allows for a quick overview of issues which may have higher priority or require more immediate attention.
 
-```sql
+```sql+postgres
 select
   id,
   title,
@@ -119,10 +192,25 @@ where
   creator ->> 'admin' = 'true';
 ```
 
+```sql+sqlite
+select
+  id,
+  title,
+  created_at,
+  branch_name,
+  priority,
+  estimate,
+  updated_at
+from
+  linear_issue
+where
+  json_extract(creator, '$.admin') = 'true';
+```
+
 ### List issues of a particular team
 Explore which issues are currently being handled by a specific team. This can help in understanding the team's workload, priority tasks, and the timeline of their projects.
 
-```sql
+```sql+postgres
 select
   id,
   title,
@@ -137,10 +225,40 @@ where
   team ->> 'name' = 'linear';
 ```
 
+```sql+sqlite
+select
+  id,
+  title,
+  created_at,
+  branch_name,
+  priority,
+  estimate,
+  updated_at
+from
+  linear_issue
+where
+  json_extract(team, '$.name') = 'linear';
+```
+
 ### List unassigned issues
 Explore which issues are currently unassigned, allowing you to understand bottlenecks and allocate resources more effectively. This is particularly useful for project management and ensuring tasks are not overlooked.
 
-```sql
+```sql+postgres
+select
+  id,
+  title,
+  created_at,
+  branch_name,
+  priority,
+  estimate,
+  updated_at
+from
+  linear_issue
+where
+  assignee is null;
+```
+
+```sql+sqlite
 select
   id,
   title,

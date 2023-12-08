@@ -16,7 +16,19 @@ The `linear_comment` table provides insights into comments within Linear. As a p
 ### Basic info
 Explore the timeline of user interactions with your platform by identifying when specific comments were created, edited, or updated. This allows for a better understanding of user engagement patterns over time.
 
-```sql
+```sql+postgres
+select
+  id,
+  title,
+  created_at,
+  edited_at,
+  updated_at,
+  url
+from
+  linear_comment;
+```
+
+```sql+sqlite
 select
   id,
   title,
@@ -31,7 +43,7 @@ from
 ### Show user details of each comment
 Explore the details of users who have made comments, including their active status and administrative privileges. This can be useful for understanding user engagement and identifying key contributors.
 
-```sql
+```sql+postgres
 select
   id,
   title,
@@ -45,10 +57,24 @@ from
   linear_comment;
 ```
 
+```sql+sqlite
+select
+  id,
+  title,
+  json_extract(comment_user, '$.id') as creator_id,
+  json_extract(comment_user, '$.name') as creator_name,
+  json_extract(comment_user, '$.active') as active,
+  json_extract(comment_user, '$.email') as email,
+  json_extract(comment_user, '$.admin') as admin,
+  json_extract(comment_user, '$.createdAt') as created_at
+from
+  linear_comment;
+```
+
 ### List comments for a particular issue
 Explore the comments related to a specific issue to gain insights into its history and ongoing discussions. This can be useful for understanding the context and progression of the issue, as well as for tracking any changes or edits made over time.
 
-```sql
+```sql+postgres
 select
   id,
   title,
@@ -62,10 +88,24 @@ where
   issue ->> 'title' = 'attachment check';
 ```
 
+```sql+sqlite
+select
+  id,
+  title,
+  created_at,
+  edited_at,
+  updated_at,
+  url
+from
+  linear_comment
+where
+  json_extract(issue, '$.title') = 'attachment check';
+```
+
 ### List comments written by admin
 Explore which comments have been authored by an admin user. This can help in understanding the context and engagement of administrative users in discussions.
 
-```sql
+```sql+postgres
 select
   id,
   title,
@@ -79,10 +119,24 @@ where
   comment_user ->> 'admin' = 'true';
 ```
 
+```sql+sqlite
+select
+  id,
+  title,
+  created_at,
+  edited_at,
+  comment_user,
+  url
+from
+  linear_comment
+where
+  json_extract(comment_user, '$.admin') = 'true';
+```
+
 ### List comments older than 90 days
 Discover the segments that contain comments older than 90 days to better understand user feedback trends and manage content accordingly. This is useful for identifying outdated or irrelevant discussions and maintaining a current and engaging user experience.
 
-```sql
+```sql+postgres
 select
   id,
   title,
@@ -94,4 +148,18 @@ from
   linear_comment
 where
   created_at < now() - interval '90' day;
+```
+
+```sql+sqlite
+select
+  id,
+  title,
+  created_at,
+  edited_at,
+  updated_at,
+  url
+from
+  linear_comment
+where
+  created_at < datetime('now', '-90 day');
 ```

@@ -16,7 +16,21 @@ The `linear_project` table provides insights into projects within Linear. As a p
 ### Basic info
 Discover the segments that are currently in progress within your projects and assess their status and timeline. This can help you understand the overall progress and manage your projects more efficiently.
 
-```sql
+```sql+postgres
+select
+  id,
+  title,
+  created_at,
+  color,
+  progress,
+  scope,
+  state,
+  updated_at
+from
+  linear_project;
+```
+
+```sql+sqlite
 select
   id,
   title,
@@ -33,7 +47,23 @@ from
 ### List planned projects
 Explore which projects are in the planning stage to effectively manage resources and prioritize tasks. This aids in strategic decision-making by providing insights into upcoming projects.
 
-```sql
+```sql+postgres
+select
+  id,
+  title,
+  created_at,
+  color,
+  progress,
+  scope,
+  state,
+  updated_at
+from
+  linear_project
+where
+  state = 'planned';
+```
+
+```sql+sqlite
 select
   id,
   title,
@@ -52,7 +82,23 @@ where
 ### List projects which are incomplete
 Explore which projects are still ongoing. This is useful for tracking progress and identifying tasks that may need additional resources or attention.
 
-```sql
+```sql+postgres
+select
+  id,
+  title,
+  created_at,
+  color,
+  progress,
+  scope,
+  state,
+  updated_at
+from
+  linear_project
+where
+  completed_at is null;
+```
+
+```sql+sqlite
 select
   id,
   title,
@@ -71,7 +117,7 @@ where
 ### List projects created by admin
 Discover the projects that were established by administrative users. This can be particularly useful for auditing or understanding the distribution of project creation responsibilities within your team.
 
-```sql
+```sql+postgres
 select
   id,
   title,
@@ -87,10 +133,26 @@ where
   creator ->> 'admin' = 'true';
 ```
 
+```sql+sqlite
+select
+  id,
+  title,
+  created_at,
+  color,
+  progress,
+  scope,
+  state,
+  updated_at
+from
+  linear_project
+where
+  json_extract(creator, '$.admin') = 'true';
+```
+
 ### Show lead details of each project
 Explore the leadership details of each project to gain insights into their activity status and roles. This can help in assessing the active involvement and administrative roles of the leads in different projects.
 
-```sql
+```sql+postgres
 select
   lead ->> 'id' as lead_id,
   lead ->> 'name' as name,
@@ -98,6 +160,18 @@ select
   lead ->> 'active' as active,
   lead ->> 'admin' as admin,
   lead ->> 'statusLabel' as status_label
+from
+  linear_project;
+```
+
+```sql+sqlite
+select
+  json_extract(lead, '$.id') as lead_id,
+  json_extract(lead, '$.name') as name,
+  json_extract(lead, '$.email') as email,
+  json_extract(lead, '$.active') as active,
+  json_extract(lead, '$.admin') as admin,
+  json_extract(lead, '$.statusLabel') as status_label
 from
   linear_project;
 ```

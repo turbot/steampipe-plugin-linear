@@ -16,7 +16,18 @@ The `linear_team_membership` table provides insights into the team memberships w
 ### Basic info
 Explore the creation and modification details of team memberships in Linear. This information can help to understand team dynamics and track changes over time.
 
-```sql
+```sql+postgres
+select
+  id,
+  created_at,
+  owner,
+  sort_order,
+  updated_at
+from
+  linear_team_membership;
+```
+
+```sql+sqlite
 select
   id,
   created_at,
@@ -30,7 +41,7 @@ from
 ### List teams with owner details
 Discover the segments that include team ownership details, allowing you to understand who holds control over different teams and when the last updates were made. This can be particularly useful in larger organizations where team ownership may shift frequently.
 
-```sql
+```sql+postgres
 select
   id,
   jsonb_pretty(team) as team,
@@ -42,10 +53,22 @@ where
   owner;
 ```
 
+```sql+sqlite
+select
+  id,
+  team,
+  membership_user as user,
+  updated_at
+from
+  linear_team_membership
+where
+  owner;
+```
+
 ### List members of a particular team
 Explore which members belong to a specific team, gaining insights into their user ID, name, admin status, email, and activity status. This is particularly useful for managing team dynamics and understanding the roles of different team members.
 
-```sql
+```sql+postgres
 select
   membership_user ->> 'id' as user_id,
   membership_user ->> 'name' as name,
@@ -58,10 +81,36 @@ where
   team ->> 'name' = 'linear_team';
 ```
 
+```sql+sqlite
+select
+  json_extract(membership_user, '$.id') as user_id,
+  json_extract(membership_user, '$.name') as name,
+  json_extract(membership_user, '$.admin') as admin,
+  json_extract(membership_user, '$.email') as email,
+  json_extract(membership_user, '$.active') as active
+from
+  linear_team_membership
+where
+  json_extract(team, '$.name') = 'linear_team';
+```
+
 ### List archived membership
 Explore which team memberships in Linear have been archived to manage team structure and access effectively. This could be useful in maintaining the organization's data hygiene and understanding team dynamics over time.
 
-```sql
+```sql+postgres
+select
+  id,
+  created_at,
+  owner,
+  sort_order,
+  updated_at
+from
+  linear_team_membership
+where
+  archived_at is not null;
+```
+
+```sql+sqlite
 select
   id,
   created_at,

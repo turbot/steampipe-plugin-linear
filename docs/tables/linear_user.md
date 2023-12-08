@@ -22,7 +22,22 @@ The `linear_user` table provides insights into users within the Linear platform.
 ### Basic info
 Explore which users are active or inactive, along with their admin status and personalized status labels. This can be particularly useful for understanding the overall user activity and administrative roles within your Linear organization.
 
-```sql
+```sql+postgres
+select
+  id,
+  title,
+  active,
+  admin,
+  created_at,
+  email,
+  status_emoji,
+  status_label,
+  updated_at
+from
+  linear_user;
+```
+
+```sql+sqlite
 select
   id,
   title,
@@ -40,7 +55,7 @@ from
 ### List admin users
 Uncover the details of which users have administrative privileges in your system. This information is crucial to understand who has elevated access and can make significant changes to your configurations.
 
-```sql
+```sql+postgres
 select
   id,
   title,
@@ -57,10 +72,27 @@ where
   admin;
 ```
 
+```sql+sqlite
+select
+  id,
+  title,
+  active,
+  admin,
+  created_at,
+  email,
+  status_emoji,
+  status_label,
+  updated_at
+from
+  linear_user
+where
+  admin = 1;
+```
+
 ### List inactive users
 Discover the segments that consist of inactive users within your system. This allows for efficient user management, enabling you to identify and possibly re-engage or remove these dormant profiles.
 
-```sql
+```sql+postgres
 select
   id,
   title,
@@ -77,10 +109,27 @@ where
   not active;
 ```
 
+```sql+sqlite
+select
+  id,
+  title,
+  active,
+  admin,
+  created_at,
+  email,
+  status_emoji,
+  status_label,
+  updated_at
+from
+  linear_user
+where
+  active = 0;
+```
+
 ### Show details of the currently authenticated user
 Explore the details of your user profile on Linear, including your status and administrative privileges. This can be useful for understanding your permissions and activity within the platform.
 
-```sql
+```sql+postgres
 select
   id,
   title,
@@ -97,10 +146,44 @@ where
   is_me;
 ```
 
+```sql+sqlite
+select
+  id,
+  title,
+  active,
+  admin,
+  created_at,
+  email,
+  status_emoji,
+  status_label,
+  updated_at
+from
+  linear_user
+where
+  is_me = 1;
+```
+
 ### List guest users
 Explore which users are guests in your system. This is useful for managing access rights and ensuring appropriate levels of user permissions.
 
-```sql
+```sql+postgres
+select
+  id,
+  title,
+  active,
+  admin,
+  created_at,
+  email,
+  status_emoji,
+  status_label,
+  updated_at
+from
+  linear_user
+where
+  guest;
+```
+
+```sql+sqlite
 select
   id,
   title,
@@ -120,7 +203,24 @@ where
 ### List archived users
 Discover the segments that consist of archived users in your system. This can be beneficial to identify inactive users, assess their previous contributions, and manage system resources more effectively.
 
-```sql
+```sql+postgres
+select
+  id,
+  title,
+  active,
+  admin,
+  created_at,
+  email,
+  status_emoji,
+  status_label,
+  updated_at
+from
+  linear_user
+where
+  archived_at is not null;
+```
+
+```sql+sqlite
 select
   id,
   title,
