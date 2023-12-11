@@ -86,7 +86,4 @@ Alternatively, you can also use the standard Linear environment variables to obt
 export LINEAR_TOKEN=lin_api_0aHa1iYv9WMTLrEAoSNWlG1RHPy4N5DuM4uILY
 ```
 
-## Get involved
 
-- Open source: https://github.com/turbot/steampipe-plugin-linear
-- Community: [Join #steampipe on Slack →](https://turbot.com/community/join)
