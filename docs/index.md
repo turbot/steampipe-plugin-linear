@@ -8,6 +8,7 @@ short_name: "linear"
 description: "Steampipe plugin to query issues, teams, users and more from Linear."
 og_description: "Query Linear with SQL! Open source CLI. No DB required."
 og_image: "/images/plugins/turbot/linear-social-graphic.png"
+engines: ["steampipe", "sqlite", "postgres", "export"]
 ---
 
 # Linear + Steampipe
