@@ -18,7 +18,6 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			ShouldRetryErrorFunc: shouldRetryError([]string{"429"})},
 		ConnectionConfigSchema: &plugin.ConnectionConfigSchema{
 			NewInstance: ConfigInstance,
-			Schema:      ConfigSchema,
 		},
 		TableMap: map[string]*plugin.Table{
 			"linear_attachment":      tableLinearAttachment(ctx),
