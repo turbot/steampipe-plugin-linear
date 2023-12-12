@@ -2,21 +2,11 @@ package linear
 
 import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/schema"
 )
 
 type linearConfig struct {
-	Token    *string `cty:"token"`
-	PageSize *int64  `cty:"page_size"`
-}
-
-var ConfigSchema = map[string]*schema.Attribute{
-	"token": {
-		Type: schema.TypeString,
-	},
-	"page_size": {
-		Type: schema.TypeInt,
-	},
+	Token    *string `hcl:"token"`
+	PageSize *int64  `hcl:"page_size"`
 }
 
 func ConfigInstance() interface{} {
