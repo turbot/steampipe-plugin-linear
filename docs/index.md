@@ -8,13 +8,14 @@ short_name: "linear"
 description: "Steampipe plugin to query issues, teams, users and more from Linear."
 og_description: "Query Linear with SQL! Open source CLI. No DB required."
 og_image: "/images/plugins/turbot/linear-social-graphic.png"
+engines: ["steampipe", "sqlite", "postgres", "export"]
 ---
 
 # Linear + Steampipe
 
 [Linear](https://linear.app/) is an application that streamlines issues, sprints, and product roadmaps. It's the new standard for modern software development.
 
-[Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
+[Steampipe](https://steampipe.io) is an open-source zero-ETL engine to instantly query cloud APIs using SQL.
 
 List your Linear issues:
 
@@ -85,7 +86,4 @@ Alternatively, you can also use the standard Linear environment variables to obt
 export LINEAR_TOKEN=lin_api_0aHa1iYv9WMTLrEAoSNWlG1RHPy4N5DuM4uILY
 ```
 
-## Get involved
 
-- Open source: https://github.com/turbot/steampipe-plugin-linear
-- Community: [Join #steampipe on Slack →](https://turbot.com/community/join)
