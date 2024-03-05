@@ -21,7 +21,12 @@ type linearClient struct {
 }
 
 func (t *authedTransport) RoundTrip(req *http.Request) (*http.Response, error) {
-	req.Header.Set("Authorization", "Bearer "+t.key)
+	isOauth:= os.Getenv("LINEAR_IS_OAUTH_TOKEN")=="true"
+	if isOauth{
+		req.Header.Set("Authorization", t.key)
+	}else{
+		req.Header.Set("Authorization", "Bearer "+t.key)
+	}
 	return t.wrapped.RoundTrip(req)
 }
 
