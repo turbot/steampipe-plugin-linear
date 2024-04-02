@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/Khan/genqlient/graphql"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -21,7 +22,13 @@ type linearClient struct {
 }
 
 func (t *authedTransport) RoundTrip(req *http.Request) (*http.Response, error) {
-	req.Header.Set("Authorization", "Bearer "+t.key)
+
+	// check if it is a personal access key
+	if strings.HasPrefix(t.key, "lin_api") {
+		req.Header.Set("Authorization", t.key)
+	} else {
+		req.Header.Set("Authorization", "Bearer " + t.key)
+	}
 	return t.wrapped.RoundTrip(req)
 }
 
