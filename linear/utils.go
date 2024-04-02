@@ -27,7 +27,7 @@ func (t *authedTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	if strings.HasPrefix(t.key, "lin_api") {
 		req.Header.Set("Authorization", t.key)
 	} else {
-		req.Header.Set("Authorization", "Bearer "+t.key)
+		req.Header.Set("Authorization", "Bearer " + t.key)
 	}
 	return t.wrapped.RoundTrip(req)
 }
