@@ -83,7 +83,7 @@ func tableLinearIssue(ctx context.Context) *plugin.Table {
 			KeyColumns: plugin.SingleColumn("id"),
 			Hydrate:    getIssue,
 		},
-		Columns: []*plugin.Column{
+		Columns: commonColumns([]*plugin.Column{
 			{
 				Name:        "id",
 				Description: "The unique identifier of the entity.",
@@ -256,7 +256,7 @@ func tableLinearIssue(ctx context.Context) *plugin.Table {
 				Description: "The issue's title.",
 				Type:        proto.ColumnType_STRING,
 			},
-		},
+		}),
 	}
 }
 

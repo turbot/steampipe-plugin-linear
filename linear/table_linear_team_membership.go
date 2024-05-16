@@ -22,7 +22,7 @@ func tableLinearTeamMembership(ctx context.Context) *plugin.Table {
 			KeyColumns: plugin.SingleColumn("id"),
 			Hydrate:    getTeamMembership,
 		},
-		Columns: []*plugin.Column{
+		Columns: commonColumns([]*plugin.Column{
 			{
 				Name:        "id",
 				Description: "The unique identifier of the entity.",
@@ -73,7 +73,7 @@ func tableLinearTeamMembership(ctx context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Id"),
 			},
-		},
+		}),
 	}
 }
 
