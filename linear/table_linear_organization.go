@@ -18,7 +18,7 @@ func tableLinearOrganization(ctx context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: getOrganization,
 		},
-		Columns: []*plugin.Column{
+		Columns: commonColumns([]*plugin.Column{
 			{
 				Name:        "id",
 				Description: "The unique identifier of the entity.",
@@ -152,7 +152,7 @@ func tableLinearOrganization(ctx context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Name"),
 			},
-		},
+		}),
 	}
 }
 

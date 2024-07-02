@@ -50,7 +50,7 @@ func tableLinearAttachment(ctx context.Context) *plugin.Table {
 			KeyColumns: plugin.SingleColumn("id"),
 			Hydrate:    getAttachment,
 		},
-		Columns: []*plugin.Column{
+		Columns: commonColumns([]*plugin.Column{
 			{
 				Name:        "id",
 				Description: "The unique identifier of the entity.",
@@ -118,7 +118,7 @@ func tableLinearAttachment(ctx context.Context) *plugin.Table {
 				Description: "The attachment's title.",
 				Type:        proto.ColumnType_STRING,
 			},
-		},
+		}),
 	}
 }
 

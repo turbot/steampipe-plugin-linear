@@ -19,6 +19,12 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		ConnectionConfigSchema: &plugin.ConnectionConfigSchema{
 			NewInstance: ConfigInstance,
 		},
+		ConnectionKeyColumns: []plugin.ConnectionKeyColumn{
+			{
+				Name:    "organization_id",
+				Hydrate: getOrganizationId,
+			},
+		},
 		TableMap: map[string]*plugin.Table{
 			"linear_attachment":      tableLinearAttachment(ctx),
 			"linear_comment":         tableLinearComment(ctx),
