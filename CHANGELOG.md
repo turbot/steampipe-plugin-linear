@@ -10,7 +10,7 @@ _Bug fixes_
 
 _Dependencies_
 
-- Recompiled plugin with [steampipe-plugin-sdk v5.10.1](https://github.com/turbot/steampipe-plugin-sdk/blob/main/CHANGELOG.md#v5101-2024-05-09) that adds support for connection key columns. ([#34](https://github.com/turbot/steampipe-plugin-linear/pull/34))
+- Recompiled plugin with [steampipe-plugin-sdk v5.10.1](https://github.com/turbot/steampipe-plugin-sdk/blob/main/CHANGELOG.md#v5101-2024-05-09) which ensures that `QueryData` passed to `ConnectionKeyColumns` value callback is populated with `ConnectionManager`. ([#34](https://github.com/turbot/steampipe-plugin-linear/pull/34))
 
 ## v0.2.0 [2023-12-12]
 
