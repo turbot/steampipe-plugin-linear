@@ -1,3 +1,17 @@
+## v0.3.0 [2024-7-11]
+
+_Enhancements_
+
+- The `organization_id` column has now been assigned as a connection key column across all the tables which facilitates more precise and efficient querying across multiple Linear accounts. ([#34](https://github.com/turbot/steampipe-plugin-linear/pull/34))
+
+_Bug fixes_
+
+- Fixed the plugin to correctly check for a valid Personal Access token. ([#33](https://github.com/turbot/steampipe-plugin-linear/pull/33))
+
+_Dependencies_
+
+- Recompiled plugin with [steampipe-plugin-sdk v5.10.1](https://github.com/turbot/steampipe-plugin-sdk/blob/main/CHANGELOG.md#v5101-2024-05-09) that adds support for connection key columns. ([#34](https://github.com/turbot/steampipe-plugin-linear/pull/34))
+
 ## v0.2.0 [2023-12-12]
 
 _What's new?_
