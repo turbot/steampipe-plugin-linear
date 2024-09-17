@@ -5,9 +5,11 @@ package gql
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"github.com/Khan/genqlient/graphql"
+	"github.com/turbot/steampipe-linear-genqlient-formatter/utils"
 )
 
 // Attachment collection filtering options.
@@ -267,21 +269,21 @@ func (v *ContentComparator) GetNotContains() *string { return v.NotContains }
 // Comparator for dates.
 type DateComparator struct {
 	// Equals constraint.
-	Eq *time.Time `json:"eq,omitempty"`
+	Eq *time.Time `json:"-"`
 	// Greater-than constraint. Matches any values that are greater than the given value.
-	Gt *time.Time `json:"gt,omitempty"`
+	Gt *time.Time `json:"-"`
 	// Greater-than-or-equal constraint. Matches any values that are greater than or equal to the given value.
-	Gte *time.Time `json:"gte,omitempty"`
+	Gte *time.Time `json:"-"`
 	// In-array constraint.
-	In []*time.Time `json:"in,omitempty"`
+	In []*time.Time `json:"-"`
 	// Less-than constraint. Matches any values that are less than the given value.
-	Lt *time.Time `json:"lt,omitempty"`
+	Lt *time.Time `json:"-"`
 	// Less-than-or-equal constraint. Matches any values that are less than or equal to the given value.
-	Lte *time.Time `json:"lte,omitempty"`
+	Lte *time.Time `json:"-"`
 	// Not-equals constraint.
-	Neq *time.Time `json:"neq,omitempty"`
+	Neq *time.Time `json:"-"`
 	// Not-in-array constraint.
-	Nin []*time.Time `json:"nin,omitempty"`
+	Nin []*time.Time `json:"-"`
 }
 
 // GetEq returns DateComparator.Eq, and is useful for accessing the field via an interface.
@@ -307,6 +309,313 @@ func (v *DateComparator) GetNeq() *time.Time { return v.Neq }
 
 // GetNin returns DateComparator.Nin, and is useful for accessing the field via an interface.
 func (v *DateComparator) GetNin() []*time.Time { return v.Nin }
+
+func (v *DateComparator) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*DateComparator
+		Eq  json.RawMessage   `json:"eq"`
+		Gt  json.RawMessage   `json:"gt"`
+		Gte json.RawMessage   `json:"gte"`
+		In  []json.RawMessage `json:"in"`
+		Lt  json.RawMessage   `json:"lt"`
+		Lte json.RawMessage   `json:"lte"`
+		Neq json.RawMessage   `json:"neq"`
+		Nin []json.RawMessage `json:"nin"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.DateComparator = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.Eq
+		src := firstPass.Eq
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal DateComparator.Eq: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.Gt
+		src := firstPass.Gt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal DateComparator.Gt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.Gte
+		src := firstPass.Gte
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal DateComparator.Gte: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.In
+		src := firstPass.In
+		*dst = make(
+			[]*time.Time,
+			len(src))
+		for i, src := range src {
+			dst := &(*dst)[i]
+			if len(src) != 0 && string(src) != "null" {
+				*dst = new(time.Time)
+				err = utils.UnmarshalDateTime(
+					src, *dst)
+				if err != nil {
+					return fmt.Errorf(
+						"unable to unmarshal DateComparator.In: %w", err)
+				}
+			}
+		}
+	}
+
+	{
+		dst := &v.Lt
+		src := firstPass.Lt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal DateComparator.Lt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.Lte
+		src := firstPass.Lte
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal DateComparator.Lte: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.Neq
+		src := firstPass.Neq
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal DateComparator.Neq: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.Nin
+		src := firstPass.Nin
+		*dst = make(
+			[]*time.Time,
+			len(src))
+		for i, src := range src {
+			dst := &(*dst)[i]
+			if len(src) != 0 && string(src) != "null" {
+				*dst = new(time.Time)
+				err = utils.UnmarshalDateTime(
+					src, *dst)
+				if err != nil {
+					return fmt.Errorf(
+						"unable to unmarshal DateComparator.Nin: %w", err)
+				}
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalDateComparator struct {
+	Eq json.RawMessage `json:"eq,omitempty"`
+
+	Gt json.RawMessage `json:"gt,omitempty"`
+
+	Gte json.RawMessage `json:"gte,omitempty"`
+
+	In []json.RawMessage `json:"in,omitempty"`
+
+	Lt json.RawMessage `json:"lt,omitempty"`
+
+	Lte json.RawMessage `json:"lte,omitempty"`
+
+	Neq json.RawMessage `json:"neq,omitempty"`
+
+	Nin []json.RawMessage `json:"nin,omitempty"`
+}
+
+func (v *DateComparator) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *DateComparator) __premarshalJSON() (*__premarshalDateComparator, error) {
+	var retval __premarshalDateComparator
+
+	{
+
+		dst := &retval.Eq
+		src := v.Eq
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal DateComparator.Eq: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.Gt
+		src := v.Gt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal DateComparator.Gt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.Gte
+		src := v.Gte
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal DateComparator.Gte: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.In
+		src := v.In
+		*dst = make(
+			[]json.RawMessage,
+			len(src))
+		for i, src := range src {
+			dst := &(*dst)[i]
+			if src != nil {
+				var err error
+				*dst, err = json.Marshal(
+					src)
+				if err != nil {
+					return nil, fmt.Errorf(
+						"unable to marshal DateComparator.In: %w", err)
+				}
+			}
+		}
+	}
+	{
+
+		dst := &retval.Lt
+		src := v.Lt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal DateComparator.Lt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.Lte
+		src := v.Lte
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal DateComparator.Lte: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.Neq
+		src := v.Neq
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal DateComparator.Neq: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.Nin
+		src := v.Nin
+		*dst = make(
+			[]json.RawMessage,
+			len(src))
+		for i, src := range src {
+			dst := &(*dst)[i]
+			if src != nil {
+				var err error
+				*dst, err = json.Marshal(
+					src)
+				if err != nil {
+					return nil, fmt.Errorf(
+						"unable to marshal DateComparator.Nin: %w", err)
+				}
+			}
+		}
+	}
+	return &retval, nil
+}
 
 // The day of the week.
 type Day string
@@ -1037,21 +1346,21 @@ func (v *NullableCycleFilter) GetUpdatedAt() *DateComparator { return v.UpdatedA
 // Comparator for optional dates.
 type NullableDateComparator struct {
 	// Equals constraint.
-	Eq *time.Time `json:"eq,omitempty"`
+	Eq *time.Time `json:"-"`
 	// Greater-than constraint. Matches any values that are greater than the given value.
-	Gt *time.Time `json:"gt,omitempty"`
+	Gt *time.Time `json:"-"`
 	// Greater-than-or-equal constraint. Matches any values that are greater than or equal to the given value.
-	Gte *time.Time `json:"gte,omitempty"`
+	Gte *time.Time `json:"-"`
 	// In-array constraint.
-	In []*time.Time `json:"in,omitempty"`
+	In []*time.Time `json:"-"`
 	// Less-than constraint. Matches any values that are less than the given value.
-	Lt *time.Time `json:"lt,omitempty"`
+	Lt *time.Time `json:"-"`
 	// Less-than-or-equal constraint. Matches any values that are less than or equal to the given value.
-	Lte *time.Time `json:"lte,omitempty"`
+	Lte *time.Time `json:"-"`
 	// Not-equals constraint.
-	Neq *time.Time `json:"neq,omitempty"`
+	Neq *time.Time `json:"-"`
 	// Not-in-array constraint.
-	Nin []*time.Time `json:"nin,omitempty"`
+	Nin []*time.Time `json:"-"`
 	// Null constraint. Matches any non-null values if the given value is false, otherwise it matches null values.
 	Null *bool `json:"null,omitempty"`
 }
@@ -1082,6 +1391,316 @@ func (v *NullableDateComparator) GetNin() []*time.Time { return v.Nin }
 
 // GetNull returns NullableDateComparator.Null, and is useful for accessing the field via an interface.
 func (v *NullableDateComparator) GetNull() *bool { return v.Null }
+
+func (v *NullableDateComparator) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*NullableDateComparator
+		Eq  json.RawMessage   `json:"eq"`
+		Gt  json.RawMessage   `json:"gt"`
+		Gte json.RawMessage   `json:"gte"`
+		In  []json.RawMessage `json:"in"`
+		Lt  json.RawMessage   `json:"lt"`
+		Lte json.RawMessage   `json:"lte"`
+		Neq json.RawMessage   `json:"neq"`
+		Nin []json.RawMessage `json:"nin"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.NullableDateComparator = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.Eq
+		src := firstPass.Eq
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal NullableDateComparator.Eq: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.Gt
+		src := firstPass.Gt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal NullableDateComparator.Gt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.Gte
+		src := firstPass.Gte
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal NullableDateComparator.Gte: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.In
+		src := firstPass.In
+		*dst = make(
+			[]*time.Time,
+			len(src))
+		for i, src := range src {
+			dst := &(*dst)[i]
+			if len(src) != 0 && string(src) != "null" {
+				*dst = new(time.Time)
+				err = utils.UnmarshalDateTime(
+					src, *dst)
+				if err != nil {
+					return fmt.Errorf(
+						"unable to unmarshal NullableDateComparator.In: %w", err)
+				}
+			}
+		}
+	}
+
+	{
+		dst := &v.Lt
+		src := firstPass.Lt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal NullableDateComparator.Lt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.Lte
+		src := firstPass.Lte
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal NullableDateComparator.Lte: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.Neq
+		src := firstPass.Neq
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal NullableDateComparator.Neq: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.Nin
+		src := firstPass.Nin
+		*dst = make(
+			[]*time.Time,
+			len(src))
+		for i, src := range src {
+			dst := &(*dst)[i]
+			if len(src) != 0 && string(src) != "null" {
+				*dst = new(time.Time)
+				err = utils.UnmarshalDateTime(
+					src, *dst)
+				if err != nil {
+					return fmt.Errorf(
+						"unable to unmarshal NullableDateComparator.Nin: %w", err)
+				}
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalNullableDateComparator struct {
+	Eq json.RawMessage `json:"eq,omitempty"`
+
+	Gt json.RawMessage `json:"gt,omitempty"`
+
+	Gte json.RawMessage `json:"gte,omitempty"`
+
+	In []json.RawMessage `json:"in,omitempty"`
+
+	Lt json.RawMessage `json:"lt,omitempty"`
+
+	Lte json.RawMessage `json:"lte,omitempty"`
+
+	Neq json.RawMessage `json:"neq,omitempty"`
+
+	Nin []json.RawMessage `json:"nin,omitempty"`
+
+	Null *bool `json:"null,omitempty"`
+}
+
+func (v *NullableDateComparator) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *NullableDateComparator) __premarshalJSON() (*__premarshalNullableDateComparator, error) {
+	var retval __premarshalNullableDateComparator
+
+	{
+
+		dst := &retval.Eq
+		src := v.Eq
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal NullableDateComparator.Eq: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.Gt
+		src := v.Gt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal NullableDateComparator.Gt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.Gte
+		src := v.Gte
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal NullableDateComparator.Gte: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.In
+		src := v.In
+		*dst = make(
+			[]json.RawMessage,
+			len(src))
+		for i, src := range src {
+			dst := &(*dst)[i]
+			if src != nil {
+				var err error
+				*dst, err = json.Marshal(
+					src)
+				if err != nil {
+					return nil, fmt.Errorf(
+						"unable to marshal NullableDateComparator.In: %w", err)
+				}
+			}
+		}
+	}
+	{
+
+		dst := &retval.Lt
+		src := v.Lt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal NullableDateComparator.Lt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.Lte
+		src := v.Lte
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal NullableDateComparator.Lte: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.Neq
+		src := v.Neq
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal NullableDateComparator.Neq: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.Nin
+		src := v.Nin
+		*dst = make(
+			[]json.RawMessage,
+			len(src))
+		for i, src := range src {
+			dst := &(*dst)[i]
+			if src != nil {
+				var err error
+				*dst, err = json.Marshal(
+					src)
+				if err != nil {
+					return nil, fmt.Errorf(
+						"unable to marshal NullableDateComparator.Nin: %w", err)
+				}
+			}
+		}
+	}
+	retval.Null = v.Null
+	return &retval, nil
+}
 
 // Issue filtering options.
 type NullableIssueFilter struct {
@@ -1540,21 +2159,21 @@ func (v *NullableStringComparator) GetStartsWith() *string { return v.StartsWith
 
 type NullableTimelessDateComparator struct {
 	// Equals constraint.
-	Eq *time.Time `json:"eq,omitempty"`
+	Eq *time.Time `json:"-"`
 	// Greater-than constraint. Matches any values that are greater than the given value.
-	Gt *time.Time `json:"gt,omitempty"`
+	Gt *time.Time `json:"-"`
 	// Greater-than-or-equal constraint. Matches any values that are greater than or equal to the given value.
-	Gte *time.Time `json:"gte,omitempty"`
+	Gte *time.Time `json:"-"`
 	// In-array constraint.
-	In []*time.Time `json:"in,omitempty"`
+	In []*time.Time `json:"-"`
 	// Less-than constraint. Matches any values that are less than the given value.
-	Lt *time.Time `json:"lt,omitempty"`
+	Lt *time.Time `json:"-"`
 	// Less-than-or-equal constraint. Matches any values that are less than or equal to the given value.
-	Lte *time.Time `json:"lte,omitempty"`
+	Lte *time.Time `json:"-"`
 	// Not-equals constraint.
-	Neq *time.Time `json:"neq,omitempty"`
+	Neq *time.Time `json:"-"`
 	// Not-in-array constraint.
-	Nin []*time.Time `json:"nin,omitempty"`
+	Nin []*time.Time `json:"-"`
 	// Null constraint. Matches any non-null values if the given value is false, otherwise it matches null values.
 	Null *bool `json:"null,omitempty"`
 }
@@ -1585,6 +2204,316 @@ func (v *NullableTimelessDateComparator) GetNin() []*time.Time { return v.Nin }
 
 // GetNull returns NullableTimelessDateComparator.Null, and is useful for accessing the field via an interface.
 func (v *NullableTimelessDateComparator) GetNull() *bool { return v.Null }
+
+func (v *NullableTimelessDateComparator) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*NullableTimelessDateComparator
+		Eq  json.RawMessage   `json:"eq"`
+		Gt  json.RawMessage   `json:"gt"`
+		Gte json.RawMessage   `json:"gte"`
+		In  []json.RawMessage `json:"in"`
+		Lt  json.RawMessage   `json:"lt"`
+		Lte json.RawMessage   `json:"lte"`
+		Neq json.RawMessage   `json:"neq"`
+		Nin []json.RawMessage `json:"nin"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.NullableTimelessDateComparator = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.Eq
+		src := firstPass.Eq
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal NullableTimelessDateComparator.Eq: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.Gt
+		src := firstPass.Gt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal NullableTimelessDateComparator.Gt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.Gte
+		src := firstPass.Gte
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal NullableTimelessDateComparator.Gte: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.In
+		src := firstPass.In
+		*dst = make(
+			[]*time.Time,
+			len(src))
+		for i, src := range src {
+			dst := &(*dst)[i]
+			if len(src) != 0 && string(src) != "null" {
+				*dst = new(time.Time)
+				err = utils.UnmarshalDateTime(
+					src, *dst)
+				if err != nil {
+					return fmt.Errorf(
+						"unable to unmarshal NullableTimelessDateComparator.In: %w", err)
+				}
+			}
+		}
+	}
+
+	{
+		dst := &v.Lt
+		src := firstPass.Lt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal NullableTimelessDateComparator.Lt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.Lte
+		src := firstPass.Lte
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal NullableTimelessDateComparator.Lte: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.Neq
+		src := firstPass.Neq
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal NullableTimelessDateComparator.Neq: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.Nin
+		src := firstPass.Nin
+		*dst = make(
+			[]*time.Time,
+			len(src))
+		for i, src := range src {
+			dst := &(*dst)[i]
+			if len(src) != 0 && string(src) != "null" {
+				*dst = new(time.Time)
+				err = utils.UnmarshalDateTime(
+					src, *dst)
+				if err != nil {
+					return fmt.Errorf(
+						"unable to unmarshal NullableTimelessDateComparator.Nin: %w", err)
+				}
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalNullableTimelessDateComparator struct {
+	Eq json.RawMessage `json:"eq,omitempty"`
+
+	Gt json.RawMessage `json:"gt,omitempty"`
+
+	Gte json.RawMessage `json:"gte,omitempty"`
+
+	In []json.RawMessage `json:"in,omitempty"`
+
+	Lt json.RawMessage `json:"lt,omitempty"`
+
+	Lte json.RawMessage `json:"lte,omitempty"`
+
+	Neq json.RawMessage `json:"neq,omitempty"`
+
+	Nin []json.RawMessage `json:"nin,omitempty"`
+
+	Null *bool `json:"null,omitempty"`
+}
+
+func (v *NullableTimelessDateComparator) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *NullableTimelessDateComparator) __premarshalJSON() (*__premarshalNullableTimelessDateComparator, error) {
+	var retval __premarshalNullableTimelessDateComparator
+
+	{
+
+		dst := &retval.Eq
+		src := v.Eq
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal NullableTimelessDateComparator.Eq: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.Gt
+		src := v.Gt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal NullableTimelessDateComparator.Gt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.Gte
+		src := v.Gte
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal NullableTimelessDateComparator.Gte: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.In
+		src := v.In
+		*dst = make(
+			[]json.RawMessage,
+			len(src))
+		for i, src := range src {
+			dst := &(*dst)[i]
+			if src != nil {
+				var err error
+				*dst, err = json.Marshal(
+					src)
+				if err != nil {
+					return nil, fmt.Errorf(
+						"unable to marshal NullableTimelessDateComparator.In: %w", err)
+				}
+			}
+		}
+	}
+	{
+
+		dst := &retval.Lt
+		src := v.Lt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal NullableTimelessDateComparator.Lt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.Lte
+		src := v.Lte
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal NullableTimelessDateComparator.Lte: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.Neq
+		src := v.Neq
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal NullableTimelessDateComparator.Neq: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.Nin
+		src := v.Nin
+		*dst = make(
+			[]json.RawMessage,
+			len(src))
+		for i, src := range src {
+			dst := &(*dst)[i]
+			if src != nil {
+				var err error
+				*dst, err = json.Marshal(
+					src)
+				if err != nil {
+					return nil, fmt.Errorf(
+						"unable to marshal NullableTimelessDateComparator.Nin: %w", err)
+				}
+			}
+		}
+	}
+	retval.Null = v.Null
+	return &retval, nil
+}
 
 // User filtering options.
 type NullableUserFilter struct {
@@ -2637,9 +3566,9 @@ type getAttachmentAttachment struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Indicates if attachments for the same source application should be grouped in the Linear UI.
 	GroupBySource *bool `json:"groupBySource"`
 	// Custom metadata related to the attachment.
@@ -2655,7 +3584,7 @@ type getAttachmentAttachment struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Location of the attachment which is also used as an identifier.
 	Url *string `json:"url"`
 	// The creator of the attachment.
@@ -2703,6 +3632,164 @@ func (v *getAttachmentAttachment) GetCreator() *getAttachmentAttachmentCreatorUs
 // GetIssue returns getAttachmentAttachment.Issue, and is useful for accessing the field via an interface.
 func (v *getAttachmentAttachment) GetIssue() *getAttachmentAttachmentIssue { return v.Issue }
 
+func (v *getAttachmentAttachment) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getAttachmentAttachment
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getAttachmentAttachment = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachment.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachment.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachment.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetAttachmentAttachment struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	GroupBySource *bool `json:"groupBySource"`
+
+	Metadata *json.RawMessage `json:"metadata"`
+
+	Source *json.RawMessage `json:"source"`
+
+	SourceType *string `json:"sourceType"`
+
+	Subtitle *string `json:"subtitle"`
+
+	Title *string `json:"title"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+
+	Creator *getAttachmentAttachmentCreatorUser `json:"creator"`
+
+	Issue *getAttachmentAttachmentIssue `json:"issue"`
+}
+
+func (v *getAttachmentAttachment) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getAttachmentAttachment) __premarshalJSON() (*__premarshalgetAttachmentAttachment, error) {
+	var retval __premarshalgetAttachmentAttachment
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachment.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachment.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.GroupBySource = v.GroupBySource
+	retval.Metadata = v.Metadata
+	retval.Source = v.Source
+	retval.SourceType = v.SourceType
+	retval.Subtitle = v.Subtitle
+	retval.Title = v.Title
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachment.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	retval.Creator = v.Creator
+	retval.Issue = v.Issue
+	return &retval, nil
+}
+
 // getAttachmentAttachmentCreatorUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -2715,13 +3802,13 @@ type getAttachmentAttachmentCreatorUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -2739,7 +3826,7 @@ type getAttachmentAttachmentCreatorUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -2747,13 +3834,13 @@ type getAttachmentAttachmentCreatorUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -2827,6 +3914,250 @@ func (v *getAttachmentAttachmentCreatorUser) GetUpdatedAt() *time.Time { return 
 // GetUrl returns getAttachmentAttachmentCreatorUser.Url, and is useful for accessing the field via an interface.
 func (v *getAttachmentAttachmentCreatorUser) GetUrl() *string { return v.Url }
 
+func (v *getAttachmentAttachmentCreatorUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getAttachmentAttachmentCreatorUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getAttachmentAttachmentCreatorUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachmentCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachmentCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachmentCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachmentCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachmentCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetAttachmentAttachmentCreatorUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *getAttachmentAttachmentCreatorUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getAttachmentAttachmentCreatorUser) __premarshalJSON() (*__premarshalgetAttachmentAttachmentCreatorUser, error) {
+	var retval __premarshalgetAttachmentAttachmentCreatorUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachmentCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachmentCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachmentCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachmentCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachmentCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // getAttachmentAttachmentIssue includes the requested fields of the GraphQL type Issue.
 // The GraphQL type's documentation follows.
 //
@@ -2835,13 +4166,13 @@ type getAttachmentAttachmentIssue struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The issue's unique number.
 	Number *float64 `json:"number"`
 	// The issue's title.
@@ -2855,21 +4186,21 @@ type getAttachmentAttachmentIssue struct {
 	// The order of the item in relation to other items in the organization.
 	SortOrder *float64 `json:"sortOrder"`
 	// The time at which the issue was moved into started state.
-	StartedAt *time.Time `json:"startedAt"`
+	StartedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into completed state.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into canceled state.
-	CanceledAt *time.Time `json:"canceledAt"`
+	CanceledAt *time.Time `json:"-"`
 	// The time at which the issue was automatically closed by the auto pruning process.
-	AutoClosedAt *time.Time `json:"autoClosedAt"`
+	AutoClosedAt *time.Time `json:"-"`
 	// The time at which the issue was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The date at which the issue is due.
-	DueDate *time.Time `json:"dueDate"`
+	DueDate *time.Time `json:"-"`
 	// A flag that indicates whether the issue is in the trash bin.
 	Trashed *bool `json:"trashed"`
 	// The time until an issue will be snoozed in Triage view.
-	SnoozedUntilAt *time.Time `json:"snoozedUntilAt"`
+	SnoozedUntilAt *time.Time `json:"-"`
 	// Previous identifiers of the issue if it has been moved between teams.
 	PreviousIdentifiers []*string `json:"previousIdentifiers"`
 	// The order of the item in the sub-issue list. Only set if the issue has a parent.
@@ -2963,6 +4294,396 @@ func (v *getAttachmentAttachmentIssue) GetBranchName() *string { return v.Branch
 // GetCustomerTicketCount returns getAttachmentAttachmentIssue.CustomerTicketCount, and is useful for accessing the field via an interface.
 func (v *getAttachmentAttachmentIssue) GetCustomerTicketCount() *int { return v.CustomerTicketCount }
 
+func (v *getAttachmentAttachmentIssue) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getAttachmentAttachmentIssue
+		CreatedAt      json.RawMessage `json:"createdAt"`
+		UpdatedAt      json.RawMessage `json:"updatedAt"`
+		ArchivedAt     json.RawMessage `json:"archivedAt"`
+		StartedAt      json.RawMessage `json:"startedAt"`
+		CompletedAt    json.RawMessage `json:"completedAt"`
+		CanceledAt     json.RawMessage `json:"canceledAt"`
+		AutoClosedAt   json.RawMessage `json:"autoClosedAt"`
+		AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+		DueDate        json.RawMessage `json:"dueDate"`
+		SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getAttachmentAttachmentIssue = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachmentIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachmentIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachmentIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartedAt
+		src := firstPass.StartedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachmentIssue.StartedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachmentIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CanceledAt
+		src := firstPass.CanceledAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachmentIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoClosedAt
+		src := firstPass.AutoClosedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachmentIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachmentIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DueDate
+		src := firstPass.DueDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachmentIssue.DueDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.SnoozedUntilAt
+		src := firstPass.SnoozedUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getAttachmentAttachmentIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetAttachmentAttachmentIssue struct {
+	Id *string `json:"id"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Number *float64 `json:"number"`
+
+	Title *string `json:"title"`
+
+	Description *string `json:"description"`
+
+	Priority *float64 `json:"priority"`
+
+	Estimate *float64 `json:"estimate"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	StartedAt json.RawMessage `json:"startedAt"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CanceledAt json.RawMessage `json:"canceledAt"`
+
+	AutoClosedAt json.RawMessage `json:"autoClosedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	DueDate json.RawMessage `json:"dueDate"`
+
+	Trashed *bool `json:"trashed"`
+
+	SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+
+	PreviousIdentifiers []*string `json:"previousIdentifiers"`
+
+	SubIssueSortOrder *float64 `json:"subIssueSortOrder"`
+
+	PriorityLabel *string `json:"priorityLabel"`
+
+	Identifier *string `json:"identifier"`
+
+	Url *string `json:"url"`
+
+	BranchName *string `json:"branchName"`
+
+	CustomerTicketCount *int `json:"customerTicketCount"`
+}
+
+func (v *getAttachmentAttachmentIssue) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getAttachmentAttachmentIssue) __premarshalJSON() (*__premarshalgetAttachmentAttachmentIssue, error) {
+	var retval __premarshalgetAttachmentAttachmentIssue
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachmentIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachmentIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachmentIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Number = v.Number
+	retval.Title = v.Title
+	retval.Description = v.Description
+	retval.Priority = v.Priority
+	retval.Estimate = v.Estimate
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.StartedAt
+		src := v.StartedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachmentIssue.StartedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachmentIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CanceledAt
+		src := v.CanceledAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachmentIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoClosedAt
+		src := v.AutoClosedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachmentIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachmentIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.DueDate
+		src := v.DueDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachmentIssue.DueDate: %w", err)
+			}
+		}
+	}
+	retval.Trashed = v.Trashed
+	{
+
+		dst := &retval.SnoozedUntilAt
+		src := v.SnoozedUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getAttachmentAttachmentIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	retval.PreviousIdentifiers = v.PreviousIdentifiers
+	retval.SubIssueSortOrder = v.SubIssueSortOrder
+	retval.PriorityLabel = v.PriorityLabel
+	retval.Identifier = v.Identifier
+	retval.Url = v.Url
+	retval.BranchName = v.BranchName
+	retval.CustomerTicketCount = v.CustomerTicketCount
+	return &retval, nil
+}
+
 // getAttachmentResponse is returned by getAttachment on success.
 type getAttachmentResponse struct {
 	// One specific issue attachment.
@@ -2981,21 +4702,21 @@ type getCommentComment struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The comment content in markdown format.
 	Body *string `json:"body"`
 	// The comment content as a Prosemirror document.
 	BodyData *string `json:"bodyData"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The time user edited the comment.
-	EditedAt *time.Time `json:"editedAt"`
+	EditedAt *time.Time `json:"-"`
 	// Emoji reaction summary, grouped by emoji type
 	ReactionData *json.RawMessage `json:"reactionData"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Comment's URL.
 	Url *string `json:"url"`
 	// The user who wrote the comment.
@@ -3042,6 +4763,189 @@ func (v *getCommentComment) GetParent() *getCommentCommentParentComment { return
 // GetIssue returns getCommentComment.Issue, and is useful for accessing the field via an interface.
 func (v *getCommentComment) GetIssue() *getCommentCommentIssue { return v.Issue }
 
+func (v *getCommentComment) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getCommentComment
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		EditedAt   json.RawMessage `json:"editedAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getCommentComment = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentComment.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentComment.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.EditedAt
+		src := firstPass.EditedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentComment.EditedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentComment.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetCommentComment struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Body *string `json:"body"`
+
+	BodyData *string `json:"bodyData"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	EditedAt json.RawMessage `json:"editedAt"`
+
+	ReactionData *json.RawMessage `json:"reactionData"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+
+	User *getCommentCommentUser `json:"user"`
+
+	Parent *getCommentCommentParentComment `json:"parent"`
+
+	Issue *getCommentCommentIssue `json:"issue"`
+}
+
+func (v *getCommentComment) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getCommentComment) __premarshalJSON() (*__premarshalgetCommentComment, error) {
+	var retval __premarshalgetCommentComment
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentComment.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Body = v.Body
+	retval.BodyData = v.BodyData
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentComment.CreatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.EditedAt
+		src := v.EditedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentComment.EditedAt: %w", err)
+			}
+		}
+	}
+	retval.ReactionData = v.ReactionData
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentComment.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	retval.User = v.User
+	retval.Parent = v.Parent
+	retval.Issue = v.Issue
+	return &retval, nil
+}
+
 // getCommentCommentIssue includes the requested fields of the GraphQL type Issue.
 // The GraphQL type's documentation follows.
 //
@@ -3050,13 +4954,13 @@ type getCommentCommentIssue struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The issue's unique number.
 	Number *float64 `json:"number"`
 	// The issue's title.
@@ -3070,21 +4974,21 @@ type getCommentCommentIssue struct {
 	// The order of the item in relation to other items in the organization.
 	SortOrder *float64 `json:"sortOrder"`
 	// The time at which the issue was moved into started state.
-	StartedAt *time.Time `json:"startedAt"`
+	StartedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into completed state.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into canceled state.
-	CanceledAt *time.Time `json:"canceledAt"`
+	CanceledAt *time.Time `json:"-"`
 	// The time at which the issue was automatically closed by the auto pruning process.
-	AutoClosedAt *time.Time `json:"autoClosedAt"`
+	AutoClosedAt *time.Time `json:"-"`
 	// The time at which the issue was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The date at which the issue is due.
-	DueDate *time.Time `json:"dueDate"`
+	DueDate *time.Time `json:"-"`
 	// A flag that indicates whether the issue is in the trash bin.
 	Trashed *bool `json:"trashed"`
 	// The time until an issue will be snoozed in Triage view.
-	SnoozedUntilAt *time.Time `json:"snoozedUntilAt"`
+	SnoozedUntilAt *time.Time `json:"-"`
 	// Previous identifiers of the issue if it has been moved between teams.
 	PreviousIdentifiers []*string `json:"previousIdentifiers"`
 	// The order of the item in the sub-issue list. Only set if the issue has a parent.
@@ -3176,6 +5080,396 @@ func (v *getCommentCommentIssue) GetBranchName() *string { return v.BranchName }
 // GetCustomerTicketCount returns getCommentCommentIssue.CustomerTicketCount, and is useful for accessing the field via an interface.
 func (v *getCommentCommentIssue) GetCustomerTicketCount() *int { return v.CustomerTicketCount }
 
+func (v *getCommentCommentIssue) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getCommentCommentIssue
+		CreatedAt      json.RawMessage `json:"createdAt"`
+		UpdatedAt      json.RawMessage `json:"updatedAt"`
+		ArchivedAt     json.RawMessage `json:"archivedAt"`
+		StartedAt      json.RawMessage `json:"startedAt"`
+		CompletedAt    json.RawMessage `json:"completedAt"`
+		CanceledAt     json.RawMessage `json:"canceledAt"`
+		AutoClosedAt   json.RawMessage `json:"autoClosedAt"`
+		AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+		DueDate        json.RawMessage `json:"dueDate"`
+		SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getCommentCommentIssue = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartedAt
+		src := firstPass.StartedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentIssue.StartedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CanceledAt
+		src := firstPass.CanceledAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoClosedAt
+		src := firstPass.AutoClosedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DueDate
+		src := firstPass.DueDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentIssue.DueDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.SnoozedUntilAt
+		src := firstPass.SnoozedUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetCommentCommentIssue struct {
+	Id *string `json:"id"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Number *float64 `json:"number"`
+
+	Title *string `json:"title"`
+
+	Description *string `json:"description"`
+
+	Priority *float64 `json:"priority"`
+
+	Estimate *float64 `json:"estimate"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	StartedAt json.RawMessage `json:"startedAt"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CanceledAt json.RawMessage `json:"canceledAt"`
+
+	AutoClosedAt json.RawMessage `json:"autoClosedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	DueDate json.RawMessage `json:"dueDate"`
+
+	Trashed *bool `json:"trashed"`
+
+	SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+
+	PreviousIdentifiers []*string `json:"previousIdentifiers"`
+
+	SubIssueSortOrder *float64 `json:"subIssueSortOrder"`
+
+	PriorityLabel *string `json:"priorityLabel"`
+
+	Identifier *string `json:"identifier"`
+
+	Url *string `json:"url"`
+
+	BranchName *string `json:"branchName"`
+
+	CustomerTicketCount *int `json:"customerTicketCount"`
+}
+
+func (v *getCommentCommentIssue) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getCommentCommentIssue) __premarshalJSON() (*__premarshalgetCommentCommentIssue, error) {
+	var retval __premarshalgetCommentCommentIssue
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Number = v.Number
+	retval.Title = v.Title
+	retval.Description = v.Description
+	retval.Priority = v.Priority
+	retval.Estimate = v.Estimate
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.StartedAt
+		src := v.StartedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentIssue.StartedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CanceledAt
+		src := v.CanceledAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoClosedAt
+		src := v.AutoClosedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.DueDate
+		src := v.DueDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentIssue.DueDate: %w", err)
+			}
+		}
+	}
+	retval.Trashed = v.Trashed
+	{
+
+		dst := &retval.SnoozedUntilAt
+		src := v.SnoozedUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	retval.PreviousIdentifiers = v.PreviousIdentifiers
+	retval.SubIssueSortOrder = v.SubIssueSortOrder
+	retval.PriorityLabel = v.PriorityLabel
+	retval.Identifier = v.Identifier
+	retval.Url = v.Url
+	retval.BranchName = v.BranchName
+	retval.CustomerTicketCount = v.CustomerTicketCount
+	return &retval, nil
+}
+
 // getCommentCommentParentComment includes the requested fields of the GraphQL type Comment.
 // The GraphQL type's documentation follows.
 //
@@ -3184,21 +5478,21 @@ type getCommentCommentParentComment struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The comment content in markdown format.
 	Body *string `json:"body"`
 	// The comment content as a Prosemirror document.
 	BodyData *string `json:"bodyData"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The time user edited the comment.
-	EditedAt *time.Time `json:"editedAt"`
+	EditedAt *time.Time `json:"-"`
 	// Emoji reaction summary, grouped by emoji type
 	ReactionData *json.RawMessage `json:"reactionData"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Comment's URL.
 	Url *string `json:"url"`
 }
@@ -3230,6 +5524,180 @@ func (v *getCommentCommentParentComment) GetUpdatedAt() *time.Time { return v.Up
 // GetUrl returns getCommentCommentParentComment.Url, and is useful for accessing the field via an interface.
 func (v *getCommentCommentParentComment) GetUrl() *string { return v.Url }
 
+func (v *getCommentCommentParentComment) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getCommentCommentParentComment
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		EditedAt   json.RawMessage `json:"editedAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getCommentCommentParentComment = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentParentComment.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentParentComment.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.EditedAt
+		src := firstPass.EditedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentParentComment.EditedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentParentComment.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetCommentCommentParentComment struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Body *string `json:"body"`
+
+	BodyData *string `json:"bodyData"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	EditedAt json.RawMessage `json:"editedAt"`
+
+	ReactionData *json.RawMessage `json:"reactionData"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *getCommentCommentParentComment) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getCommentCommentParentComment) __premarshalJSON() (*__premarshalgetCommentCommentParentComment, error) {
+	var retval __premarshalgetCommentCommentParentComment
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentParentComment.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Body = v.Body
+	retval.BodyData = v.BodyData
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentParentComment.CreatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.EditedAt
+		src := v.EditedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentParentComment.EditedAt: %w", err)
+			}
+		}
+	}
+	retval.ReactionData = v.ReactionData
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentParentComment.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // getCommentCommentUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -3242,13 +5710,13 @@ type getCommentCommentUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -3266,7 +5734,7 @@ type getCommentCommentUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -3274,13 +5742,13 @@ type getCommentCommentUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -3354,6 +5822,250 @@ func (v *getCommentCommentUser) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 // GetUrl returns getCommentCommentUser.Url, and is useful for accessing the field via an interface.
 func (v *getCommentCommentUser) GetUrl() *string { return v.Url }
 
+func (v *getCommentCommentUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getCommentCommentUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getCommentCommentUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getCommentCommentUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetCommentCommentUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *getCommentCommentUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getCommentCommentUser) __premarshalJSON() (*__premarshalgetCommentCommentUser, error) {
+	var retval __premarshalgetCommentCommentUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getCommentCommentUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // getCommentResponse is returned by getComment on success.
 type getCommentResponse struct {
 	// A specific comment.
@@ -3371,15 +6083,15 @@ type getIntegrationIntegration struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The integration's type.
 	Service *string `json:"service"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The team that the integration is associated with.
 	Team *getIntegrationIntegrationTeam `json:"team"`
 	// The user that added the integration.
@@ -3416,6 +6128,149 @@ func (v *getIntegrationIntegration) GetOrganization() *getIntegrationIntegration
 	return v.Organization
 }
 
+func (v *getIntegrationIntegration) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIntegrationIntegration
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIntegrationIntegration = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIntegrationIntegration.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIntegrationIntegration.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIntegrationIntegration.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIntegrationIntegration struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Service *string `json:"service"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Team *getIntegrationIntegrationTeam `json:"team"`
+
+	Creator *getIntegrationIntegrationCreatorUser `json:"creator"`
+
+	Organization *getIntegrationIntegrationOrganization `json:"organization"`
+}
+
+func (v *getIntegrationIntegration) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIntegrationIntegration) __premarshalJSON() (*__premarshalgetIntegrationIntegration, error) {
+	var retval __premarshalgetIntegrationIntegration
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIntegrationIntegration.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIntegrationIntegration.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Service = v.Service
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIntegrationIntegration.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Team = v.Team
+	retval.Creator = v.Creator
+	retval.Organization = v.Organization
+	return &retval, nil
+}
+
 // getIntegrationIntegrationCreatorUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -3428,13 +6283,13 @@ type getIntegrationIntegrationCreatorUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -3452,7 +6307,7 @@ type getIntegrationIntegrationCreatorUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -3460,13 +6315,13 @@ type getIntegrationIntegrationCreatorUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -3542,6 +6397,250 @@ func (v *getIntegrationIntegrationCreatorUser) GetUpdatedAt() *time.Time { retur
 // GetUrl returns getIntegrationIntegrationCreatorUser.Url, and is useful for accessing the field via an interface.
 func (v *getIntegrationIntegrationCreatorUser) GetUrl() *string { return v.Url }
 
+func (v *getIntegrationIntegrationCreatorUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIntegrationIntegrationCreatorUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIntegrationIntegrationCreatorUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIntegrationIntegrationCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIntegrationIntegrationCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIntegrationIntegrationCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIntegrationIntegrationCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIntegrationIntegrationCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIntegrationIntegrationCreatorUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *getIntegrationIntegrationCreatorUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIntegrationIntegrationCreatorUser) __premarshalJSON() (*__premarshalgetIntegrationIntegrationCreatorUser, error) {
+	var retval __premarshalgetIntegrationIntegrationCreatorUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIntegrationIntegrationCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIntegrationIntegrationCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIntegrationIntegrationCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIntegrationIntegrationCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIntegrationIntegrationCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // getIntegrationIntegrationOrganization includes the requested fields of the GraphQL type Organization.
 // The GraphQL type's documentation follows.
 //
@@ -3552,13 +6651,13 @@ type getIntegrationIntegrationOrganization struct {
 	// Allowed authentication providers, empty array means all are allowed
 	AllowedAuthServices []*string `json:"allowedAuthServices"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues in the organization.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// The time at which deletion of the organization was requested.
-	DeletionRequestedAt *time.Time `json:"deletionRequestedAt"`
+	DeletionRequestedAt *time.Time `json:"-"`
 	// How git branches are formatted. If null, default formatting will be used.
 	GitBranchFormat *string `json:"gitBranchFormat"`
 	// Whether the Git integration linkback messages should be sent to private repositories.
@@ -3588,11 +6687,11 @@ type getIntegrationIntegrationOrganization struct {
 	// Whether SCIM provisioning is enabled for organization.
 	ScimEnabled *bool `json:"scimEnabled"`
 	// The time at which the trial of the plus plan will end.
-	TrialEndsAt *time.Time `json:"trialEndsAt"`
+	TrialEndsAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The organization's unique URL key.
 	UrlKey *string `json:"urlKey"`
 	// Number of active users in the organization.
@@ -3695,6 +6794,253 @@ func (v *getIntegrationIntegrationOrganization) GetUrlKey() *string { return v.U
 // GetUserCount returns getIntegrationIntegrationOrganization.UserCount, and is useful for accessing the field via an interface.
 func (v *getIntegrationIntegrationOrganization) GetUserCount() *int { return v.UserCount }
 
+func (v *getIntegrationIntegrationOrganization) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIntegrationIntegrationOrganization
+		ArchivedAt          json.RawMessage `json:"archivedAt"`
+		CreatedAt           json.RawMessage `json:"createdAt"`
+		DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+		TrialEndsAt         json.RawMessage `json:"trialEndsAt"`
+		UpdatedAt           json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIntegrationIntegrationOrganization = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIntegrationIntegrationOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIntegrationIntegrationOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DeletionRequestedAt
+		src := firstPass.DeletionRequestedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIntegrationIntegrationOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.TrialEndsAt
+		src := firstPass.TrialEndsAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIntegrationIntegrationOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIntegrationIntegrationOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIntegrationIntegrationOrganization struct {
+	Id *string `json:"id"`
+
+	AllowedAuthServices []*string `json:"allowedAuthServices"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+
+	GitBranchFormat *string `json:"gitBranchFormat"`
+
+	GitLinkbackMessagesEnabled *bool `json:"gitLinkbackMessagesEnabled"`
+
+	GitPublicLinkbackMessagesEnabled *bool `json:"gitPublicLinkbackMessagesEnabled"`
+
+	LogoUrl *string `json:"logoUrl"`
+
+	Name *string `json:"name"`
+
+	PeriodUploadVolume *float64 `json:"periodUploadVolume"`
+
+	PreviousUrlKeys []*string `json:"previousUrlKeys"`
+
+	ProjectUpdateRemindersDay *Day `json:"projectUpdateRemindersDay"`
+
+	ProjectUpdateRemindersHour *float64 `json:"projectUpdateRemindersHour"`
+
+	ProjectUpdatesReminderFrequency *ProjectUpdateReminderFrequency `json:"projectUpdatesReminderFrequency"`
+
+	ReleaseChannel *ReleaseChannel `json:"releaseChannel"`
+
+	RoadmapEnabled *bool `json:"roadmapEnabled"`
+
+	SamlEnabled *bool `json:"samlEnabled"`
+
+	ScimEnabled *bool `json:"scimEnabled"`
+
+	TrialEndsAt json.RawMessage `json:"trialEndsAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	UrlKey *string `json:"urlKey"`
+
+	UserCount *int `json:"userCount"`
+}
+
+func (v *getIntegrationIntegrationOrganization) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIntegrationIntegrationOrganization) __premarshalJSON() (*__premarshalgetIntegrationIntegrationOrganization, error) {
+	var retval __premarshalgetIntegrationIntegrationOrganization
+
+	retval.Id = v.Id
+	retval.AllowedAuthServices = v.AllowedAuthServices
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIntegrationIntegrationOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIntegrationIntegrationOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	{
+
+		dst := &retval.DeletionRequestedAt
+		src := v.DeletionRequestedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIntegrationIntegrationOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+	retval.GitBranchFormat = v.GitBranchFormat
+	retval.GitLinkbackMessagesEnabled = v.GitLinkbackMessagesEnabled
+	retval.GitPublicLinkbackMessagesEnabled = v.GitPublicLinkbackMessagesEnabled
+	retval.LogoUrl = v.LogoUrl
+	retval.Name = v.Name
+	retval.PeriodUploadVolume = v.PeriodUploadVolume
+	retval.PreviousUrlKeys = v.PreviousUrlKeys
+	retval.ProjectUpdateRemindersDay = v.ProjectUpdateRemindersDay
+	retval.ProjectUpdateRemindersHour = v.ProjectUpdateRemindersHour
+	retval.ProjectUpdatesReminderFrequency = v.ProjectUpdatesReminderFrequency
+	retval.ReleaseChannel = v.ReleaseChannel
+	retval.RoadmapEnabled = v.RoadmapEnabled
+	retval.SamlEnabled = v.SamlEnabled
+	retval.ScimEnabled = v.ScimEnabled
+	{
+
+		dst := &retval.TrialEndsAt
+		src := v.TrialEndsAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIntegrationIntegrationOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIntegrationIntegrationOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.UrlKey = v.UrlKey
+	retval.UserCount = v.UserCount
+	return &retval, nil
+}
+
 // getIntegrationIntegrationTeam includes the requested fields of the GraphQL type Team.
 // The GraphQL type's documentation follows.
 //
@@ -3703,7 +7049,7 @@ type getIntegrationIntegrationTeam struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// Period after which automatically closed and completed issues are automatically archived in months.
 	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
 	// Period after which issues are automatically closed in months. Null/undefined means disabled.
@@ -3713,7 +7059,7 @@ type getIntegrationIntegrationTeam struct {
 	// The team's color.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Calendar feed URL (iCal) for cycles.
 	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
 	// The cooldown time after each cycle in weeks.
@@ -3777,7 +7123,7 @@ type getIntegrationIntegrationTeam struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns getIntegrationIntegrationTeam.Id, and is useful for accessing the field via an interface.
@@ -3916,6 +7262,239 @@ func (v *getIntegrationIntegrationTeam) GetUpcomingCycleCount() *float64 { retur
 // GetUpdatedAt returns getIntegrationIntegrationTeam.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getIntegrationIntegrationTeam) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *getIntegrationIntegrationTeam) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIntegrationIntegrationTeam
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIntegrationIntegrationTeam = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIntegrationIntegrationTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIntegrationIntegrationTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIntegrationIntegrationTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIntegrationIntegrationTeam struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
+
+	AutoClosePeriod *float64 `json:"autoClosePeriod"`
+
+	AutoCloseStateId *string `json:"autoCloseStateId"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
+
+	CycleCooldownTime *float64 `json:"cycleCooldownTime"`
+
+	CycleDuration *float64 `json:"cycleDuration"`
+
+	CycleIssueAutoAssignCompleted *bool `json:"cycleIssueAutoAssignCompleted"`
+
+	CycleIssueAutoAssignStarted *bool `json:"cycleIssueAutoAssignStarted"`
+
+	CycleLockToActive *bool `json:"cycleLockToActive"`
+
+	CycleStartDay *float64 `json:"cycleStartDay"`
+
+	CyclesEnabled *bool `json:"cyclesEnabled"`
+
+	DefaultIssueEstimate *float64 `json:"defaultIssueEstimate"`
+
+	DefaultTemplateForMembersId *string `json:"defaultTemplateForMembersId"`
+
+	DefaultTemplateForNonMembersId *string `json:"defaultTemplateForNonMembersId"`
+
+	Description *string `json:"description"`
+
+	GroupIssueHistory *bool `json:"groupIssueHistory"`
+
+	Icon *string `json:"icon"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IssueEstimationAllowZero *bool `json:"issueEstimationAllowZero"`
+
+	IssueEstimationExtended *bool `json:"issueEstimationExtended"`
+
+	IssueEstimationType *string `json:"issueEstimationType"`
+
+	IssueOrderingNoPriorityFirst *bool `json:"issueOrderingNoPriorityFirst"`
+
+	IssueSortOrderDefaultToBottom *bool `json:"issueSortOrderDefaultToBottom"`
+
+	Key *string `json:"key"`
+
+	Name *string `json:"name"`
+
+	Private *bool `json:"private"`
+
+	RequirePriorityToLeaveTriage *bool `json:"requirePriorityToLeaveTriage"`
+
+	SlackIssueComments *bool `json:"slackIssueComments"`
+
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+
+	SlackNewIssue *bool `json:"slackNewIssue"`
+
+	Timezone *string `json:"timezone"`
+
+	TriageEnabled *bool `json:"triageEnabled"`
+
+	UpcomingCycleCount *float64 `json:"upcomingCycleCount"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getIntegrationIntegrationTeam) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIntegrationIntegrationTeam) __premarshalJSON() (*__premarshalgetIntegrationIntegrationTeam, error) {
+	var retval __premarshalgetIntegrationIntegrationTeam
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIntegrationIntegrationTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AutoArchivePeriod = v.AutoArchivePeriod
+	retval.AutoClosePeriod = v.AutoClosePeriod
+	retval.AutoCloseStateId = v.AutoCloseStateId
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIntegrationIntegrationTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CycleCalenderUrl = v.CycleCalenderUrl
+	retval.CycleCooldownTime = v.CycleCooldownTime
+	retval.CycleDuration = v.CycleDuration
+	retval.CycleIssueAutoAssignCompleted = v.CycleIssueAutoAssignCompleted
+	retval.CycleIssueAutoAssignStarted = v.CycleIssueAutoAssignStarted
+	retval.CycleLockToActive = v.CycleLockToActive
+	retval.CycleStartDay = v.CycleStartDay
+	retval.CyclesEnabled = v.CyclesEnabled
+	retval.DefaultIssueEstimate = v.DefaultIssueEstimate
+	retval.DefaultTemplateForMembersId = v.DefaultTemplateForMembersId
+	retval.DefaultTemplateForNonMembersId = v.DefaultTemplateForNonMembersId
+	retval.Description = v.Description
+	retval.GroupIssueHistory = v.GroupIssueHistory
+	retval.Icon = v.Icon
+	retval.InviteHash = v.InviteHash
+	retval.IssueEstimationAllowZero = v.IssueEstimationAllowZero
+	retval.IssueEstimationExtended = v.IssueEstimationExtended
+	retval.IssueEstimationType = v.IssueEstimationType
+	retval.IssueOrderingNoPriorityFirst = v.IssueOrderingNoPriorityFirst
+	retval.IssueSortOrderDefaultToBottom = v.IssueSortOrderDefaultToBottom
+	retval.Key = v.Key
+	retval.Name = v.Name
+	retval.Private = v.Private
+	retval.RequirePriorityToLeaveTriage = v.RequirePriorityToLeaveTriage
+	retval.SlackIssueComments = v.SlackIssueComments
+	retval.SlackIssueStatuses = v.SlackIssueStatuses
+	retval.SlackNewIssue = v.SlackNewIssue
+	retval.Timezone = v.Timezone
+	retval.TriageEnabled = v.TriageEnabled
+	retval.UpcomingCycleCount = v.UpcomingCycleCount
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIntegrationIntegrationTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getIntegrationResponse is returned by getIntegration on success.
 type getIntegrationResponse struct {
 	// One specific integration.
@@ -4007,13 +7586,13 @@ type getIssueIssue struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The issue's unique number.
 	Number *float64 `json:"number"`
 	// The issue's title.
@@ -4027,21 +7606,21 @@ type getIssueIssue struct {
 	// The order of the item in relation to other items in the organization.
 	SortOrder *float64 `json:"sortOrder"`
 	// The time at which the issue was moved into started state.
-	StartedAt *time.Time `json:"startedAt"`
+	StartedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into completed state.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into canceled state.
-	CanceledAt *time.Time `json:"canceledAt"`
+	CanceledAt *time.Time `json:"-"`
 	// The time at which the issue was automatically closed by the auto pruning process.
-	AutoClosedAt *time.Time `json:"autoClosedAt"`
+	AutoClosedAt *time.Time `json:"-"`
 	// The time at which the issue was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The date at which the issue is due.
-	DueDate *time.Time `json:"dueDate"`
+	DueDate *time.Time `json:"-"`
 	// A flag that indicates whether the issue is in the trash bin.
 	Trashed *bool `json:"trashed"`
 	// The time until an issue will be snoozed in Triage view.
-	SnoozedUntilAt *time.Time `json:"snoozedUntilAt"`
+	SnoozedUntilAt *time.Time `json:"-"`
 	// Previous identifiers of the issue if it has been moved between teams.
 	PreviousIdentifiers []*string `json:"previousIdentifiers"`
 	// The order of the item in the sub-issue list. Only set if the issue has a parent.
@@ -4180,6 +7759,423 @@ func (v *getIssueIssue) GetProjectMilestone() *getIssueIssueProjectMilestone {
 	return v.ProjectMilestone
 }
 
+func (v *getIssueIssue) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIssueIssue
+		CreatedAt      json.RawMessage `json:"createdAt"`
+		UpdatedAt      json.RawMessage `json:"updatedAt"`
+		ArchivedAt     json.RawMessage `json:"archivedAt"`
+		StartedAt      json.RawMessage `json:"startedAt"`
+		CompletedAt    json.RawMessage `json:"completedAt"`
+		CanceledAt     json.RawMessage `json:"canceledAt"`
+		AutoClosedAt   json.RawMessage `json:"autoClosedAt"`
+		AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+		DueDate        json.RawMessage `json:"dueDate"`
+		SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIssueIssue = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartedAt
+		src := firstPass.StartedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssue.StartedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CanceledAt
+		src := firstPass.CanceledAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoClosedAt
+		src := firstPass.AutoClosedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DueDate
+		src := firstPass.DueDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssue.DueDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.SnoozedUntilAt
+		src := firstPass.SnoozedUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIssueIssue struct {
+	Id *string `json:"id"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Number *float64 `json:"number"`
+
+	Title *string `json:"title"`
+
+	Description *string `json:"description"`
+
+	Priority *float64 `json:"priority"`
+
+	Estimate *float64 `json:"estimate"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	StartedAt json.RawMessage `json:"startedAt"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CanceledAt json.RawMessage `json:"canceledAt"`
+
+	AutoClosedAt json.RawMessage `json:"autoClosedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	DueDate json.RawMessage `json:"dueDate"`
+
+	Trashed *bool `json:"trashed"`
+
+	SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+
+	PreviousIdentifiers []*string `json:"previousIdentifiers"`
+
+	SubIssueSortOrder *float64 `json:"subIssueSortOrder"`
+
+	PriorityLabel *string `json:"priorityLabel"`
+
+	Identifier *string `json:"identifier"`
+
+	Url *string `json:"url"`
+
+	BranchName *string `json:"branchName"`
+
+	CustomerTicketCount *int `json:"customerTicketCount"`
+
+	Team *getIssueIssueTeam `json:"team"`
+
+	Cycle *getIssueIssueCycle `json:"cycle"`
+
+	Project *getIssueIssueProject `json:"project"`
+
+	Creator *getIssueIssueCreatorUser `json:"creator"`
+
+	Assignee *getIssueIssueAssigneeUser `json:"assignee"`
+
+	SnoozedBy *getIssueIssueSnoozedByUser `json:"snoozedBy"`
+
+	State *getIssueIssueStateWorkflowState `json:"state"`
+
+	Parent *getIssueIssueParentIssue `json:"parent"`
+
+	ProjectMilestone *getIssueIssueProjectMilestone `json:"projectMilestone"`
+}
+
+func (v *getIssueIssue) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIssueIssue) __premarshalJSON() (*__premarshalgetIssueIssue, error) {
+	var retval __premarshalgetIssueIssue
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Number = v.Number
+	retval.Title = v.Title
+	retval.Description = v.Description
+	retval.Priority = v.Priority
+	retval.Estimate = v.Estimate
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.StartedAt
+		src := v.StartedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssue.StartedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CanceledAt
+		src := v.CanceledAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoClosedAt
+		src := v.AutoClosedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.DueDate
+		src := v.DueDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssue.DueDate: %w", err)
+			}
+		}
+	}
+	retval.Trashed = v.Trashed
+	{
+
+		dst := &retval.SnoozedUntilAt
+		src := v.SnoozedUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	retval.PreviousIdentifiers = v.PreviousIdentifiers
+	retval.SubIssueSortOrder = v.SubIssueSortOrder
+	retval.PriorityLabel = v.PriorityLabel
+	retval.Identifier = v.Identifier
+	retval.Url = v.Url
+	retval.BranchName = v.BranchName
+	retval.CustomerTicketCount = v.CustomerTicketCount
+	retval.Team = v.Team
+	retval.Cycle = v.Cycle
+	retval.Project = v.Project
+	retval.Creator = v.Creator
+	retval.Assignee = v.Assignee
+	retval.SnoozedBy = v.SnoozedBy
+	retval.State = v.State
+	retval.Parent = v.Parent
+	retval.ProjectMilestone = v.ProjectMilestone
+	return &retval, nil
+}
+
 // getIssueIssueAssigneeUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -4192,13 +8188,13 @@ type getIssueIssueAssigneeUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -4216,7 +8212,7 @@ type getIssueIssueAssigneeUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -4224,13 +8220,13 @@ type getIssueIssueAssigneeUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -4304,6 +8300,250 @@ func (v *getIssueIssueAssigneeUser) GetUpdatedAt() *time.Time { return v.Updated
 // GetUrl returns getIssueIssueAssigneeUser.Url, and is useful for accessing the field via an interface.
 func (v *getIssueIssueAssigneeUser) GetUrl() *string { return v.Url }
 
+func (v *getIssueIssueAssigneeUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIssueIssueAssigneeUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIssueIssueAssigneeUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueAssigneeUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueAssigneeUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueAssigneeUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueAssigneeUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueAssigneeUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIssueIssueAssigneeUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *getIssueIssueAssigneeUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIssueIssueAssigneeUser) __premarshalJSON() (*__premarshalgetIssueIssueAssigneeUser, error) {
+	var retval __premarshalgetIssueIssueAssigneeUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueAssigneeUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueAssigneeUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueAssigneeUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueAssigneeUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueAssigneeUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // getIssueIssueCreatorUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -4316,13 +8556,13 @@ type getIssueIssueCreatorUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -4340,7 +8580,7 @@ type getIssueIssueCreatorUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -4348,13 +8588,13 @@ type getIssueIssueCreatorUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -4428,6 +8668,250 @@ func (v *getIssueIssueCreatorUser) GetUpdatedAt() *time.Time { return v.UpdatedA
 // GetUrl returns getIssueIssueCreatorUser.Url, and is useful for accessing the field via an interface.
 func (v *getIssueIssueCreatorUser) GetUrl() *string { return v.Url }
 
+func (v *getIssueIssueCreatorUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIssueIssueCreatorUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIssueIssueCreatorUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIssueIssueCreatorUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *getIssueIssueCreatorUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIssueIssueCreatorUser) __premarshalJSON() (*__premarshalgetIssueIssueCreatorUser, error) {
+	var retval __premarshalgetIssueIssueCreatorUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // getIssueIssueCycle includes the requested fields of the GraphQL type Cycle.
 // The GraphQL type's documentation follows.
 //
@@ -4436,21 +8920,21 @@ type getIssueIssueCycle struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the cycle was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The completion time of the cycle. If null, the cycle hasn't been completed.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The number of completed issues in the cycle after each day.
 	CompletedIssueCountHistory []*float64 `json:"completedIssueCountHistory"`
 	// The number of completed estimation points after each day.
 	CompletedScopeHistory []*float64 `json:"completedScopeHistory"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The cycle's description.
 	Description *string `json:"description"`
 	// The end time of the cycle.
-	EndsAt *time.Time `json:"endsAt"`
+	EndsAt *time.Time `json:"-"`
 	// The number of in progress estimation points after each day.
 	InProgressScopeHistory []*float64 `json:"inProgressScopeHistory"`
 	// The total number of issues in the cycle after each day.
@@ -4464,11 +8948,11 @@ type getIssueIssueCycle struct {
 	// The total number of estimation points after each day.
 	ScopeHistory []*float64 `json:"scopeHistory"`
 	// The start time of the cycle.
-	StartsAt *time.Time `json:"startsAt"`
+	StartsAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns getIssueIssueCycle.Id, and is useful for accessing the field via an interface.
@@ -4524,6 +9008,288 @@ func (v *getIssueIssueCycle) GetStartsAt() *time.Time { return v.StartsAt }
 // GetUpdatedAt returns getIssueIssueCycle.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getIssueIssueCycle) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *getIssueIssueCycle) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIssueIssueCycle
+		ArchivedAt     json.RawMessage `json:"archivedAt"`
+		AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+		CompletedAt    json.RawMessage `json:"completedAt"`
+		CreatedAt      json.RawMessage `json:"createdAt"`
+		EndsAt         json.RawMessage `json:"endsAt"`
+		StartsAt       json.RawMessage `json:"startsAt"`
+		UpdatedAt      json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIssueIssueCycle = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueCycle.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueCycle.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueCycle.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueCycle.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.EndsAt
+		src := firstPass.EndsAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueCycle.EndsAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartsAt
+		src := firstPass.StartsAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueCycle.StartsAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueCycle.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIssueIssueCycle struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CompletedIssueCountHistory []*float64 `json:"completedIssueCountHistory"`
+
+	CompletedScopeHistory []*float64 `json:"completedScopeHistory"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	EndsAt json.RawMessage `json:"endsAt"`
+
+	InProgressScopeHistory []*float64 `json:"inProgressScopeHistory"`
+
+	IssueCountHistory []*float64 `json:"issueCountHistory"`
+
+	Name *string `json:"name"`
+
+	Number *float64 `json:"number"`
+
+	Progress *float64 `json:"progress"`
+
+	ScopeHistory []*float64 `json:"scopeHistory"`
+
+	StartsAt json.RawMessage `json:"startsAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getIssueIssueCycle) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIssueIssueCycle) __premarshalJSON() (*__premarshalgetIssueIssueCycle, error) {
+	var retval __premarshalgetIssueIssueCycle
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueCycle.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueCycle.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueCycle.CompletedAt: %w", err)
+			}
+		}
+	}
+	retval.CompletedIssueCountHistory = v.CompletedIssueCountHistory
+	retval.CompletedScopeHistory = v.CompletedScopeHistory
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueCycle.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	{
+
+		dst := &retval.EndsAt
+		src := v.EndsAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueCycle.EndsAt: %w", err)
+			}
+		}
+	}
+	retval.InProgressScopeHistory = v.InProgressScopeHistory
+	retval.IssueCountHistory = v.IssueCountHistory
+	retval.Name = v.Name
+	retval.Number = v.Number
+	retval.Progress = v.Progress
+	retval.ScopeHistory = v.ScopeHistory
+	{
+
+		dst := &retval.StartsAt
+		src := v.StartsAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueCycle.StartsAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueCycle.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getIssueIssueParentIssue includes the requested fields of the GraphQL type Issue.
 // The GraphQL type's documentation follows.
 //
@@ -4532,13 +9298,13 @@ type getIssueIssueParentIssue struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The issue's unique number.
 	Number *float64 `json:"number"`
 	// The issue's title.
@@ -4552,21 +9318,21 @@ type getIssueIssueParentIssue struct {
 	// The order of the item in relation to other items in the organization.
 	SortOrder *float64 `json:"sortOrder"`
 	// The time at which the issue was moved into started state.
-	StartedAt *time.Time `json:"startedAt"`
+	StartedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into completed state.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into canceled state.
-	CanceledAt *time.Time `json:"canceledAt"`
+	CanceledAt *time.Time `json:"-"`
 	// The time at which the issue was automatically closed by the auto pruning process.
-	AutoClosedAt *time.Time `json:"autoClosedAt"`
+	AutoClosedAt *time.Time `json:"-"`
 	// The time at which the issue was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The date at which the issue is due.
-	DueDate *time.Time `json:"dueDate"`
+	DueDate *time.Time `json:"-"`
 	// A flag that indicates whether the issue is in the trash bin.
 	Trashed *bool `json:"trashed"`
 	// The time until an issue will be snoozed in Triage view.
-	SnoozedUntilAt *time.Time `json:"snoozedUntilAt"`
+	SnoozedUntilAt *time.Time `json:"-"`
 	// Previous identifiers of the issue if it has been moved between teams.
 	PreviousIdentifiers []*string `json:"previousIdentifiers"`
 }
@@ -4628,6 +9394,378 @@ func (v *getIssueIssueParentIssue) GetSnoozedUntilAt() *time.Time { return v.Sno
 // GetPreviousIdentifiers returns getIssueIssueParentIssue.PreviousIdentifiers, and is useful for accessing the field via an interface.
 func (v *getIssueIssueParentIssue) GetPreviousIdentifiers() []*string { return v.PreviousIdentifiers }
 
+func (v *getIssueIssueParentIssue) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIssueIssueParentIssue
+		CreatedAt      json.RawMessage `json:"createdAt"`
+		UpdatedAt      json.RawMessage `json:"updatedAt"`
+		ArchivedAt     json.RawMessage `json:"archivedAt"`
+		StartedAt      json.RawMessage `json:"startedAt"`
+		CompletedAt    json.RawMessage `json:"completedAt"`
+		CanceledAt     json.RawMessage `json:"canceledAt"`
+		AutoClosedAt   json.RawMessage `json:"autoClosedAt"`
+		AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+		DueDate        json.RawMessage `json:"dueDate"`
+		SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIssueIssueParentIssue = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueParentIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueParentIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueParentIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartedAt
+		src := firstPass.StartedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueParentIssue.StartedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueParentIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CanceledAt
+		src := firstPass.CanceledAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueParentIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoClosedAt
+		src := firstPass.AutoClosedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueParentIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueParentIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DueDate
+		src := firstPass.DueDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueParentIssue.DueDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.SnoozedUntilAt
+		src := firstPass.SnoozedUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueParentIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIssueIssueParentIssue struct {
+	Id *string `json:"id"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Number *float64 `json:"number"`
+
+	Title *string `json:"title"`
+
+	Description *string `json:"description"`
+
+	Priority *float64 `json:"priority"`
+
+	Estimate *float64 `json:"estimate"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	StartedAt json.RawMessage `json:"startedAt"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CanceledAt json.RawMessage `json:"canceledAt"`
+
+	AutoClosedAt json.RawMessage `json:"autoClosedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	DueDate json.RawMessage `json:"dueDate"`
+
+	Trashed *bool `json:"trashed"`
+
+	SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+
+	PreviousIdentifiers []*string `json:"previousIdentifiers"`
+}
+
+func (v *getIssueIssueParentIssue) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIssueIssueParentIssue) __premarshalJSON() (*__premarshalgetIssueIssueParentIssue, error) {
+	var retval __premarshalgetIssueIssueParentIssue
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueParentIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueParentIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueParentIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Number = v.Number
+	retval.Title = v.Title
+	retval.Description = v.Description
+	retval.Priority = v.Priority
+	retval.Estimate = v.Estimate
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.StartedAt
+		src := v.StartedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueParentIssue.StartedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueParentIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CanceledAt
+		src := v.CanceledAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueParentIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoClosedAt
+		src := v.AutoClosedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueParentIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueParentIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.DueDate
+		src := v.DueDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueParentIssue.DueDate: %w", err)
+			}
+		}
+	}
+	retval.Trashed = v.Trashed
+	{
+
+		dst := &retval.SnoozedUntilAt
+		src := v.SnoozedUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueParentIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	retval.PreviousIdentifiers = v.PreviousIdentifiers
+	return &retval, nil
+}
+
 // getIssueIssueProject includes the requested fields of the GraphQL type Project.
 // The GraphQL type's documentation follows.
 //
@@ -4636,21 +9774,21 @@ type getIssueIssueProject struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the project was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The time at which the project was moved into canceled state.
-	CanceledAt *time.Time `json:"canceledAt"`
+	CanceledAt *time.Time `json:"-"`
 	// The project's color.
 	Color *string `json:"color"`
 	// The time at which the project was moved into completed state.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The number of completed issues in the project after each week.
 	CompletedIssueCountHistory []*float64 `json:"completedIssueCountHistory"`
 	// The number of completed estimation points after each week.
 	CompletedScopeHistory []*float64 `json:"completedScopeHistory"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The project's description.
 	Description *string `json:"description"`
 	// The icon of the project.
@@ -4664,7 +9802,7 @@ type getIssueIssueProject struct {
 	// The overall progress of the project. This is the (completed estimate points + 0.25 * in progress estimate points) / total estimate points.
 	Progress *float64 `json:"progress"`
 	// The time until which project update reminders are paused.
-	ProjectUpdateRemindersPausedUntilAt *time.Time `json:"projectUpdateRemindersPausedUntilAt"`
+	ProjectUpdateRemindersPausedUntilAt *time.Time `json:"-"`
 	// The overall scope (total estimate points) of the project.
 	Scope *float64 `json:"scope"`
 	// The total number of estimation points after each week.
@@ -4680,17 +9818,17 @@ type getIssueIssueProject struct {
 	// The sort order for the project within the organization.
 	SortOrder *float64 `json:"sortOrder"`
 	// [Internal] The estimated start date of the project.
-	StartDate *time.Time `json:"startDate"`
+	StartDate *time.Time `json:"-"`
 	// The time at which the project was moved into started state.
-	StartedAt *time.Time `json:"startedAt"`
+	StartedAt *time.Time `json:"-"`
 	// The type of the state.
 	State *string `json:"state"`
 	// The estimated completion date of the project.
-	TargetDate *time.Time `json:"targetDate"`
+	TargetDate *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Project URL.
 	Url *string `json:"url"`
 }
@@ -4788,15 +9926,417 @@ func (v *getIssueIssueProject) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 // GetUrl returns getIssueIssueProject.Url, and is useful for accessing the field via an interface.
 func (v *getIssueIssueProject) GetUrl() *string { return v.Url }
 
+func (v *getIssueIssueProject) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIssueIssueProject
+		ArchivedAt                          json.RawMessage `json:"archivedAt"`
+		AutoArchivedAt                      json.RawMessage `json:"autoArchivedAt"`
+		CanceledAt                          json.RawMessage `json:"canceledAt"`
+		CompletedAt                         json.RawMessage `json:"completedAt"`
+		CreatedAt                           json.RawMessage `json:"createdAt"`
+		ProjectUpdateRemindersPausedUntilAt json.RawMessage `json:"projectUpdateRemindersPausedUntilAt"`
+		StartDate                           json.RawMessage `json:"startDate"`
+		StartedAt                           json.RawMessage `json:"startedAt"`
+		TargetDate                          json.RawMessage `json:"targetDate"`
+		UpdatedAt                           json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIssueIssueProject = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueProject.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueProject.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CanceledAt
+		src := firstPass.CanceledAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueProject.CanceledAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueProject.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueProject.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.ProjectUpdateRemindersPausedUntilAt
+		src := firstPass.ProjectUpdateRemindersPausedUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueProject.ProjectUpdateRemindersPausedUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartDate
+		src := firstPass.StartDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueProject.StartDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartedAt
+		src := firstPass.StartedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueProject.StartedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.TargetDate
+		src := firstPass.TargetDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueProject.TargetDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueProject.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIssueIssueProject struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	CanceledAt json.RawMessage `json:"canceledAt"`
+
+	Color *string `json:"color"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CompletedIssueCountHistory []*float64 `json:"completedIssueCountHistory"`
+
+	CompletedScopeHistory []*float64 `json:"completedScopeHistory"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Icon *string `json:"icon"`
+
+	InProgressScopeHistory []*float64 `json:"inProgressScopeHistory"`
+
+	IssueCountHistory []*float64 `json:"issueCountHistory"`
+
+	Name *string `json:"name"`
+
+	Progress *float64 `json:"progress"`
+
+	ProjectUpdateRemindersPausedUntilAt json.RawMessage `json:"projectUpdateRemindersPausedUntilAt"`
+
+	Scope *float64 `json:"scope"`
+
+	ScopeHistory []*float64 `json:"scopeHistory"`
+
+	SlackIssueComments *bool `json:"slackIssueComments"`
+
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+
+	SlackNewIssue *bool `json:"slackNewIssue"`
+
+	SlugId *string `json:"slugId"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	StartDate json.RawMessage `json:"startDate"`
+
+	StartedAt json.RawMessage `json:"startedAt"`
+
+	State *string `json:"state"`
+
+	TargetDate json.RawMessage `json:"targetDate"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *getIssueIssueProject) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIssueIssueProject) __premarshalJSON() (*__premarshalgetIssueIssueProject, error) {
+	var retval __premarshalgetIssueIssueProject
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueProject.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueProject.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CanceledAt
+		src := v.CanceledAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueProject.CanceledAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueProject.CompletedAt: %w", err)
+			}
+		}
+	}
+	retval.CompletedIssueCountHistory = v.CompletedIssueCountHistory
+	retval.CompletedScopeHistory = v.CompletedScopeHistory
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueProject.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Icon = v.Icon
+	retval.InProgressScopeHistory = v.InProgressScopeHistory
+	retval.IssueCountHistory = v.IssueCountHistory
+	retval.Name = v.Name
+	retval.Progress = v.Progress
+	{
+
+		dst := &retval.ProjectUpdateRemindersPausedUntilAt
+		src := v.ProjectUpdateRemindersPausedUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueProject.ProjectUpdateRemindersPausedUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Scope = v.Scope
+	retval.ScopeHistory = v.ScopeHistory
+	retval.SlackIssueComments = v.SlackIssueComments
+	retval.SlackIssueStatuses = v.SlackIssueStatuses
+	retval.SlackNewIssue = v.SlackNewIssue
+	retval.SlugId = v.SlugId
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.StartDate
+		src := v.StartDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueProject.StartDate: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.StartedAt
+		src := v.StartedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueProject.StartedAt: %w", err)
+			}
+		}
+	}
+	retval.State = v.State
+	{
+
+		dst := &retval.TargetDate
+		src := v.TargetDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueProject.TargetDate: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueProject.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // getIssueIssueProjectMilestone includes the requested fields of the GraphQL type ProjectMilestone.
 // The GraphQL type's documentation follows.
 //
 // A milestone for a project.
 type getIssueIssueProjectMilestone struct {
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The description of the project milestone.
 	Description *string `json:"description"`
 	// The unique identifier of the entity.
@@ -4808,7 +10348,7 @@ type getIssueIssueProjectMilestone struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetArchivedAt returns getIssueIssueProjectMilestone.ArchivedAt, and is useful for accessing the field via an interface.
@@ -4832,6 +10372,146 @@ func (v *getIssueIssueProjectMilestone) GetSortOrder() *float64 { return v.SortO
 // GetUpdatedAt returns getIssueIssueProjectMilestone.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getIssueIssueProjectMilestone) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *getIssueIssueProjectMilestone) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIssueIssueProjectMilestone
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIssueIssueProjectMilestone = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueProjectMilestone.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueProjectMilestone.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueProjectMilestone.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIssueIssueProjectMilestone struct {
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Id *string `json:"id"`
+
+	Name *string `json:"name"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getIssueIssueProjectMilestone) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIssueIssueProjectMilestone) __premarshalJSON() (*__premarshalgetIssueIssueProjectMilestone, error) {
+	var retval __premarshalgetIssueIssueProjectMilestone
+
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueProjectMilestone.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueProjectMilestone.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Id = v.Id
+	retval.Name = v.Name
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueProjectMilestone.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getIssueIssueSnoozedByUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -4844,13 +10524,13 @@ type getIssueIssueSnoozedByUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -4868,7 +10548,7 @@ type getIssueIssueSnoozedByUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -4876,13 +10556,13 @@ type getIssueIssueSnoozedByUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -4956,6 +10636,250 @@ func (v *getIssueIssueSnoozedByUser) GetUpdatedAt() *time.Time { return v.Update
 // GetUrl returns getIssueIssueSnoozedByUser.Url, and is useful for accessing the field via an interface.
 func (v *getIssueIssueSnoozedByUser) GetUrl() *string { return v.Url }
 
+func (v *getIssueIssueSnoozedByUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIssueIssueSnoozedByUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIssueIssueSnoozedByUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueSnoozedByUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueSnoozedByUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueSnoozedByUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueSnoozedByUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueSnoozedByUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIssueIssueSnoozedByUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *getIssueIssueSnoozedByUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIssueIssueSnoozedByUser) __premarshalJSON() (*__premarshalgetIssueIssueSnoozedByUser, error) {
+	var retval __premarshalgetIssueIssueSnoozedByUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueSnoozedByUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueSnoozedByUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueSnoozedByUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueSnoozedByUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueSnoozedByUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // getIssueIssueStateWorkflowState includes the requested fields of the GraphQL type WorkflowState.
 // The GraphQL type's documentation follows.
 //
@@ -4964,11 +10888,11 @@ type getIssueIssueStateWorkflowState struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The state's UI color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Description of the state.
 	Description *string `json:"description"`
 	// The state's name.
@@ -4980,7 +10904,7 @@ type getIssueIssueStateWorkflowState struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns getIssueIssueStateWorkflowState.Id, and is useful for accessing the field via an interface.
@@ -5010,6 +10934,152 @@ func (v *getIssueIssueStateWorkflowState) GetType() *string { return v.Type }
 // GetUpdatedAt returns getIssueIssueStateWorkflowState.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getIssueIssueStateWorkflowState) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *getIssueIssueStateWorkflowState) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIssueIssueStateWorkflowState
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIssueIssueStateWorkflowState = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueStateWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueStateWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueStateWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIssueIssueStateWorkflowState struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	Position *float64 `json:"position"`
+
+	Type *string `json:"type"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getIssueIssueStateWorkflowState) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIssueIssueStateWorkflowState) __premarshalJSON() (*__premarshalgetIssueIssueStateWorkflowState, error) {
+	var retval __premarshalgetIssueIssueStateWorkflowState
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueStateWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueStateWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	retval.Position = v.Position
+	retval.Type = v.Type
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueStateWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getIssueIssueTeam includes the requested fields of the GraphQL type Team.
 // The GraphQL type's documentation follows.
 //
@@ -5018,7 +11088,7 @@ type getIssueIssueTeam struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// Period after which automatically closed and completed issues are automatically archived in months.
 	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
 	// Period after which issues are automatically closed in months. Null/undefined means disabled.
@@ -5028,7 +11098,7 @@ type getIssueIssueTeam struct {
 	// The team's color.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Calendar feed URL (iCal) for cycles.
 	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
 	// The cooldown time after each cycle in weeks.
@@ -5092,7 +11162,7 @@ type getIssueIssueTeam struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns getIssueIssueTeam.Id, and is useful for accessing the field via an interface.
@@ -5223,6 +11293,239 @@ func (v *getIssueIssueTeam) GetUpcomingCycleCount() *float64 { return v.Upcoming
 // GetUpdatedAt returns getIssueIssueTeam.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getIssueIssueTeam) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *getIssueIssueTeam) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIssueIssueTeam
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIssueIssueTeam = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueIssueTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIssueIssueTeam struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
+
+	AutoClosePeriod *float64 `json:"autoClosePeriod"`
+
+	AutoCloseStateId *string `json:"autoCloseStateId"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
+
+	CycleCooldownTime *float64 `json:"cycleCooldownTime"`
+
+	CycleDuration *float64 `json:"cycleDuration"`
+
+	CycleIssueAutoAssignCompleted *bool `json:"cycleIssueAutoAssignCompleted"`
+
+	CycleIssueAutoAssignStarted *bool `json:"cycleIssueAutoAssignStarted"`
+
+	CycleLockToActive *bool `json:"cycleLockToActive"`
+
+	CycleStartDay *float64 `json:"cycleStartDay"`
+
+	CyclesEnabled *bool `json:"cyclesEnabled"`
+
+	DefaultIssueEstimate *float64 `json:"defaultIssueEstimate"`
+
+	DefaultTemplateForMembersId *string `json:"defaultTemplateForMembersId"`
+
+	DefaultTemplateForNonMembersId *string `json:"defaultTemplateForNonMembersId"`
+
+	Description *string `json:"description"`
+
+	GroupIssueHistory *bool `json:"groupIssueHistory"`
+
+	Icon *string `json:"icon"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IssueEstimationAllowZero *bool `json:"issueEstimationAllowZero"`
+
+	IssueEstimationExtended *bool `json:"issueEstimationExtended"`
+
+	IssueEstimationType *string `json:"issueEstimationType"`
+
+	IssueOrderingNoPriorityFirst *bool `json:"issueOrderingNoPriorityFirst"`
+
+	IssueSortOrderDefaultToBottom *bool `json:"issueSortOrderDefaultToBottom"`
+
+	Key *string `json:"key"`
+
+	Name *string `json:"name"`
+
+	Private *bool `json:"private"`
+
+	RequirePriorityToLeaveTriage *bool `json:"requirePriorityToLeaveTriage"`
+
+	SlackIssueComments *bool `json:"slackIssueComments"`
+
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+
+	SlackNewIssue *bool `json:"slackNewIssue"`
+
+	Timezone *string `json:"timezone"`
+
+	TriageEnabled *bool `json:"triageEnabled"`
+
+	UpcomingCycleCount *float64 `json:"upcomingCycleCount"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getIssueIssueTeam) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIssueIssueTeam) __premarshalJSON() (*__premarshalgetIssueIssueTeam, error) {
+	var retval __premarshalgetIssueIssueTeam
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AutoArchivePeriod = v.AutoArchivePeriod
+	retval.AutoClosePeriod = v.AutoClosePeriod
+	retval.AutoCloseStateId = v.AutoCloseStateId
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CycleCalenderUrl = v.CycleCalenderUrl
+	retval.CycleCooldownTime = v.CycleCooldownTime
+	retval.CycleDuration = v.CycleDuration
+	retval.CycleIssueAutoAssignCompleted = v.CycleIssueAutoAssignCompleted
+	retval.CycleIssueAutoAssignStarted = v.CycleIssueAutoAssignStarted
+	retval.CycleLockToActive = v.CycleLockToActive
+	retval.CycleStartDay = v.CycleStartDay
+	retval.CyclesEnabled = v.CyclesEnabled
+	retval.DefaultIssueEstimate = v.DefaultIssueEstimate
+	retval.DefaultTemplateForMembersId = v.DefaultTemplateForMembersId
+	retval.DefaultTemplateForNonMembersId = v.DefaultTemplateForNonMembersId
+	retval.Description = v.Description
+	retval.GroupIssueHistory = v.GroupIssueHistory
+	retval.Icon = v.Icon
+	retval.InviteHash = v.InviteHash
+	retval.IssueEstimationAllowZero = v.IssueEstimationAllowZero
+	retval.IssueEstimationExtended = v.IssueEstimationExtended
+	retval.IssueEstimationType = v.IssueEstimationType
+	retval.IssueOrderingNoPriorityFirst = v.IssueOrderingNoPriorityFirst
+	retval.IssueSortOrderDefaultToBottom = v.IssueSortOrderDefaultToBottom
+	retval.Key = v.Key
+	retval.Name = v.Name
+	retval.Private = v.Private
+	retval.RequirePriorityToLeaveTriage = v.RequirePriorityToLeaveTriage
+	retval.SlackIssueComments = v.SlackIssueComments
+	retval.SlackIssueStatuses = v.SlackIssueStatuses
+	retval.SlackNewIssue = v.SlackNewIssue
+	retval.Timezone = v.Timezone
+	retval.TriageEnabled = v.TriageEnabled
+	retval.UpcomingCycleCount = v.UpcomingCycleCount
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueIssueTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getIssueLabelIssueLabel includes the requested fields of the GraphQL type IssueLabel.
 // The GraphQL type's documentation follows.
 //
@@ -5231,11 +11534,11 @@ type getIssueLabelIssueLabel struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The label's color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The label's description.
 	Description *string `json:"description"`
 	// The label's name.
@@ -5243,7 +11546,7 @@ type getIssueLabelIssueLabel struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Issues associated with the label.
 	Issues *getIssueLabelIssueLabelIssuesIssueConnection `json:"issues"`
 	// The team that the label is associated with. If null, the label is associated with the global workspace.
@@ -5297,6 +11600,161 @@ func (v *getIssueLabelIssueLabel) GetParent() *getIssueLabelIssueLabelParentIssu
 	return v.Parent
 }
 
+func (v *getIssueLabelIssueLabel) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIssueLabelIssueLabel
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIssueLabelIssueLabel = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabel.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabel.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabel.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIssueLabelIssueLabel struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Issues *getIssueLabelIssueLabelIssuesIssueConnection `json:"issues"`
+
+	Team *getIssueLabelIssueLabelTeam `json:"team"`
+
+	Creator *getIssueLabelIssueLabelCreatorUser `json:"creator"`
+
+	Organization *getIssueLabelIssueLabelOrganization `json:"organization"`
+
+	Parent *getIssueLabelIssueLabelParentIssueLabel `json:"parent"`
+}
+
+func (v *getIssueLabelIssueLabel) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIssueLabelIssueLabel) __premarshalJSON() (*__premarshalgetIssueLabelIssueLabel, error) {
+	var retval __premarshalgetIssueLabelIssueLabel
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabel.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabel.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabel.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Issues = v.Issues
+	retval.Team = v.Team
+	retval.Creator = v.Creator
+	retval.Organization = v.Organization
+	retval.Parent = v.Parent
+	return &retval, nil
+}
+
 // getIssueLabelIssueLabelCreatorUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -5309,13 +11767,13 @@ type getIssueLabelIssueLabelCreatorUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -5333,7 +11791,7 @@ type getIssueLabelIssueLabelCreatorUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -5341,13 +11799,13 @@ type getIssueLabelIssueLabelCreatorUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -5421,6 +11879,250 @@ func (v *getIssueLabelIssueLabelCreatorUser) GetUpdatedAt() *time.Time { return 
 // GetUrl returns getIssueLabelIssueLabelCreatorUser.Url, and is useful for accessing the field via an interface.
 func (v *getIssueLabelIssueLabelCreatorUser) GetUrl() *string { return v.Url }
 
+func (v *getIssueLabelIssueLabelCreatorUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIssueLabelIssueLabelCreatorUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIssueLabelIssueLabelCreatorUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabelCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabelCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabelCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabelCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabelCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIssueLabelIssueLabelCreatorUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *getIssueLabelIssueLabelCreatorUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIssueLabelIssueLabelCreatorUser) __premarshalJSON() (*__premarshalgetIssueLabelIssueLabelCreatorUser, error) {
+	var retval __premarshalgetIssueLabelIssueLabelCreatorUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabelCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabelCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabelCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabelCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabelCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // getIssueLabelIssueLabelIssuesIssueConnection includes the requested fields of the GraphQL type IssueConnection.
 type getIssueLabelIssueLabelIssuesIssueConnection struct {
 	PageInfo *getIssueLabelIssueLabelIssuesIssueConnectionPageInfo     `json:"pageInfo"`
@@ -5477,13 +12179,13 @@ type getIssueLabelIssueLabelOrganization struct {
 	// Allowed authentication providers, empty array means all are allowed
 	AllowedAuthServices []*string `json:"allowedAuthServices"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues in the organization.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// The time at which deletion of the organization was requested.
-	DeletionRequestedAt *time.Time `json:"deletionRequestedAt"`
+	DeletionRequestedAt *time.Time `json:"-"`
 	// How git branches are formatted. If null, default formatting will be used.
 	GitBranchFormat *string `json:"gitBranchFormat"`
 	// Whether the Git integration linkback messages should be sent to private repositories.
@@ -5513,11 +12215,11 @@ type getIssueLabelIssueLabelOrganization struct {
 	// Whether SCIM provisioning is enabled for organization.
 	ScimEnabled *bool `json:"scimEnabled"`
 	// The time at which the trial of the plus plan will end.
-	TrialEndsAt *time.Time `json:"trialEndsAt"`
+	TrialEndsAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The organization's unique URL key.
 	UrlKey *string `json:"urlKey"`
 	// Number of active users in the organization.
@@ -5616,6 +12318,253 @@ func (v *getIssueLabelIssueLabelOrganization) GetUrlKey() *string { return v.Url
 // GetUserCount returns getIssueLabelIssueLabelOrganization.UserCount, and is useful for accessing the field via an interface.
 func (v *getIssueLabelIssueLabelOrganization) GetUserCount() *int { return v.UserCount }
 
+func (v *getIssueLabelIssueLabelOrganization) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIssueLabelIssueLabelOrganization
+		ArchivedAt          json.RawMessage `json:"archivedAt"`
+		CreatedAt           json.RawMessage `json:"createdAt"`
+		DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+		TrialEndsAt         json.RawMessage `json:"trialEndsAt"`
+		UpdatedAt           json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIssueLabelIssueLabelOrganization = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabelOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabelOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DeletionRequestedAt
+		src := firstPass.DeletionRequestedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabelOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.TrialEndsAt
+		src := firstPass.TrialEndsAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabelOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabelOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIssueLabelIssueLabelOrganization struct {
+	Id *string `json:"id"`
+
+	AllowedAuthServices []*string `json:"allowedAuthServices"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+
+	GitBranchFormat *string `json:"gitBranchFormat"`
+
+	GitLinkbackMessagesEnabled *bool `json:"gitLinkbackMessagesEnabled"`
+
+	GitPublicLinkbackMessagesEnabled *bool `json:"gitPublicLinkbackMessagesEnabled"`
+
+	LogoUrl *string `json:"logoUrl"`
+
+	Name *string `json:"name"`
+
+	PeriodUploadVolume *float64 `json:"periodUploadVolume"`
+
+	PreviousUrlKeys []*string `json:"previousUrlKeys"`
+
+	ProjectUpdateRemindersDay *Day `json:"projectUpdateRemindersDay"`
+
+	ProjectUpdateRemindersHour *float64 `json:"projectUpdateRemindersHour"`
+
+	ProjectUpdatesReminderFrequency *ProjectUpdateReminderFrequency `json:"projectUpdatesReminderFrequency"`
+
+	ReleaseChannel *ReleaseChannel `json:"releaseChannel"`
+
+	RoadmapEnabled *bool `json:"roadmapEnabled"`
+
+	SamlEnabled *bool `json:"samlEnabled"`
+
+	ScimEnabled *bool `json:"scimEnabled"`
+
+	TrialEndsAt json.RawMessage `json:"trialEndsAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	UrlKey *string `json:"urlKey"`
+
+	UserCount *int `json:"userCount"`
+}
+
+func (v *getIssueLabelIssueLabelOrganization) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIssueLabelIssueLabelOrganization) __premarshalJSON() (*__premarshalgetIssueLabelIssueLabelOrganization, error) {
+	var retval __premarshalgetIssueLabelIssueLabelOrganization
+
+	retval.Id = v.Id
+	retval.AllowedAuthServices = v.AllowedAuthServices
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabelOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabelOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	{
+
+		dst := &retval.DeletionRequestedAt
+		src := v.DeletionRequestedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabelOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+	retval.GitBranchFormat = v.GitBranchFormat
+	retval.GitLinkbackMessagesEnabled = v.GitLinkbackMessagesEnabled
+	retval.GitPublicLinkbackMessagesEnabled = v.GitPublicLinkbackMessagesEnabled
+	retval.LogoUrl = v.LogoUrl
+	retval.Name = v.Name
+	retval.PeriodUploadVolume = v.PeriodUploadVolume
+	retval.PreviousUrlKeys = v.PreviousUrlKeys
+	retval.ProjectUpdateRemindersDay = v.ProjectUpdateRemindersDay
+	retval.ProjectUpdateRemindersHour = v.ProjectUpdateRemindersHour
+	retval.ProjectUpdatesReminderFrequency = v.ProjectUpdatesReminderFrequency
+	retval.ReleaseChannel = v.ReleaseChannel
+	retval.RoadmapEnabled = v.RoadmapEnabled
+	retval.SamlEnabled = v.SamlEnabled
+	retval.ScimEnabled = v.ScimEnabled
+	{
+
+		dst := &retval.TrialEndsAt
+		src := v.TrialEndsAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabelOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabelOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.UrlKey = v.UrlKey
+	retval.UserCount = v.UserCount
+	return &retval, nil
+}
+
 // getIssueLabelIssueLabelParentIssueLabel includes the requested fields of the GraphQL type IssueLabel.
 // The GraphQL type's documentation follows.
 //
@@ -5624,11 +12573,11 @@ type getIssueLabelIssueLabelParentIssueLabel struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The label's color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The label's description.
 	Description *string `json:"description"`
 	// The label's name.
@@ -5636,7 +12585,7 @@ type getIssueLabelIssueLabelParentIssueLabel struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns getIssueLabelIssueLabelParentIssueLabel.Id, and is useful for accessing the field via an interface.
@@ -5660,6 +12609,146 @@ func (v *getIssueLabelIssueLabelParentIssueLabel) GetName() *string { return v.N
 // GetUpdatedAt returns getIssueLabelIssueLabelParentIssueLabel.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getIssueLabelIssueLabelParentIssueLabel) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *getIssueLabelIssueLabelParentIssueLabel) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIssueLabelIssueLabelParentIssueLabel
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIssueLabelIssueLabelParentIssueLabel = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabelParentIssueLabel.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabelParentIssueLabel.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabelParentIssueLabel.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIssueLabelIssueLabelParentIssueLabel struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getIssueLabelIssueLabelParentIssueLabel) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIssueLabelIssueLabelParentIssueLabel) __premarshalJSON() (*__premarshalgetIssueLabelIssueLabelParentIssueLabel, error) {
+	var retval __premarshalgetIssueLabelIssueLabelParentIssueLabel
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabelParentIssueLabel.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabelParentIssueLabel.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabelParentIssueLabel.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getIssueLabelIssueLabelTeam includes the requested fields of the GraphQL type Team.
 // The GraphQL type's documentation follows.
 //
@@ -5668,7 +12757,7 @@ type getIssueLabelIssueLabelTeam struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// Period after which automatically closed and completed issues are automatically archived in months.
 	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
 	// Period after which issues are automatically closed in months. Null/undefined means disabled.
@@ -5678,7 +12767,7 @@ type getIssueLabelIssueLabelTeam struct {
 	// The team's color.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Calendar feed URL (iCal) for cycles.
 	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
 	// The cooldown time after each cycle in weeks.
@@ -5742,7 +12831,7 @@ type getIssueLabelIssueLabelTeam struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns getIssueLabelIssueLabelTeam.Id, and is useful for accessing the field via an interface.
@@ -5879,6 +12968,239 @@ func (v *getIssueLabelIssueLabelTeam) GetUpcomingCycleCount() *float64 { return 
 // GetUpdatedAt returns getIssueLabelIssueLabelTeam.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getIssueLabelIssueLabelTeam) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *getIssueLabelIssueLabelTeam) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getIssueLabelIssueLabelTeam
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getIssueLabelIssueLabelTeam = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabelTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabelTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getIssueLabelIssueLabelTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetIssueLabelIssueLabelTeam struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
+
+	AutoClosePeriod *float64 `json:"autoClosePeriod"`
+
+	AutoCloseStateId *string `json:"autoCloseStateId"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
+
+	CycleCooldownTime *float64 `json:"cycleCooldownTime"`
+
+	CycleDuration *float64 `json:"cycleDuration"`
+
+	CycleIssueAutoAssignCompleted *bool `json:"cycleIssueAutoAssignCompleted"`
+
+	CycleIssueAutoAssignStarted *bool `json:"cycleIssueAutoAssignStarted"`
+
+	CycleLockToActive *bool `json:"cycleLockToActive"`
+
+	CycleStartDay *float64 `json:"cycleStartDay"`
+
+	CyclesEnabled *bool `json:"cyclesEnabled"`
+
+	DefaultIssueEstimate *float64 `json:"defaultIssueEstimate"`
+
+	DefaultTemplateForMembersId *string `json:"defaultTemplateForMembersId"`
+
+	DefaultTemplateForNonMembersId *string `json:"defaultTemplateForNonMembersId"`
+
+	Description *string `json:"description"`
+
+	GroupIssueHistory *bool `json:"groupIssueHistory"`
+
+	Icon *string `json:"icon"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IssueEstimationAllowZero *bool `json:"issueEstimationAllowZero"`
+
+	IssueEstimationExtended *bool `json:"issueEstimationExtended"`
+
+	IssueEstimationType *string `json:"issueEstimationType"`
+
+	IssueOrderingNoPriorityFirst *bool `json:"issueOrderingNoPriorityFirst"`
+
+	IssueSortOrderDefaultToBottom *bool `json:"issueSortOrderDefaultToBottom"`
+
+	Key *string `json:"key"`
+
+	Name *string `json:"name"`
+
+	Private *bool `json:"private"`
+
+	RequirePriorityToLeaveTriage *bool `json:"requirePriorityToLeaveTriage"`
+
+	SlackIssueComments *bool `json:"slackIssueComments"`
+
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+
+	SlackNewIssue *bool `json:"slackNewIssue"`
+
+	Timezone *string `json:"timezone"`
+
+	TriageEnabled *bool `json:"triageEnabled"`
+
+	UpcomingCycleCount *float64 `json:"upcomingCycleCount"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getIssueLabelIssueLabelTeam) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getIssueLabelIssueLabelTeam) __premarshalJSON() (*__premarshalgetIssueLabelIssueLabelTeam, error) {
+	var retval __premarshalgetIssueLabelIssueLabelTeam
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabelTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AutoArchivePeriod = v.AutoArchivePeriod
+	retval.AutoClosePeriod = v.AutoClosePeriod
+	retval.AutoCloseStateId = v.AutoCloseStateId
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabelTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CycleCalenderUrl = v.CycleCalenderUrl
+	retval.CycleCooldownTime = v.CycleCooldownTime
+	retval.CycleDuration = v.CycleDuration
+	retval.CycleIssueAutoAssignCompleted = v.CycleIssueAutoAssignCompleted
+	retval.CycleIssueAutoAssignStarted = v.CycleIssueAutoAssignStarted
+	retval.CycleLockToActive = v.CycleLockToActive
+	retval.CycleStartDay = v.CycleStartDay
+	retval.CyclesEnabled = v.CyclesEnabled
+	retval.DefaultIssueEstimate = v.DefaultIssueEstimate
+	retval.DefaultTemplateForMembersId = v.DefaultTemplateForMembersId
+	retval.DefaultTemplateForNonMembersId = v.DefaultTemplateForNonMembersId
+	retval.Description = v.Description
+	retval.GroupIssueHistory = v.GroupIssueHistory
+	retval.Icon = v.Icon
+	retval.InviteHash = v.InviteHash
+	retval.IssueEstimationAllowZero = v.IssueEstimationAllowZero
+	retval.IssueEstimationExtended = v.IssueEstimationExtended
+	retval.IssueEstimationType = v.IssueEstimationType
+	retval.IssueOrderingNoPriorityFirst = v.IssueOrderingNoPriorityFirst
+	retval.IssueSortOrderDefaultToBottom = v.IssueSortOrderDefaultToBottom
+	retval.Key = v.Key
+	retval.Name = v.Name
+	retval.Private = v.Private
+	retval.RequirePriorityToLeaveTriage = v.RequirePriorityToLeaveTriage
+	retval.SlackIssueComments = v.SlackIssueComments
+	retval.SlackIssueStatuses = v.SlackIssueStatuses
+	retval.SlackNewIssue = v.SlackNewIssue
+	retval.Timezone = v.Timezone
+	retval.TriageEnabled = v.TriageEnabled
+	retval.UpcomingCycleCount = v.UpcomingCycleCount
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getIssueLabelIssueLabelTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getIssueLabelResponse is returned by getIssueLabel on success.
 type getIssueLabelResponse struct {
 	// One specific label.
@@ -5907,13 +13229,13 @@ type getOrganizationOrganization struct {
 	// Allowed authentication providers, empty array means all are allowed
 	AllowedAuthServices []*string `json:"allowedAuthServices"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues in the organization.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// The time at which deletion of the organization was requested.
-	DeletionRequestedAt *time.Time `json:"deletionRequestedAt"`
+	DeletionRequestedAt *time.Time `json:"-"`
 	// How git branches are formatted. If null, default formatting will be used.
 	GitBranchFormat *string `json:"gitBranchFormat"`
 	// Whether the Git integration linkback messages should be sent to private repositories.
@@ -5943,11 +13265,11 @@ type getOrganizationOrganization struct {
 	// Whether SCIM provisioning is enabled for organization.
 	ScimEnabled *bool `json:"scimEnabled"`
 	// The time at which the trial of the plus plan will end.
-	TrialEndsAt *time.Time `json:"trialEndsAt"`
+	TrialEndsAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The organization's unique URL key.
 	UrlKey *string `json:"urlKey"`
 	// Number of active users in the organization.
@@ -6047,6 +13369,256 @@ func (v *getOrganizationOrganization) GetSubscription() *getOrganizationOrganiza
 	return v.Subscription
 }
 
+func (v *getOrganizationOrganization) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getOrganizationOrganization
+		ArchivedAt          json.RawMessage `json:"archivedAt"`
+		CreatedAt           json.RawMessage `json:"createdAt"`
+		DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+		TrialEndsAt         json.RawMessage `json:"trialEndsAt"`
+		UpdatedAt           json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getOrganizationOrganization = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getOrganizationOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getOrganizationOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DeletionRequestedAt
+		src := firstPass.DeletionRequestedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getOrganizationOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.TrialEndsAt
+		src := firstPass.TrialEndsAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getOrganizationOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getOrganizationOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetOrganizationOrganization struct {
+	Id *string `json:"id"`
+
+	AllowedAuthServices []*string `json:"allowedAuthServices"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+
+	GitBranchFormat *string `json:"gitBranchFormat"`
+
+	GitLinkbackMessagesEnabled *bool `json:"gitLinkbackMessagesEnabled"`
+
+	GitPublicLinkbackMessagesEnabled *bool `json:"gitPublicLinkbackMessagesEnabled"`
+
+	LogoUrl *string `json:"logoUrl"`
+
+	Name *string `json:"name"`
+
+	PeriodUploadVolume *float64 `json:"periodUploadVolume"`
+
+	PreviousUrlKeys []*string `json:"previousUrlKeys"`
+
+	ProjectUpdateRemindersDay *Day `json:"projectUpdateRemindersDay"`
+
+	ProjectUpdateRemindersHour *float64 `json:"projectUpdateRemindersHour"`
+
+	ProjectUpdatesReminderFrequency *ProjectUpdateReminderFrequency `json:"projectUpdatesReminderFrequency"`
+
+	ReleaseChannel *ReleaseChannel `json:"releaseChannel"`
+
+	RoadmapEnabled *bool `json:"roadmapEnabled"`
+
+	SamlEnabled *bool `json:"samlEnabled"`
+
+	ScimEnabled *bool `json:"scimEnabled"`
+
+	TrialEndsAt json.RawMessage `json:"trialEndsAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	UrlKey *string `json:"urlKey"`
+
+	UserCount *int `json:"userCount"`
+
+	Subscription *getOrganizationOrganizationSubscriptionPaidSubscription `json:"subscription"`
+}
+
+func (v *getOrganizationOrganization) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getOrganizationOrganization) __premarshalJSON() (*__premarshalgetOrganizationOrganization, error) {
+	var retval __premarshalgetOrganizationOrganization
+
+	retval.Id = v.Id
+	retval.AllowedAuthServices = v.AllowedAuthServices
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getOrganizationOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getOrganizationOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	{
+
+		dst := &retval.DeletionRequestedAt
+		src := v.DeletionRequestedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getOrganizationOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+	retval.GitBranchFormat = v.GitBranchFormat
+	retval.GitLinkbackMessagesEnabled = v.GitLinkbackMessagesEnabled
+	retval.GitPublicLinkbackMessagesEnabled = v.GitPublicLinkbackMessagesEnabled
+	retval.LogoUrl = v.LogoUrl
+	retval.Name = v.Name
+	retval.PeriodUploadVolume = v.PeriodUploadVolume
+	retval.PreviousUrlKeys = v.PreviousUrlKeys
+	retval.ProjectUpdateRemindersDay = v.ProjectUpdateRemindersDay
+	retval.ProjectUpdateRemindersHour = v.ProjectUpdateRemindersHour
+	retval.ProjectUpdatesReminderFrequency = v.ProjectUpdatesReminderFrequency
+	retval.ReleaseChannel = v.ReleaseChannel
+	retval.RoadmapEnabled = v.RoadmapEnabled
+	retval.SamlEnabled = v.SamlEnabled
+	retval.ScimEnabled = v.ScimEnabled
+	{
+
+		dst := &retval.TrialEndsAt
+		src := v.TrialEndsAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getOrganizationOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getOrganizationOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.UrlKey = v.UrlKey
+	retval.UserCount = v.UserCount
+	retval.Subscription = v.Subscription
+	return &retval, nil
+}
+
 // getOrganizationOrganizationSubscriptionPaidSubscription includes the requested fields of the GraphQL type PaidSubscription.
 // The GraphQL type's documentation follows.
 //
@@ -6055,13 +13627,13 @@ type getOrganizationOrganizationSubscriptionPaidSubscription struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The date the subscription was canceled, if any.
-	CanceledAt *time.Time `json:"canceledAt"`
+	CanceledAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The date the subscription will be billed next.
-	NextBillingAt *time.Time `json:"nextBillingAt"`
+	NextBillingAt *time.Time `json:"-"`
 	// The subscription type of a pending change. Null if no change pending.
 	PendingChangeType *string `json:"pendingChangeType"`
 	// The number of seats in the subscription.
@@ -6075,7 +13647,7 @@ type getOrganizationOrganizationSubscriptionPaidSubscription struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns getOrganizationOrganizationSubscriptionPaidSubscription.Id, and is useful for accessing the field via an interface.
@@ -6127,6 +13699,214 @@ func (v *getOrganizationOrganizationSubscriptionPaidSubscription) GetUpdatedAt()
 	return v.UpdatedAt
 }
 
+func (v *getOrganizationOrganizationSubscriptionPaidSubscription) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getOrganizationOrganizationSubscriptionPaidSubscription
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CanceledAt    json.RawMessage `json:"canceledAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		NextBillingAt json.RawMessage `json:"nextBillingAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getOrganizationOrganizationSubscriptionPaidSubscription = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getOrganizationOrganizationSubscriptionPaidSubscription.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CanceledAt
+		src := firstPass.CanceledAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getOrganizationOrganizationSubscriptionPaidSubscription.CanceledAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getOrganizationOrganizationSubscriptionPaidSubscription.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.NextBillingAt
+		src := firstPass.NextBillingAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getOrganizationOrganizationSubscriptionPaidSubscription.NextBillingAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getOrganizationOrganizationSubscriptionPaidSubscription.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetOrganizationOrganizationSubscriptionPaidSubscription struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CanceledAt json.RawMessage `json:"canceledAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	NextBillingAt json.RawMessage `json:"nextBillingAt"`
+
+	PendingChangeType *string `json:"pendingChangeType"`
+
+	Seats *float64 `json:"seats"`
+
+	SeatsMaximum *float64 `json:"seatsMaximum"`
+
+	SeatsMinimum *float64 `json:"seatsMinimum"`
+
+	Type *string `json:"type"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getOrganizationOrganizationSubscriptionPaidSubscription) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getOrganizationOrganizationSubscriptionPaidSubscription) __premarshalJSON() (*__premarshalgetOrganizationOrganizationSubscriptionPaidSubscription, error) {
+	var retval __premarshalgetOrganizationOrganizationSubscriptionPaidSubscription
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getOrganizationOrganizationSubscriptionPaidSubscription.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CanceledAt
+		src := v.CanceledAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getOrganizationOrganizationSubscriptionPaidSubscription.CanceledAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getOrganizationOrganizationSubscriptionPaidSubscription.CreatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.NextBillingAt
+		src := v.NextBillingAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getOrganizationOrganizationSubscriptionPaidSubscription.NextBillingAt: %w", err)
+			}
+		}
+	}
+	retval.PendingChangeType = v.PendingChangeType
+	retval.Seats = v.Seats
+	retval.SeatsMaximum = v.SeatsMaximum
+	retval.SeatsMinimum = v.SeatsMinimum
+	retval.Type = v.Type
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getOrganizationOrganizationSubscriptionPaidSubscription.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getOrganizationResponse is returned by getOrganization on success.
 type getOrganizationResponse struct {
 	// The user's organization.
@@ -6146,21 +13926,21 @@ type getProjectProject struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the project was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The time at which the project was moved into canceled state.
-	CanceledAt *time.Time `json:"canceledAt"`
+	CanceledAt *time.Time `json:"-"`
 	// The project's color.
 	Color *string `json:"color"`
 	// The time at which the project was moved into completed state.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The number of completed issues in the project after each week.
 	CompletedIssueCountHistory []*float64 `json:"completedIssueCountHistory"`
 	// The number of completed estimation points after each week.
 	CompletedScopeHistory []*float64 `json:"completedScopeHistory"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The project's description.
 	Description *string `json:"description"`
 	// The icon of the project.
@@ -6174,7 +13954,7 @@ type getProjectProject struct {
 	// The overall progress of the project. This is the (completed estimate points + 0.25 * in progress estimate points) / total estimate points.
 	Progress *float64 `json:"progress"`
 	// The time until which project update reminders are paused.
-	ProjectUpdateRemindersPausedUntilAt *time.Time `json:"projectUpdateRemindersPausedUntilAt"`
+	ProjectUpdateRemindersPausedUntilAt *time.Time `json:"-"`
 	// The overall scope (total estimate points) of the project.
 	Scope *float64 `json:"scope"`
 	// The total number of estimation points after each week.
@@ -6190,17 +13970,17 @@ type getProjectProject struct {
 	// The sort order for the project within the organization.
 	SortOrder *float64 `json:"sortOrder"`
 	// [Internal] The estimated start date of the project.
-	StartDate *time.Time `json:"startDate"`
+	StartDate *time.Time `json:"-"`
 	// The time at which the project was moved into started state.
-	StartedAt *time.Time `json:"startedAt"`
+	StartedAt *time.Time `json:"-"`
 	// The type of the state.
 	State *string `json:"state"`
 	// The estimated completion date of the project.
-	TargetDate *time.Time `json:"targetDate"`
+	TargetDate *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Project URL.
 	Url *string `json:"url"`
 	// The project was created based on this issue.
@@ -6320,6 +14100,420 @@ func (v *getProjectProject) GetCreator() *getProjectProjectCreatorUser { return 
 // GetLead returns getProjectProject.Lead, and is useful for accessing the field via an interface.
 func (v *getProjectProject) GetLead() *getProjectProjectLeadUser { return v.Lead }
 
+func (v *getProjectProject) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getProjectProject
+		ArchivedAt                          json.RawMessage `json:"archivedAt"`
+		AutoArchivedAt                      json.RawMessage `json:"autoArchivedAt"`
+		CanceledAt                          json.RawMessage `json:"canceledAt"`
+		CompletedAt                         json.RawMessage `json:"completedAt"`
+		CreatedAt                           json.RawMessage `json:"createdAt"`
+		ProjectUpdateRemindersPausedUntilAt json.RawMessage `json:"projectUpdateRemindersPausedUntilAt"`
+		StartDate                           json.RawMessage `json:"startDate"`
+		StartedAt                           json.RawMessage `json:"startedAt"`
+		TargetDate                          json.RawMessage `json:"targetDate"`
+		UpdatedAt                           json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getProjectProject = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProject.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProject.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CanceledAt
+		src := firstPass.CanceledAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProject.CanceledAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProject.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProject.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.ProjectUpdateRemindersPausedUntilAt
+		src := firstPass.ProjectUpdateRemindersPausedUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProject.ProjectUpdateRemindersPausedUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartDate
+		src := firstPass.StartDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProject.StartDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartedAt
+		src := firstPass.StartedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProject.StartedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.TargetDate
+		src := firstPass.TargetDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProject.TargetDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProject.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetProjectProject struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	CanceledAt json.RawMessage `json:"canceledAt"`
+
+	Color *string `json:"color"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CompletedIssueCountHistory []*float64 `json:"completedIssueCountHistory"`
+
+	CompletedScopeHistory []*float64 `json:"completedScopeHistory"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Icon *string `json:"icon"`
+
+	InProgressScopeHistory []*float64 `json:"inProgressScopeHistory"`
+
+	IssueCountHistory []*float64 `json:"issueCountHistory"`
+
+	Name *string `json:"name"`
+
+	Progress *float64 `json:"progress"`
+
+	ProjectUpdateRemindersPausedUntilAt json.RawMessage `json:"projectUpdateRemindersPausedUntilAt"`
+
+	Scope *float64 `json:"scope"`
+
+	ScopeHistory []*float64 `json:"scopeHistory"`
+
+	SlackIssueComments *bool `json:"slackIssueComments"`
+
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+
+	SlackNewIssue *bool `json:"slackNewIssue"`
+
+	SlugId *string `json:"slugId"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	StartDate json.RawMessage `json:"startDate"`
+
+	StartedAt json.RawMessage `json:"startedAt"`
+
+	State *string `json:"state"`
+
+	TargetDate json.RawMessage `json:"targetDate"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+
+	ConvertedFromIssue *getProjectProjectConvertedFromIssue `json:"convertedFromIssue"`
+
+	IntegrationsSettings *getProjectProjectIntegrationsSettings `json:"integrationsSettings"`
+
+	Creator *getProjectProjectCreatorUser `json:"creator"`
+
+	Lead *getProjectProjectLeadUser `json:"lead"`
+}
+
+func (v *getProjectProject) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getProjectProject) __premarshalJSON() (*__premarshalgetProjectProject, error) {
+	var retval __premarshalgetProjectProject
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProject.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProject.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CanceledAt
+		src := v.CanceledAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProject.CanceledAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProject.CompletedAt: %w", err)
+			}
+		}
+	}
+	retval.CompletedIssueCountHistory = v.CompletedIssueCountHistory
+	retval.CompletedScopeHistory = v.CompletedScopeHistory
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProject.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Icon = v.Icon
+	retval.InProgressScopeHistory = v.InProgressScopeHistory
+	retval.IssueCountHistory = v.IssueCountHistory
+	retval.Name = v.Name
+	retval.Progress = v.Progress
+	{
+
+		dst := &retval.ProjectUpdateRemindersPausedUntilAt
+		src := v.ProjectUpdateRemindersPausedUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProject.ProjectUpdateRemindersPausedUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Scope = v.Scope
+	retval.ScopeHistory = v.ScopeHistory
+	retval.SlackIssueComments = v.SlackIssueComments
+	retval.SlackIssueStatuses = v.SlackIssueStatuses
+	retval.SlackNewIssue = v.SlackNewIssue
+	retval.SlugId = v.SlugId
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.StartDate
+		src := v.StartDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProject.StartDate: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.StartedAt
+		src := v.StartedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProject.StartedAt: %w", err)
+			}
+		}
+	}
+	retval.State = v.State
+	{
+
+		dst := &retval.TargetDate
+		src := v.TargetDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProject.TargetDate: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProject.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	retval.ConvertedFromIssue = v.ConvertedFromIssue
+	retval.IntegrationsSettings = v.IntegrationsSettings
+	retval.Creator = v.Creator
+	retval.Lead = v.Lead
+	return &retval, nil
+}
+
 // getProjectProjectConvertedFromIssue includes the requested fields of the GraphQL type Issue.
 // The GraphQL type's documentation follows.
 //
@@ -6328,13 +14522,13 @@ type getProjectProjectConvertedFromIssue struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The issue's unique number.
 	Number *float64 `json:"number"`
 	// The issue's title.
@@ -6348,21 +14542,21 @@ type getProjectProjectConvertedFromIssue struct {
 	// The order of the item in relation to other items in the organization.
 	SortOrder *float64 `json:"sortOrder"`
 	// The time at which the issue was moved into started state.
-	StartedAt *time.Time `json:"startedAt"`
+	StartedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into completed state.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into canceled state.
-	CanceledAt *time.Time `json:"canceledAt"`
+	CanceledAt *time.Time `json:"-"`
 	// The time at which the issue was automatically closed by the auto pruning process.
-	AutoClosedAt *time.Time `json:"autoClosedAt"`
+	AutoClosedAt *time.Time `json:"-"`
 	// The time at which the issue was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The date at which the issue is due.
-	DueDate *time.Time `json:"dueDate"`
+	DueDate *time.Time `json:"-"`
 	// A flag that indicates whether the issue is in the trash bin.
 	Trashed *bool `json:"trashed"`
 	// The time until an issue will be snoozed in Triage view.
-	SnoozedUntilAt *time.Time `json:"snoozedUntilAt"`
+	SnoozedUntilAt *time.Time `json:"-"`
 	// Previous identifiers of the issue if it has been moved between teams.
 	PreviousIdentifiers []*string `json:"previousIdentifiers"`
 	// The order of the item in the sub-issue list. Only set if the issue has a parent.
@@ -6460,6 +14654,396 @@ func (v *getProjectProjectConvertedFromIssue) GetCustomerTicketCount() *int {
 	return v.CustomerTicketCount
 }
 
+func (v *getProjectProjectConvertedFromIssue) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getProjectProjectConvertedFromIssue
+		CreatedAt      json.RawMessage `json:"createdAt"`
+		UpdatedAt      json.RawMessage `json:"updatedAt"`
+		ArchivedAt     json.RawMessage `json:"archivedAt"`
+		StartedAt      json.RawMessage `json:"startedAt"`
+		CompletedAt    json.RawMessage `json:"completedAt"`
+		CanceledAt     json.RawMessage `json:"canceledAt"`
+		AutoClosedAt   json.RawMessage `json:"autoClosedAt"`
+		AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+		DueDate        json.RawMessage `json:"dueDate"`
+		SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getProjectProjectConvertedFromIssue = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectConvertedFromIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectConvertedFromIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectConvertedFromIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartedAt
+		src := firstPass.StartedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectConvertedFromIssue.StartedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectConvertedFromIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CanceledAt
+		src := firstPass.CanceledAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectConvertedFromIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoClosedAt
+		src := firstPass.AutoClosedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectConvertedFromIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectConvertedFromIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DueDate
+		src := firstPass.DueDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectConvertedFromIssue.DueDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.SnoozedUntilAt
+		src := firstPass.SnoozedUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectConvertedFromIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetProjectProjectConvertedFromIssue struct {
+	Id *string `json:"id"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Number *float64 `json:"number"`
+
+	Title *string `json:"title"`
+
+	Description *string `json:"description"`
+
+	Priority *float64 `json:"priority"`
+
+	Estimate *float64 `json:"estimate"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	StartedAt json.RawMessage `json:"startedAt"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CanceledAt json.RawMessage `json:"canceledAt"`
+
+	AutoClosedAt json.RawMessage `json:"autoClosedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	DueDate json.RawMessage `json:"dueDate"`
+
+	Trashed *bool `json:"trashed"`
+
+	SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+
+	PreviousIdentifiers []*string `json:"previousIdentifiers"`
+
+	SubIssueSortOrder *float64 `json:"subIssueSortOrder"`
+
+	PriorityLabel *string `json:"priorityLabel"`
+
+	Identifier *string `json:"identifier"`
+
+	Url *string `json:"url"`
+
+	BranchName *string `json:"branchName"`
+
+	CustomerTicketCount *int `json:"customerTicketCount"`
+}
+
+func (v *getProjectProjectConvertedFromIssue) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getProjectProjectConvertedFromIssue) __premarshalJSON() (*__premarshalgetProjectProjectConvertedFromIssue, error) {
+	var retval __premarshalgetProjectProjectConvertedFromIssue
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectConvertedFromIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectConvertedFromIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectConvertedFromIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Number = v.Number
+	retval.Title = v.Title
+	retval.Description = v.Description
+	retval.Priority = v.Priority
+	retval.Estimate = v.Estimate
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.StartedAt
+		src := v.StartedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectConvertedFromIssue.StartedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectConvertedFromIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CanceledAt
+		src := v.CanceledAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectConvertedFromIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoClosedAt
+		src := v.AutoClosedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectConvertedFromIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectConvertedFromIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.DueDate
+		src := v.DueDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectConvertedFromIssue.DueDate: %w", err)
+			}
+		}
+	}
+	retval.Trashed = v.Trashed
+	{
+
+		dst := &retval.SnoozedUntilAt
+		src := v.SnoozedUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectConvertedFromIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	retval.PreviousIdentifiers = v.PreviousIdentifiers
+	retval.SubIssueSortOrder = v.SubIssueSortOrder
+	retval.PriorityLabel = v.PriorityLabel
+	retval.Identifier = v.Identifier
+	retval.Url = v.Url
+	retval.BranchName = v.BranchName
+	retval.CustomerTicketCount = v.CustomerTicketCount
+	return &retval, nil
+}
+
 // getProjectProjectCreatorUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -6472,13 +15056,13 @@ type getProjectProjectCreatorUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -6496,7 +15080,7 @@ type getProjectProjectCreatorUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -6504,13 +15088,13 @@ type getProjectProjectCreatorUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -6584,6 +15168,250 @@ func (v *getProjectProjectCreatorUser) GetUpdatedAt() *time.Time { return v.Upda
 // GetUrl returns getProjectProjectCreatorUser.Url, and is useful for accessing the field via an interface.
 func (v *getProjectProjectCreatorUser) GetUrl() *string { return v.Url }
 
+func (v *getProjectProjectCreatorUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getProjectProjectCreatorUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getProjectProjectCreatorUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetProjectProjectCreatorUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *getProjectProjectCreatorUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getProjectProjectCreatorUser) __premarshalJSON() (*__premarshalgetProjectProjectCreatorUser, error) {
+	var retval __premarshalgetProjectProjectCreatorUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // getProjectProjectIntegrationsSettings includes the requested fields of the GraphQL type IntegrationsSettings.
 // The GraphQL type's documentation follows.
 //
@@ -6592,9 +15420,9 @@ type getProjectProjectIntegrationsSettings struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Whether to send a Slack message when a new issue is added to triage.
 	SlackIssueAddedToTriage *bool `json:"slackIssueAddedToTriage"`
 	// Whether to send a Slack message when a new issue is created for the project or the team.
@@ -6618,7 +15446,7 @@ type getProjectProjectIntegrationsSettings struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns getProjectProjectIntegrationsSettings.Id, and is useful for accessing the field via an interface.
@@ -6683,6 +15511,167 @@ func (v *getProjectProjectIntegrationsSettings) GetSlackProjectUpdateCreatedToWo
 // GetUpdatedAt returns getProjectProjectIntegrationsSettings.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getProjectProjectIntegrationsSettings) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *getProjectProjectIntegrationsSettings) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getProjectProjectIntegrationsSettings
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getProjectProjectIntegrationsSettings = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectIntegrationsSettings.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectIntegrationsSettings.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectIntegrationsSettings.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetProjectProjectIntegrationsSettings struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	SlackIssueAddedToTriage *bool `json:"slackIssueAddedToTriage"`
+
+	SlackIssueCreated *bool `json:"slackIssueCreated"`
+
+	SlackIssueNewComment *bool `json:"slackIssueNewComment"`
+
+	SlackIssueSlaBreached *bool `json:"slackIssueSlaBreached"`
+
+	SlackIssueSlaHighRisk *bool `json:"slackIssueSlaHighRisk"`
+
+	SlackIssueStatusChangedAll *bool `json:"slackIssueStatusChangedAll"`
+
+	SlackIssueStatusChangedDone *bool `json:"slackIssueStatusChangedDone"`
+
+	SlackProjectUpdateCreated *bool `json:"slackProjectUpdateCreated"`
+
+	SlackProjectUpdateCreatedToTeam *bool `json:"slackProjectUpdateCreatedToTeam"`
+
+	SlackProjectUpdateCreatedToWorkspace *bool `json:"slackProjectUpdateCreatedToWorkspace"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getProjectProjectIntegrationsSettings) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getProjectProjectIntegrationsSettings) __premarshalJSON() (*__premarshalgetProjectProjectIntegrationsSettings, error) {
+	var retval __premarshalgetProjectProjectIntegrationsSettings
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectIntegrationsSettings.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectIntegrationsSettings.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.SlackIssueAddedToTriage = v.SlackIssueAddedToTriage
+	retval.SlackIssueCreated = v.SlackIssueCreated
+	retval.SlackIssueNewComment = v.SlackIssueNewComment
+	retval.SlackIssueSlaBreached = v.SlackIssueSlaBreached
+	retval.SlackIssueSlaHighRisk = v.SlackIssueSlaHighRisk
+	retval.SlackIssueStatusChangedAll = v.SlackIssueStatusChangedAll
+	retval.SlackIssueStatusChangedDone = v.SlackIssueStatusChangedDone
+	retval.SlackProjectUpdateCreated = v.SlackProjectUpdateCreated
+	retval.SlackProjectUpdateCreatedToTeam = v.SlackProjectUpdateCreatedToTeam
+	retval.SlackProjectUpdateCreatedToWorkspace = v.SlackProjectUpdateCreatedToWorkspace
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectIntegrationsSettings.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getProjectProjectLeadUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -6695,13 +15684,13 @@ type getProjectProjectLeadUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -6719,7 +15708,7 @@ type getProjectProjectLeadUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -6727,13 +15716,13 @@ type getProjectProjectLeadUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -6807,6 +15796,250 @@ func (v *getProjectProjectLeadUser) GetUpdatedAt() *time.Time { return v.Updated
 // GetUrl returns getProjectProjectLeadUser.Url, and is useful for accessing the field via an interface.
 func (v *getProjectProjectLeadUser) GetUrl() *string { return v.Url }
 
+func (v *getProjectProjectLeadUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getProjectProjectLeadUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getProjectProjectLeadUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectLeadUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectLeadUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectLeadUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectLeadUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getProjectProjectLeadUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetProjectProjectLeadUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *getProjectProjectLeadUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getProjectProjectLeadUser) __premarshalJSON() (*__premarshalgetProjectProjectLeadUser, error) {
+	var retval __premarshalgetProjectProjectLeadUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectLeadUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectLeadUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectLeadUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectLeadUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getProjectProjectLeadUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // getProjectResponse is returned by getProject on success.
 type getProjectResponse struct {
 	// One specific project.
@@ -6835,9 +16068,9 @@ type getTeamMembershipTeamMembership struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Whether the user is the owner of the team
 	Owner *bool `json:"owner"`
 	// The order of the item in the users team list.
@@ -6845,7 +16078,7 @@ type getTeamMembershipTeamMembership struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The team that the membership is associated with.
 	Team *getTeamMembershipTeamMembershipTeam `json:"team"`
 	// The user that the membership is associated with.
@@ -6880,6 +16113,149 @@ func (v *getTeamMembershipTeamMembership) GetUser() *getTeamMembershipTeamMember
 	return v.User
 }
 
+func (v *getTeamMembershipTeamMembership) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getTeamMembershipTeamMembership
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getTeamMembershipTeamMembership = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamMembershipTeamMembership.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamMembershipTeamMembership.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamMembershipTeamMembership.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetTeamMembershipTeamMembership struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Owner *bool `json:"owner"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Team *getTeamMembershipTeamMembershipTeam `json:"team"`
+
+	User *getTeamMembershipTeamMembershipUser `json:"user"`
+}
+
+func (v *getTeamMembershipTeamMembership) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getTeamMembershipTeamMembership) __premarshalJSON() (*__premarshalgetTeamMembershipTeamMembership, error) {
+	var retval __premarshalgetTeamMembershipTeamMembership
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamMembershipTeamMembership.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamMembershipTeamMembership.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Owner = v.Owner
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamMembershipTeamMembership.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Team = v.Team
+	retval.User = v.User
+	return &retval, nil
+}
+
 // getTeamMembershipTeamMembershipTeam includes the requested fields of the GraphQL type Team.
 // The GraphQL type's documentation follows.
 //
@@ -6888,7 +16264,7 @@ type getTeamMembershipTeamMembershipTeam struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// Period after which automatically closed and completed issues are automatically archived in months.
 	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
 	// Period after which issues are automatically closed in months. Null/undefined means disabled.
@@ -6898,7 +16274,7 @@ type getTeamMembershipTeamMembershipTeam struct {
 	// The team's color.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Calendar feed URL (iCal) for cycles.
 	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
 	// The cooldown time after each cycle in weeks.
@@ -6962,7 +16338,7 @@ type getTeamMembershipTeamMembershipTeam struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns getTeamMembershipTeamMembershipTeam.Id, and is useful for accessing the field via an interface.
@@ -7119,6 +16495,239 @@ func (v *getTeamMembershipTeamMembershipTeam) GetUpcomingCycleCount() *float64 {
 // GetUpdatedAt returns getTeamMembershipTeamMembershipTeam.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getTeamMembershipTeamMembershipTeam) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *getTeamMembershipTeamMembershipTeam) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getTeamMembershipTeamMembershipTeam
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getTeamMembershipTeamMembershipTeam = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamMembershipTeamMembershipTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamMembershipTeamMembershipTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamMembershipTeamMembershipTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetTeamMembershipTeamMembershipTeam struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
+
+	AutoClosePeriod *float64 `json:"autoClosePeriod"`
+
+	AutoCloseStateId *string `json:"autoCloseStateId"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
+
+	CycleCooldownTime *float64 `json:"cycleCooldownTime"`
+
+	CycleDuration *float64 `json:"cycleDuration"`
+
+	CycleIssueAutoAssignCompleted *bool `json:"cycleIssueAutoAssignCompleted"`
+
+	CycleIssueAutoAssignStarted *bool `json:"cycleIssueAutoAssignStarted"`
+
+	CycleLockToActive *bool `json:"cycleLockToActive"`
+
+	CycleStartDay *float64 `json:"cycleStartDay"`
+
+	CyclesEnabled *bool `json:"cyclesEnabled"`
+
+	DefaultIssueEstimate *float64 `json:"defaultIssueEstimate"`
+
+	DefaultTemplateForMembersId *string `json:"defaultTemplateForMembersId"`
+
+	DefaultTemplateForNonMembersId *string `json:"defaultTemplateForNonMembersId"`
+
+	Description *string `json:"description"`
+
+	GroupIssueHistory *bool `json:"groupIssueHistory"`
+
+	Icon *string `json:"icon"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IssueEstimationAllowZero *bool `json:"issueEstimationAllowZero"`
+
+	IssueEstimationExtended *bool `json:"issueEstimationExtended"`
+
+	IssueEstimationType *string `json:"issueEstimationType"`
+
+	IssueOrderingNoPriorityFirst *bool `json:"issueOrderingNoPriorityFirst"`
+
+	IssueSortOrderDefaultToBottom *bool `json:"issueSortOrderDefaultToBottom"`
+
+	Key *string `json:"key"`
+
+	Name *string `json:"name"`
+
+	Private *bool `json:"private"`
+
+	RequirePriorityToLeaveTriage *bool `json:"requirePriorityToLeaveTriage"`
+
+	SlackIssueComments *bool `json:"slackIssueComments"`
+
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+
+	SlackNewIssue *bool `json:"slackNewIssue"`
+
+	Timezone *string `json:"timezone"`
+
+	TriageEnabled *bool `json:"triageEnabled"`
+
+	UpcomingCycleCount *float64 `json:"upcomingCycleCount"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getTeamMembershipTeamMembershipTeam) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getTeamMembershipTeamMembershipTeam) __premarshalJSON() (*__premarshalgetTeamMembershipTeamMembershipTeam, error) {
+	var retval __premarshalgetTeamMembershipTeamMembershipTeam
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamMembershipTeamMembershipTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AutoArchivePeriod = v.AutoArchivePeriod
+	retval.AutoClosePeriod = v.AutoClosePeriod
+	retval.AutoCloseStateId = v.AutoCloseStateId
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamMembershipTeamMembershipTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CycleCalenderUrl = v.CycleCalenderUrl
+	retval.CycleCooldownTime = v.CycleCooldownTime
+	retval.CycleDuration = v.CycleDuration
+	retval.CycleIssueAutoAssignCompleted = v.CycleIssueAutoAssignCompleted
+	retval.CycleIssueAutoAssignStarted = v.CycleIssueAutoAssignStarted
+	retval.CycleLockToActive = v.CycleLockToActive
+	retval.CycleStartDay = v.CycleStartDay
+	retval.CyclesEnabled = v.CyclesEnabled
+	retval.DefaultIssueEstimate = v.DefaultIssueEstimate
+	retval.DefaultTemplateForMembersId = v.DefaultTemplateForMembersId
+	retval.DefaultTemplateForNonMembersId = v.DefaultTemplateForNonMembersId
+	retval.Description = v.Description
+	retval.GroupIssueHistory = v.GroupIssueHistory
+	retval.Icon = v.Icon
+	retval.InviteHash = v.InviteHash
+	retval.IssueEstimationAllowZero = v.IssueEstimationAllowZero
+	retval.IssueEstimationExtended = v.IssueEstimationExtended
+	retval.IssueEstimationType = v.IssueEstimationType
+	retval.IssueOrderingNoPriorityFirst = v.IssueOrderingNoPriorityFirst
+	retval.IssueSortOrderDefaultToBottom = v.IssueSortOrderDefaultToBottom
+	retval.Key = v.Key
+	retval.Name = v.Name
+	retval.Private = v.Private
+	retval.RequirePriorityToLeaveTriage = v.RequirePriorityToLeaveTriage
+	retval.SlackIssueComments = v.SlackIssueComments
+	retval.SlackIssueStatuses = v.SlackIssueStatuses
+	retval.SlackNewIssue = v.SlackNewIssue
+	retval.Timezone = v.Timezone
+	retval.TriageEnabled = v.TriageEnabled
+	retval.UpcomingCycleCount = v.UpcomingCycleCount
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamMembershipTeamMembershipTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getTeamMembershipTeamMembershipUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -7131,13 +16740,13 @@ type getTeamMembershipTeamMembershipUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -7155,7 +16764,7 @@ type getTeamMembershipTeamMembershipUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -7163,13 +16772,13 @@ type getTeamMembershipTeamMembershipUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -7243,6 +16852,250 @@ func (v *getTeamMembershipTeamMembershipUser) GetUpdatedAt() *time.Time { return
 // GetUrl returns getTeamMembershipTeamMembershipUser.Url, and is useful for accessing the field via an interface.
 func (v *getTeamMembershipTeamMembershipUser) GetUrl() *string { return v.Url }
 
+func (v *getTeamMembershipTeamMembershipUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getTeamMembershipTeamMembershipUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getTeamMembershipTeamMembershipUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamMembershipTeamMembershipUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamMembershipTeamMembershipUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamMembershipTeamMembershipUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamMembershipTeamMembershipUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamMembershipTeamMembershipUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetTeamMembershipTeamMembershipUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *getTeamMembershipTeamMembershipUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getTeamMembershipTeamMembershipUser) __premarshalJSON() (*__premarshalgetTeamMembershipTeamMembershipUser, error) {
+	var retval __premarshalgetTeamMembershipTeamMembershipUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamMembershipTeamMembershipUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamMembershipTeamMembershipUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamMembershipTeamMembershipUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamMembershipTeamMembershipUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamMembershipTeamMembershipUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // getTeamResponse is returned by getTeam on success.
 type getTeamResponse struct {
 	// One specific team.
@@ -7260,7 +17113,7 @@ type getTeamTeam struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// Period after which automatically closed and completed issues are automatically archived in months.
 	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
 	// Period after which issues are automatically closed in months. Null/undefined means disabled.
@@ -7270,7 +17123,7 @@ type getTeamTeam struct {
 	// The team's color.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Calendar feed URL (iCal) for cycles.
 	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
 	// The cooldown time after each cycle in weeks.
@@ -7334,7 +17187,7 @@ type getTeamTeam struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Team's currently active cycle.
 	ActiveCycle *getTeamTeamActiveCycle `json:"activeCycle"`
 	// The default workflow state into which issues are set when they are opened by team members.
@@ -7530,6 +17383,272 @@ func (v *getTeamTeam) GetTriageIssueState() *getTeamTeamTriageIssueStateWorkflow
 	return v.TriageIssueState
 }
 
+func (v *getTeamTeam) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getTeamTeam
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getTeamTeam = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetTeamTeam struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
+
+	AutoClosePeriod *float64 `json:"autoClosePeriod"`
+
+	AutoCloseStateId *string `json:"autoCloseStateId"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
+
+	CycleCooldownTime *float64 `json:"cycleCooldownTime"`
+
+	CycleDuration *float64 `json:"cycleDuration"`
+
+	CycleIssueAutoAssignCompleted *bool `json:"cycleIssueAutoAssignCompleted"`
+
+	CycleIssueAutoAssignStarted *bool `json:"cycleIssueAutoAssignStarted"`
+
+	CycleLockToActive *bool `json:"cycleLockToActive"`
+
+	CycleStartDay *float64 `json:"cycleStartDay"`
+
+	CyclesEnabled *bool `json:"cyclesEnabled"`
+
+	DefaultIssueEstimate *float64 `json:"defaultIssueEstimate"`
+
+	DefaultTemplateForMembersId *string `json:"defaultTemplateForMembersId"`
+
+	DefaultTemplateForNonMembersId *string `json:"defaultTemplateForNonMembersId"`
+
+	Description *string `json:"description"`
+
+	GroupIssueHistory *bool `json:"groupIssueHistory"`
+
+	Icon *string `json:"icon"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IssueEstimationAllowZero *bool `json:"issueEstimationAllowZero"`
+
+	IssueEstimationExtended *bool `json:"issueEstimationExtended"`
+
+	IssueEstimationType *string `json:"issueEstimationType"`
+
+	IssueOrderingNoPriorityFirst *bool `json:"issueOrderingNoPriorityFirst"`
+
+	IssueSortOrderDefaultToBottom *bool `json:"issueSortOrderDefaultToBottom"`
+
+	Key *string `json:"key"`
+
+	Name *string `json:"name"`
+
+	Private *bool `json:"private"`
+
+	RequirePriorityToLeaveTriage *bool `json:"requirePriorityToLeaveTriage"`
+
+	SlackIssueComments *bool `json:"slackIssueComments"`
+
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+
+	SlackNewIssue *bool `json:"slackNewIssue"`
+
+	Timezone *string `json:"timezone"`
+
+	TriageEnabled *bool `json:"triageEnabled"`
+
+	UpcomingCycleCount *float64 `json:"upcomingCycleCount"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	ActiveCycle *getTeamTeamActiveCycle `json:"activeCycle"`
+
+	DefaultIssueState *getTeamTeamDefaultIssueStateWorkflowState `json:"defaultIssueState"`
+
+	DefaultTemplateForMembers *getTeamTeamDefaultTemplateForMembersTemplate `json:"defaultTemplateForMembers"`
+
+	DefaultTemplateForNonMembers *getTeamTeamDefaultTemplateForNonMembersTemplate `json:"defaultTemplateForNonMembers"`
+
+	DraftWorkflowState *getTeamTeamDraftWorkflowState `json:"draftWorkflowState"`
+
+	IntegrationsSettings *getTeamTeamIntegrationsSettings `json:"integrationsSettings"`
+
+	MarkedAsDuplicateWorkflowState *getTeamTeamMarkedAsDuplicateWorkflowState `json:"markedAsDuplicateWorkflowState"`
+
+	Organization *getTeamTeamOrganization `json:"organization"`
+
+	ReviewWorkflowState *getTeamTeamReviewWorkflowState `json:"reviewWorkflowState"`
+
+	StartWorkflowState *getTeamTeamStartWorkflowState `json:"startWorkflowState"`
+
+	TriageIssueState *getTeamTeamTriageIssueStateWorkflowState `json:"triageIssueState"`
+}
+
+func (v *getTeamTeam) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getTeamTeam) __premarshalJSON() (*__premarshalgetTeamTeam, error) {
+	var retval __premarshalgetTeamTeam
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AutoArchivePeriod = v.AutoArchivePeriod
+	retval.AutoClosePeriod = v.AutoClosePeriod
+	retval.AutoCloseStateId = v.AutoCloseStateId
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CycleCalenderUrl = v.CycleCalenderUrl
+	retval.CycleCooldownTime = v.CycleCooldownTime
+	retval.CycleDuration = v.CycleDuration
+	retval.CycleIssueAutoAssignCompleted = v.CycleIssueAutoAssignCompleted
+	retval.CycleIssueAutoAssignStarted = v.CycleIssueAutoAssignStarted
+	retval.CycleLockToActive = v.CycleLockToActive
+	retval.CycleStartDay = v.CycleStartDay
+	retval.CyclesEnabled = v.CyclesEnabled
+	retval.DefaultIssueEstimate = v.DefaultIssueEstimate
+	retval.DefaultTemplateForMembersId = v.DefaultTemplateForMembersId
+	retval.DefaultTemplateForNonMembersId = v.DefaultTemplateForNonMembersId
+	retval.Description = v.Description
+	retval.GroupIssueHistory = v.GroupIssueHistory
+	retval.Icon = v.Icon
+	retval.InviteHash = v.InviteHash
+	retval.IssueEstimationAllowZero = v.IssueEstimationAllowZero
+	retval.IssueEstimationExtended = v.IssueEstimationExtended
+	retval.IssueEstimationType = v.IssueEstimationType
+	retval.IssueOrderingNoPriorityFirst = v.IssueOrderingNoPriorityFirst
+	retval.IssueSortOrderDefaultToBottom = v.IssueSortOrderDefaultToBottom
+	retval.Key = v.Key
+	retval.Name = v.Name
+	retval.Private = v.Private
+	retval.RequirePriorityToLeaveTriage = v.RequirePriorityToLeaveTriage
+	retval.SlackIssueComments = v.SlackIssueComments
+	retval.SlackIssueStatuses = v.SlackIssueStatuses
+	retval.SlackNewIssue = v.SlackNewIssue
+	retval.Timezone = v.Timezone
+	retval.TriageEnabled = v.TriageEnabled
+	retval.UpcomingCycleCount = v.UpcomingCycleCount
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.ActiveCycle = v.ActiveCycle
+	retval.DefaultIssueState = v.DefaultIssueState
+	retval.DefaultTemplateForMembers = v.DefaultTemplateForMembers
+	retval.DefaultTemplateForNonMembers = v.DefaultTemplateForNonMembers
+	retval.DraftWorkflowState = v.DraftWorkflowState
+	retval.IntegrationsSettings = v.IntegrationsSettings
+	retval.MarkedAsDuplicateWorkflowState = v.MarkedAsDuplicateWorkflowState
+	retval.Organization = v.Organization
+	retval.ReviewWorkflowState = v.ReviewWorkflowState
+	retval.StartWorkflowState = v.StartWorkflowState
+	retval.TriageIssueState = v.TriageIssueState
+	return &retval, nil
+}
+
 // getTeamTeamActiveCycle includes the requested fields of the GraphQL type Cycle.
 // The GraphQL type's documentation follows.
 //
@@ -7538,21 +17657,21 @@ type getTeamTeamActiveCycle struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the cycle was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The completion time of the cycle. If null, the cycle hasn't been completed.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The number of completed issues in the cycle after each day.
 	CompletedIssueCountHistory []*float64 `json:"completedIssueCountHistory"`
 	// The number of completed estimation points after each day.
 	CompletedScopeHistory []*float64 `json:"completedScopeHistory"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The cycle's description.
 	Description *string `json:"description"`
 	// The end time of the cycle.
-	EndsAt *time.Time `json:"endsAt"`
+	EndsAt *time.Time `json:"-"`
 	// The number of in progress estimation points after each day.
 	InProgressScopeHistory []*float64 `json:"inProgressScopeHistory"`
 	// The total number of issues in the cycle after each day.
@@ -7566,11 +17685,11 @@ type getTeamTeamActiveCycle struct {
 	// The total number of estimation points after each day.
 	ScopeHistory []*float64 `json:"scopeHistory"`
 	// The start time of the cycle.
-	StartsAt *time.Time `json:"startsAt"`
+	StartsAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns getTeamTeamActiveCycle.Id, and is useful for accessing the field via an interface.
@@ -7630,6 +17749,288 @@ func (v *getTeamTeamActiveCycle) GetStartsAt() *time.Time { return v.StartsAt }
 // GetUpdatedAt returns getTeamTeamActiveCycle.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getTeamTeamActiveCycle) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *getTeamTeamActiveCycle) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getTeamTeamActiveCycle
+		ArchivedAt     json.RawMessage `json:"archivedAt"`
+		AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+		CompletedAt    json.RawMessage `json:"completedAt"`
+		CreatedAt      json.RawMessage `json:"createdAt"`
+		EndsAt         json.RawMessage `json:"endsAt"`
+		StartsAt       json.RawMessage `json:"startsAt"`
+		UpdatedAt      json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getTeamTeamActiveCycle = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamActiveCycle.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamActiveCycle.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamActiveCycle.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamActiveCycle.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.EndsAt
+		src := firstPass.EndsAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamActiveCycle.EndsAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartsAt
+		src := firstPass.StartsAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamActiveCycle.StartsAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamActiveCycle.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetTeamTeamActiveCycle struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CompletedIssueCountHistory []*float64 `json:"completedIssueCountHistory"`
+
+	CompletedScopeHistory []*float64 `json:"completedScopeHistory"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	EndsAt json.RawMessage `json:"endsAt"`
+
+	InProgressScopeHistory []*float64 `json:"inProgressScopeHistory"`
+
+	IssueCountHistory []*float64 `json:"issueCountHistory"`
+
+	Name *string `json:"name"`
+
+	Number *float64 `json:"number"`
+
+	Progress *float64 `json:"progress"`
+
+	ScopeHistory []*float64 `json:"scopeHistory"`
+
+	StartsAt json.RawMessage `json:"startsAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getTeamTeamActiveCycle) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getTeamTeamActiveCycle) __premarshalJSON() (*__premarshalgetTeamTeamActiveCycle, error) {
+	var retval __premarshalgetTeamTeamActiveCycle
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamActiveCycle.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamActiveCycle.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamActiveCycle.CompletedAt: %w", err)
+			}
+		}
+	}
+	retval.CompletedIssueCountHistory = v.CompletedIssueCountHistory
+	retval.CompletedScopeHistory = v.CompletedScopeHistory
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamActiveCycle.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	{
+
+		dst := &retval.EndsAt
+		src := v.EndsAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamActiveCycle.EndsAt: %w", err)
+			}
+		}
+	}
+	retval.InProgressScopeHistory = v.InProgressScopeHistory
+	retval.IssueCountHistory = v.IssueCountHistory
+	retval.Name = v.Name
+	retval.Number = v.Number
+	retval.Progress = v.Progress
+	retval.ScopeHistory = v.ScopeHistory
+	{
+
+		dst := &retval.StartsAt
+		src := v.StartsAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamActiveCycle.StartsAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamActiveCycle.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getTeamTeamDefaultIssueStateWorkflowState includes the requested fields of the GraphQL type WorkflowState.
 // The GraphQL type's documentation follows.
 //
@@ -7638,11 +18039,11 @@ type getTeamTeamDefaultIssueStateWorkflowState struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The state's UI color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Description of the state.
 	Description *string `json:"description"`
 	// The state's name.
@@ -7654,7 +18055,7 @@ type getTeamTeamDefaultIssueStateWorkflowState struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns getTeamTeamDefaultIssueStateWorkflowState.Id, and is useful for accessing the field via an interface.
@@ -7684,6 +18085,152 @@ func (v *getTeamTeamDefaultIssueStateWorkflowState) GetType() *string { return v
 // GetUpdatedAt returns getTeamTeamDefaultIssueStateWorkflowState.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getTeamTeamDefaultIssueStateWorkflowState) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *getTeamTeamDefaultIssueStateWorkflowState) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getTeamTeamDefaultIssueStateWorkflowState
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getTeamTeamDefaultIssueStateWorkflowState = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamDefaultIssueStateWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamDefaultIssueStateWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamDefaultIssueStateWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetTeamTeamDefaultIssueStateWorkflowState struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	Position *float64 `json:"position"`
+
+	Type *string `json:"type"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getTeamTeamDefaultIssueStateWorkflowState) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getTeamTeamDefaultIssueStateWorkflowState) __premarshalJSON() (*__premarshalgetTeamTeamDefaultIssueStateWorkflowState, error) {
+	var retval __premarshalgetTeamTeamDefaultIssueStateWorkflowState
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamDefaultIssueStateWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamDefaultIssueStateWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	retval.Position = v.Position
+	retval.Type = v.Type
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamDefaultIssueStateWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getTeamTeamDefaultTemplateForMembersTemplate includes the requested fields of the GraphQL type Template.
 // The GraphQL type's documentation follows.
 //
@@ -7692,11 +18239,11 @@ type getTeamTeamDefaultTemplateForMembersTemplate struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// Template description.
 	Description *string `json:"description"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The entity type this template is for.
 	Type *string `json:"type"`
 	// The name of the template.
@@ -7704,7 +18251,7 @@ type getTeamTeamDefaultTemplateForMembersTemplate struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Template data.
 	TemplateData *json.RawMessage `json:"templateData"`
 }
@@ -7737,6 +18284,149 @@ func (v *getTeamTeamDefaultTemplateForMembersTemplate) GetTemplateData() *json.R
 	return v.TemplateData
 }
 
+func (v *getTeamTeamDefaultTemplateForMembersTemplate) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getTeamTeamDefaultTemplateForMembersTemplate
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getTeamTeamDefaultTemplateForMembersTemplate = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamDefaultTemplateForMembersTemplate.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamDefaultTemplateForMembersTemplate.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamDefaultTemplateForMembersTemplate.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetTeamTeamDefaultTemplateForMembersTemplate struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Description *string `json:"description"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Type *string `json:"type"`
+
+	Name *string `json:"name"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	TemplateData *json.RawMessage `json:"templateData"`
+}
+
+func (v *getTeamTeamDefaultTemplateForMembersTemplate) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getTeamTeamDefaultTemplateForMembersTemplate) __premarshalJSON() (*__premarshalgetTeamTeamDefaultTemplateForMembersTemplate, error) {
+	var retval __premarshalgetTeamTeamDefaultTemplateForMembersTemplate
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamDefaultTemplateForMembersTemplate.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamDefaultTemplateForMembersTemplate.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Type = v.Type
+	retval.Name = v.Name
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamDefaultTemplateForMembersTemplate.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.TemplateData = v.TemplateData
+	return &retval, nil
+}
+
 // getTeamTeamDefaultTemplateForNonMembersTemplate includes the requested fields of the GraphQL type Template.
 // The GraphQL type's documentation follows.
 //
@@ -7745,11 +18435,11 @@ type getTeamTeamDefaultTemplateForNonMembersTemplate struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// Template description.
 	Description *string `json:"description"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The entity type this template is for.
 	Type *string `json:"type"`
 	// The name of the template.
@@ -7757,7 +18447,7 @@ type getTeamTeamDefaultTemplateForNonMembersTemplate struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Template data.
 	TemplateData *json.RawMessage `json:"templateData"`
 }
@@ -7796,6 +18486,149 @@ func (v *getTeamTeamDefaultTemplateForNonMembersTemplate) GetTemplateData() *jso
 	return v.TemplateData
 }
 
+func (v *getTeamTeamDefaultTemplateForNonMembersTemplate) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getTeamTeamDefaultTemplateForNonMembersTemplate
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getTeamTeamDefaultTemplateForNonMembersTemplate = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamDefaultTemplateForNonMembersTemplate.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamDefaultTemplateForNonMembersTemplate.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamDefaultTemplateForNonMembersTemplate.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetTeamTeamDefaultTemplateForNonMembersTemplate struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Description *string `json:"description"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Type *string `json:"type"`
+
+	Name *string `json:"name"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	TemplateData *json.RawMessage `json:"templateData"`
+}
+
+func (v *getTeamTeamDefaultTemplateForNonMembersTemplate) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getTeamTeamDefaultTemplateForNonMembersTemplate) __premarshalJSON() (*__premarshalgetTeamTeamDefaultTemplateForNonMembersTemplate, error) {
+	var retval __premarshalgetTeamTeamDefaultTemplateForNonMembersTemplate
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamDefaultTemplateForNonMembersTemplate.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamDefaultTemplateForNonMembersTemplate.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Type = v.Type
+	retval.Name = v.Name
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamDefaultTemplateForNonMembersTemplate.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.TemplateData = v.TemplateData
+	return &retval, nil
+}
+
 // getTeamTeamDraftWorkflowState includes the requested fields of the GraphQL type WorkflowState.
 // The GraphQL type's documentation follows.
 //
@@ -7804,11 +18637,11 @@ type getTeamTeamDraftWorkflowState struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The state's UI color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Description of the state.
 	Description *string `json:"description"`
 	// The state's name.
@@ -7820,7 +18653,7 @@ type getTeamTeamDraftWorkflowState struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns getTeamTeamDraftWorkflowState.Id, and is useful for accessing the field via an interface.
@@ -7850,6 +18683,152 @@ func (v *getTeamTeamDraftWorkflowState) GetType() *string { return v.Type }
 // GetUpdatedAt returns getTeamTeamDraftWorkflowState.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getTeamTeamDraftWorkflowState) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *getTeamTeamDraftWorkflowState) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getTeamTeamDraftWorkflowState
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getTeamTeamDraftWorkflowState = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamDraftWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamDraftWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamDraftWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetTeamTeamDraftWorkflowState struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	Position *float64 `json:"position"`
+
+	Type *string `json:"type"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getTeamTeamDraftWorkflowState) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getTeamTeamDraftWorkflowState) __premarshalJSON() (*__premarshalgetTeamTeamDraftWorkflowState, error) {
+	var retval __premarshalgetTeamTeamDraftWorkflowState
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamDraftWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamDraftWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	retval.Position = v.Position
+	retval.Type = v.Type
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamDraftWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getTeamTeamIntegrationsSettings includes the requested fields of the GraphQL type IntegrationsSettings.
 // The GraphQL type's documentation follows.
 //
@@ -7858,9 +18837,9 @@ type getTeamTeamIntegrationsSettings struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Whether to send a Slack message when a new issue is added to triage.
 	SlackIssueAddedToTriage *bool `json:"slackIssueAddedToTriage"`
 	// Whether to send a Slack message when a new issue is created for the project or the team.
@@ -7884,7 +18863,7 @@ type getTeamTeamIntegrationsSettings struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns getTeamTeamIntegrationsSettings.Id, and is useful for accessing the field via an interface.
@@ -7947,6 +18926,167 @@ func (v *getTeamTeamIntegrationsSettings) GetSlackProjectUpdateCreatedToWorkspac
 // GetUpdatedAt returns getTeamTeamIntegrationsSettings.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getTeamTeamIntegrationsSettings) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *getTeamTeamIntegrationsSettings) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getTeamTeamIntegrationsSettings
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getTeamTeamIntegrationsSettings = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamIntegrationsSettings.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamIntegrationsSettings.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamIntegrationsSettings.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetTeamTeamIntegrationsSettings struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	SlackIssueAddedToTriage *bool `json:"slackIssueAddedToTriage"`
+
+	SlackIssueCreated *bool `json:"slackIssueCreated"`
+
+	SlackIssueNewComment *bool `json:"slackIssueNewComment"`
+
+	SlackIssueSlaBreached *bool `json:"slackIssueSlaBreached"`
+
+	SlackIssueSlaHighRisk *bool `json:"slackIssueSlaHighRisk"`
+
+	SlackIssueStatusChangedAll *bool `json:"slackIssueStatusChangedAll"`
+
+	SlackIssueStatusChangedDone *bool `json:"slackIssueStatusChangedDone"`
+
+	SlackProjectUpdateCreated *bool `json:"slackProjectUpdateCreated"`
+
+	SlackProjectUpdateCreatedToTeam *bool `json:"slackProjectUpdateCreatedToTeam"`
+
+	SlackProjectUpdateCreatedToWorkspace *bool `json:"slackProjectUpdateCreatedToWorkspace"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getTeamTeamIntegrationsSettings) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getTeamTeamIntegrationsSettings) __premarshalJSON() (*__premarshalgetTeamTeamIntegrationsSettings, error) {
+	var retval __premarshalgetTeamTeamIntegrationsSettings
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamIntegrationsSettings.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamIntegrationsSettings.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.SlackIssueAddedToTriage = v.SlackIssueAddedToTriage
+	retval.SlackIssueCreated = v.SlackIssueCreated
+	retval.SlackIssueNewComment = v.SlackIssueNewComment
+	retval.SlackIssueSlaBreached = v.SlackIssueSlaBreached
+	retval.SlackIssueSlaHighRisk = v.SlackIssueSlaHighRisk
+	retval.SlackIssueStatusChangedAll = v.SlackIssueStatusChangedAll
+	retval.SlackIssueStatusChangedDone = v.SlackIssueStatusChangedDone
+	retval.SlackProjectUpdateCreated = v.SlackProjectUpdateCreated
+	retval.SlackProjectUpdateCreatedToTeam = v.SlackProjectUpdateCreatedToTeam
+	retval.SlackProjectUpdateCreatedToWorkspace = v.SlackProjectUpdateCreatedToWorkspace
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamIntegrationsSettings.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getTeamTeamMarkedAsDuplicateWorkflowState includes the requested fields of the GraphQL type WorkflowState.
 // The GraphQL type's documentation follows.
 //
@@ -7955,11 +19095,11 @@ type getTeamTeamMarkedAsDuplicateWorkflowState struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The state's UI color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Description of the state.
 	Description *string `json:"description"`
 	// The state's name.
@@ -7971,7 +19111,7 @@ type getTeamTeamMarkedAsDuplicateWorkflowState struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns getTeamTeamMarkedAsDuplicateWorkflowState.Id, and is useful for accessing the field via an interface.
@@ -8001,6 +19141,152 @@ func (v *getTeamTeamMarkedAsDuplicateWorkflowState) GetType() *string { return v
 // GetUpdatedAt returns getTeamTeamMarkedAsDuplicateWorkflowState.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getTeamTeamMarkedAsDuplicateWorkflowState) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *getTeamTeamMarkedAsDuplicateWorkflowState) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getTeamTeamMarkedAsDuplicateWorkflowState
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getTeamTeamMarkedAsDuplicateWorkflowState = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamMarkedAsDuplicateWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamMarkedAsDuplicateWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamMarkedAsDuplicateWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetTeamTeamMarkedAsDuplicateWorkflowState struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	Position *float64 `json:"position"`
+
+	Type *string `json:"type"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getTeamTeamMarkedAsDuplicateWorkflowState) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getTeamTeamMarkedAsDuplicateWorkflowState) __premarshalJSON() (*__premarshalgetTeamTeamMarkedAsDuplicateWorkflowState, error) {
+	var retval __premarshalgetTeamTeamMarkedAsDuplicateWorkflowState
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamMarkedAsDuplicateWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamMarkedAsDuplicateWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	retval.Position = v.Position
+	retval.Type = v.Type
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamMarkedAsDuplicateWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getTeamTeamOrganization includes the requested fields of the GraphQL type Organization.
 // The GraphQL type's documentation follows.
 //
@@ -8011,13 +19297,13 @@ type getTeamTeamOrganization struct {
 	// Allowed authentication providers, empty array means all are allowed
 	AllowedAuthServices []*string `json:"allowedAuthServices"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues in the organization.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// The time at which deletion of the organization was requested.
-	DeletionRequestedAt *time.Time `json:"deletionRequestedAt"`
+	DeletionRequestedAt *time.Time `json:"-"`
 	// How git branches are formatted. If null, default formatting will be used.
 	GitBranchFormat *string `json:"gitBranchFormat"`
 	// Whether the Git integration linkback messages should be sent to private repositories.
@@ -8047,11 +19333,11 @@ type getTeamTeamOrganization struct {
 	// Whether SCIM provisioning is enabled for organization.
 	ScimEnabled *bool `json:"scimEnabled"`
 	// The time at which the trial of the plus plan will end.
-	TrialEndsAt *time.Time `json:"trialEndsAt"`
+	TrialEndsAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The organization's unique URL key.
 	UrlKey *string `json:"urlKey"`
 	// Number of active users in the organization.
@@ -8140,6 +19426,253 @@ func (v *getTeamTeamOrganization) GetUrlKey() *string { return v.UrlKey }
 // GetUserCount returns getTeamTeamOrganization.UserCount, and is useful for accessing the field via an interface.
 func (v *getTeamTeamOrganization) GetUserCount() *int { return v.UserCount }
 
+func (v *getTeamTeamOrganization) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getTeamTeamOrganization
+		ArchivedAt          json.RawMessage `json:"archivedAt"`
+		CreatedAt           json.RawMessage `json:"createdAt"`
+		DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+		TrialEndsAt         json.RawMessage `json:"trialEndsAt"`
+		UpdatedAt           json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getTeamTeamOrganization = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DeletionRequestedAt
+		src := firstPass.DeletionRequestedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.TrialEndsAt
+		src := firstPass.TrialEndsAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetTeamTeamOrganization struct {
+	Id *string `json:"id"`
+
+	AllowedAuthServices []*string `json:"allowedAuthServices"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+
+	GitBranchFormat *string `json:"gitBranchFormat"`
+
+	GitLinkbackMessagesEnabled *bool `json:"gitLinkbackMessagesEnabled"`
+
+	GitPublicLinkbackMessagesEnabled *bool `json:"gitPublicLinkbackMessagesEnabled"`
+
+	LogoUrl *string `json:"logoUrl"`
+
+	Name *string `json:"name"`
+
+	PeriodUploadVolume *float64 `json:"periodUploadVolume"`
+
+	PreviousUrlKeys []*string `json:"previousUrlKeys"`
+
+	ProjectUpdateRemindersDay *Day `json:"projectUpdateRemindersDay"`
+
+	ProjectUpdateRemindersHour *float64 `json:"projectUpdateRemindersHour"`
+
+	ProjectUpdatesReminderFrequency *ProjectUpdateReminderFrequency `json:"projectUpdatesReminderFrequency"`
+
+	ReleaseChannel *ReleaseChannel `json:"releaseChannel"`
+
+	RoadmapEnabled *bool `json:"roadmapEnabled"`
+
+	SamlEnabled *bool `json:"samlEnabled"`
+
+	ScimEnabled *bool `json:"scimEnabled"`
+
+	TrialEndsAt json.RawMessage `json:"trialEndsAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	UrlKey *string `json:"urlKey"`
+
+	UserCount *int `json:"userCount"`
+}
+
+func (v *getTeamTeamOrganization) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getTeamTeamOrganization) __premarshalJSON() (*__premarshalgetTeamTeamOrganization, error) {
+	var retval __premarshalgetTeamTeamOrganization
+
+	retval.Id = v.Id
+	retval.AllowedAuthServices = v.AllowedAuthServices
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	{
+
+		dst := &retval.DeletionRequestedAt
+		src := v.DeletionRequestedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+	retval.GitBranchFormat = v.GitBranchFormat
+	retval.GitLinkbackMessagesEnabled = v.GitLinkbackMessagesEnabled
+	retval.GitPublicLinkbackMessagesEnabled = v.GitPublicLinkbackMessagesEnabled
+	retval.LogoUrl = v.LogoUrl
+	retval.Name = v.Name
+	retval.PeriodUploadVolume = v.PeriodUploadVolume
+	retval.PreviousUrlKeys = v.PreviousUrlKeys
+	retval.ProjectUpdateRemindersDay = v.ProjectUpdateRemindersDay
+	retval.ProjectUpdateRemindersHour = v.ProjectUpdateRemindersHour
+	retval.ProjectUpdatesReminderFrequency = v.ProjectUpdatesReminderFrequency
+	retval.ReleaseChannel = v.ReleaseChannel
+	retval.RoadmapEnabled = v.RoadmapEnabled
+	retval.SamlEnabled = v.SamlEnabled
+	retval.ScimEnabled = v.ScimEnabled
+	{
+
+		dst := &retval.TrialEndsAt
+		src := v.TrialEndsAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.UrlKey = v.UrlKey
+	retval.UserCount = v.UserCount
+	return &retval, nil
+}
+
 // getTeamTeamReviewWorkflowState includes the requested fields of the GraphQL type WorkflowState.
 // The GraphQL type's documentation follows.
 //
@@ -8148,11 +19681,11 @@ type getTeamTeamReviewWorkflowState struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The state's UI color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Description of the state.
 	Description *string `json:"description"`
 	// The state's name.
@@ -8164,7 +19697,7 @@ type getTeamTeamReviewWorkflowState struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns getTeamTeamReviewWorkflowState.Id, and is useful for accessing the field via an interface.
@@ -8194,6 +19727,152 @@ func (v *getTeamTeamReviewWorkflowState) GetType() *string { return v.Type }
 // GetUpdatedAt returns getTeamTeamReviewWorkflowState.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getTeamTeamReviewWorkflowState) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *getTeamTeamReviewWorkflowState) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getTeamTeamReviewWorkflowState
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getTeamTeamReviewWorkflowState = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamReviewWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamReviewWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamReviewWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetTeamTeamReviewWorkflowState struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	Position *float64 `json:"position"`
+
+	Type *string `json:"type"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getTeamTeamReviewWorkflowState) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getTeamTeamReviewWorkflowState) __premarshalJSON() (*__premarshalgetTeamTeamReviewWorkflowState, error) {
+	var retval __premarshalgetTeamTeamReviewWorkflowState
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamReviewWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamReviewWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	retval.Position = v.Position
+	retval.Type = v.Type
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamReviewWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getTeamTeamStartWorkflowState includes the requested fields of the GraphQL type WorkflowState.
 // The GraphQL type's documentation follows.
 //
@@ -8202,11 +19881,11 @@ type getTeamTeamStartWorkflowState struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The state's UI color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Description of the state.
 	Description *string `json:"description"`
 	// The state's name.
@@ -8218,7 +19897,7 @@ type getTeamTeamStartWorkflowState struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns getTeamTeamStartWorkflowState.Id, and is useful for accessing the field via an interface.
@@ -8248,6 +19927,152 @@ func (v *getTeamTeamStartWorkflowState) GetType() *string { return v.Type }
 // GetUpdatedAt returns getTeamTeamStartWorkflowState.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getTeamTeamStartWorkflowState) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *getTeamTeamStartWorkflowState) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getTeamTeamStartWorkflowState
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getTeamTeamStartWorkflowState = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamStartWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamStartWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamStartWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetTeamTeamStartWorkflowState struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	Position *float64 `json:"position"`
+
+	Type *string `json:"type"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getTeamTeamStartWorkflowState) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getTeamTeamStartWorkflowState) __premarshalJSON() (*__premarshalgetTeamTeamStartWorkflowState, error) {
+	var retval __premarshalgetTeamTeamStartWorkflowState
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamStartWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamStartWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	retval.Position = v.Position
+	retval.Type = v.Type
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamStartWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getTeamTeamTriageIssueStateWorkflowState includes the requested fields of the GraphQL type WorkflowState.
 // The GraphQL type's documentation follows.
 //
@@ -8256,11 +20081,11 @@ type getTeamTeamTriageIssueStateWorkflowState struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The state's UI color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Description of the state.
 	Description *string `json:"description"`
 	// The state's name.
@@ -8272,7 +20097,7 @@ type getTeamTeamTriageIssueStateWorkflowState struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns getTeamTeamTriageIssueStateWorkflowState.Id, and is useful for accessing the field via an interface.
@@ -8302,6 +20127,152 @@ func (v *getTeamTeamTriageIssueStateWorkflowState) GetType() *string { return v.
 // GetUpdatedAt returns getTeamTeamTriageIssueStateWorkflowState.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getTeamTeamTriageIssueStateWorkflowState) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *getTeamTeamTriageIssueStateWorkflowState) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getTeamTeamTriageIssueStateWorkflowState
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getTeamTeamTriageIssueStateWorkflowState = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamTriageIssueStateWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamTriageIssueStateWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getTeamTeamTriageIssueStateWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetTeamTeamTriageIssueStateWorkflowState struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	Position *float64 `json:"position"`
+
+	Type *string `json:"type"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *getTeamTeamTriageIssueStateWorkflowState) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getTeamTeamTriageIssueStateWorkflowState) __premarshalJSON() (*__premarshalgetTeamTeamTriageIssueStateWorkflowState, error) {
+	var retval __premarshalgetTeamTeamTriageIssueStateWorkflowState
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamTriageIssueStateWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamTriageIssueStateWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	retval.Position = v.Position
+	retval.Type = v.Type
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getTeamTeamTriageIssueStateWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // getUserResponse is returned by getUser on success.
 type getUserResponse struct {
 	// One specific user.
@@ -8323,13 +20294,13 @@ type getUserUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -8347,7 +20318,7 @@ type getUserUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -8355,13 +20326,13 @@ type getUserUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 	// Organization the user belongs to.
@@ -8440,6 +20411,253 @@ func (v *getUserUser) GetUrl() *string { return v.Url }
 // GetOrganization returns getUserUser.Organization, and is useful for accessing the field via an interface.
 func (v *getUserUser) GetOrganization() *getUserUserOrganization { return v.Organization }
 
+func (v *getUserUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getUserUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getUserUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getUserUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getUserUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getUserUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getUserUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getUserUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetUserUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+
+	Organization *getUserUserOrganization `json:"organization"`
+}
+
+func (v *getUserUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getUserUser) __premarshalJSON() (*__premarshalgetUserUser, error) {
+	var retval __premarshalgetUserUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getUserUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getUserUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getUserUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getUserUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getUserUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	retval.Organization = v.Organization
+	return &retval, nil
+}
+
 // getUserUserOrganization includes the requested fields of the GraphQL type Organization.
 // The GraphQL type's documentation follows.
 //
@@ -8450,13 +20668,13 @@ type getUserUserOrganization struct {
 	// Allowed authentication providers, empty array means all are allowed
 	AllowedAuthServices []*string `json:"allowedAuthServices"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues in the organization.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// The time at which deletion of the organization was requested.
-	DeletionRequestedAt *time.Time `json:"deletionRequestedAt"`
+	DeletionRequestedAt *time.Time `json:"-"`
 	// How git branches are formatted. If null, default formatting will be used.
 	GitBranchFormat *string `json:"gitBranchFormat"`
 	// Whether the Git integration linkback messages should be sent to private repositories.
@@ -8486,11 +20704,11 @@ type getUserUserOrganization struct {
 	// Whether SCIM provisioning is enabled for organization.
 	ScimEnabled *bool `json:"scimEnabled"`
 	// The time at which the trial of the plus plan will end.
-	TrialEndsAt *time.Time `json:"trialEndsAt"`
+	TrialEndsAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The organization's unique URL key.
 	UrlKey *string `json:"urlKey"`
 	// Number of active users in the organization.
@@ -8579,6 +20797,253 @@ func (v *getUserUserOrganization) GetUrlKey() *string { return v.UrlKey }
 // GetUserCount returns getUserUserOrganization.UserCount, and is useful for accessing the field via an interface.
 func (v *getUserUserOrganization) GetUserCount() *int { return v.UserCount }
 
+func (v *getUserUserOrganization) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*getUserUserOrganization
+		ArchivedAt          json.RawMessage `json:"archivedAt"`
+		CreatedAt           json.RawMessage `json:"createdAt"`
+		DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+		TrialEndsAt         json.RawMessage `json:"trialEndsAt"`
+		UpdatedAt           json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.getUserUserOrganization = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getUserUserOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getUserUserOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DeletionRequestedAt
+		src := firstPass.DeletionRequestedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getUserUserOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.TrialEndsAt
+		src := firstPass.TrialEndsAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getUserUserOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal getUserUserOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalgetUserUserOrganization struct {
+	Id *string `json:"id"`
+
+	AllowedAuthServices []*string `json:"allowedAuthServices"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+
+	GitBranchFormat *string `json:"gitBranchFormat"`
+
+	GitLinkbackMessagesEnabled *bool `json:"gitLinkbackMessagesEnabled"`
+
+	GitPublicLinkbackMessagesEnabled *bool `json:"gitPublicLinkbackMessagesEnabled"`
+
+	LogoUrl *string `json:"logoUrl"`
+
+	Name *string `json:"name"`
+
+	PeriodUploadVolume *float64 `json:"periodUploadVolume"`
+
+	PreviousUrlKeys []*string `json:"previousUrlKeys"`
+
+	ProjectUpdateRemindersDay *Day `json:"projectUpdateRemindersDay"`
+
+	ProjectUpdateRemindersHour *float64 `json:"projectUpdateRemindersHour"`
+
+	ProjectUpdatesReminderFrequency *ProjectUpdateReminderFrequency `json:"projectUpdatesReminderFrequency"`
+
+	ReleaseChannel *ReleaseChannel `json:"releaseChannel"`
+
+	RoadmapEnabled *bool `json:"roadmapEnabled"`
+
+	SamlEnabled *bool `json:"samlEnabled"`
+
+	ScimEnabled *bool `json:"scimEnabled"`
+
+	TrialEndsAt json.RawMessage `json:"trialEndsAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	UrlKey *string `json:"urlKey"`
+
+	UserCount *int `json:"userCount"`
+}
+
+func (v *getUserUserOrganization) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *getUserUserOrganization) __premarshalJSON() (*__premarshalgetUserUserOrganization, error) {
+	var retval __premarshalgetUserUserOrganization
+
+	retval.Id = v.Id
+	retval.AllowedAuthServices = v.AllowedAuthServices
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getUserUserOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getUserUserOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	{
+
+		dst := &retval.DeletionRequestedAt
+		src := v.DeletionRequestedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getUserUserOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+	retval.GitBranchFormat = v.GitBranchFormat
+	retval.GitLinkbackMessagesEnabled = v.GitLinkbackMessagesEnabled
+	retval.GitPublicLinkbackMessagesEnabled = v.GitPublicLinkbackMessagesEnabled
+	retval.LogoUrl = v.LogoUrl
+	retval.Name = v.Name
+	retval.PeriodUploadVolume = v.PeriodUploadVolume
+	retval.PreviousUrlKeys = v.PreviousUrlKeys
+	retval.ProjectUpdateRemindersDay = v.ProjectUpdateRemindersDay
+	retval.ProjectUpdateRemindersHour = v.ProjectUpdateRemindersHour
+	retval.ProjectUpdatesReminderFrequency = v.ProjectUpdatesReminderFrequency
+	retval.ReleaseChannel = v.ReleaseChannel
+	retval.RoadmapEnabled = v.RoadmapEnabled
+	retval.SamlEnabled = v.SamlEnabled
+	retval.ScimEnabled = v.ScimEnabled
+	{
+
+		dst := &retval.TrialEndsAt
+		src := v.TrialEndsAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getUserUserOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal getUserUserOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.UrlKey = v.UrlKey
+	retval.UserCount = v.UserCount
+	return &retval, nil
+}
+
 // listAttachmentsAttachmentsAttachmentConnection includes the requested fields of the GraphQL type AttachmentConnection.
 type listAttachmentsAttachmentsAttachmentConnection struct {
 	PageInfo *listAttachmentsAttachmentsAttachmentConnectionPageInfo          `json:"pageInfo"`
@@ -8603,9 +21068,9 @@ type listAttachmentsAttachmentsAttachmentConnectionNodesAttachment struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Indicates if attachments for the same source application should be grouped in the Linear UI.
 	GroupBySource *bool `json:"groupBySource"`
 	// Custom metadata related to the attachment.
@@ -8621,7 +21086,7 @@ type listAttachmentsAttachmentsAttachmentConnectionNodesAttachment struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Location of the attachment which is also used as an identifier.
 	Url *string `json:"url"`
 	// The creator of the attachment.
@@ -8693,6 +21158,164 @@ func (v *listAttachmentsAttachmentsAttachmentConnectionNodesAttachment) GetIssue
 	return v.Issue
 }
 
+func (v *listAttachmentsAttachmentsAttachmentConnectionNodesAttachment) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listAttachmentsAttachmentsAttachmentConnectionNodesAttachment
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listAttachmentsAttachmentsAttachmentConnectionNodesAttachment = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachment.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachment.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachment.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistAttachmentsAttachmentsAttachmentConnectionNodesAttachment struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	GroupBySource *bool `json:"groupBySource"`
+
+	Metadata *json.RawMessage `json:"metadata"`
+
+	Source *json.RawMessage `json:"source"`
+
+	SourceType *string `json:"sourceType"`
+
+	Subtitle *string `json:"subtitle"`
+
+	Title *string `json:"title"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+
+	Creator *listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser `json:"creator"`
+
+	Issue *listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue `json:"issue"`
+}
+
+func (v *listAttachmentsAttachmentsAttachmentConnectionNodesAttachment) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listAttachmentsAttachmentsAttachmentConnectionNodesAttachment) __premarshalJSON() (*__premarshallistAttachmentsAttachmentsAttachmentConnectionNodesAttachment, error) {
+	var retval __premarshallistAttachmentsAttachmentsAttachmentConnectionNodesAttachment
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachment.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachment.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.GroupBySource = v.GroupBySource
+	retval.Metadata = v.Metadata
+	retval.Source = v.Source
+	retval.SourceType = v.SourceType
+	retval.Subtitle = v.Subtitle
+	retval.Title = v.Title
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachment.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	retval.Creator = v.Creator
+	retval.Issue = v.Issue
+	return &retval, nil
+}
+
 // listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -8705,13 +21328,13 @@ type listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser st
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -8729,7 +21352,7 @@ type listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser st
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -8737,13 +21360,13 @@ type listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser st
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -8863,6 +21486,250 @@ func (v *listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUse
 	return v.Url
 }
 
+func (v *listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser) __premarshalJSON() (*__premarshallistAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser, error) {
+	var retval __premarshallistAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue includes the requested fields of the GraphQL type Issue.
 // The GraphQL type's documentation follows.
 //
@@ -8871,13 +21738,13 @@ type listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The issue's unique number.
 	Number *float64 `json:"number"`
 	// The issue's title.
@@ -8891,21 +21758,21 @@ type listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue struct {
 	// The order of the item in relation to other items in the organization.
 	SortOrder *float64 `json:"sortOrder"`
 	// The time at which the issue was moved into started state.
-	StartedAt *time.Time `json:"startedAt"`
+	StartedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into completed state.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into canceled state.
-	CanceledAt *time.Time `json:"canceledAt"`
+	CanceledAt *time.Time `json:"-"`
 	// The time at which the issue was automatically closed by the auto pruning process.
-	AutoClosedAt *time.Time `json:"autoClosedAt"`
+	AutoClosedAt *time.Time `json:"-"`
 	// The time at which the issue was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The date at which the issue is due.
-	DueDate *time.Time `json:"dueDate"`
+	DueDate *time.Time `json:"-"`
 	// A flag that indicates whether the issue is in the trash bin.
 	Trashed *bool `json:"trashed"`
 	// The time until an issue will be snoozed in Triage view.
-	SnoozedUntilAt *time.Time `json:"snoozedUntilAt"`
+	SnoozedUntilAt *time.Time `json:"-"`
 	// Previous identifiers of the issue if it has been moved between teams.
 	PreviousIdentifiers []*string `json:"previousIdentifiers"`
 	// The order of the item in the sub-issue list. Only set if the issue has a parent.
@@ -9047,6 +21914,396 @@ func (v *listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue) Get
 	return v.CustomerTicketCount
 }
 
+func (v *listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue
+		CreatedAt      json.RawMessage `json:"createdAt"`
+		UpdatedAt      json.RawMessage `json:"updatedAt"`
+		ArchivedAt     json.RawMessage `json:"archivedAt"`
+		StartedAt      json.RawMessage `json:"startedAt"`
+		CompletedAt    json.RawMessage `json:"completedAt"`
+		CanceledAt     json.RawMessage `json:"canceledAt"`
+		AutoClosedAt   json.RawMessage `json:"autoClosedAt"`
+		AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+		DueDate        json.RawMessage `json:"dueDate"`
+		SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartedAt
+		src := firstPass.StartedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.StartedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CanceledAt
+		src := firstPass.CanceledAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoClosedAt
+		src := firstPass.AutoClosedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DueDate
+		src := firstPass.DueDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.DueDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.SnoozedUntilAt
+		src := firstPass.SnoozedUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue struct {
+	Id *string `json:"id"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Number *float64 `json:"number"`
+
+	Title *string `json:"title"`
+
+	Description *string `json:"description"`
+
+	Priority *float64 `json:"priority"`
+
+	Estimate *float64 `json:"estimate"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	StartedAt json.RawMessage `json:"startedAt"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CanceledAt json.RawMessage `json:"canceledAt"`
+
+	AutoClosedAt json.RawMessage `json:"autoClosedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	DueDate json.RawMessage `json:"dueDate"`
+
+	Trashed *bool `json:"trashed"`
+
+	SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+
+	PreviousIdentifiers []*string `json:"previousIdentifiers"`
+
+	SubIssueSortOrder *float64 `json:"subIssueSortOrder"`
+
+	PriorityLabel *string `json:"priorityLabel"`
+
+	Identifier *string `json:"identifier"`
+
+	Url *string `json:"url"`
+
+	BranchName *string `json:"branchName"`
+
+	CustomerTicketCount *int `json:"customerTicketCount"`
+}
+
+func (v *listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue) __premarshalJSON() (*__premarshallistAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue, error) {
+	var retval __premarshallistAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Number = v.Number
+	retval.Title = v.Title
+	retval.Description = v.Description
+	retval.Priority = v.Priority
+	retval.Estimate = v.Estimate
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.StartedAt
+		src := v.StartedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.StartedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CanceledAt
+		src := v.CanceledAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoClosedAt
+		src := v.AutoClosedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.DueDate
+		src := v.DueDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.DueDate: %w", err)
+			}
+		}
+	}
+	retval.Trashed = v.Trashed
+	{
+
+		dst := &retval.SnoozedUntilAt
+		src := v.SnoozedUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listAttachmentsAttachmentsAttachmentConnectionNodesAttachmentIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	retval.PreviousIdentifiers = v.PreviousIdentifiers
+	retval.SubIssueSortOrder = v.SubIssueSortOrder
+	retval.PriorityLabel = v.PriorityLabel
+	retval.Identifier = v.Identifier
+	retval.Url = v.Url
+	retval.BranchName = v.BranchName
+	retval.CustomerTicketCount = v.CustomerTicketCount
+	return &retval, nil
+}
+
 // listAttachmentsAttachmentsAttachmentConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
 type listAttachmentsAttachmentsAttachmentConnectionPageInfo struct {
 	// Indicates if there are more results when paginating forward.
@@ -9102,21 +22359,21 @@ type listCommentsCommentsCommentConnectionNodesComment struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The comment content in markdown format.
 	Body *string `json:"body"`
 	// The comment content as a Prosemirror document.
 	BodyData *string `json:"bodyData"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The time user edited the comment.
-	EditedAt *time.Time `json:"editedAt"`
+	EditedAt *time.Time `json:"-"`
 	// Emoji reaction summary, grouped by emoji type
 	ReactionData *json.RawMessage `json:"reactionData"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Comment's URL.
 	Url *string `json:"url"`
 	// The user who wrote the comment.
@@ -9179,6 +22436,189 @@ func (v *listCommentsCommentsCommentConnectionNodesComment) GetIssue() *listComm
 	return v.Issue
 }
 
+func (v *listCommentsCommentsCommentConnectionNodesComment) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listCommentsCommentsCommentConnectionNodesComment
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		EditedAt   json.RawMessage `json:"editedAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listCommentsCommentsCommentConnectionNodesComment = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesComment.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesComment.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.EditedAt
+		src := firstPass.EditedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesComment.EditedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesComment.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistCommentsCommentsCommentConnectionNodesComment struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Body *string `json:"body"`
+
+	BodyData *string `json:"bodyData"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	EditedAt json.RawMessage `json:"editedAt"`
+
+	ReactionData *json.RawMessage `json:"reactionData"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+
+	User *listCommentsCommentsCommentConnectionNodesCommentUser `json:"user"`
+
+	Parent *listCommentsCommentsCommentConnectionNodesCommentParentComment `json:"parent"`
+
+	Issue *listCommentsCommentsCommentConnectionNodesCommentIssue `json:"issue"`
+}
+
+func (v *listCommentsCommentsCommentConnectionNodesComment) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listCommentsCommentsCommentConnectionNodesComment) __premarshalJSON() (*__premarshallistCommentsCommentsCommentConnectionNodesComment, error) {
+	var retval __premarshallistCommentsCommentsCommentConnectionNodesComment
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesComment.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Body = v.Body
+	retval.BodyData = v.BodyData
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesComment.CreatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.EditedAt
+		src := v.EditedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesComment.EditedAt: %w", err)
+			}
+		}
+	}
+	retval.ReactionData = v.ReactionData
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesComment.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	retval.User = v.User
+	retval.Parent = v.Parent
+	retval.Issue = v.Issue
+	return &retval, nil
+}
+
 // listCommentsCommentsCommentConnectionNodesCommentIssue includes the requested fields of the GraphQL type Issue.
 // The GraphQL type's documentation follows.
 //
@@ -9187,13 +22627,13 @@ type listCommentsCommentsCommentConnectionNodesCommentIssue struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The issue's unique number.
 	Number *float64 `json:"number"`
 	// The issue's title.
@@ -9207,21 +22647,21 @@ type listCommentsCommentsCommentConnectionNodesCommentIssue struct {
 	// The order of the item in relation to other items in the organization.
 	SortOrder *float64 `json:"sortOrder"`
 	// The time at which the issue was moved into started state.
-	StartedAt *time.Time `json:"startedAt"`
+	StartedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into completed state.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into canceled state.
-	CanceledAt *time.Time `json:"canceledAt"`
+	CanceledAt *time.Time `json:"-"`
 	// The time at which the issue was automatically closed by the auto pruning process.
-	AutoClosedAt *time.Time `json:"autoClosedAt"`
+	AutoClosedAt *time.Time `json:"-"`
 	// The time at which the issue was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The date at which the issue is due.
-	DueDate *time.Time `json:"dueDate"`
+	DueDate *time.Time `json:"-"`
 	// A flag that indicates whether the issue is in the trash bin.
 	Trashed *bool `json:"trashed"`
 	// The time until an issue will be snoozed in Triage view.
-	SnoozedUntilAt *time.Time `json:"snoozedUntilAt"`
+	SnoozedUntilAt *time.Time `json:"-"`
 	// Previous identifiers of the issue if it has been moved between teams.
 	PreviousIdentifiers []*string `json:"previousIdentifiers"`
 	// The order of the item in the sub-issue list. Only set if the issue has a parent.
@@ -9355,6 +22795,396 @@ func (v *listCommentsCommentsCommentConnectionNodesCommentIssue) GetCustomerTick
 	return v.CustomerTicketCount
 }
 
+func (v *listCommentsCommentsCommentConnectionNodesCommentIssue) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listCommentsCommentsCommentConnectionNodesCommentIssue
+		CreatedAt      json.RawMessage `json:"createdAt"`
+		UpdatedAt      json.RawMessage `json:"updatedAt"`
+		ArchivedAt     json.RawMessage `json:"archivedAt"`
+		StartedAt      json.RawMessage `json:"startedAt"`
+		CompletedAt    json.RawMessage `json:"completedAt"`
+		CanceledAt     json.RawMessage `json:"canceledAt"`
+		AutoClosedAt   json.RawMessage `json:"autoClosedAt"`
+		AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+		DueDate        json.RawMessage `json:"dueDate"`
+		SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listCommentsCommentsCommentConnectionNodesCommentIssue = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartedAt
+		src := firstPass.StartedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentIssue.StartedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CanceledAt
+		src := firstPass.CanceledAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoClosedAt
+		src := firstPass.AutoClosedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DueDate
+		src := firstPass.DueDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentIssue.DueDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.SnoozedUntilAt
+		src := firstPass.SnoozedUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistCommentsCommentsCommentConnectionNodesCommentIssue struct {
+	Id *string `json:"id"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Number *float64 `json:"number"`
+
+	Title *string `json:"title"`
+
+	Description *string `json:"description"`
+
+	Priority *float64 `json:"priority"`
+
+	Estimate *float64 `json:"estimate"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	StartedAt json.RawMessage `json:"startedAt"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CanceledAt json.RawMessage `json:"canceledAt"`
+
+	AutoClosedAt json.RawMessage `json:"autoClosedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	DueDate json.RawMessage `json:"dueDate"`
+
+	Trashed *bool `json:"trashed"`
+
+	SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+
+	PreviousIdentifiers []*string `json:"previousIdentifiers"`
+
+	SubIssueSortOrder *float64 `json:"subIssueSortOrder"`
+
+	PriorityLabel *string `json:"priorityLabel"`
+
+	Identifier *string `json:"identifier"`
+
+	Url *string `json:"url"`
+
+	BranchName *string `json:"branchName"`
+
+	CustomerTicketCount *int `json:"customerTicketCount"`
+}
+
+func (v *listCommentsCommentsCommentConnectionNodesCommentIssue) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listCommentsCommentsCommentConnectionNodesCommentIssue) __premarshalJSON() (*__premarshallistCommentsCommentsCommentConnectionNodesCommentIssue, error) {
+	var retval __premarshallistCommentsCommentsCommentConnectionNodesCommentIssue
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Number = v.Number
+	retval.Title = v.Title
+	retval.Description = v.Description
+	retval.Priority = v.Priority
+	retval.Estimate = v.Estimate
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.StartedAt
+		src := v.StartedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentIssue.StartedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CanceledAt
+		src := v.CanceledAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoClosedAt
+		src := v.AutoClosedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.DueDate
+		src := v.DueDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentIssue.DueDate: %w", err)
+			}
+		}
+	}
+	retval.Trashed = v.Trashed
+	{
+
+		dst := &retval.SnoozedUntilAt
+		src := v.SnoozedUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	retval.PreviousIdentifiers = v.PreviousIdentifiers
+	retval.SubIssueSortOrder = v.SubIssueSortOrder
+	retval.PriorityLabel = v.PriorityLabel
+	retval.Identifier = v.Identifier
+	retval.Url = v.Url
+	retval.BranchName = v.BranchName
+	retval.CustomerTicketCount = v.CustomerTicketCount
+	return &retval, nil
+}
+
 // listCommentsCommentsCommentConnectionNodesCommentParentComment includes the requested fields of the GraphQL type Comment.
 // The GraphQL type's documentation follows.
 //
@@ -9363,21 +23193,21 @@ type listCommentsCommentsCommentConnectionNodesCommentParentComment struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The comment content in markdown format.
 	Body *string `json:"body"`
 	// The comment content as a Prosemirror document.
 	BodyData *string `json:"bodyData"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The time user edited the comment.
-	EditedAt *time.Time `json:"editedAt"`
+	EditedAt *time.Time `json:"-"`
 	// Emoji reaction summary, grouped by emoji type
 	ReactionData *json.RawMessage `json:"reactionData"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Comment's URL.
 	Url *string `json:"url"`
 }
@@ -9425,6 +23255,180 @@ func (v *listCommentsCommentsCommentConnectionNodesCommentParentComment) GetUrl(
 	return v.Url
 }
 
+func (v *listCommentsCommentsCommentConnectionNodesCommentParentComment) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listCommentsCommentsCommentConnectionNodesCommentParentComment
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		EditedAt   json.RawMessage `json:"editedAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listCommentsCommentsCommentConnectionNodesCommentParentComment = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentParentComment.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentParentComment.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.EditedAt
+		src := firstPass.EditedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentParentComment.EditedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentParentComment.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistCommentsCommentsCommentConnectionNodesCommentParentComment struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Body *string `json:"body"`
+
+	BodyData *string `json:"bodyData"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	EditedAt json.RawMessage `json:"editedAt"`
+
+	ReactionData *json.RawMessage `json:"reactionData"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *listCommentsCommentsCommentConnectionNodesCommentParentComment) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listCommentsCommentsCommentConnectionNodesCommentParentComment) __premarshalJSON() (*__premarshallistCommentsCommentsCommentConnectionNodesCommentParentComment, error) {
+	var retval __premarshallistCommentsCommentsCommentConnectionNodesCommentParentComment
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentParentComment.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Body = v.Body
+	retval.BodyData = v.BodyData
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentParentComment.CreatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.EditedAt
+		src := v.EditedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentParentComment.EditedAt: %w", err)
+			}
+		}
+	}
+	retval.ReactionData = v.ReactionData
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentParentComment.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // listCommentsCommentsCommentConnectionNodesCommentUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -9437,13 +23441,13 @@ type listCommentsCommentsCommentConnectionNodesCommentUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -9461,7 +23465,7 @@ type listCommentsCommentsCommentConnectionNodesCommentUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -9469,13 +23473,13 @@ type listCommentsCommentsCommentConnectionNodesCommentUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -9579,6 +23583,250 @@ func (v *listCommentsCommentsCommentConnectionNodesCommentUser) GetUpdatedAt() *
 // GetUrl returns listCommentsCommentsCommentConnectionNodesCommentUser.Url, and is useful for accessing the field via an interface.
 func (v *listCommentsCommentsCommentConnectionNodesCommentUser) GetUrl() *string { return v.Url }
 
+func (v *listCommentsCommentsCommentConnectionNodesCommentUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listCommentsCommentsCommentConnectionNodesCommentUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listCommentsCommentsCommentConnectionNodesCommentUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listCommentsCommentsCommentConnectionNodesCommentUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistCommentsCommentsCommentConnectionNodesCommentUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *listCommentsCommentsCommentConnectionNodesCommentUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listCommentsCommentsCommentConnectionNodesCommentUser) __premarshalJSON() (*__premarshallistCommentsCommentsCommentConnectionNodesCommentUser, error) {
+	var retval __premarshallistCommentsCommentsCommentConnectionNodesCommentUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listCommentsCommentsCommentConnectionNodesCommentUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // listCommentsCommentsCommentConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
 type listCommentsCommentsCommentConnectionPageInfo struct {
 	// Indicates if there are more results when paginating forward.
@@ -9628,15 +23876,15 @@ type listIntegrationsIntegrationsIntegrationConnectionNodesIntegration struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The integration's type.
 	Service *string `json:"service"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The team that the integration is associated with.
 	Team *listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam `json:"team"`
 	// The user that added the integration.
@@ -9685,6 +23933,149 @@ func (v *listIntegrationsIntegrationsIntegrationConnectionNodesIntegration) GetO
 	return v.Organization
 }
 
+func (v *listIntegrationsIntegrationsIntegrationConnectionNodesIntegration) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIntegrationsIntegrationsIntegrationConnectionNodesIntegration
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIntegrationsIntegrationsIntegrationConnectionNodesIntegration = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegration.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegration.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegration.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIntegrationsIntegrationsIntegrationConnectionNodesIntegration struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Service *string `json:"service"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Team *listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam `json:"team"`
+
+	Creator *listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser `json:"creator"`
+
+	Organization *listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization `json:"organization"`
+}
+
+func (v *listIntegrationsIntegrationsIntegrationConnectionNodesIntegration) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIntegrationsIntegrationsIntegrationConnectionNodesIntegration) __premarshalJSON() (*__premarshallistIntegrationsIntegrationsIntegrationConnectionNodesIntegration, error) {
+	var retval __premarshallistIntegrationsIntegrationsIntegrationConnectionNodesIntegration
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegration.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegration.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Service = v.Service
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegration.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Team = v.Team
+	retval.Creator = v.Creator
+	retval.Organization = v.Organization
+	return &retval, nil
+}
+
 // listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -9697,13 +24088,13 @@ type listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUse
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -9721,7 +24112,7 @@ type listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUse
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -9729,13 +24120,13 @@ type listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUse
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -9855,6 +24246,250 @@ func (v *listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreato
 	return v.Url
 }
 
+func (v *listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser) __premarshalJSON() (*__premarshallistIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser, error) {
+	var retval __premarshallistIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization includes the requested fields of the GraphQL type Organization.
 // The GraphQL type's documentation follows.
 //
@@ -9865,13 +24500,13 @@ type listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganizati
 	// Allowed authentication providers, empty array means all are allowed
 	AllowedAuthServices []*string `json:"allowedAuthServices"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues in the organization.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// The time at which deletion of the organization was requested.
-	DeletionRequestedAt *time.Time `json:"deletionRequestedAt"`
+	DeletionRequestedAt *time.Time `json:"-"`
 	// How git branches are formatted. If null, default formatting will be used.
 	GitBranchFormat *string `json:"gitBranchFormat"`
 	// Whether the Git integration linkback messages should be sent to private repositories.
@@ -9901,11 +24536,11 @@ type listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganizati
 	// Whether SCIM provisioning is enabled for organization.
 	ScimEnabled *bool `json:"scimEnabled"`
 	// The time at which the trial of the plus plan will end.
-	TrialEndsAt *time.Time `json:"trialEndsAt"`
+	TrialEndsAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The organization's unique URL key.
 	UrlKey *string `json:"urlKey"`
 	// Number of active users in the organization.
@@ -10032,6 +24667,253 @@ func (v *listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrgani
 	return v.UserCount
 }
 
+func (v *listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization
+		ArchivedAt          json.RawMessage `json:"archivedAt"`
+		CreatedAt           json.RawMessage `json:"createdAt"`
+		DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+		TrialEndsAt         json.RawMessage `json:"trialEndsAt"`
+		UpdatedAt           json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DeletionRequestedAt
+		src := firstPass.DeletionRequestedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.TrialEndsAt
+		src := firstPass.TrialEndsAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization struct {
+	Id *string `json:"id"`
+
+	AllowedAuthServices []*string `json:"allowedAuthServices"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+
+	GitBranchFormat *string `json:"gitBranchFormat"`
+
+	GitLinkbackMessagesEnabled *bool `json:"gitLinkbackMessagesEnabled"`
+
+	GitPublicLinkbackMessagesEnabled *bool `json:"gitPublicLinkbackMessagesEnabled"`
+
+	LogoUrl *string `json:"logoUrl"`
+
+	Name *string `json:"name"`
+
+	PeriodUploadVolume *float64 `json:"periodUploadVolume"`
+
+	PreviousUrlKeys []*string `json:"previousUrlKeys"`
+
+	ProjectUpdateRemindersDay *Day `json:"projectUpdateRemindersDay"`
+
+	ProjectUpdateRemindersHour *float64 `json:"projectUpdateRemindersHour"`
+
+	ProjectUpdatesReminderFrequency *ProjectUpdateReminderFrequency `json:"projectUpdatesReminderFrequency"`
+
+	ReleaseChannel *ReleaseChannel `json:"releaseChannel"`
+
+	RoadmapEnabled *bool `json:"roadmapEnabled"`
+
+	SamlEnabled *bool `json:"samlEnabled"`
+
+	ScimEnabled *bool `json:"scimEnabled"`
+
+	TrialEndsAt json.RawMessage `json:"trialEndsAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	UrlKey *string `json:"urlKey"`
+
+	UserCount *int `json:"userCount"`
+}
+
+func (v *listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization) __premarshalJSON() (*__premarshallistIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization, error) {
+	var retval __premarshallistIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization
+
+	retval.Id = v.Id
+	retval.AllowedAuthServices = v.AllowedAuthServices
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	{
+
+		dst := &retval.DeletionRequestedAt
+		src := v.DeletionRequestedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+	retval.GitBranchFormat = v.GitBranchFormat
+	retval.GitLinkbackMessagesEnabled = v.GitLinkbackMessagesEnabled
+	retval.GitPublicLinkbackMessagesEnabled = v.GitPublicLinkbackMessagesEnabled
+	retval.LogoUrl = v.LogoUrl
+	retval.Name = v.Name
+	retval.PeriodUploadVolume = v.PeriodUploadVolume
+	retval.PreviousUrlKeys = v.PreviousUrlKeys
+	retval.ProjectUpdateRemindersDay = v.ProjectUpdateRemindersDay
+	retval.ProjectUpdateRemindersHour = v.ProjectUpdateRemindersHour
+	retval.ProjectUpdatesReminderFrequency = v.ProjectUpdatesReminderFrequency
+	retval.ReleaseChannel = v.ReleaseChannel
+	retval.RoadmapEnabled = v.RoadmapEnabled
+	retval.SamlEnabled = v.SamlEnabled
+	retval.ScimEnabled = v.ScimEnabled
+	{
+
+		dst := &retval.TrialEndsAt
+		src := v.TrialEndsAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.UrlKey = v.UrlKey
+	retval.UserCount = v.UserCount
+	return &retval, nil
+}
+
 // listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam includes the requested fields of the GraphQL type Team.
 // The GraphQL type's documentation follows.
 //
@@ -10040,7 +24922,7 @@ type listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam struc
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// Period after which automatically closed and completed issues are automatically archived in months.
 	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
 	// Period after which issues are automatically closed in months. Null/undefined means disabled.
@@ -10050,7 +24932,7 @@ type listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam struc
 	// The team's color.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Calendar feed URL (iCal) for cycles.
 	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
 	// The cooldown time after each cycle in weeks.
@@ -10114,7 +24996,7 @@ type listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam struc
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam.Id, and is useful for accessing the field via an interface.
@@ -10307,6 +25189,239 @@ func (v *listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam) 
 	return v.UpdatedAt
 }
 
+func (v *listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
+
+	AutoClosePeriod *float64 `json:"autoClosePeriod"`
+
+	AutoCloseStateId *string `json:"autoCloseStateId"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
+
+	CycleCooldownTime *float64 `json:"cycleCooldownTime"`
+
+	CycleDuration *float64 `json:"cycleDuration"`
+
+	CycleIssueAutoAssignCompleted *bool `json:"cycleIssueAutoAssignCompleted"`
+
+	CycleIssueAutoAssignStarted *bool `json:"cycleIssueAutoAssignStarted"`
+
+	CycleLockToActive *bool `json:"cycleLockToActive"`
+
+	CycleStartDay *float64 `json:"cycleStartDay"`
+
+	CyclesEnabled *bool `json:"cyclesEnabled"`
+
+	DefaultIssueEstimate *float64 `json:"defaultIssueEstimate"`
+
+	DefaultTemplateForMembersId *string `json:"defaultTemplateForMembersId"`
+
+	DefaultTemplateForNonMembersId *string `json:"defaultTemplateForNonMembersId"`
+
+	Description *string `json:"description"`
+
+	GroupIssueHistory *bool `json:"groupIssueHistory"`
+
+	Icon *string `json:"icon"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IssueEstimationAllowZero *bool `json:"issueEstimationAllowZero"`
+
+	IssueEstimationExtended *bool `json:"issueEstimationExtended"`
+
+	IssueEstimationType *string `json:"issueEstimationType"`
+
+	IssueOrderingNoPriorityFirst *bool `json:"issueOrderingNoPriorityFirst"`
+
+	IssueSortOrderDefaultToBottom *bool `json:"issueSortOrderDefaultToBottom"`
+
+	Key *string `json:"key"`
+
+	Name *string `json:"name"`
+
+	Private *bool `json:"private"`
+
+	RequirePriorityToLeaveTriage *bool `json:"requirePriorityToLeaveTriage"`
+
+	SlackIssueComments *bool `json:"slackIssueComments"`
+
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+
+	SlackNewIssue *bool `json:"slackNewIssue"`
+
+	Timezone *string `json:"timezone"`
+
+	TriageEnabled *bool `json:"triageEnabled"`
+
+	UpcomingCycleCount *float64 `json:"upcomingCycleCount"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam) __premarshalJSON() (*__premarshallistIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam, error) {
+	var retval __premarshallistIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AutoArchivePeriod = v.AutoArchivePeriod
+	retval.AutoClosePeriod = v.AutoClosePeriod
+	retval.AutoCloseStateId = v.AutoCloseStateId
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CycleCalenderUrl = v.CycleCalenderUrl
+	retval.CycleCooldownTime = v.CycleCooldownTime
+	retval.CycleDuration = v.CycleDuration
+	retval.CycleIssueAutoAssignCompleted = v.CycleIssueAutoAssignCompleted
+	retval.CycleIssueAutoAssignStarted = v.CycleIssueAutoAssignStarted
+	retval.CycleLockToActive = v.CycleLockToActive
+	retval.CycleStartDay = v.CycleStartDay
+	retval.CyclesEnabled = v.CyclesEnabled
+	retval.DefaultIssueEstimate = v.DefaultIssueEstimate
+	retval.DefaultTemplateForMembersId = v.DefaultTemplateForMembersId
+	retval.DefaultTemplateForNonMembersId = v.DefaultTemplateForNonMembersId
+	retval.Description = v.Description
+	retval.GroupIssueHistory = v.GroupIssueHistory
+	retval.Icon = v.Icon
+	retval.InviteHash = v.InviteHash
+	retval.IssueEstimationAllowZero = v.IssueEstimationAllowZero
+	retval.IssueEstimationExtended = v.IssueEstimationExtended
+	retval.IssueEstimationType = v.IssueEstimationType
+	retval.IssueOrderingNoPriorityFirst = v.IssueOrderingNoPriorityFirst
+	retval.IssueSortOrderDefaultToBottom = v.IssueSortOrderDefaultToBottom
+	retval.Key = v.Key
+	retval.Name = v.Name
+	retval.Private = v.Private
+	retval.RequirePriorityToLeaveTriage = v.RequirePriorityToLeaveTriage
+	retval.SlackIssueComments = v.SlackIssueComments
+	retval.SlackIssueStatuses = v.SlackIssueStatuses
+	retval.SlackNewIssue = v.SlackNewIssue
+	retval.Timezone = v.Timezone
+	retval.TriageEnabled = v.TriageEnabled
+	retval.UpcomingCycleCount = v.UpcomingCycleCount
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIntegrationsIntegrationsIntegrationConnectionNodesIntegrationTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // listIntegrationsIntegrationsIntegrationConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
 type listIntegrationsIntegrationsIntegrationConnectionPageInfo struct {
 	// Indicates if there are more results when paginating forward.
@@ -10360,11 +25475,11 @@ type listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabel struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The label's color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The label's description.
 	Description *string `json:"description"`
 	// The label's name.
@@ -10372,7 +25487,7 @@ type listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabel struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Issues associated with the label.
 	Issues *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnection `json:"issues"`
 	// The team that the label is associated with. If null, the label is associated with the global workspace.
@@ -10442,6 +25557,161 @@ func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabel) GetParen
 	return v.Parent
 }
 
+func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabel) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabel
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabel = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabel.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabel.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabel.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabel struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Issues *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnection `json:"issues"`
+
+	Team *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam `json:"team"`
+
+	Creator *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser `json:"creator"`
+
+	Organization *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization `json:"organization"`
+
+	Parent *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel `json:"parent"`
+}
+
+func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabel) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabel) __premarshalJSON() (*__premarshallistIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabel, error) {
+	var retval __premarshallistIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabel
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabel.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabel.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabel.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Issues = v.Issues
+	retval.Team = v.Team
+	retval.Creator = v.Creator
+	retval.Organization = v.Organization
+	retval.Parent = v.Parent
+	return &retval, nil
+}
+
 // listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -10454,13 +25724,13 @@ type listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser st
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -10478,7 +25748,7 @@ type listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser st
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -10486,13 +25756,13 @@ type listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser st
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -10612,6 +25882,250 @@ func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUse
 	return v.Url
 }
 
+func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser) __premarshalJSON() (*__premarshallistIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser, error) {
+	var retval __premarshallistIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnection includes the requested fields of the GraphQL type IssueConnection.
 type listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnection struct {
 	PageInfo *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelIssuesIssueConnectionPageInfo     `json:"pageInfo"`
@@ -10670,13 +26184,13 @@ type listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization s
 	// Allowed authentication providers, empty array means all are allowed
 	AllowedAuthServices []*string `json:"allowedAuthServices"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues in the organization.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// The time at which deletion of the organization was requested.
-	DeletionRequestedAt *time.Time `json:"deletionRequestedAt"`
+	DeletionRequestedAt *time.Time `json:"-"`
 	// How git branches are formatted. If null, default formatting will be used.
 	GitBranchFormat *string `json:"gitBranchFormat"`
 	// Whether the Git integration linkback messages should be sent to private repositories.
@@ -10706,11 +26220,11 @@ type listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization s
 	// Whether SCIM provisioning is enabled for organization.
 	ScimEnabled *bool `json:"scimEnabled"`
 	// The time at which the trial of the plus plan will end.
-	TrialEndsAt *time.Time `json:"trialEndsAt"`
+	TrialEndsAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The organization's unique URL key.
 	UrlKey *string `json:"urlKey"`
 	// Number of active users in the organization.
@@ -10837,6 +26351,253 @@ func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganizati
 	return v.UserCount
 }
 
+func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization
+		ArchivedAt          json.RawMessage `json:"archivedAt"`
+		CreatedAt           json.RawMessage `json:"createdAt"`
+		DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+		TrialEndsAt         json.RawMessage `json:"trialEndsAt"`
+		UpdatedAt           json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DeletionRequestedAt
+		src := firstPass.DeletionRequestedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.TrialEndsAt
+		src := firstPass.TrialEndsAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization struct {
+	Id *string `json:"id"`
+
+	AllowedAuthServices []*string `json:"allowedAuthServices"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+
+	GitBranchFormat *string `json:"gitBranchFormat"`
+
+	GitLinkbackMessagesEnabled *bool `json:"gitLinkbackMessagesEnabled"`
+
+	GitPublicLinkbackMessagesEnabled *bool `json:"gitPublicLinkbackMessagesEnabled"`
+
+	LogoUrl *string `json:"logoUrl"`
+
+	Name *string `json:"name"`
+
+	PeriodUploadVolume *float64 `json:"periodUploadVolume"`
+
+	PreviousUrlKeys []*string `json:"previousUrlKeys"`
+
+	ProjectUpdateRemindersDay *Day `json:"projectUpdateRemindersDay"`
+
+	ProjectUpdateRemindersHour *float64 `json:"projectUpdateRemindersHour"`
+
+	ProjectUpdatesReminderFrequency *ProjectUpdateReminderFrequency `json:"projectUpdatesReminderFrequency"`
+
+	ReleaseChannel *ReleaseChannel `json:"releaseChannel"`
+
+	RoadmapEnabled *bool `json:"roadmapEnabled"`
+
+	SamlEnabled *bool `json:"samlEnabled"`
+
+	ScimEnabled *bool `json:"scimEnabled"`
+
+	TrialEndsAt json.RawMessage `json:"trialEndsAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	UrlKey *string `json:"urlKey"`
+
+	UserCount *int `json:"userCount"`
+}
+
+func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization) __premarshalJSON() (*__premarshallistIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization, error) {
+	var retval __premarshallistIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization
+
+	retval.Id = v.Id
+	retval.AllowedAuthServices = v.AllowedAuthServices
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	{
+
+		dst := &retval.DeletionRequestedAt
+		src := v.DeletionRequestedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+	retval.GitBranchFormat = v.GitBranchFormat
+	retval.GitLinkbackMessagesEnabled = v.GitLinkbackMessagesEnabled
+	retval.GitPublicLinkbackMessagesEnabled = v.GitPublicLinkbackMessagesEnabled
+	retval.LogoUrl = v.LogoUrl
+	retval.Name = v.Name
+	retval.PeriodUploadVolume = v.PeriodUploadVolume
+	retval.PreviousUrlKeys = v.PreviousUrlKeys
+	retval.ProjectUpdateRemindersDay = v.ProjectUpdateRemindersDay
+	retval.ProjectUpdateRemindersHour = v.ProjectUpdateRemindersHour
+	retval.ProjectUpdatesReminderFrequency = v.ProjectUpdatesReminderFrequency
+	retval.ReleaseChannel = v.ReleaseChannel
+	retval.RoadmapEnabled = v.RoadmapEnabled
+	retval.SamlEnabled = v.SamlEnabled
+	retval.ScimEnabled = v.ScimEnabled
+	{
+
+		dst := &retval.TrialEndsAt
+		src := v.TrialEndsAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.UrlKey = v.UrlKey
+	retval.UserCount = v.UserCount
+	return &retval, nil
+}
+
 // listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel includes the requested fields of the GraphQL type IssueLabel.
 // The GraphQL type's documentation follows.
 //
@@ -10845,11 +26606,11 @@ type listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLab
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The label's color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The label's description.
 	Description *string `json:"description"`
 	// The label's name.
@@ -10857,7 +26618,7 @@ type listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLab
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel.Id, and is useful for accessing the field via an interface.
@@ -10895,6 +26656,146 @@ func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssu
 	return v.UpdatedAt
 }
 
+func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel) __premarshalJSON() (*__premarshallistIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel, error) {
+	var retval __premarshallistIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelParentIssueLabel.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam includes the requested fields of the GraphQL type Team.
 // The GraphQL type's documentation follows.
 //
@@ -10903,7 +26804,7 @@ type listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// Period after which automatically closed and completed issues are automatically archived in months.
 	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
 	// Period after which issues are automatically closed in months. Null/undefined means disabled.
@@ -10913,7 +26814,7 @@ type listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam struct {
 	// The team's color.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Calendar feed URL (iCal) for cycles.
 	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
 	// The cooldown time after each cycle in weeks.
@@ -10977,7 +26878,7 @@ type listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.Id, and is useful for accessing the field via an interface.
@@ -11170,6 +27071,239 @@ func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) GetU
 	return v.UpdatedAt
 }
 
+func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
+
+	AutoClosePeriod *float64 `json:"autoClosePeriod"`
+
+	AutoCloseStateId *string `json:"autoCloseStateId"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
+
+	CycleCooldownTime *float64 `json:"cycleCooldownTime"`
+
+	CycleDuration *float64 `json:"cycleDuration"`
+
+	CycleIssueAutoAssignCompleted *bool `json:"cycleIssueAutoAssignCompleted"`
+
+	CycleIssueAutoAssignStarted *bool `json:"cycleIssueAutoAssignStarted"`
+
+	CycleLockToActive *bool `json:"cycleLockToActive"`
+
+	CycleStartDay *float64 `json:"cycleStartDay"`
+
+	CyclesEnabled *bool `json:"cyclesEnabled"`
+
+	DefaultIssueEstimate *float64 `json:"defaultIssueEstimate"`
+
+	DefaultTemplateForMembersId *string `json:"defaultTemplateForMembersId"`
+
+	DefaultTemplateForNonMembersId *string `json:"defaultTemplateForNonMembersId"`
+
+	Description *string `json:"description"`
+
+	GroupIssueHistory *bool `json:"groupIssueHistory"`
+
+	Icon *string `json:"icon"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IssueEstimationAllowZero *bool `json:"issueEstimationAllowZero"`
+
+	IssueEstimationExtended *bool `json:"issueEstimationExtended"`
+
+	IssueEstimationType *string `json:"issueEstimationType"`
+
+	IssueOrderingNoPriorityFirst *bool `json:"issueOrderingNoPriorityFirst"`
+
+	IssueSortOrderDefaultToBottom *bool `json:"issueSortOrderDefaultToBottom"`
+
+	Key *string `json:"key"`
+
+	Name *string `json:"name"`
+
+	Private *bool `json:"private"`
+
+	RequirePriorityToLeaveTriage *bool `json:"requirePriorityToLeaveTriage"`
+
+	SlackIssueComments *bool `json:"slackIssueComments"`
+
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+
+	SlackNewIssue *bool `json:"slackNewIssue"`
+
+	Timezone *string `json:"timezone"`
+
+	TriageEnabled *bool `json:"triageEnabled"`
+
+	UpcomingCycleCount *float64 `json:"upcomingCycleCount"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam) __premarshalJSON() (*__premarshallistIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam, error) {
+	var retval __premarshallistIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AutoArchivePeriod = v.AutoArchivePeriod
+	retval.AutoClosePeriod = v.AutoClosePeriod
+	retval.AutoCloseStateId = v.AutoCloseStateId
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CycleCalenderUrl = v.CycleCalenderUrl
+	retval.CycleCooldownTime = v.CycleCooldownTime
+	retval.CycleDuration = v.CycleDuration
+	retval.CycleIssueAutoAssignCompleted = v.CycleIssueAutoAssignCompleted
+	retval.CycleIssueAutoAssignStarted = v.CycleIssueAutoAssignStarted
+	retval.CycleLockToActive = v.CycleLockToActive
+	retval.CycleStartDay = v.CycleStartDay
+	retval.CyclesEnabled = v.CyclesEnabled
+	retval.DefaultIssueEstimate = v.DefaultIssueEstimate
+	retval.DefaultTemplateForMembersId = v.DefaultTemplateForMembersId
+	retval.DefaultTemplateForNonMembersId = v.DefaultTemplateForNonMembersId
+	retval.Description = v.Description
+	retval.GroupIssueHistory = v.GroupIssueHistory
+	retval.Icon = v.Icon
+	retval.InviteHash = v.InviteHash
+	retval.IssueEstimationAllowZero = v.IssueEstimationAllowZero
+	retval.IssueEstimationExtended = v.IssueEstimationExtended
+	retval.IssueEstimationType = v.IssueEstimationType
+	retval.IssueOrderingNoPriorityFirst = v.IssueOrderingNoPriorityFirst
+	retval.IssueSortOrderDefaultToBottom = v.IssueSortOrderDefaultToBottom
+	retval.Key = v.Key
+	retval.Name = v.Name
+	retval.Private = v.Private
+	retval.RequirePriorityToLeaveTriage = v.RequirePriorityToLeaveTriage
+	retval.SlackIssueComments = v.SlackIssueComments
+	retval.SlackIssueStatuses = v.SlackIssueStatuses
+	retval.SlackNewIssue = v.SlackNewIssue
+	retval.Timezone = v.Timezone
+	retval.TriageEnabled = v.TriageEnabled
+	retval.UpcomingCycleCount = v.UpcomingCycleCount
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssueLabelsIssueLabelsIssueLabelConnectionNodesIssueLabelTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // listIssueLabelsIssueLabelsIssueLabelConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
 type listIssueLabelsIssueLabelsIssueLabelConnectionPageInfo struct {
 	// Indicates if there are more results when paginating forward.
@@ -11223,13 +27357,13 @@ type listIssuesIssuesIssueConnectionNodesIssue struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The issue's unique number.
 	Number *float64 `json:"number"`
 	// The issue's title.
@@ -11243,21 +27377,21 @@ type listIssuesIssuesIssueConnectionNodesIssue struct {
 	// The order of the item in relation to other items in the organization.
 	SortOrder *float64 `json:"sortOrder"`
 	// The time at which the issue was moved into started state.
-	StartedAt *time.Time `json:"startedAt"`
+	StartedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into completed state.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into canceled state.
-	CanceledAt *time.Time `json:"canceledAt"`
+	CanceledAt *time.Time `json:"-"`
 	// The time at which the issue was automatically closed by the auto pruning process.
-	AutoClosedAt *time.Time `json:"autoClosedAt"`
+	AutoClosedAt *time.Time `json:"-"`
 	// The time at which the issue was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The date at which the issue is due.
-	DueDate *time.Time `json:"dueDate"`
+	DueDate *time.Time `json:"-"`
 	// A flag that indicates whether the issue is in the trash bin.
 	Trashed *bool `json:"trashed"`
 	// The time until an issue will be snoozed in Triage view.
-	SnoozedUntilAt *time.Time `json:"snoozedUntilAt"`
+	SnoozedUntilAt *time.Time `json:"-"`
 	// Previous identifiers of the issue if it has been moved between teams.
 	PreviousIdentifiers []*string `json:"previousIdentifiers"`
 	// The order of the item in the sub-issue list. Only set if the issue has a parent.
@@ -11426,6 +27560,423 @@ func (v *listIssuesIssuesIssueConnectionNodesIssue) GetProjectMilestone() *listI
 	return v.ProjectMilestone
 }
 
+func (v *listIssuesIssuesIssueConnectionNodesIssue) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIssuesIssuesIssueConnectionNodesIssue
+		CreatedAt      json.RawMessage `json:"createdAt"`
+		UpdatedAt      json.RawMessage `json:"updatedAt"`
+		ArchivedAt     json.RawMessage `json:"archivedAt"`
+		StartedAt      json.RawMessage `json:"startedAt"`
+		CompletedAt    json.RawMessage `json:"completedAt"`
+		CanceledAt     json.RawMessage `json:"canceledAt"`
+		AutoClosedAt   json.RawMessage `json:"autoClosedAt"`
+		AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+		DueDate        json.RawMessage `json:"dueDate"`
+		SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIssuesIssuesIssueConnectionNodesIssue = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartedAt
+		src := firstPass.StartedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssue.StartedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CanceledAt
+		src := firstPass.CanceledAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoClosedAt
+		src := firstPass.AutoClosedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DueDate
+		src := firstPass.DueDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssue.DueDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.SnoozedUntilAt
+		src := firstPass.SnoozedUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIssuesIssuesIssueConnectionNodesIssue struct {
+	Id *string `json:"id"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Number *float64 `json:"number"`
+
+	Title *string `json:"title"`
+
+	Description *string `json:"description"`
+
+	Priority *float64 `json:"priority"`
+
+	Estimate *float64 `json:"estimate"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	StartedAt json.RawMessage `json:"startedAt"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CanceledAt json.RawMessage `json:"canceledAt"`
+
+	AutoClosedAt json.RawMessage `json:"autoClosedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	DueDate json.RawMessage `json:"dueDate"`
+
+	Trashed *bool `json:"trashed"`
+
+	SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+
+	PreviousIdentifiers []*string `json:"previousIdentifiers"`
+
+	SubIssueSortOrder *float64 `json:"subIssueSortOrder"`
+
+	PriorityLabel *string `json:"priorityLabel"`
+
+	Identifier *string `json:"identifier"`
+
+	Url *string `json:"url"`
+
+	BranchName *string `json:"branchName"`
+
+	CustomerTicketCount *int `json:"customerTicketCount"`
+
+	Team *listIssuesIssuesIssueConnectionNodesIssueTeam `json:"team"`
+
+	Cycle *listIssuesIssuesIssueConnectionNodesIssueCycle `json:"cycle"`
+
+	Project *listIssuesIssuesIssueConnectionNodesIssueProject `json:"project"`
+
+	Creator *listIssuesIssuesIssueConnectionNodesIssueCreatorUser `json:"creator"`
+
+	Assignee *listIssuesIssuesIssueConnectionNodesIssueAssigneeUser `json:"assignee"`
+
+	SnoozedBy *listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser `json:"snoozedBy"`
+
+	State *listIssuesIssuesIssueConnectionNodesIssueStateWorkflowState `json:"state"`
+
+	Parent *listIssuesIssuesIssueConnectionNodesIssueParentIssue `json:"parent"`
+
+	ProjectMilestone *listIssuesIssuesIssueConnectionNodesIssueProjectMilestone `json:"projectMilestone"`
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssue) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssue) __premarshalJSON() (*__premarshallistIssuesIssuesIssueConnectionNodesIssue, error) {
+	var retval __premarshallistIssuesIssuesIssueConnectionNodesIssue
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Number = v.Number
+	retval.Title = v.Title
+	retval.Description = v.Description
+	retval.Priority = v.Priority
+	retval.Estimate = v.Estimate
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.StartedAt
+		src := v.StartedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssue.StartedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CanceledAt
+		src := v.CanceledAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoClosedAt
+		src := v.AutoClosedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.DueDate
+		src := v.DueDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssue.DueDate: %w", err)
+			}
+		}
+	}
+	retval.Trashed = v.Trashed
+	{
+
+		dst := &retval.SnoozedUntilAt
+		src := v.SnoozedUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	retval.PreviousIdentifiers = v.PreviousIdentifiers
+	retval.SubIssueSortOrder = v.SubIssueSortOrder
+	retval.PriorityLabel = v.PriorityLabel
+	retval.Identifier = v.Identifier
+	retval.Url = v.Url
+	retval.BranchName = v.BranchName
+	retval.CustomerTicketCount = v.CustomerTicketCount
+	retval.Team = v.Team
+	retval.Cycle = v.Cycle
+	retval.Project = v.Project
+	retval.Creator = v.Creator
+	retval.Assignee = v.Assignee
+	retval.SnoozedBy = v.SnoozedBy
+	retval.State = v.State
+	retval.Parent = v.Parent
+	retval.ProjectMilestone = v.ProjectMilestone
+	return &retval, nil
+}
+
 // listIssuesIssuesIssueConnectionNodesIssueAssigneeUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -11438,13 +27989,13 @@ type listIssuesIssuesIssueConnectionNodesIssueAssigneeUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -11462,7 +28013,7 @@ type listIssuesIssuesIssueConnectionNodesIssueAssigneeUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -11470,13 +28021,13 @@ type listIssuesIssuesIssueConnectionNodesIssueAssigneeUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -11580,6 +28131,250 @@ func (v *listIssuesIssuesIssueConnectionNodesIssueAssigneeUser) GetUpdatedAt() *
 // GetUrl returns listIssuesIssuesIssueConnectionNodesIssueAssigneeUser.Url, and is useful for accessing the field via an interface.
 func (v *listIssuesIssuesIssueConnectionNodesIssueAssigneeUser) GetUrl() *string { return v.Url }
 
+func (v *listIssuesIssuesIssueConnectionNodesIssueAssigneeUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIssuesIssuesIssueConnectionNodesIssueAssigneeUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIssuesIssuesIssueConnectionNodesIssueAssigneeUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueAssigneeUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueAssigneeUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueAssigneeUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueAssigneeUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueAssigneeUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIssuesIssuesIssueConnectionNodesIssueAssigneeUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueAssigneeUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueAssigneeUser) __premarshalJSON() (*__premarshallistIssuesIssuesIssueConnectionNodesIssueAssigneeUser, error) {
+	var retval __premarshallistIssuesIssuesIssueConnectionNodesIssueAssigneeUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueAssigneeUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueAssigneeUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueAssigneeUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueAssigneeUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueAssigneeUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // listIssuesIssuesIssueConnectionNodesIssueCreatorUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -11592,13 +28387,13 @@ type listIssuesIssuesIssueConnectionNodesIssueCreatorUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -11616,7 +28411,7 @@ type listIssuesIssuesIssueConnectionNodesIssueCreatorUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -11624,13 +28419,13 @@ type listIssuesIssuesIssueConnectionNodesIssueCreatorUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -11734,6 +28529,250 @@ func (v *listIssuesIssuesIssueConnectionNodesIssueCreatorUser) GetUpdatedAt() *t
 // GetUrl returns listIssuesIssuesIssueConnectionNodesIssueCreatorUser.Url, and is useful for accessing the field via an interface.
 func (v *listIssuesIssuesIssueConnectionNodesIssueCreatorUser) GetUrl() *string { return v.Url }
 
+func (v *listIssuesIssuesIssueConnectionNodesIssueCreatorUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIssuesIssuesIssueConnectionNodesIssueCreatorUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIssuesIssuesIssueConnectionNodesIssueCreatorUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIssuesIssuesIssueConnectionNodesIssueCreatorUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueCreatorUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueCreatorUser) __premarshalJSON() (*__premarshallistIssuesIssuesIssueConnectionNodesIssueCreatorUser, error) {
+	var retval __premarshallistIssuesIssuesIssueConnectionNodesIssueCreatorUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // listIssuesIssuesIssueConnectionNodesIssueCycle includes the requested fields of the GraphQL type Cycle.
 // The GraphQL type's documentation follows.
 //
@@ -11742,21 +28781,21 @@ type listIssuesIssuesIssueConnectionNodesIssueCycle struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the cycle was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The completion time of the cycle. If null, the cycle hasn't been completed.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The number of completed issues in the cycle after each day.
 	CompletedIssueCountHistory []*float64 `json:"completedIssueCountHistory"`
 	// The number of completed estimation points after each day.
 	CompletedScopeHistory []*float64 `json:"completedScopeHistory"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The cycle's description.
 	Description *string `json:"description"`
 	// The end time of the cycle.
-	EndsAt *time.Time `json:"endsAt"`
+	EndsAt *time.Time `json:"-"`
 	// The number of in progress estimation points after each day.
 	InProgressScopeHistory []*float64 `json:"inProgressScopeHistory"`
 	// The total number of issues in the cycle after each day.
@@ -11770,11 +28809,11 @@ type listIssuesIssuesIssueConnectionNodesIssueCycle struct {
 	// The total number of estimation points after each day.
 	ScopeHistory []*float64 `json:"scopeHistory"`
 	// The start time of the cycle.
-	StartsAt *time.Time `json:"startsAt"`
+	StartsAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns listIssuesIssuesIssueConnectionNodesIssueCycle.Id, and is useful for accessing the field via an interface.
@@ -11850,6 +28889,288 @@ func (v *listIssuesIssuesIssueConnectionNodesIssueCycle) GetUpdatedAt() *time.Ti
 	return v.UpdatedAt
 }
 
+func (v *listIssuesIssuesIssueConnectionNodesIssueCycle) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIssuesIssuesIssueConnectionNodesIssueCycle
+		ArchivedAt     json.RawMessage `json:"archivedAt"`
+		AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+		CompletedAt    json.RawMessage `json:"completedAt"`
+		CreatedAt      json.RawMessage `json:"createdAt"`
+		EndsAt         json.RawMessage `json:"endsAt"`
+		StartsAt       json.RawMessage `json:"startsAt"`
+		UpdatedAt      json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIssuesIssuesIssueConnectionNodesIssueCycle = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueCycle.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueCycle.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueCycle.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueCycle.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.EndsAt
+		src := firstPass.EndsAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueCycle.EndsAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartsAt
+		src := firstPass.StartsAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueCycle.StartsAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueCycle.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIssuesIssuesIssueConnectionNodesIssueCycle struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CompletedIssueCountHistory []*float64 `json:"completedIssueCountHistory"`
+
+	CompletedScopeHistory []*float64 `json:"completedScopeHistory"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	EndsAt json.RawMessage `json:"endsAt"`
+
+	InProgressScopeHistory []*float64 `json:"inProgressScopeHistory"`
+
+	IssueCountHistory []*float64 `json:"issueCountHistory"`
+
+	Name *string `json:"name"`
+
+	Number *float64 `json:"number"`
+
+	Progress *float64 `json:"progress"`
+
+	ScopeHistory []*float64 `json:"scopeHistory"`
+
+	StartsAt json.RawMessage `json:"startsAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueCycle) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueCycle) __premarshalJSON() (*__premarshallistIssuesIssuesIssueConnectionNodesIssueCycle, error) {
+	var retval __premarshallistIssuesIssuesIssueConnectionNodesIssueCycle
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueCycle.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueCycle.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueCycle.CompletedAt: %w", err)
+			}
+		}
+	}
+	retval.CompletedIssueCountHistory = v.CompletedIssueCountHistory
+	retval.CompletedScopeHistory = v.CompletedScopeHistory
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueCycle.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	{
+
+		dst := &retval.EndsAt
+		src := v.EndsAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueCycle.EndsAt: %w", err)
+			}
+		}
+	}
+	retval.InProgressScopeHistory = v.InProgressScopeHistory
+	retval.IssueCountHistory = v.IssueCountHistory
+	retval.Name = v.Name
+	retval.Number = v.Number
+	retval.Progress = v.Progress
+	retval.ScopeHistory = v.ScopeHistory
+	{
+
+		dst := &retval.StartsAt
+		src := v.StartsAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueCycle.StartsAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueCycle.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // listIssuesIssuesIssueConnectionNodesIssueParentIssue includes the requested fields of the GraphQL type Issue.
 // The GraphQL type's documentation follows.
 //
@@ -11858,13 +29179,13 @@ type listIssuesIssuesIssueConnectionNodesIssueParentIssue struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The issue's unique number.
 	Number *float64 `json:"number"`
 	// The issue's title.
@@ -11878,21 +29199,21 @@ type listIssuesIssuesIssueConnectionNodesIssueParentIssue struct {
 	// The order of the item in relation to other items in the organization.
 	SortOrder *float64 `json:"sortOrder"`
 	// The time at which the issue was moved into started state.
-	StartedAt *time.Time `json:"startedAt"`
+	StartedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into completed state.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into canceled state.
-	CanceledAt *time.Time `json:"canceledAt"`
+	CanceledAt *time.Time `json:"-"`
 	// The time at which the issue was automatically closed by the auto pruning process.
-	AutoClosedAt *time.Time `json:"autoClosedAt"`
+	AutoClosedAt *time.Time `json:"-"`
 	// The time at which the issue was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The date at which the issue is due.
-	DueDate *time.Time `json:"dueDate"`
+	DueDate *time.Time `json:"-"`
 	// A flag that indicates whether the issue is in the trash bin.
 	Trashed *bool `json:"trashed"`
 	// The time until an issue will be snoozed in Triage view.
-	SnoozedUntilAt *time.Time `json:"snoozedUntilAt"`
+	SnoozedUntilAt *time.Time `json:"-"`
 	// Previous identifiers of the issue if it has been moved between teams.
 	PreviousIdentifiers []*string `json:"previousIdentifiers"`
 }
@@ -11984,6 +29305,378 @@ func (v *listIssuesIssuesIssueConnectionNodesIssueParentIssue) GetPreviousIdenti
 	return v.PreviousIdentifiers
 }
 
+func (v *listIssuesIssuesIssueConnectionNodesIssueParentIssue) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIssuesIssuesIssueConnectionNodesIssueParentIssue
+		CreatedAt      json.RawMessage `json:"createdAt"`
+		UpdatedAt      json.RawMessage `json:"updatedAt"`
+		ArchivedAt     json.RawMessage `json:"archivedAt"`
+		StartedAt      json.RawMessage `json:"startedAt"`
+		CompletedAt    json.RawMessage `json:"completedAt"`
+		CanceledAt     json.RawMessage `json:"canceledAt"`
+		AutoClosedAt   json.RawMessage `json:"autoClosedAt"`
+		AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+		DueDate        json.RawMessage `json:"dueDate"`
+		SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIssuesIssuesIssueConnectionNodesIssueParentIssue = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartedAt
+		src := firstPass.StartedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.StartedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CanceledAt
+		src := firstPass.CanceledAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoClosedAt
+		src := firstPass.AutoClosedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DueDate
+		src := firstPass.DueDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.DueDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.SnoozedUntilAt
+		src := firstPass.SnoozedUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIssuesIssuesIssueConnectionNodesIssueParentIssue struct {
+	Id *string `json:"id"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Number *float64 `json:"number"`
+
+	Title *string `json:"title"`
+
+	Description *string `json:"description"`
+
+	Priority *float64 `json:"priority"`
+
+	Estimate *float64 `json:"estimate"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	StartedAt json.RawMessage `json:"startedAt"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CanceledAt json.RawMessage `json:"canceledAt"`
+
+	AutoClosedAt json.RawMessage `json:"autoClosedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	DueDate json.RawMessage `json:"dueDate"`
+
+	Trashed *bool `json:"trashed"`
+
+	SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+
+	PreviousIdentifiers []*string `json:"previousIdentifiers"`
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueParentIssue) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueParentIssue) __premarshalJSON() (*__premarshallistIssuesIssuesIssueConnectionNodesIssueParentIssue, error) {
+	var retval __premarshallistIssuesIssuesIssueConnectionNodesIssueParentIssue
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Number = v.Number
+	retval.Title = v.Title
+	retval.Description = v.Description
+	retval.Priority = v.Priority
+	retval.Estimate = v.Estimate
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.StartedAt
+		src := v.StartedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.StartedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CanceledAt
+		src := v.CanceledAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoClosedAt
+		src := v.AutoClosedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.DueDate
+		src := v.DueDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.DueDate: %w", err)
+			}
+		}
+	}
+	retval.Trashed = v.Trashed
+	{
+
+		dst := &retval.SnoozedUntilAt
+		src := v.SnoozedUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueParentIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	retval.PreviousIdentifiers = v.PreviousIdentifiers
+	return &retval, nil
+}
+
 // listIssuesIssuesIssueConnectionNodesIssueProject includes the requested fields of the GraphQL type Project.
 // The GraphQL type's documentation follows.
 //
@@ -11992,21 +29685,21 @@ type listIssuesIssuesIssueConnectionNodesIssueProject struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the project was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The time at which the project was moved into canceled state.
-	CanceledAt *time.Time `json:"canceledAt"`
+	CanceledAt *time.Time `json:"-"`
 	// The project's color.
 	Color *string `json:"color"`
 	// The time at which the project was moved into completed state.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The number of completed issues in the project after each week.
 	CompletedIssueCountHistory []*float64 `json:"completedIssueCountHistory"`
 	// The number of completed estimation points after each week.
 	CompletedScopeHistory []*float64 `json:"completedScopeHistory"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The project's description.
 	Description *string `json:"description"`
 	// The icon of the project.
@@ -12020,7 +29713,7 @@ type listIssuesIssuesIssueConnectionNodesIssueProject struct {
 	// The overall progress of the project. This is the (completed estimate points + 0.25 * in progress estimate points) / total estimate points.
 	Progress *float64 `json:"progress"`
 	// The time until which project update reminders are paused.
-	ProjectUpdateRemindersPausedUntilAt *time.Time `json:"projectUpdateRemindersPausedUntilAt"`
+	ProjectUpdateRemindersPausedUntilAt *time.Time `json:"-"`
 	// The overall scope (total estimate points) of the project.
 	Scope *float64 `json:"scope"`
 	// The total number of estimation points after each week.
@@ -12036,17 +29729,17 @@ type listIssuesIssuesIssueConnectionNodesIssueProject struct {
 	// The sort order for the project within the organization.
 	SortOrder *float64 `json:"sortOrder"`
 	// [Internal] The estimated start date of the project.
-	StartDate *time.Time `json:"startDate"`
+	StartDate *time.Time `json:"-"`
 	// The time at which the project was moved into started state.
-	StartedAt *time.Time `json:"startedAt"`
+	StartedAt *time.Time `json:"-"`
 	// The type of the state.
 	State *string `json:"state"`
 	// The estimated completion date of the project.
-	TargetDate *time.Time `json:"targetDate"`
+	TargetDate *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Project URL.
 	Url *string `json:"url"`
 }
@@ -12178,15 +29871,417 @@ func (v *listIssuesIssuesIssueConnectionNodesIssueProject) GetUpdatedAt() *time.
 // GetUrl returns listIssuesIssuesIssueConnectionNodesIssueProject.Url, and is useful for accessing the field via an interface.
 func (v *listIssuesIssuesIssueConnectionNodesIssueProject) GetUrl() *string { return v.Url }
 
+func (v *listIssuesIssuesIssueConnectionNodesIssueProject) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIssuesIssuesIssueConnectionNodesIssueProject
+		ArchivedAt                          json.RawMessage `json:"archivedAt"`
+		AutoArchivedAt                      json.RawMessage `json:"autoArchivedAt"`
+		CanceledAt                          json.RawMessage `json:"canceledAt"`
+		CompletedAt                         json.RawMessage `json:"completedAt"`
+		CreatedAt                           json.RawMessage `json:"createdAt"`
+		ProjectUpdateRemindersPausedUntilAt json.RawMessage `json:"projectUpdateRemindersPausedUntilAt"`
+		StartDate                           json.RawMessage `json:"startDate"`
+		StartedAt                           json.RawMessage `json:"startedAt"`
+		TargetDate                          json.RawMessage `json:"targetDate"`
+		UpdatedAt                           json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIssuesIssuesIssueConnectionNodesIssueProject = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueProject.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueProject.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CanceledAt
+		src := firstPass.CanceledAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueProject.CanceledAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueProject.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueProject.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.ProjectUpdateRemindersPausedUntilAt
+		src := firstPass.ProjectUpdateRemindersPausedUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueProject.ProjectUpdateRemindersPausedUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartDate
+		src := firstPass.StartDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueProject.StartDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartedAt
+		src := firstPass.StartedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueProject.StartedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.TargetDate
+		src := firstPass.TargetDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueProject.TargetDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueProject.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIssuesIssuesIssueConnectionNodesIssueProject struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	CanceledAt json.RawMessage `json:"canceledAt"`
+
+	Color *string `json:"color"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CompletedIssueCountHistory []*float64 `json:"completedIssueCountHistory"`
+
+	CompletedScopeHistory []*float64 `json:"completedScopeHistory"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Icon *string `json:"icon"`
+
+	InProgressScopeHistory []*float64 `json:"inProgressScopeHistory"`
+
+	IssueCountHistory []*float64 `json:"issueCountHistory"`
+
+	Name *string `json:"name"`
+
+	Progress *float64 `json:"progress"`
+
+	ProjectUpdateRemindersPausedUntilAt json.RawMessage `json:"projectUpdateRemindersPausedUntilAt"`
+
+	Scope *float64 `json:"scope"`
+
+	ScopeHistory []*float64 `json:"scopeHistory"`
+
+	SlackIssueComments *bool `json:"slackIssueComments"`
+
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+
+	SlackNewIssue *bool `json:"slackNewIssue"`
+
+	SlugId *string `json:"slugId"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	StartDate json.RawMessage `json:"startDate"`
+
+	StartedAt json.RawMessage `json:"startedAt"`
+
+	State *string `json:"state"`
+
+	TargetDate json.RawMessage `json:"targetDate"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueProject) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueProject) __premarshalJSON() (*__premarshallistIssuesIssuesIssueConnectionNodesIssueProject, error) {
+	var retval __premarshallistIssuesIssuesIssueConnectionNodesIssueProject
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueProject.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueProject.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CanceledAt
+		src := v.CanceledAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueProject.CanceledAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueProject.CompletedAt: %w", err)
+			}
+		}
+	}
+	retval.CompletedIssueCountHistory = v.CompletedIssueCountHistory
+	retval.CompletedScopeHistory = v.CompletedScopeHistory
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueProject.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Icon = v.Icon
+	retval.InProgressScopeHistory = v.InProgressScopeHistory
+	retval.IssueCountHistory = v.IssueCountHistory
+	retval.Name = v.Name
+	retval.Progress = v.Progress
+	{
+
+		dst := &retval.ProjectUpdateRemindersPausedUntilAt
+		src := v.ProjectUpdateRemindersPausedUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueProject.ProjectUpdateRemindersPausedUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Scope = v.Scope
+	retval.ScopeHistory = v.ScopeHistory
+	retval.SlackIssueComments = v.SlackIssueComments
+	retval.SlackIssueStatuses = v.SlackIssueStatuses
+	retval.SlackNewIssue = v.SlackNewIssue
+	retval.SlugId = v.SlugId
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.StartDate
+		src := v.StartDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueProject.StartDate: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.StartedAt
+		src := v.StartedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueProject.StartedAt: %w", err)
+			}
+		}
+	}
+	retval.State = v.State
+	{
+
+		dst := &retval.TargetDate
+		src := v.TargetDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueProject.TargetDate: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueProject.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // listIssuesIssuesIssueConnectionNodesIssueProjectMilestone includes the requested fields of the GraphQL type ProjectMilestone.
 // The GraphQL type's documentation follows.
 //
 // A milestone for a project.
 type listIssuesIssuesIssueConnectionNodesIssueProjectMilestone struct {
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The description of the project milestone.
 	Description *string `json:"description"`
 	// The unique identifier of the entity.
@@ -12198,7 +30293,7 @@ type listIssuesIssuesIssueConnectionNodesIssueProjectMilestone struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetArchivedAt returns listIssuesIssuesIssueConnectionNodesIssueProjectMilestone.ArchivedAt, and is useful for accessing the field via an interface.
@@ -12232,6 +30327,146 @@ func (v *listIssuesIssuesIssueConnectionNodesIssueProjectMilestone) GetUpdatedAt
 	return v.UpdatedAt
 }
 
+func (v *listIssuesIssuesIssueConnectionNodesIssueProjectMilestone) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIssuesIssuesIssueConnectionNodesIssueProjectMilestone
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIssuesIssuesIssueConnectionNodesIssueProjectMilestone = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueProjectMilestone.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueProjectMilestone.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueProjectMilestone.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIssuesIssuesIssueConnectionNodesIssueProjectMilestone struct {
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Id *string `json:"id"`
+
+	Name *string `json:"name"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueProjectMilestone) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueProjectMilestone) __premarshalJSON() (*__premarshallistIssuesIssuesIssueConnectionNodesIssueProjectMilestone, error) {
+	var retval __premarshallistIssuesIssuesIssueConnectionNodesIssueProjectMilestone
+
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueProjectMilestone.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueProjectMilestone.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Id = v.Id
+	retval.Name = v.Name
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueProjectMilestone.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -12244,13 +30479,13 @@ type listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -12268,7 +30503,7 @@ type listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -12276,13 +30511,13 @@ type listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -12386,6 +30621,250 @@ func (v *listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser) GetUpdatedAt() 
 // GetUrl returns listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser.Url, and is useful for accessing the field via an interface.
 func (v *listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser) GetUrl() *string { return v.Url }
 
+func (v *listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIssuesIssuesIssueConnectionNodesIssueSnoozedByUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser) __premarshalJSON() (*__premarshallistIssuesIssuesIssueConnectionNodesIssueSnoozedByUser, error) {
+	var retval __premarshallistIssuesIssuesIssueConnectionNodesIssueSnoozedByUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueSnoozedByUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // listIssuesIssuesIssueConnectionNodesIssueStateWorkflowState includes the requested fields of the GraphQL type WorkflowState.
 // The GraphQL type's documentation follows.
 //
@@ -12394,11 +30873,11 @@ type listIssuesIssuesIssueConnectionNodesIssueStateWorkflowState struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The state's UI color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Description of the state.
 	Description *string `json:"description"`
 	// The state's name.
@@ -12410,7 +30889,7 @@ type listIssuesIssuesIssueConnectionNodesIssueStateWorkflowState struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns listIssuesIssuesIssueConnectionNodesIssueStateWorkflowState.Id, and is useful for accessing the field via an interface.
@@ -12456,6 +30935,152 @@ func (v *listIssuesIssuesIssueConnectionNodesIssueStateWorkflowState) GetUpdated
 	return v.UpdatedAt
 }
 
+func (v *listIssuesIssuesIssueConnectionNodesIssueStateWorkflowState) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIssuesIssuesIssueConnectionNodesIssueStateWorkflowState
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIssuesIssuesIssueConnectionNodesIssueStateWorkflowState = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueStateWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueStateWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueStateWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIssuesIssuesIssueConnectionNodesIssueStateWorkflowState struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	Position *float64 `json:"position"`
+
+	Type *string `json:"type"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueStateWorkflowState) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueStateWorkflowState) __premarshalJSON() (*__premarshallistIssuesIssuesIssueConnectionNodesIssueStateWorkflowState, error) {
+	var retval __premarshallistIssuesIssuesIssueConnectionNodesIssueStateWorkflowState
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueStateWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueStateWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	retval.Position = v.Position
+	retval.Type = v.Type
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueStateWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // listIssuesIssuesIssueConnectionNodesIssueTeam includes the requested fields of the GraphQL type Team.
 // The GraphQL type's documentation follows.
 //
@@ -12464,7 +31089,7 @@ type listIssuesIssuesIssueConnectionNodesIssueTeam struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// Period after which automatically closed and completed issues are automatically archived in months.
 	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
 	// Period after which issues are automatically closed in months. Null/undefined means disabled.
@@ -12474,7 +31099,7 @@ type listIssuesIssuesIssueConnectionNodesIssueTeam struct {
 	// The team's color.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Calendar feed URL (iCal) for cycles.
 	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
 	// The cooldown time after each cycle in weeks.
@@ -12538,7 +31163,7 @@ type listIssuesIssuesIssueConnectionNodesIssueTeam struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns listIssuesIssuesIssueConnectionNodesIssueTeam.Id, and is useful for accessing the field via an interface.
@@ -12711,6 +31336,239 @@ func (v *listIssuesIssuesIssueConnectionNodesIssueTeam) GetUpcomingCycleCount() 
 // GetUpdatedAt returns listIssuesIssuesIssueConnectionNodesIssueTeam.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *listIssuesIssuesIssueConnectionNodesIssueTeam) GetUpdatedAt() *time.Time { return v.UpdatedAt }
 
+func (v *listIssuesIssuesIssueConnectionNodesIssueTeam) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listIssuesIssuesIssueConnectionNodesIssueTeam
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listIssuesIssuesIssueConnectionNodesIssueTeam = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listIssuesIssuesIssueConnectionNodesIssueTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistIssuesIssuesIssueConnectionNodesIssueTeam struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
+
+	AutoClosePeriod *float64 `json:"autoClosePeriod"`
+
+	AutoCloseStateId *string `json:"autoCloseStateId"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
+
+	CycleCooldownTime *float64 `json:"cycleCooldownTime"`
+
+	CycleDuration *float64 `json:"cycleDuration"`
+
+	CycleIssueAutoAssignCompleted *bool `json:"cycleIssueAutoAssignCompleted"`
+
+	CycleIssueAutoAssignStarted *bool `json:"cycleIssueAutoAssignStarted"`
+
+	CycleLockToActive *bool `json:"cycleLockToActive"`
+
+	CycleStartDay *float64 `json:"cycleStartDay"`
+
+	CyclesEnabled *bool `json:"cyclesEnabled"`
+
+	DefaultIssueEstimate *float64 `json:"defaultIssueEstimate"`
+
+	DefaultTemplateForMembersId *string `json:"defaultTemplateForMembersId"`
+
+	DefaultTemplateForNonMembersId *string `json:"defaultTemplateForNonMembersId"`
+
+	Description *string `json:"description"`
+
+	GroupIssueHistory *bool `json:"groupIssueHistory"`
+
+	Icon *string `json:"icon"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IssueEstimationAllowZero *bool `json:"issueEstimationAllowZero"`
+
+	IssueEstimationExtended *bool `json:"issueEstimationExtended"`
+
+	IssueEstimationType *string `json:"issueEstimationType"`
+
+	IssueOrderingNoPriorityFirst *bool `json:"issueOrderingNoPriorityFirst"`
+
+	IssueSortOrderDefaultToBottom *bool `json:"issueSortOrderDefaultToBottom"`
+
+	Key *string `json:"key"`
+
+	Name *string `json:"name"`
+
+	Private *bool `json:"private"`
+
+	RequirePriorityToLeaveTriage *bool `json:"requirePriorityToLeaveTriage"`
+
+	SlackIssueComments *bool `json:"slackIssueComments"`
+
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+
+	SlackNewIssue *bool `json:"slackNewIssue"`
+
+	Timezone *string `json:"timezone"`
+
+	TriageEnabled *bool `json:"triageEnabled"`
+
+	UpcomingCycleCount *float64 `json:"upcomingCycleCount"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueTeam) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listIssuesIssuesIssueConnectionNodesIssueTeam) __premarshalJSON() (*__premarshallistIssuesIssuesIssueConnectionNodesIssueTeam, error) {
+	var retval __premarshallistIssuesIssuesIssueConnectionNodesIssueTeam
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AutoArchivePeriod = v.AutoArchivePeriod
+	retval.AutoClosePeriod = v.AutoClosePeriod
+	retval.AutoCloseStateId = v.AutoCloseStateId
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CycleCalenderUrl = v.CycleCalenderUrl
+	retval.CycleCooldownTime = v.CycleCooldownTime
+	retval.CycleDuration = v.CycleDuration
+	retval.CycleIssueAutoAssignCompleted = v.CycleIssueAutoAssignCompleted
+	retval.CycleIssueAutoAssignStarted = v.CycleIssueAutoAssignStarted
+	retval.CycleLockToActive = v.CycleLockToActive
+	retval.CycleStartDay = v.CycleStartDay
+	retval.CyclesEnabled = v.CyclesEnabled
+	retval.DefaultIssueEstimate = v.DefaultIssueEstimate
+	retval.DefaultTemplateForMembersId = v.DefaultTemplateForMembersId
+	retval.DefaultTemplateForNonMembersId = v.DefaultTemplateForNonMembersId
+	retval.Description = v.Description
+	retval.GroupIssueHistory = v.GroupIssueHistory
+	retval.Icon = v.Icon
+	retval.InviteHash = v.InviteHash
+	retval.IssueEstimationAllowZero = v.IssueEstimationAllowZero
+	retval.IssueEstimationExtended = v.IssueEstimationExtended
+	retval.IssueEstimationType = v.IssueEstimationType
+	retval.IssueOrderingNoPriorityFirst = v.IssueOrderingNoPriorityFirst
+	retval.IssueSortOrderDefaultToBottom = v.IssueSortOrderDefaultToBottom
+	retval.Key = v.Key
+	retval.Name = v.Name
+	retval.Private = v.Private
+	retval.RequirePriorityToLeaveTriage = v.RequirePriorityToLeaveTriage
+	retval.SlackIssueComments = v.SlackIssueComments
+	retval.SlackIssueStatuses = v.SlackIssueStatuses
+	retval.SlackNewIssue = v.SlackNewIssue
+	retval.Timezone = v.Timezone
+	retval.TriageEnabled = v.TriageEnabled
+	retval.UpcomingCycleCount = v.UpcomingCycleCount
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listIssuesIssuesIssueConnectionNodesIssueTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // listIssuesIssuesIssueConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
 type listIssuesIssuesIssueConnectionPageInfo struct {
 	// Indicates if there are more results when paginating forward.
@@ -12758,21 +31616,21 @@ type listProjectsProjectsProjectConnectionNodesProject struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the project was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The time at which the project was moved into canceled state.
-	CanceledAt *time.Time `json:"canceledAt"`
+	CanceledAt *time.Time `json:"-"`
 	// The project's color.
 	Color *string `json:"color"`
 	// The time at which the project was moved into completed state.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The number of completed issues in the project after each week.
 	CompletedIssueCountHistory []*float64 `json:"completedIssueCountHistory"`
 	// The number of completed estimation points after each week.
 	CompletedScopeHistory []*float64 `json:"completedScopeHistory"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The project's description.
 	Description *string `json:"description"`
 	// The icon of the project.
@@ -12786,7 +31644,7 @@ type listProjectsProjectsProjectConnectionNodesProject struct {
 	// The overall progress of the project. This is the (completed estimate points + 0.25 * in progress estimate points) / total estimate points.
 	Progress *float64 `json:"progress"`
 	// The time until which project update reminders are paused.
-	ProjectUpdateRemindersPausedUntilAt *time.Time `json:"projectUpdateRemindersPausedUntilAt"`
+	ProjectUpdateRemindersPausedUntilAt *time.Time `json:"-"`
 	// The overall scope (total estimate points) of the project.
 	Scope *float64 `json:"scope"`
 	// The total number of estimation points after each week.
@@ -12802,17 +31660,17 @@ type listProjectsProjectsProjectConnectionNodesProject struct {
 	// The sort order for the project within the organization.
 	SortOrder *float64 `json:"sortOrder"`
 	// [Internal] The estimated start date of the project.
-	StartDate *time.Time `json:"startDate"`
+	StartDate *time.Time `json:"-"`
 	// The time at which the project was moved into started state.
-	StartedAt *time.Time `json:"startedAt"`
+	StartedAt *time.Time `json:"-"`
 	// The type of the state.
 	State *string `json:"state"`
 	// The estimated completion date of the project.
-	TargetDate *time.Time `json:"targetDate"`
+	TargetDate *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Project URL.
 	Url *string `json:"url"`
 	// The project was created based on this issue.
@@ -12972,6 +31830,420 @@ func (v *listProjectsProjectsProjectConnectionNodesProject) GetLead() *listProje
 	return v.Lead
 }
 
+func (v *listProjectsProjectsProjectConnectionNodesProject) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listProjectsProjectsProjectConnectionNodesProject
+		ArchivedAt                          json.RawMessage `json:"archivedAt"`
+		AutoArchivedAt                      json.RawMessage `json:"autoArchivedAt"`
+		CanceledAt                          json.RawMessage `json:"canceledAt"`
+		CompletedAt                         json.RawMessage `json:"completedAt"`
+		CreatedAt                           json.RawMessage `json:"createdAt"`
+		ProjectUpdateRemindersPausedUntilAt json.RawMessage `json:"projectUpdateRemindersPausedUntilAt"`
+		StartDate                           json.RawMessage `json:"startDate"`
+		StartedAt                           json.RawMessage `json:"startedAt"`
+		TargetDate                          json.RawMessage `json:"targetDate"`
+		UpdatedAt                           json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listProjectsProjectsProjectConnectionNodesProject = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProject.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProject.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CanceledAt
+		src := firstPass.CanceledAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProject.CanceledAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProject.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProject.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.ProjectUpdateRemindersPausedUntilAt
+		src := firstPass.ProjectUpdateRemindersPausedUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProject.ProjectUpdateRemindersPausedUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartDate
+		src := firstPass.StartDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProject.StartDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartedAt
+		src := firstPass.StartedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProject.StartedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.TargetDate
+		src := firstPass.TargetDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProject.TargetDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProject.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistProjectsProjectsProjectConnectionNodesProject struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	CanceledAt json.RawMessage `json:"canceledAt"`
+
+	Color *string `json:"color"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CompletedIssueCountHistory []*float64 `json:"completedIssueCountHistory"`
+
+	CompletedScopeHistory []*float64 `json:"completedScopeHistory"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Icon *string `json:"icon"`
+
+	InProgressScopeHistory []*float64 `json:"inProgressScopeHistory"`
+
+	IssueCountHistory []*float64 `json:"issueCountHistory"`
+
+	Name *string `json:"name"`
+
+	Progress *float64 `json:"progress"`
+
+	ProjectUpdateRemindersPausedUntilAt json.RawMessage `json:"projectUpdateRemindersPausedUntilAt"`
+
+	Scope *float64 `json:"scope"`
+
+	ScopeHistory []*float64 `json:"scopeHistory"`
+
+	SlackIssueComments *bool `json:"slackIssueComments"`
+
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+
+	SlackNewIssue *bool `json:"slackNewIssue"`
+
+	SlugId *string `json:"slugId"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	StartDate json.RawMessage `json:"startDate"`
+
+	StartedAt json.RawMessage `json:"startedAt"`
+
+	State *string `json:"state"`
+
+	TargetDate json.RawMessage `json:"targetDate"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+
+	ConvertedFromIssue *listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue `json:"convertedFromIssue"`
+
+	IntegrationsSettings *listProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings `json:"integrationsSettings"`
+
+	Creator *listProjectsProjectsProjectConnectionNodesProjectCreatorUser `json:"creator"`
+
+	Lead *listProjectsProjectsProjectConnectionNodesProjectLeadUser `json:"lead"`
+}
+
+func (v *listProjectsProjectsProjectConnectionNodesProject) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listProjectsProjectsProjectConnectionNodesProject) __premarshalJSON() (*__premarshallistProjectsProjectsProjectConnectionNodesProject, error) {
+	var retval __premarshallistProjectsProjectsProjectConnectionNodesProject
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProject.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProject.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CanceledAt
+		src := v.CanceledAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProject.CanceledAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProject.CompletedAt: %w", err)
+			}
+		}
+	}
+	retval.CompletedIssueCountHistory = v.CompletedIssueCountHistory
+	retval.CompletedScopeHistory = v.CompletedScopeHistory
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProject.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Icon = v.Icon
+	retval.InProgressScopeHistory = v.InProgressScopeHistory
+	retval.IssueCountHistory = v.IssueCountHistory
+	retval.Name = v.Name
+	retval.Progress = v.Progress
+	{
+
+		dst := &retval.ProjectUpdateRemindersPausedUntilAt
+		src := v.ProjectUpdateRemindersPausedUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProject.ProjectUpdateRemindersPausedUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Scope = v.Scope
+	retval.ScopeHistory = v.ScopeHistory
+	retval.SlackIssueComments = v.SlackIssueComments
+	retval.SlackIssueStatuses = v.SlackIssueStatuses
+	retval.SlackNewIssue = v.SlackNewIssue
+	retval.SlugId = v.SlugId
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.StartDate
+		src := v.StartDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProject.StartDate: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.StartedAt
+		src := v.StartedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProject.StartedAt: %w", err)
+			}
+		}
+	}
+	retval.State = v.State
+	{
+
+		dst := &retval.TargetDate
+		src := v.TargetDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProject.TargetDate: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProject.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	retval.ConvertedFromIssue = v.ConvertedFromIssue
+	retval.IntegrationsSettings = v.IntegrationsSettings
+	retval.Creator = v.Creator
+	retval.Lead = v.Lead
+	return &retval, nil
+}
+
 // listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue includes the requested fields of the GraphQL type Issue.
 // The GraphQL type's documentation follows.
 //
@@ -12980,13 +32252,13 @@ type listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue struct 
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The issue's unique number.
 	Number *float64 `json:"number"`
 	// The issue's title.
@@ -13000,21 +32272,21 @@ type listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue struct 
 	// The order of the item in relation to other items in the organization.
 	SortOrder *float64 `json:"sortOrder"`
 	// The time at which the issue was moved into started state.
-	StartedAt *time.Time `json:"startedAt"`
+	StartedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into completed state.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The time at which the issue was moved into canceled state.
-	CanceledAt *time.Time `json:"canceledAt"`
+	CanceledAt *time.Time `json:"-"`
 	// The time at which the issue was automatically closed by the auto pruning process.
-	AutoClosedAt *time.Time `json:"autoClosedAt"`
+	AutoClosedAt *time.Time `json:"-"`
 	// The time at which the issue was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The date at which the issue is due.
-	DueDate *time.Time `json:"dueDate"`
+	DueDate *time.Time `json:"-"`
 	// A flag that indicates whether the issue is in the trash bin.
 	Trashed *bool `json:"trashed"`
 	// The time until an issue will be snoozed in Triage view.
-	SnoozedUntilAt *time.Time `json:"snoozedUntilAt"`
+	SnoozedUntilAt *time.Time `json:"-"`
 	// Previous identifiers of the issue if it has been moved between teams.
 	PreviousIdentifiers []*string `json:"previousIdentifiers"`
 	// The order of the item in the sub-issue list. Only set if the issue has a parent.
@@ -13156,6 +32428,396 @@ func (v *listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue) Ge
 	return v.CustomerTicketCount
 }
 
+func (v *listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue
+		CreatedAt      json.RawMessage `json:"createdAt"`
+		UpdatedAt      json.RawMessage `json:"updatedAt"`
+		ArchivedAt     json.RawMessage `json:"archivedAt"`
+		StartedAt      json.RawMessage `json:"startedAt"`
+		CompletedAt    json.RawMessage `json:"completedAt"`
+		CanceledAt     json.RawMessage `json:"canceledAt"`
+		AutoClosedAt   json.RawMessage `json:"autoClosedAt"`
+		AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+		DueDate        json.RawMessage `json:"dueDate"`
+		SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartedAt
+		src := firstPass.StartedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.StartedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CanceledAt
+		src := firstPass.CanceledAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoClosedAt
+		src := firstPass.AutoClosedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DueDate
+		src := firstPass.DueDate
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.DueDate: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.SnoozedUntilAt
+		src := firstPass.SnoozedUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue struct {
+	Id *string `json:"id"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Number *float64 `json:"number"`
+
+	Title *string `json:"title"`
+
+	Description *string `json:"description"`
+
+	Priority *float64 `json:"priority"`
+
+	Estimate *float64 `json:"estimate"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	StartedAt json.RawMessage `json:"startedAt"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CanceledAt json.RawMessage `json:"canceledAt"`
+
+	AutoClosedAt json.RawMessage `json:"autoClosedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	DueDate json.RawMessage `json:"dueDate"`
+
+	Trashed *bool `json:"trashed"`
+
+	SnoozedUntilAt json.RawMessage `json:"snoozedUntilAt"`
+
+	PreviousIdentifiers []*string `json:"previousIdentifiers"`
+
+	SubIssueSortOrder *float64 `json:"subIssueSortOrder"`
+
+	PriorityLabel *string `json:"priorityLabel"`
+
+	Identifier *string `json:"identifier"`
+
+	Url *string `json:"url"`
+
+	BranchName *string `json:"branchName"`
+
+	CustomerTicketCount *int `json:"customerTicketCount"`
+}
+
+func (v *listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue) __premarshalJSON() (*__premarshallistProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue, error) {
+	var retval __premarshallistProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.CreatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.UpdatedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Number = v.Number
+	retval.Title = v.Title
+	retval.Description = v.Description
+	retval.Priority = v.Priority
+	retval.Estimate = v.Estimate
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.StartedAt
+		src := v.StartedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.StartedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.CompletedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CanceledAt
+		src := v.CanceledAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.CanceledAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoClosedAt
+		src := v.AutoClosedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.AutoClosedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.DueDate
+		src := v.DueDate
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.DueDate: %w", err)
+			}
+		}
+	}
+	retval.Trashed = v.Trashed
+	{
+
+		dst := &retval.SnoozedUntilAt
+		src := v.SnoozedUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectConvertedFromIssue.SnoozedUntilAt: %w", err)
+			}
+		}
+	}
+	retval.PreviousIdentifiers = v.PreviousIdentifiers
+	retval.SubIssueSortOrder = v.SubIssueSortOrder
+	retval.PriorityLabel = v.PriorityLabel
+	retval.Identifier = v.Identifier
+	retval.Url = v.Url
+	retval.BranchName = v.BranchName
+	retval.CustomerTicketCount = v.CustomerTicketCount
+	return &retval, nil
+}
+
 // listProjectsProjectsProjectConnectionNodesProjectCreatorUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -13168,13 +32830,13 @@ type listProjectsProjectsProjectConnectionNodesProjectCreatorUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -13192,7 +32854,7 @@ type listProjectsProjectsProjectConnectionNodesProjectCreatorUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -13200,13 +32862,13 @@ type listProjectsProjectsProjectConnectionNodesProjectCreatorUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -13320,6 +32982,250 @@ func (v *listProjectsProjectsProjectConnectionNodesProjectCreatorUser) GetUpdate
 // GetUrl returns listProjectsProjectsProjectConnectionNodesProjectCreatorUser.Url, and is useful for accessing the field via an interface.
 func (v *listProjectsProjectsProjectConnectionNodesProjectCreatorUser) GetUrl() *string { return v.Url }
 
+func (v *listProjectsProjectsProjectConnectionNodesProjectCreatorUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listProjectsProjectsProjectConnectionNodesProjectCreatorUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listProjectsProjectsProjectConnectionNodesProjectCreatorUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistProjectsProjectsProjectConnectionNodesProjectCreatorUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *listProjectsProjectsProjectConnectionNodesProjectCreatorUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listProjectsProjectsProjectConnectionNodesProjectCreatorUser) __premarshalJSON() (*__premarshallistProjectsProjectsProjectConnectionNodesProjectCreatorUser, error) {
+	var retval __premarshallistProjectsProjectsProjectConnectionNodesProjectCreatorUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectCreatorUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectCreatorUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectCreatorUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectCreatorUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectCreatorUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // listProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings includes the requested fields of the GraphQL type IntegrationsSettings.
 // The GraphQL type's documentation follows.
 //
@@ -13328,9 +33234,9 @@ type listProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings struc
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Whether to send a Slack message when a new issue is added to triage.
 	SlackIssueAddedToTriage *bool `json:"slackIssueAddedToTriage"`
 	// Whether to send a Slack message when a new issue is created for the project or the team.
@@ -13354,7 +33260,7 @@ type listProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings struc
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns listProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings.Id, and is useful for accessing the field via an interface.
@@ -13427,6 +33333,167 @@ func (v *listProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings) 
 	return v.UpdatedAt
 }
 
+func (v *listProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	SlackIssueAddedToTriage *bool `json:"slackIssueAddedToTriage"`
+
+	SlackIssueCreated *bool `json:"slackIssueCreated"`
+
+	SlackIssueNewComment *bool `json:"slackIssueNewComment"`
+
+	SlackIssueSlaBreached *bool `json:"slackIssueSlaBreached"`
+
+	SlackIssueSlaHighRisk *bool `json:"slackIssueSlaHighRisk"`
+
+	SlackIssueStatusChangedAll *bool `json:"slackIssueStatusChangedAll"`
+
+	SlackIssueStatusChangedDone *bool `json:"slackIssueStatusChangedDone"`
+
+	SlackProjectUpdateCreated *bool `json:"slackProjectUpdateCreated"`
+
+	SlackProjectUpdateCreatedToTeam *bool `json:"slackProjectUpdateCreatedToTeam"`
+
+	SlackProjectUpdateCreatedToWorkspace *bool `json:"slackProjectUpdateCreatedToWorkspace"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *listProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings) __premarshalJSON() (*__premarshallistProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings, error) {
+	var retval __premarshallistProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.SlackIssueAddedToTriage = v.SlackIssueAddedToTriage
+	retval.SlackIssueCreated = v.SlackIssueCreated
+	retval.SlackIssueNewComment = v.SlackIssueNewComment
+	retval.SlackIssueSlaBreached = v.SlackIssueSlaBreached
+	retval.SlackIssueSlaHighRisk = v.SlackIssueSlaHighRisk
+	retval.SlackIssueStatusChangedAll = v.SlackIssueStatusChangedAll
+	retval.SlackIssueStatusChangedDone = v.SlackIssueStatusChangedDone
+	retval.SlackProjectUpdateCreated = v.SlackProjectUpdateCreated
+	retval.SlackProjectUpdateCreatedToTeam = v.SlackProjectUpdateCreatedToTeam
+	retval.SlackProjectUpdateCreatedToWorkspace = v.SlackProjectUpdateCreatedToWorkspace
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectIntegrationsSettings.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // listProjectsProjectsProjectConnectionNodesProjectLeadUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -13439,13 +33506,13 @@ type listProjectsProjectsProjectConnectionNodesProjectLeadUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -13463,7 +33530,7 @@ type listProjectsProjectsProjectConnectionNodesProjectLeadUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -13471,13 +33538,13 @@ type listProjectsProjectsProjectConnectionNodesProjectLeadUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -13585,6 +33652,250 @@ func (v *listProjectsProjectsProjectConnectionNodesProjectLeadUser) GetUpdatedAt
 // GetUrl returns listProjectsProjectsProjectConnectionNodesProjectLeadUser.Url, and is useful for accessing the field via an interface.
 func (v *listProjectsProjectsProjectConnectionNodesProjectLeadUser) GetUrl() *string { return v.Url }
 
+func (v *listProjectsProjectsProjectConnectionNodesProjectLeadUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listProjectsProjectsProjectConnectionNodesProjectLeadUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listProjectsProjectsProjectConnectionNodesProjectLeadUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectLeadUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectLeadUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectLeadUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectLeadUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listProjectsProjectsProjectConnectionNodesProjectLeadUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistProjectsProjectsProjectConnectionNodesProjectLeadUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *listProjectsProjectsProjectConnectionNodesProjectLeadUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listProjectsProjectsProjectConnectionNodesProjectLeadUser) __premarshalJSON() (*__premarshallistProjectsProjectsProjectConnectionNodesProjectLeadUser, error) {
+	var retval __premarshallistProjectsProjectsProjectConnectionNodesProjectLeadUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectLeadUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectLeadUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectLeadUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectLeadUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listProjectsProjectsProjectConnectionNodesProjectLeadUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // listProjectsProjectsProjectConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
 type listProjectsProjectsProjectConnectionPageInfo struct {
 	// Indicates if there are more results when paginating forward.
@@ -13645,9 +33956,9 @@ type listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembersh
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Whether the user is the owner of the team
 	Owner *bool `json:"owner"`
 	// The order of the item in the users team list.
@@ -13655,7 +33966,7 @@ type listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembersh
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The team that the membership is associated with.
 	Team *listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam `json:"team"`
 	// The user that the membership is associated with.
@@ -13702,6 +34013,149 @@ func (v *listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMemb
 	return v.User
 }
 
+func (v *listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembership) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembership
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembership = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembership.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembership.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembership.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembership struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Owner *bool `json:"owner"`
+
+	SortOrder *float64 `json:"sortOrder"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Team *listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam `json:"team"`
+
+	User *listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser `json:"user"`
+}
+
+func (v *listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembership) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembership) __premarshalJSON() (*__premarshallistTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembership, error) {
+	var retval __premarshallistTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembership
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembership.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembership.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Owner = v.Owner
+	retval.SortOrder = v.SortOrder
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembership.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Team = v.Team
+	retval.User = v.User
+	return &retval, nil
+}
+
 // listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam includes the requested fields of the GraphQL type Team.
 // The GraphQL type's documentation follows.
 //
@@ -13710,7 +34164,7 @@ type listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembersh
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// Period after which automatically closed and completed issues are automatically archived in months.
 	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
 	// Period after which issues are automatically closed in months. Null/undefined means disabled.
@@ -13720,7 +34174,7 @@ type listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembersh
 	// The team's color.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Calendar feed URL (iCal) for cycles.
 	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
 	// The cooldown time after each cycle in weeks.
@@ -13784,7 +34238,7 @@ type listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembersh
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.Id, and is useful for accessing the field via an interface.
@@ -13977,6 +34431,239 @@ func (v *listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMemb
 	return v.UpdatedAt
 }
 
+func (v *listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
+
+	AutoClosePeriod *float64 `json:"autoClosePeriod"`
+
+	AutoCloseStateId *string `json:"autoCloseStateId"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
+
+	CycleCooldownTime *float64 `json:"cycleCooldownTime"`
+
+	CycleDuration *float64 `json:"cycleDuration"`
+
+	CycleIssueAutoAssignCompleted *bool `json:"cycleIssueAutoAssignCompleted"`
+
+	CycleIssueAutoAssignStarted *bool `json:"cycleIssueAutoAssignStarted"`
+
+	CycleLockToActive *bool `json:"cycleLockToActive"`
+
+	CycleStartDay *float64 `json:"cycleStartDay"`
+
+	CyclesEnabled *bool `json:"cyclesEnabled"`
+
+	DefaultIssueEstimate *float64 `json:"defaultIssueEstimate"`
+
+	DefaultTemplateForMembersId *string `json:"defaultTemplateForMembersId"`
+
+	DefaultTemplateForNonMembersId *string `json:"defaultTemplateForNonMembersId"`
+
+	Description *string `json:"description"`
+
+	GroupIssueHistory *bool `json:"groupIssueHistory"`
+
+	Icon *string `json:"icon"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IssueEstimationAllowZero *bool `json:"issueEstimationAllowZero"`
+
+	IssueEstimationExtended *bool `json:"issueEstimationExtended"`
+
+	IssueEstimationType *string `json:"issueEstimationType"`
+
+	IssueOrderingNoPriorityFirst *bool `json:"issueOrderingNoPriorityFirst"`
+
+	IssueSortOrderDefaultToBottom *bool `json:"issueSortOrderDefaultToBottom"`
+
+	Key *string `json:"key"`
+
+	Name *string `json:"name"`
+
+	Private *bool `json:"private"`
+
+	RequirePriorityToLeaveTriage *bool `json:"requirePriorityToLeaveTriage"`
+
+	SlackIssueComments *bool `json:"slackIssueComments"`
+
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+
+	SlackNewIssue *bool `json:"slackNewIssue"`
+
+	Timezone *string `json:"timezone"`
+
+	TriageEnabled *bool `json:"triageEnabled"`
+
+	UpcomingCycleCount *float64 `json:"upcomingCycleCount"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam) __premarshalJSON() (*__premarshallistTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam, error) {
+	var retval __premarshallistTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AutoArchivePeriod = v.AutoArchivePeriod
+	retval.AutoClosePeriod = v.AutoClosePeriod
+	retval.AutoCloseStateId = v.AutoCloseStateId
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CycleCalenderUrl = v.CycleCalenderUrl
+	retval.CycleCooldownTime = v.CycleCooldownTime
+	retval.CycleDuration = v.CycleDuration
+	retval.CycleIssueAutoAssignCompleted = v.CycleIssueAutoAssignCompleted
+	retval.CycleIssueAutoAssignStarted = v.CycleIssueAutoAssignStarted
+	retval.CycleLockToActive = v.CycleLockToActive
+	retval.CycleStartDay = v.CycleStartDay
+	retval.CyclesEnabled = v.CyclesEnabled
+	retval.DefaultIssueEstimate = v.DefaultIssueEstimate
+	retval.DefaultTemplateForMembersId = v.DefaultTemplateForMembersId
+	retval.DefaultTemplateForNonMembersId = v.DefaultTemplateForNonMembersId
+	retval.Description = v.Description
+	retval.GroupIssueHistory = v.GroupIssueHistory
+	retval.Icon = v.Icon
+	retval.InviteHash = v.InviteHash
+	retval.IssueEstimationAllowZero = v.IssueEstimationAllowZero
+	retval.IssueEstimationExtended = v.IssueEstimationExtended
+	retval.IssueEstimationType = v.IssueEstimationType
+	retval.IssueOrderingNoPriorityFirst = v.IssueOrderingNoPriorityFirst
+	retval.IssueSortOrderDefaultToBottom = v.IssueSortOrderDefaultToBottom
+	retval.Key = v.Key
+	retval.Name = v.Name
+	retval.Private = v.Private
+	retval.RequirePriorityToLeaveTriage = v.RequirePriorityToLeaveTriage
+	retval.SlackIssueComments = v.SlackIssueComments
+	retval.SlackIssueStatuses = v.SlackIssueStatuses
+	retval.SlackNewIssue = v.SlackNewIssue
+	retval.Timezone = v.Timezone
+	retval.TriageEnabled = v.TriageEnabled
+	retval.UpcomingCycleCount = v.UpcomingCycleCount
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser includes the requested fields of the GraphQL type User.
 // The GraphQL type's documentation follows.
 //
@@ -13989,13 +34676,13 @@ type listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembersh
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -14013,7 +34700,7 @@ type listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembersh
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -14021,13 +34708,13 @@ type listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembersh
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 }
@@ -14147,6 +34834,250 @@ func (v *listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMemb
 	return v.Url
 }
 
+func (v *listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+}
+
+func (v *listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser) __premarshalJSON() (*__premarshallistTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser, error) {
+	var retval __premarshallistTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamMembershipsTeamMembershipsTeamMembershipConnectionNodesTeamMembershipUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	return &retval, nil
+}
+
 // listTeamMembershipsTeamMembershipsTeamMembershipConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
 type listTeamMembershipsTeamMembershipsTeamMembershipConnectionPageInfo struct {
 	// Indicates if there are more results when paginating forward.
@@ -14198,7 +35129,7 @@ type listTeamsTeamsTeamConnectionNodesTeam struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// Period after which automatically closed and completed issues are automatically archived in months.
 	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
 	// Period after which issues are automatically closed in months. Null/undefined means disabled.
@@ -14208,7 +35139,7 @@ type listTeamsTeamsTeamConnectionNodesTeam struct {
 	// The team's color.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Calendar feed URL (iCal) for cycles.
 	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
 	// The cooldown time after each cycle in weeks.
@@ -14272,7 +35203,7 @@ type listTeamsTeamsTeamConnectionNodesTeam struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Team's currently active cycle.
 	ActiveCycle *listTeamsTeamsTeamConnectionNodesTeamActiveCycle `json:"activeCycle"`
 	// The default workflow state into which issues are set when they are opened by team members.
@@ -14508,6 +35439,272 @@ func (v *listTeamsTeamsTeamConnectionNodesTeam) GetTriageIssueState() *listTeams
 	return v.TriageIssueState
 }
 
+func (v *listTeamsTeamsTeamConnectionNodesTeam) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listTeamsTeamsTeamConnectionNodesTeam
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listTeamsTeamsTeamConnectionNodesTeam = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistTeamsTeamsTeamConnectionNodesTeam struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivePeriod *float64 `json:"autoArchivePeriod"`
+
+	AutoClosePeriod *float64 `json:"autoClosePeriod"`
+
+	AutoCloseStateId *string `json:"autoCloseStateId"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CycleCalenderUrl *string `json:"cycleCalenderUrl"`
+
+	CycleCooldownTime *float64 `json:"cycleCooldownTime"`
+
+	CycleDuration *float64 `json:"cycleDuration"`
+
+	CycleIssueAutoAssignCompleted *bool `json:"cycleIssueAutoAssignCompleted"`
+
+	CycleIssueAutoAssignStarted *bool `json:"cycleIssueAutoAssignStarted"`
+
+	CycleLockToActive *bool `json:"cycleLockToActive"`
+
+	CycleStartDay *float64 `json:"cycleStartDay"`
+
+	CyclesEnabled *bool `json:"cyclesEnabled"`
+
+	DefaultIssueEstimate *float64 `json:"defaultIssueEstimate"`
+
+	DefaultTemplateForMembersId *string `json:"defaultTemplateForMembersId"`
+
+	DefaultTemplateForNonMembersId *string `json:"defaultTemplateForNonMembersId"`
+
+	Description *string `json:"description"`
+
+	GroupIssueHistory *bool `json:"groupIssueHistory"`
+
+	Icon *string `json:"icon"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IssueEstimationAllowZero *bool `json:"issueEstimationAllowZero"`
+
+	IssueEstimationExtended *bool `json:"issueEstimationExtended"`
+
+	IssueEstimationType *string `json:"issueEstimationType"`
+
+	IssueOrderingNoPriorityFirst *bool `json:"issueOrderingNoPriorityFirst"`
+
+	IssueSortOrderDefaultToBottom *bool `json:"issueSortOrderDefaultToBottom"`
+
+	Key *string `json:"key"`
+
+	Name *string `json:"name"`
+
+	Private *bool `json:"private"`
+
+	RequirePriorityToLeaveTriage *bool `json:"requirePriorityToLeaveTriage"`
+
+	SlackIssueComments *bool `json:"slackIssueComments"`
+
+	SlackIssueStatuses *bool `json:"slackIssueStatuses"`
+
+	SlackNewIssue *bool `json:"slackNewIssue"`
+
+	Timezone *string `json:"timezone"`
+
+	TriageEnabled *bool `json:"triageEnabled"`
+
+	UpcomingCycleCount *float64 `json:"upcomingCycleCount"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	ActiveCycle *listTeamsTeamsTeamConnectionNodesTeamActiveCycle `json:"activeCycle"`
+
+	DefaultIssueState *listTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState `json:"defaultIssueState"`
+
+	DefaultTemplateForMembers *listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate `json:"defaultTemplateForMembers"`
+
+	DefaultTemplateForNonMembers *listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate `json:"defaultTemplateForNonMembers"`
+
+	DraftWorkflowState *listTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState `json:"draftWorkflowState"`
+
+	IntegrationsSettings *listTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings `json:"integrationsSettings"`
+
+	MarkedAsDuplicateWorkflowState *listTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState `json:"markedAsDuplicateWorkflowState"`
+
+	Organization *listTeamsTeamsTeamConnectionNodesTeamOrganization `json:"organization"`
+
+	ReviewWorkflowState *listTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState `json:"reviewWorkflowState"`
+
+	StartWorkflowState *listTeamsTeamsTeamConnectionNodesTeamStartWorkflowState `json:"startWorkflowState"`
+
+	TriageIssueState *listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState `json:"triageIssueState"`
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeam) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeam) __premarshalJSON() (*__premarshallistTeamsTeamsTeamConnectionNodesTeam, error) {
+	var retval __premarshallistTeamsTeamsTeamConnectionNodesTeam
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeam.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AutoArchivePeriod = v.AutoArchivePeriod
+	retval.AutoClosePeriod = v.AutoClosePeriod
+	retval.AutoCloseStateId = v.AutoCloseStateId
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeam.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CycleCalenderUrl = v.CycleCalenderUrl
+	retval.CycleCooldownTime = v.CycleCooldownTime
+	retval.CycleDuration = v.CycleDuration
+	retval.CycleIssueAutoAssignCompleted = v.CycleIssueAutoAssignCompleted
+	retval.CycleIssueAutoAssignStarted = v.CycleIssueAutoAssignStarted
+	retval.CycleLockToActive = v.CycleLockToActive
+	retval.CycleStartDay = v.CycleStartDay
+	retval.CyclesEnabled = v.CyclesEnabled
+	retval.DefaultIssueEstimate = v.DefaultIssueEstimate
+	retval.DefaultTemplateForMembersId = v.DefaultTemplateForMembersId
+	retval.DefaultTemplateForNonMembersId = v.DefaultTemplateForNonMembersId
+	retval.Description = v.Description
+	retval.GroupIssueHistory = v.GroupIssueHistory
+	retval.Icon = v.Icon
+	retval.InviteHash = v.InviteHash
+	retval.IssueEstimationAllowZero = v.IssueEstimationAllowZero
+	retval.IssueEstimationExtended = v.IssueEstimationExtended
+	retval.IssueEstimationType = v.IssueEstimationType
+	retval.IssueOrderingNoPriorityFirst = v.IssueOrderingNoPriorityFirst
+	retval.IssueSortOrderDefaultToBottom = v.IssueSortOrderDefaultToBottom
+	retval.Key = v.Key
+	retval.Name = v.Name
+	retval.Private = v.Private
+	retval.RequirePriorityToLeaveTriage = v.RequirePriorityToLeaveTriage
+	retval.SlackIssueComments = v.SlackIssueComments
+	retval.SlackIssueStatuses = v.SlackIssueStatuses
+	retval.SlackNewIssue = v.SlackNewIssue
+	retval.Timezone = v.Timezone
+	retval.TriageEnabled = v.TriageEnabled
+	retval.UpcomingCycleCount = v.UpcomingCycleCount
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeam.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.ActiveCycle = v.ActiveCycle
+	retval.DefaultIssueState = v.DefaultIssueState
+	retval.DefaultTemplateForMembers = v.DefaultTemplateForMembers
+	retval.DefaultTemplateForNonMembers = v.DefaultTemplateForNonMembers
+	retval.DraftWorkflowState = v.DraftWorkflowState
+	retval.IntegrationsSettings = v.IntegrationsSettings
+	retval.MarkedAsDuplicateWorkflowState = v.MarkedAsDuplicateWorkflowState
+	retval.Organization = v.Organization
+	retval.ReviewWorkflowState = v.ReviewWorkflowState
+	retval.StartWorkflowState = v.StartWorkflowState
+	retval.TriageIssueState = v.TriageIssueState
+	return &retval, nil
+}
+
 // listTeamsTeamsTeamConnectionNodesTeamActiveCycle includes the requested fields of the GraphQL type Cycle.
 // The GraphQL type's documentation follows.
 //
@@ -14516,21 +35713,21 @@ type listTeamsTeamsTeamConnectionNodesTeamActiveCycle struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the cycle was automatically archived by the auto pruning process.
-	AutoArchivedAt *time.Time `json:"autoArchivedAt"`
+	AutoArchivedAt *time.Time `json:"-"`
 	// The completion time of the cycle. If null, the cycle hasn't been completed.
-	CompletedAt *time.Time `json:"completedAt"`
+	CompletedAt *time.Time `json:"-"`
 	// The number of completed issues in the cycle after each day.
 	CompletedIssueCountHistory []*float64 `json:"completedIssueCountHistory"`
 	// The number of completed estimation points after each day.
 	CompletedScopeHistory []*float64 `json:"completedScopeHistory"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The cycle's description.
 	Description *string `json:"description"`
 	// The end time of the cycle.
-	EndsAt *time.Time `json:"endsAt"`
+	EndsAt *time.Time `json:"-"`
 	// The number of in progress estimation points after each day.
 	InProgressScopeHistory []*float64 `json:"inProgressScopeHistory"`
 	// The total number of issues in the cycle after each day.
@@ -14544,11 +35741,11 @@ type listTeamsTeamsTeamConnectionNodesTeamActiveCycle struct {
 	// The total number of estimation points after each day.
 	ScopeHistory []*float64 `json:"scopeHistory"`
 	// The start time of the cycle.
-	StartsAt *time.Time `json:"startsAt"`
+	StartsAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns listTeamsTeamsTeamConnectionNodesTeamActiveCycle.Id, and is useful for accessing the field via an interface.
@@ -14626,6 +35823,288 @@ func (v *listTeamsTeamsTeamConnectionNodesTeamActiveCycle) GetUpdatedAt() *time.
 	return v.UpdatedAt
 }
 
+func (v *listTeamsTeamsTeamConnectionNodesTeamActiveCycle) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listTeamsTeamsTeamConnectionNodesTeamActiveCycle
+		ArchivedAt     json.RawMessage `json:"archivedAt"`
+		AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+		CompletedAt    json.RawMessage `json:"completedAt"`
+		CreatedAt      json.RawMessage `json:"createdAt"`
+		EndsAt         json.RawMessage `json:"endsAt"`
+		StartsAt       json.RawMessage `json:"startsAt"`
+		UpdatedAt      json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listTeamsTeamsTeamConnectionNodesTeamActiveCycle = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamActiveCycle.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.AutoArchivedAt
+		src := firstPass.AutoArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamActiveCycle.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CompletedAt
+		src := firstPass.CompletedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamActiveCycle.CompletedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamActiveCycle.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.EndsAt
+		src := firstPass.EndsAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamActiveCycle.EndsAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StartsAt
+		src := firstPass.StartsAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamActiveCycle.StartsAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamActiveCycle.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistTeamsTeamsTeamConnectionNodesTeamActiveCycle struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AutoArchivedAt json.RawMessage `json:"autoArchivedAt"`
+
+	CompletedAt json.RawMessage `json:"completedAt"`
+
+	CompletedIssueCountHistory []*float64 `json:"completedIssueCountHistory"`
+
+	CompletedScopeHistory []*float64 `json:"completedScopeHistory"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	EndsAt json.RawMessage `json:"endsAt"`
+
+	InProgressScopeHistory []*float64 `json:"inProgressScopeHistory"`
+
+	IssueCountHistory []*float64 `json:"issueCountHistory"`
+
+	Name *string `json:"name"`
+
+	Number *float64 `json:"number"`
+
+	Progress *float64 `json:"progress"`
+
+	ScopeHistory []*float64 `json:"scopeHistory"`
+
+	StartsAt json.RawMessage `json:"startsAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamActiveCycle) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamActiveCycle) __premarshalJSON() (*__premarshallistTeamsTeamsTeamConnectionNodesTeamActiveCycle, error) {
+	var retval __premarshallistTeamsTeamsTeamConnectionNodesTeamActiveCycle
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamActiveCycle.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.AutoArchivedAt
+		src := v.AutoArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamActiveCycle.AutoArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CompletedAt
+		src := v.CompletedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamActiveCycle.CompletedAt: %w", err)
+			}
+		}
+	}
+	retval.CompletedIssueCountHistory = v.CompletedIssueCountHistory
+	retval.CompletedScopeHistory = v.CompletedScopeHistory
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamActiveCycle.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	{
+
+		dst := &retval.EndsAt
+		src := v.EndsAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamActiveCycle.EndsAt: %w", err)
+			}
+		}
+	}
+	retval.InProgressScopeHistory = v.InProgressScopeHistory
+	retval.IssueCountHistory = v.IssueCountHistory
+	retval.Name = v.Name
+	retval.Number = v.Number
+	retval.Progress = v.Progress
+	retval.ScopeHistory = v.ScopeHistory
+	{
+
+		dst := &retval.StartsAt
+		src := v.StartsAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamActiveCycle.StartsAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamActiveCycle.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // listTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState includes the requested fields of the GraphQL type WorkflowState.
 // The GraphQL type's documentation follows.
 //
@@ -14634,11 +36113,11 @@ type listTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState struct 
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The state's UI color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Description of the state.
 	Description *string `json:"description"`
 	// The state's name.
@@ -14650,7 +36129,7 @@ type listTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState struct 
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns listTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState.Id, and is useful for accessing the field via an interface.
@@ -14698,6 +36177,152 @@ func (v *listTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState) Ge
 	return v.UpdatedAt
 }
 
+func (v *listTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	Position *float64 `json:"position"`
+
+	Type *string `json:"type"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState) __premarshalJSON() (*__premarshallistTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState, error) {
+	var retval __premarshallistTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	retval.Position = v.Position
+	retval.Type = v.Type
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamDefaultIssueStateWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate includes the requested fields of the GraphQL type Template.
 // The GraphQL type's documentation follows.
 //
@@ -14706,11 +36331,11 @@ type listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate stru
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// Template description.
 	Description *string `json:"description"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The entity type this template is for.
 	Type *string `json:"type"`
 	// The name of the template.
@@ -14718,7 +36343,7 @@ type listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate stru
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Template data.
 	TemplateData *json.RawMessage `json:"templateData"`
 }
@@ -14763,6 +36388,149 @@ func (v *listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate)
 	return v.TemplateData
 }
 
+func (v *listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Description *string `json:"description"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Type *string `json:"type"`
+
+	Name *string `json:"name"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	TemplateData *json.RawMessage `json:"templateData"`
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate) __premarshalJSON() (*__premarshallistTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate, error) {
+	var retval __premarshallistTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Type = v.Type
+	retval.Name = v.Name
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForMembersTemplate.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.TemplateData = v.TemplateData
+	return &retval, nil
+}
+
 // listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate includes the requested fields of the GraphQL type Template.
 // The GraphQL type's documentation follows.
 //
@@ -14771,11 +36539,11 @@ type listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate s
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// Template description.
 	Description *string `json:"description"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// The entity type this template is for.
 	Type *string `json:"type"`
 	// The name of the template.
@@ -14783,7 +36551,7 @@ type listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate s
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// Template data.
 	TemplateData *json.RawMessage `json:"templateData"`
 }
@@ -14828,6 +36596,149 @@ func (v *listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTempla
 	return v.TemplateData
 }
 
+func (v *listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Description *string `json:"description"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Type *string `json:"type"`
+
+	Name *string `json:"name"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	TemplateData *json.RawMessage `json:"templateData"`
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate) __premarshalJSON() (*__premarshallistTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate, error) {
+	var retval __premarshallistTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Type = v.Type
+	retval.Name = v.Name
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamDefaultTemplateForNonMembersTemplate.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.TemplateData = v.TemplateData
+	return &retval, nil
+}
+
 // listTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState includes the requested fields of the GraphQL type WorkflowState.
 // The GraphQL type's documentation follows.
 //
@@ -14836,11 +36747,11 @@ type listTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The state's UI color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Description of the state.
 	Description *string `json:"description"`
 	// The state's name.
@@ -14852,7 +36763,7 @@ type listTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns listTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState.Id, and is useful for accessing the field via an interface.
@@ -14892,6 +36803,152 @@ func (v *listTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState) GetUpdatedAt()
 	return v.UpdatedAt
 }
 
+func (v *listTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	Position *float64 `json:"position"`
+
+	Type *string `json:"type"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState) __premarshalJSON() (*__premarshallistTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState, error) {
+	var retval __premarshallistTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	retval.Position = v.Position
+	retval.Type = v.Type
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamDraftWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // listTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings includes the requested fields of the GraphQL type IntegrationsSettings.
 // The GraphQL type's documentation follows.
 //
@@ -14900,9 +36957,9 @@ type listTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Whether to send a Slack message when a new issue is added to triage.
 	SlackIssueAddedToTriage *bool `json:"slackIssueAddedToTriage"`
 	// Whether to send a Slack message when a new issue is created for the project or the team.
@@ -14926,7 +36983,7 @@ type listTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns listTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings.Id, and is useful for accessing the field via an interface.
@@ -14997,6 +37054,167 @@ func (v *listTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings) GetUpdatedAt
 	return v.UpdatedAt
 }
 
+func (v *listTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	SlackIssueAddedToTriage *bool `json:"slackIssueAddedToTriage"`
+
+	SlackIssueCreated *bool `json:"slackIssueCreated"`
+
+	SlackIssueNewComment *bool `json:"slackIssueNewComment"`
+
+	SlackIssueSlaBreached *bool `json:"slackIssueSlaBreached"`
+
+	SlackIssueSlaHighRisk *bool `json:"slackIssueSlaHighRisk"`
+
+	SlackIssueStatusChangedAll *bool `json:"slackIssueStatusChangedAll"`
+
+	SlackIssueStatusChangedDone *bool `json:"slackIssueStatusChangedDone"`
+
+	SlackProjectUpdateCreated *bool `json:"slackProjectUpdateCreated"`
+
+	SlackProjectUpdateCreatedToTeam *bool `json:"slackProjectUpdateCreatedToTeam"`
+
+	SlackProjectUpdateCreatedToWorkspace *bool `json:"slackProjectUpdateCreatedToWorkspace"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings) __premarshalJSON() (*__premarshallistTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings, error) {
+	var retval __premarshallistTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.SlackIssueAddedToTriage = v.SlackIssueAddedToTriage
+	retval.SlackIssueCreated = v.SlackIssueCreated
+	retval.SlackIssueNewComment = v.SlackIssueNewComment
+	retval.SlackIssueSlaBreached = v.SlackIssueSlaBreached
+	retval.SlackIssueSlaHighRisk = v.SlackIssueSlaHighRisk
+	retval.SlackIssueStatusChangedAll = v.SlackIssueStatusChangedAll
+	retval.SlackIssueStatusChangedDone = v.SlackIssueStatusChangedDone
+	retval.SlackProjectUpdateCreated = v.SlackProjectUpdateCreated
+	retval.SlackProjectUpdateCreatedToTeam = v.SlackProjectUpdateCreatedToTeam
+	retval.SlackProjectUpdateCreatedToWorkspace = v.SlackProjectUpdateCreatedToWorkspace
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamIntegrationsSettings.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // listTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState includes the requested fields of the GraphQL type WorkflowState.
 // The GraphQL type's documentation follows.
 //
@@ -15005,11 +37223,11 @@ type listTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState struct 
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The state's UI color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Description of the state.
 	Description *string `json:"description"`
 	// The state's name.
@@ -15021,7 +37239,7 @@ type listTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState struct 
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns listTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState.Id, and is useful for accessing the field via an interface.
@@ -15069,6 +37287,152 @@ func (v *listTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState) Ge
 	return v.UpdatedAt
 }
 
+func (v *listTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	Position *float64 `json:"position"`
+
+	Type *string `json:"type"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState) __premarshalJSON() (*__premarshallistTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState, error) {
+	var retval __premarshallistTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	retval.Position = v.Position
+	retval.Type = v.Type
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamMarkedAsDuplicateWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // listTeamsTeamsTeamConnectionNodesTeamOrganization includes the requested fields of the GraphQL type Organization.
 // The GraphQL type's documentation follows.
 //
@@ -15079,13 +37443,13 @@ type listTeamsTeamsTeamConnectionNodesTeamOrganization struct {
 	// Allowed authentication providers, empty array means all are allowed
 	AllowedAuthServices []*string `json:"allowedAuthServices"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues in the organization.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// The time at which deletion of the organization was requested.
-	DeletionRequestedAt *time.Time `json:"deletionRequestedAt"`
+	DeletionRequestedAt *time.Time `json:"-"`
 	// How git branches are formatted. If null, default formatting will be used.
 	GitBranchFormat *string `json:"gitBranchFormat"`
 	// Whether the Git integration linkback messages should be sent to private repositories.
@@ -15115,11 +37479,11 @@ type listTeamsTeamsTeamConnectionNodesTeamOrganization struct {
 	// Whether SCIM provisioning is enabled for organization.
 	ScimEnabled *bool `json:"scimEnabled"`
 	// The time at which the trial of the plus plan will end.
-	TrialEndsAt *time.Time `json:"trialEndsAt"`
+	TrialEndsAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The organization's unique URL key.
 	UrlKey *string `json:"urlKey"`
 	// Number of active users in the organization.
@@ -15236,6 +37600,253 @@ func (v *listTeamsTeamsTeamConnectionNodesTeamOrganization) GetUrlKey() *string 
 // GetUserCount returns listTeamsTeamsTeamConnectionNodesTeamOrganization.UserCount, and is useful for accessing the field via an interface.
 func (v *listTeamsTeamsTeamConnectionNodesTeamOrganization) GetUserCount() *int { return v.UserCount }
 
+func (v *listTeamsTeamsTeamConnectionNodesTeamOrganization) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listTeamsTeamsTeamConnectionNodesTeamOrganization
+		ArchivedAt          json.RawMessage `json:"archivedAt"`
+		CreatedAt           json.RawMessage `json:"createdAt"`
+		DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+		TrialEndsAt         json.RawMessage `json:"trialEndsAt"`
+		UpdatedAt           json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listTeamsTeamsTeamConnectionNodesTeamOrganization = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DeletionRequestedAt
+		src := firstPass.DeletionRequestedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.TrialEndsAt
+		src := firstPass.TrialEndsAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistTeamsTeamsTeamConnectionNodesTeamOrganization struct {
+	Id *string `json:"id"`
+
+	AllowedAuthServices []*string `json:"allowedAuthServices"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+
+	GitBranchFormat *string `json:"gitBranchFormat"`
+
+	GitLinkbackMessagesEnabled *bool `json:"gitLinkbackMessagesEnabled"`
+
+	GitPublicLinkbackMessagesEnabled *bool `json:"gitPublicLinkbackMessagesEnabled"`
+
+	LogoUrl *string `json:"logoUrl"`
+
+	Name *string `json:"name"`
+
+	PeriodUploadVolume *float64 `json:"periodUploadVolume"`
+
+	PreviousUrlKeys []*string `json:"previousUrlKeys"`
+
+	ProjectUpdateRemindersDay *Day `json:"projectUpdateRemindersDay"`
+
+	ProjectUpdateRemindersHour *float64 `json:"projectUpdateRemindersHour"`
+
+	ProjectUpdatesReminderFrequency *ProjectUpdateReminderFrequency `json:"projectUpdatesReminderFrequency"`
+
+	ReleaseChannel *ReleaseChannel `json:"releaseChannel"`
+
+	RoadmapEnabled *bool `json:"roadmapEnabled"`
+
+	SamlEnabled *bool `json:"samlEnabled"`
+
+	ScimEnabled *bool `json:"scimEnabled"`
+
+	TrialEndsAt json.RawMessage `json:"trialEndsAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	UrlKey *string `json:"urlKey"`
+
+	UserCount *int `json:"userCount"`
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamOrganization) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamOrganization) __premarshalJSON() (*__premarshallistTeamsTeamsTeamConnectionNodesTeamOrganization, error) {
+	var retval __premarshallistTeamsTeamsTeamConnectionNodesTeamOrganization
+
+	retval.Id = v.Id
+	retval.AllowedAuthServices = v.AllowedAuthServices
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	{
+
+		dst := &retval.DeletionRequestedAt
+		src := v.DeletionRequestedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+	retval.GitBranchFormat = v.GitBranchFormat
+	retval.GitLinkbackMessagesEnabled = v.GitLinkbackMessagesEnabled
+	retval.GitPublicLinkbackMessagesEnabled = v.GitPublicLinkbackMessagesEnabled
+	retval.LogoUrl = v.LogoUrl
+	retval.Name = v.Name
+	retval.PeriodUploadVolume = v.PeriodUploadVolume
+	retval.PreviousUrlKeys = v.PreviousUrlKeys
+	retval.ProjectUpdateRemindersDay = v.ProjectUpdateRemindersDay
+	retval.ProjectUpdateRemindersHour = v.ProjectUpdateRemindersHour
+	retval.ProjectUpdatesReminderFrequency = v.ProjectUpdatesReminderFrequency
+	retval.ReleaseChannel = v.ReleaseChannel
+	retval.RoadmapEnabled = v.RoadmapEnabled
+	retval.SamlEnabled = v.SamlEnabled
+	retval.ScimEnabled = v.ScimEnabled
+	{
+
+		dst := &retval.TrialEndsAt
+		src := v.TrialEndsAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.UrlKey = v.UrlKey
+	retval.UserCount = v.UserCount
+	return &retval, nil
+}
+
 // listTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState includes the requested fields of the GraphQL type WorkflowState.
 // The GraphQL type's documentation follows.
 //
@@ -15244,11 +37855,11 @@ type listTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The state's UI color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Description of the state.
 	Description *string `json:"description"`
 	// The state's name.
@@ -15260,7 +37871,7 @@ type listTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns listTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState.Id, and is useful for accessing the field via an interface.
@@ -15300,6 +37911,152 @@ func (v *listTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState) GetUpdatedAt(
 	return v.UpdatedAt
 }
 
+func (v *listTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	Position *float64 `json:"position"`
+
+	Type *string `json:"type"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState) __premarshalJSON() (*__premarshallistTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState, error) {
+	var retval __premarshallistTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	retval.Position = v.Position
+	retval.Type = v.Type
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamReviewWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // listTeamsTeamsTeamConnectionNodesTeamStartWorkflowState includes the requested fields of the GraphQL type WorkflowState.
 // The GraphQL type's documentation follows.
 //
@@ -15308,11 +38065,11 @@ type listTeamsTeamsTeamConnectionNodesTeamStartWorkflowState struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The state's UI color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Description of the state.
 	Description *string `json:"description"`
 	// The state's name.
@@ -15324,7 +38081,7 @@ type listTeamsTeamsTeamConnectionNodesTeamStartWorkflowState struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns listTeamsTeamsTeamConnectionNodesTeamStartWorkflowState.Id, and is useful for accessing the field via an interface.
@@ -15364,6 +38121,152 @@ func (v *listTeamsTeamsTeamConnectionNodesTeamStartWorkflowState) GetUpdatedAt()
 	return v.UpdatedAt
 }
 
+func (v *listTeamsTeamsTeamConnectionNodesTeamStartWorkflowState) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listTeamsTeamsTeamConnectionNodesTeamStartWorkflowState
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listTeamsTeamsTeamConnectionNodesTeamStartWorkflowState = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamStartWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamStartWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamStartWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistTeamsTeamsTeamConnectionNodesTeamStartWorkflowState struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	Position *float64 `json:"position"`
+
+	Type *string `json:"type"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamStartWorkflowState) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamStartWorkflowState) __premarshalJSON() (*__premarshallistTeamsTeamsTeamConnectionNodesTeamStartWorkflowState, error) {
+	var retval __premarshallistTeamsTeamsTeamConnectionNodesTeamStartWorkflowState
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamStartWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamStartWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	retval.Position = v.Position
+	retval.Type = v.Type
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamStartWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
+}
+
 // listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState includes the requested fields of the GraphQL type WorkflowState.
 // The GraphQL type's documentation follows.
 //
@@ -15372,11 +38275,11 @@ type listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState struct {
 	// The unique identifier of the entity.
 	Id *string `json:"id"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The state's UI color as a HEX string.
 	Color *string `json:"color"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Description of the state.
 	Description *string `json:"description"`
 	// The state's name.
@@ -15388,7 +38291,7 @@ type listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState struct {
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 }
 
 // GetId returns listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState.Id, and is useful for accessing the field via an interface.
@@ -15434,6 +38337,152 @@ func (v *listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState) Get
 // GetUpdatedAt returns listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState) GetUpdatedAt() *time.Time {
 	return v.UpdatedAt
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState
+		ArchivedAt json.RawMessage `json:"archivedAt"`
+		CreatedAt  json.RawMessage `json:"createdAt"`
+		UpdatedAt  json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState struct {
+	Id *string `json:"id"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	Color *string `json:"color"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	Description *string `json:"description"`
+
+	Name *string `json:"name"`
+
+	Position *float64 `json:"position"`
+
+	Type *string `json:"type"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState) __premarshalJSON() (*__premarshallistTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState, error) {
+	var retval __premarshallistTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState
+
+	retval.Id = v.Id
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.Color = v.Color
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.Description = v.Description
+	retval.Name = v.Name
+	retval.Position = v.Position
+	retval.Type = v.Type
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listTeamsTeamsTeamConnectionNodesTeamTriageIssueStateWorkflowState.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return &retval, nil
 }
 
 // listTeamsTeamsTeamConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
@@ -15487,13 +38536,13 @@ type listUsersUsersUserConnectionNodesUser struct {
 	// Whether the user is an organization administrator.
 	Admin *bool `json:"admin"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// An URL to the user's avatar image.
 	AvatarUrl *string `json:"avatarUrl"`
 	// [DEPRECATED] Hash for the user to be used in calendar URLs.
 	CalendarHash *string `json:"calendarHash"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues created.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// A short description of the user, either its title or bio.
@@ -15511,7 +38560,7 @@ type listUsersUsersUserConnectionNodesUser struct {
 	// Whether the user is the currently authenticated user.
 	IsMe *bool `json:"isMe"`
 	// The last time the user was seen online. If null, the user is currently online.
-	LastSeen *time.Time `json:"lastSeen"`
+	LastSeen *time.Time `json:"-"`
 	// The user's full name.
 	Name *string `json:"name"`
 	// The emoji to represent the user current status.
@@ -15519,13 +38568,13 @@ type listUsersUsersUserConnectionNodesUser struct {
 	// The label of the user current status.
 	StatusLabel *string `json:"statusLabel"`
 	// A date at which the user current status should be cleared.
-	StatusUntilAt *time.Time `json:"statusUntilAt"`
+	StatusUntilAt *time.Time `json:"-"`
 	// The local timezone of the user.
 	Timezone *string `json:"timezone"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// User's profile URL.
 	Url *string `json:"url"`
 	// Organization the user belongs to.
@@ -15608,6 +38657,253 @@ func (v *listUsersUsersUserConnectionNodesUser) GetOrganization() *listUsersUser
 	return v.Organization
 }
 
+func (v *listUsersUsersUserConnectionNodesUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listUsersUsersUserConnectionNodesUser
+		ArchivedAt    json.RawMessage `json:"archivedAt"`
+		CreatedAt     json.RawMessage `json:"createdAt"`
+		LastSeen      json.RawMessage `json:"lastSeen"`
+		StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+		UpdatedAt     json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listUsersUsersUserConnectionNodesUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listUsersUsersUserConnectionNodesUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listUsersUsersUserConnectionNodesUser.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.LastSeen
+		src := firstPass.LastSeen
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listUsersUsersUserConnectionNodesUser.LastSeen: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.StatusUntilAt
+		src := firstPass.StatusUntilAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listUsersUsersUserConnectionNodesUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listUsersUsersUserConnectionNodesUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistUsersUsersUserConnectionNodesUser struct {
+	Id *string `json:"id"`
+
+	Active *bool `json:"active"`
+
+	Admin *bool `json:"admin"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	AvatarUrl *string `json:"avatarUrl"`
+
+	CalendarHash *string `json:"calendarHash"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	Description *string `json:"description"`
+
+	DisableReason *string `json:"disableReason"`
+
+	DisplayName *string `json:"displayName"`
+
+	Email *string `json:"email"`
+
+	Guest *bool `json:"guest"`
+
+	InviteHash *string `json:"inviteHash"`
+
+	IsMe *bool `json:"isMe"`
+
+	LastSeen json.RawMessage `json:"lastSeen"`
+
+	Name *string `json:"name"`
+
+	StatusEmoji *string `json:"statusEmoji"`
+
+	StatusLabel *string `json:"statusLabel"`
+
+	StatusUntilAt json.RawMessage `json:"statusUntilAt"`
+
+	Timezone *string `json:"timezone"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	Url *string `json:"url"`
+
+	Organization *listUsersUsersUserConnectionNodesUserOrganization `json:"organization"`
+}
+
+func (v *listUsersUsersUserConnectionNodesUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listUsersUsersUserConnectionNodesUser) __premarshalJSON() (*__premarshallistUsersUsersUserConnectionNodesUser, error) {
+	var retval __premarshallistUsersUsersUserConnectionNodesUser
+
+	retval.Id = v.Id
+	retval.Active = v.Active
+	retval.Admin = v.Admin
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listUsersUsersUserConnectionNodesUser.ArchivedAt: %w", err)
+			}
+		}
+	}
+	retval.AvatarUrl = v.AvatarUrl
+	retval.CalendarHash = v.CalendarHash
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listUsersUsersUserConnectionNodesUser.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	retval.Description = v.Description
+	retval.DisableReason = v.DisableReason
+	retval.DisplayName = v.DisplayName
+	retval.Email = v.Email
+	retval.Guest = v.Guest
+	retval.InviteHash = v.InviteHash
+	retval.IsMe = v.IsMe
+	{
+
+		dst := &retval.LastSeen
+		src := v.LastSeen
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listUsersUsersUserConnectionNodesUser.LastSeen: %w", err)
+			}
+		}
+	}
+	retval.Name = v.Name
+	retval.StatusEmoji = v.StatusEmoji
+	retval.StatusLabel = v.StatusLabel
+	{
+
+		dst := &retval.StatusUntilAt
+		src := v.StatusUntilAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listUsersUsersUserConnectionNodesUser.StatusUntilAt: %w", err)
+			}
+		}
+	}
+	retval.Timezone = v.Timezone
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listUsersUsersUserConnectionNodesUser.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.Url = v.Url
+	retval.Organization = v.Organization
+	return &retval, nil
+}
+
 // listUsersUsersUserConnectionNodesUserOrganization includes the requested fields of the GraphQL type Organization.
 // The GraphQL type's documentation follows.
 //
@@ -15618,13 +38914,13 @@ type listUsersUsersUserConnectionNodesUserOrganization struct {
 	// Allowed authentication providers, empty array means all are allowed
 	AllowedAuthServices []*string `json:"allowedAuthServices"`
 	// The time at which the entity was archived. Null if the entity has not been archived.
-	ArchivedAt *time.Time `json:"archivedAt"`
+	ArchivedAt *time.Time `json:"-"`
 	// The time at which the entity was created.
-	CreatedAt *time.Time `json:"createdAt"`
+	CreatedAt *time.Time `json:"-"`
 	// Number of issues in the organization.
 	CreatedIssueCount *int `json:"createdIssueCount"`
 	// The time at which deletion of the organization was requested.
-	DeletionRequestedAt *time.Time `json:"deletionRequestedAt"`
+	DeletionRequestedAt *time.Time `json:"-"`
 	// How git branches are formatted. If null, default formatting will be used.
 	GitBranchFormat *string `json:"gitBranchFormat"`
 	// Whether the Git integration linkback messages should be sent to private repositories.
@@ -15654,11 +38950,11 @@ type listUsersUsersUserConnectionNodesUserOrganization struct {
 	// Whether SCIM provisioning is enabled for organization.
 	ScimEnabled *bool `json:"scimEnabled"`
 	// The time at which the trial of the plus plan will end.
-	TrialEndsAt *time.Time `json:"trialEndsAt"`
+	TrialEndsAt *time.Time `json:"-"`
 	// The last time at which the entity was meaningfully updated, i.e. for all changes of syncable properties except those
 	// for which updates should not produce an update to updatedAt (see skipUpdatedAtKeys). This is the same as the creation time if the entity hasn't
 	// been updated after creation.
-	UpdatedAt *time.Time `json:"updatedAt"`
+	UpdatedAt *time.Time `json:"-"`
 	// The organization's unique URL key.
 	UrlKey *string `json:"urlKey"`
 	// Number of active users in the organization.
@@ -15775,6 +39071,253 @@ func (v *listUsersUsersUserConnectionNodesUserOrganization) GetUrlKey() *string 
 // GetUserCount returns listUsersUsersUserConnectionNodesUserOrganization.UserCount, and is useful for accessing the field via an interface.
 func (v *listUsersUsersUserConnectionNodesUserOrganization) GetUserCount() *int { return v.UserCount }
 
+func (v *listUsersUsersUserConnectionNodesUserOrganization) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*listUsersUsersUserConnectionNodesUserOrganization
+		ArchivedAt          json.RawMessage `json:"archivedAt"`
+		CreatedAt           json.RawMessage `json:"createdAt"`
+		DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+		TrialEndsAt         json.RawMessage `json:"trialEndsAt"`
+		UpdatedAt           json.RawMessage `json:"updatedAt"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.listUsersUsersUserConnectionNodesUserOrganization = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.ArchivedAt
+		src := firstPass.ArchivedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listUsersUsersUserConnectionNodesUserOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.CreatedAt
+		src := firstPass.CreatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listUsersUsersUserConnectionNodesUserOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.DeletionRequestedAt
+		src := firstPass.DeletionRequestedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listUsersUsersUserConnectionNodesUserOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.TrialEndsAt
+		src := firstPass.TrialEndsAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listUsersUsersUserConnectionNodesUserOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+
+	{
+		dst := &v.UpdatedAt
+		src := firstPass.UpdatedAt
+		if len(src) != 0 && string(src) != "null" {
+			*dst = new(time.Time)
+			err = utils.UnmarshalDateTime(
+				src, *dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal listUsersUsersUserConnectionNodesUserOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshallistUsersUsersUserConnectionNodesUserOrganization struct {
+	Id *string `json:"id"`
+
+	AllowedAuthServices []*string `json:"allowedAuthServices"`
+
+	ArchivedAt json.RawMessage `json:"archivedAt"`
+
+	CreatedAt json.RawMessage `json:"createdAt"`
+
+	CreatedIssueCount *int `json:"createdIssueCount"`
+
+	DeletionRequestedAt json.RawMessage `json:"deletionRequestedAt"`
+
+	GitBranchFormat *string `json:"gitBranchFormat"`
+
+	GitLinkbackMessagesEnabled *bool `json:"gitLinkbackMessagesEnabled"`
+
+	GitPublicLinkbackMessagesEnabled *bool `json:"gitPublicLinkbackMessagesEnabled"`
+
+	LogoUrl *string `json:"logoUrl"`
+
+	Name *string `json:"name"`
+
+	PeriodUploadVolume *float64 `json:"periodUploadVolume"`
+
+	PreviousUrlKeys []*string `json:"previousUrlKeys"`
+
+	ProjectUpdateRemindersDay *Day `json:"projectUpdateRemindersDay"`
+
+	ProjectUpdateRemindersHour *float64 `json:"projectUpdateRemindersHour"`
+
+	ProjectUpdatesReminderFrequency *ProjectUpdateReminderFrequency `json:"projectUpdatesReminderFrequency"`
+
+	ReleaseChannel *ReleaseChannel `json:"releaseChannel"`
+
+	RoadmapEnabled *bool `json:"roadmapEnabled"`
+
+	SamlEnabled *bool `json:"samlEnabled"`
+
+	ScimEnabled *bool `json:"scimEnabled"`
+
+	TrialEndsAt json.RawMessage `json:"trialEndsAt"`
+
+	UpdatedAt json.RawMessage `json:"updatedAt"`
+
+	UrlKey *string `json:"urlKey"`
+
+	UserCount *int `json:"userCount"`
+}
+
+func (v *listUsersUsersUserConnectionNodesUserOrganization) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *listUsersUsersUserConnectionNodesUserOrganization) __premarshalJSON() (*__premarshallistUsersUsersUserConnectionNodesUserOrganization, error) {
+	var retval __premarshallistUsersUsersUserConnectionNodesUserOrganization
+
+	retval.Id = v.Id
+	retval.AllowedAuthServices = v.AllowedAuthServices
+	{
+
+		dst := &retval.ArchivedAt
+		src := v.ArchivedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listUsersUsersUserConnectionNodesUserOrganization.ArchivedAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.CreatedAt
+		src := v.CreatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listUsersUsersUserConnectionNodesUserOrganization.CreatedAt: %w", err)
+			}
+		}
+	}
+	retval.CreatedIssueCount = v.CreatedIssueCount
+	{
+
+		dst := &retval.DeletionRequestedAt
+		src := v.DeletionRequestedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listUsersUsersUserConnectionNodesUserOrganization.DeletionRequestedAt: %w", err)
+			}
+		}
+	}
+	retval.GitBranchFormat = v.GitBranchFormat
+	retval.GitLinkbackMessagesEnabled = v.GitLinkbackMessagesEnabled
+	retval.GitPublicLinkbackMessagesEnabled = v.GitPublicLinkbackMessagesEnabled
+	retval.LogoUrl = v.LogoUrl
+	retval.Name = v.Name
+	retval.PeriodUploadVolume = v.PeriodUploadVolume
+	retval.PreviousUrlKeys = v.PreviousUrlKeys
+	retval.ProjectUpdateRemindersDay = v.ProjectUpdateRemindersDay
+	retval.ProjectUpdateRemindersHour = v.ProjectUpdateRemindersHour
+	retval.ProjectUpdatesReminderFrequency = v.ProjectUpdatesReminderFrequency
+	retval.ReleaseChannel = v.ReleaseChannel
+	retval.RoadmapEnabled = v.RoadmapEnabled
+	retval.SamlEnabled = v.SamlEnabled
+	retval.ScimEnabled = v.ScimEnabled
+	{
+
+		dst := &retval.TrialEndsAt
+		src := v.TrialEndsAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listUsersUsersUserConnectionNodesUserOrganization.TrialEndsAt: %w", err)
+			}
+		}
+	}
+	{
+
+		dst := &retval.UpdatedAt
+		src := v.UpdatedAt
+		if src != nil {
+			var err error
+			*dst, err = json.Marshal(
+				src)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"unable to marshal listUsersUsersUserConnectionNodesUserOrganization.UpdatedAt: %w", err)
+			}
+		}
+	}
+	retval.UrlKey = v.UrlKey
+	retval.UserCount = v.UserCount
+	return &retval, nil
+}
+
 // listUsersUsersUserConnectionPageInfo includes the requested fields of the GraphQL type PageInfo.
 type listUsersUsersUserConnectionPageInfo struct {
 	// Indicates if there are more results when paginating forward.
@@ -15861,29 +39404,29 @@ query getAttachment ($attachmentId: String!) {
 `
 
 func getAttachment(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	attachmentId *string,
 ) (*getAttachmentResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getAttachment",
 		Query:  getAttachment_Operation,
 		Variables: &__getAttachmentInput{
 			AttachmentId: attachmentId,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data getAttachmentResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getAttachmentResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by getComment.
@@ -15967,29 +39510,29 @@ query getComment ($commentId: String!) {
 `
 
 func getComment(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	commentId *string,
 ) (*getCommentResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getComment",
 		Query:  getComment_Operation,
 		Variables: &__getCommentInput{
 			CommentId: commentId,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data getCommentResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getCommentResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by getIntegration.
@@ -16097,29 +39640,29 @@ query getIntegration ($integrationId: String!) {
 `
 
 func getIntegration(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	integrationId *string,
 ) (*getIntegrationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getIntegration",
 		Query:  getIntegration_Operation,
 		Variables: &__getIntegrationInput{
 			IntegrationId: integrationId,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data getIntegrationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getIntegrationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by getIssue.
@@ -16362,29 +39905,29 @@ query getIssue ($issueId: String!) {
 `
 
 func getIssue(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	issueId *string,
 ) (*getIssueResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getIssue",
 		Query:  getIssue_Operation,
 		Variables: &__getIssueInput{
 			IssueId: issueId,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data getIssueResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getIssueResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by getIssueIds.
@@ -16406,14 +39949,14 @@ query getIssueIds ($issueLabelId: String!, $first: Int, $after: String, $include
 `
 
 func getIssueIds(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	issueLabelId *string,
 	first int,
 	after string,
 	includeArchived bool,
 ) (*getIssueIdsResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getIssueIds",
 		Query:  getIssueIds_Operation,
 		Variables: &__getIssueIdsInput{
@@ -16423,18 +39966,18 @@ func getIssueIds(
 			IncludeArchived: includeArchived,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data getIssueIdsResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getIssueIdsResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by getIssueLabel.
@@ -16562,13 +40105,13 @@ query getIssueLabel ($issueLabelId: String!, $firstIssue: Int, $includeArchived:
 `
 
 func getIssueLabel(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	issueLabelId *string,
 	firstIssue int,
 	includeArchived bool,
 ) (*getIssueLabelResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getIssueLabel",
 		Query:  getIssueLabel_Operation,
 		Variables: &__getIssueLabelInput{
@@ -16577,18 +40120,18 @@ func getIssueLabel(
 			IncludeArchived: includeArchived,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data getIssueLabelResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getIssueLabelResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by getOrganization.
@@ -16640,25 +40183,25 @@ query getOrganization {
 `
 
 func getOrganization(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 ) (*getOrganizationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getOrganization",
 		Query:  getOrganization_Operation,
 	}
-	var err error
+	var err_ error
 
-	var data getOrganizationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getOrganizationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by getProject.
@@ -16792,29 +40335,29 @@ query getProject ($projectId: String!) {
 `
 
 func getProject(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	projectId *string,
 ) (*getProjectResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getProject",
 		Query:  getProject_Operation,
 		Variables: &__getProjectInput{
 			ProjectId: projectId,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data getProjectResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getProjectResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by getTeam.
@@ -17011,29 +40554,29 @@ query getTeam ($teamId: String!) {
 `
 
 func getTeam(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	teamId *string,
 ) (*getTeamResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getTeam",
 		Query:  getTeam_Operation,
 		Variables: &__getTeamInput{
 			TeamId: teamId,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data getTeamResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getTeamResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by getTeamMembership.
@@ -17116,29 +40659,29 @@ query getTeamMembership ($teamMembershipId: String!) {
 `
 
 func getTeamMembership(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	teamMembershipId *string,
 ) (*getTeamMembershipResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getTeamMembership",
 		Query:  getTeamMembership_Operation,
 		Variables: &__getTeamMembershipInput{
 			TeamMembershipId: teamMembershipId,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data getTeamMembershipResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getTeamMembershipResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by getUser.
@@ -17199,29 +40742,29 @@ query getUser ($userId: String!) {
 `
 
 func getUser(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	userId *string,
 ) (*getUserResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getUser",
 		Query:  getUser_Operation,
 		Variables: &__getUserInput{
 			UserId: userId,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data getUserResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getUserResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by listAttachments.
@@ -17302,14 +40845,14 @@ query listAttachments ($first: Int, $after: String, $includeArchived: Boolean, $
 `
 
 func listAttachments(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	first int,
 	after string,
 	includeArchived bool,
 	filter *AttachmentFilter,
 ) (*listAttachmentsResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "listAttachments",
 		Query:  listAttachments_Operation,
 		Variables: &__listAttachmentsInput{
@@ -17319,18 +40862,18 @@ func listAttachments(
 			Filter:          filter,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data listAttachmentsResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ listAttachmentsResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by listComments.
@@ -17420,14 +40963,14 @@ query listComments ($first: Int, $after: String, $includeArchived: Boolean, $fil
 `
 
 func listComments(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	first int,
 	after string,
 	includeArchived bool,
 	filter *CommentFilter,
 ) (*listCommentsResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "listComments",
 		Query:  listComments_Operation,
 		Variables: &__listCommentsInput{
@@ -17437,18 +40980,18 @@ func listComments(
 			Filter:          filter,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data listCommentsResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ listCommentsResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by listIntegrations.
@@ -17562,13 +41105,13 @@ query listIntegrations ($first: Int, $after: String, $includeArchived: Boolean!)
 `
 
 func listIntegrations(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	first int,
 	after string,
 	includeArchived bool,
 ) (*listIntegrationsResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "listIntegrations",
 		Query:  listIntegrations_Operation,
 		Variables: &__listIntegrationsInput{
@@ -17577,18 +41120,18 @@ func listIntegrations(
 			IncludeArchived: includeArchived,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data listIntegrationsResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ listIntegrationsResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by listIssueLabels.
@@ -17722,15 +41265,15 @@ query listIssueLabels ($first: Int, $firstIssue: Int, $after: String, $includeAr
 `
 
 func listIssueLabels(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	first int,
 	firstIssue int,
 	after string,
 	includeArchived bool,
 	filter *IssueLabelFilter,
 ) (*listIssueLabelsResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "listIssueLabels",
 		Query:  listIssueLabels_Operation,
 		Variables: &__listIssueLabelsInput{
@@ -17741,18 +41284,18 @@ func listIssueLabels(
 			Filter:          filter,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data listIssueLabelsResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ listIssueLabelsResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by listIssues.
@@ -18001,14 +41544,14 @@ query listIssues ($first: Int, $after: String, $includeArchived: Boolean, $filte
 `
 
 func listIssues(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	first int,
 	after string,
 	includeArchived bool,
 	filter *IssueFilter,
 ) (*listIssuesResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "listIssues",
 		Query:  listIssues_Operation,
 		Variables: &__listIssuesInput{
@@ -18018,18 +41561,18 @@ func listIssues(
 			Filter:          filter,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data listIssuesResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ listIssuesResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by listProjects.
@@ -18169,14 +41712,14 @@ query listProjects ($first: Int, $after: String, $includeArchived: Boolean, $fil
 `
 
 func listProjects(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	first int,
 	after string,
 	includeArchived bool,
 	filter *ProjectFilter,
 ) (*listProjectsResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "listProjects",
 		Query:  listProjects_Operation,
 		Variables: &__listProjectsInput{
@@ -18186,18 +41729,18 @@ func listProjects(
 			Filter:          filter,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data listProjectsResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ listProjectsResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by listTeamMemberships.
@@ -18286,13 +41829,13 @@ query listTeamMemberships ($first: Int, $after: String, $includeArchived: Boolea
 `
 
 func listTeamMemberships(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	first int,
 	after string,
 	includeArchived bool,
 ) (*listTeamMembershipsResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "listTeamMemberships",
 		Query:  listTeamMemberships_Operation,
 		Variables: &__listTeamMembershipsInput{
@@ -18301,18 +41844,18 @@ func listTeamMemberships(
 			IncludeArchived: includeArchived,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data listTeamMembershipsResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ listTeamMembershipsResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by listTeams.
@@ -18515,14 +42058,14 @@ query listTeams ($first: Int, $after: String, $includeArchived: Boolean, $filter
 `
 
 func listTeams(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	first int,
 	after string,
 	includeArchived bool,
 	filter *TeamFilter,
 ) (*listTeamsResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "listTeams",
 		Query:  listTeams_Operation,
 		Variables: &__listTeamsInput{
@@ -18532,18 +42075,18 @@ func listTeams(
 			Filter:          filter,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data listTeamsResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ listTeamsResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by listUsers.
@@ -18610,14 +42153,14 @@ query listUsers ($first: Int, $after: String, $includeArchived: Boolean, $filter
 `
 
 func listUsers(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	first int,
 	after string,
 	includeArchived bool,
 	filter *UserFilter,
 ) (*listUsersResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "listUsers",
 		Query:  listUsers_Operation,
 		Variables: &__listUsersInput{
@@ -18627,16 +42170,16 @@ func listUsers(
 			Filter:          filter,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data listUsersResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ listUsersResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }

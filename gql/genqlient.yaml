@@ -13,5 +13,7 @@ bindings:
     type: encoding/json.RawMessage
   DateTime:
     type: time.Time
+    unmarshaler: "github.com/turbot/steampipe-linear-genqlient-formatter/utils.UnmarshalDateTime"
   TimelessDate:
     type: time.Time
+    unmarshaler: "github.com/turbot/steampipe-linear-genqlient-formatter/utils.UnmarshalDateTime"
