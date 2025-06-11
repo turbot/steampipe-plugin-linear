@@ -7,7 +7,7 @@ toolchain go1.23.2
 require github.com/Khan/genqlient v0.7.0
 
 require (
-	github.com/turbot/go-kit v1.1.0
+	github.com/turbot/go-kit v1.3.0
 	github.com/turbot/steampipe-linear-genqlient-formatter v0.0.1
 	github.com/turbot/steampipe-plugin-sdk/v5 v5.11.7
 )
