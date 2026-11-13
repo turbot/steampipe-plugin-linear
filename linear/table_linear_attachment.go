@@ -3,10 +3,10 @@ package linear
 import (
 	"context"
 
-	"github.com/turbot/steampipe-plugin-linear/gql"
 	"github.com/turbot/go-kit/types"
-	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-linear/gql"
+	"github.com/turbot/steampipe-plugin-sdk/v6/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin"
 )
 
 //// TABLE DEFINITION
@@ -133,7 +133,7 @@ func listAttachments(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	var endCursor string
 
 	// set page size
-	var pageSize int = int(conn.pageSize)
+	pageSize := int(conn.pageSize)
 	if d.QueryContext.Limit != nil {
 		if int(*d.QueryContext.Limit) < pageSize {
 			pageSize = int(*d.QueryContext.Limit)
